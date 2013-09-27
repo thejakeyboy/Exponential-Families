@@ -1,0 +1,186 @@
+%%%
+%%% Maximum Entropy Market Making
+%%%
+
+\section{Maximum Entropy Market Making}
+
+
+The purpose of a prediction market is to elicit and aggregate the beliefs (i.e., subjective probabilities) of agents over a space of \emph{outcomes}. In a single-agent setting, a scoring rule is used to elicit the agent's beliefs. In a multi-agent setting, an information market is used to aggregate the agent's beliefs. Hanson~\cite{} introduced the idea of a market scoring rule, which inherits the appealing elicitation and aggregation properties of both so that they can perform well in both thin and thick markets. In this work we derive a wide-ranging generalization of the logarithmic market scoring rule. Using a maximum entropy approach, we explain how a market scoring rule can be developed for outcome spaces both discrete and continuous, and for generic properties of the underlying distribution (e.g., mean and variance), rather than just the probabilities of individual outcomes. 
+
+%%%
+%%%
+%%%
+
+\subsection{The Model}
+\label{model}
+
+Let $\mX$ be the outcome space, which may be discrete or continuous. Let $\mP$ denote the set of probability distributions over the outcome space. We represent a probability distribution as a density $p$ absolutely continuous with respect to some base measure $\nu$ (e.g., counting for discrete outcomes, or Lebesgue for continuous outcomes).% We will discuss the interpretation of the base measure in a later section.
+
+There is an unknown distribution $p$ over outcomes. We are interested in estimating the expected value of different outcome \emph{statistics} under this distribution by aggregating the beliefs of agents. A statistic is a real-valued function $\phi_s : \mX \rightarrow \bR$ over outcomes, independent of $p$; here $s$ belongs to a finite index set $\mS$ of size $d$. The collection of functions $\phi = (\phi_s,\, s \in \mS)$ can be viewed as a vector-valued statistic mapping outcomes into $\bR^d$. Formally, the aim is to estimate
+%
+\begin{equation} \label{constraint}
+\Exp_p[\phi(x)] = \mu.
+\end{equation}
+%
+We stress that we are only seek to elicit $\mu \in \bR^d$, not the full distribution $p$. As an example, suppose that $\mX = \bR$. If we were interested in eliciting the first two uncentered moments of $p$, we would include $\phi_1(x) = x$ and $\phi_2(x) = x^2$ as statistics. Note that the variance cannot be directly obtained through any single statistic: it corresponds to the expectation of $(x - \Exp_p[x])$, which depends on $p$, violating our definition of a statistic. Of course, the variance can be indirectly obtained by eliciting the first two moments separately.\footnote{This is related to the notion of \emph{elicitation complexity} of statistical properties introduced by Lambert et al.~\cite{Lambert}, but we do not pursue this connection here.}
+
+There are two approaches to eliciting an agent's estimated $\mu$ in~(\ref{constraint}). The first approach is to incentivize the agent to directly report $\mu$ via a \emph{scoring rule}. The second approach is to form an \emph{information market} by issuing securities for each statistic $s \in \mS$, with payoff depending on the realized value of the statistic. (Such securities are known as contingent claims.) The amount of shares of each security acquired by the agent indirectly reveals it estimate $\mu$. In a market scoring rule~\cite{Hanson}, these two approaches are dual to each other in a formal sense. 
+
+%%%
+%%%
+%%%
+
+\subsection{Scoring Rule}
+
+We first consider how to directly elicit $\mu$ via a scoring rule. 
+%Note that the usual definition of a scoring rule presumes that a full probability distribution is elicited, rather than just some of its properties (e.g., mean and variance), so below we will adapt the definition to our setting. 
+The space of feasible reports from an agent corresponds to
+%
+\begin{equation} \label{marginal}
+\mM = \left\{ \mu \in \bR^d : \Exp_p[\phi(x)] = \mu,\, \mbox{for some $p \in \mP$} \right\}.
+\end{equation}
+%
+A scoring rule is a function $S : \mM \times \mX \rightarrow \bR$ that rewards an agent with $S(\mu,x)$ based on how its report $\mu$ agreed with the eventual outcome $x$. A scoring rule is \emph{proper} if for all $\mu \in \mM$, and $p \in \mP$ such that $\Exp_p[\phi(x)] = \mu$, we have
+%
+\begin{equation} \label{scoring}
+\Exp_p[S(\mu,x)] \geq \Exp_p[S(\hmu,x)]
+\end{equation}
+%
+for all $\hmu \neq \mu$; the rule is \emph{strictly proper} if the inequality is strict. Note that in the literature, scoring rules are defined over entire probability distributions, not just properties of those distributions. Our definition imposes a minimum of informational requirements on agents, because an agent does not need to assess the full distribution $p$ that might have lead to its estimates $\mu$ in order to realize that truthful reporting is an optimal strategy. 
+
+Our scoring rule is implicitly defined via the solution of a mathematical program. The program computes the maximum entropy distribution consistent with the agent's reported beliefs $\mu$.
+%
+\begin{eqnarray}
+\max_{p \geq 0} & \ds - \int_{x \in \mX} p(x) \log p(x) \nu(dx) & \label{obj} \\
+\mbox{s.t.} & \ds \int_{x \in \mX} \phi(x) p(x) \nu(dx) = \mu & \label{mean} \\
+ & \ds \int_{x \in \mX} p(x) \nu(dx) = 1 & \label{normalize}
+\end{eqnarray}
+%
+The non-negativity constraints together with~(\ref{normalize}) ensure that the solution is a probability distribution. Constraints~(\ref{mean}), which correspond to $d$ separate constraints, ensure consistency with the agent's report. The objective~(\ref{obj}) is the entropy of the solution $p$ with respect to the measure $\nu$. The program has a convex objective and linear constraints. %For continuous outcome spaces we will see in the next section that the optimal solution can still be cleanly characterized. 
+%
+\begin{theorem} \label{thm:scoring}
+Let $p(x;\mu)$ be the optimal solution to the maximum entropy program, given report $\mu \in \bR^d$. The scoring rule defined by
+%
+\begin{equation} \label{scoring}
+S(\mu,x) = a_x + b\log p(x;\mu),
+\end{equation}
+%
+where $b,a_x \in \bR$ and $b > 0$, is strictly proper.
+\end{theorem}
+%
+\noindent
+This rule represents a generalization of the logarithmic scoring rule for probability distributions to any properties of distributions that can be captured as expectations of statistics.  As explained in the next section, the solution to the maximum entropy program takes the form of an \emph{exponential family} distribution. For many common properties of interest, these distributions are familiar; for example, the maximum entropy distribution with a given mean is an exponential distribution, and the maximum entropy distribution with a given mean and variance is a normal distribution~\cite{}. We provide here two examples in more depth. 
+
+%%
+%%
+
+\paragraph{Multinomial Distribution}
+
+As a first example, consider the problem of estimating the individual probabilities of a finite set of outcomes. We have $\mX = \{1,\ldots,k\}$. The relevant statistics indicate which outcome actually occurs, so the index set is $\mS = \mX$. Statistic $\phi_x(x')$ is 1 if $x' = x$ and 0 otherwise. Observe that if $p$ is the distribution over outcomes, then $\Exp_p[\phi(x)] = p$. A feasible report from an agent is any non-negative $\pi = (\pi_1,\ldots,\pi_k)$ such that $\sum_{i=1}^k \pi_i = 1$. Given a report of $\mu = \pi$, the unique solution to the maximum entropy program is $p(x; \pi) = \pi$, and~(\ref{scoring}) corresponds to the classic logarithmic scoring rule of $S(\pi,x) = \log \pi_x$. \hfill{$\Box$}
+
+\paragraph{Normal Distribution}
+
+As a second example, suppose the outcome space is $\mX = \bR$ and that we are interested in estimating the mean $\mu$ and variance $\sigma^2$ of the underlying distribution. We choose the first and second (uncentered) moments, $\kappa_1 = \mu$ and  $\kappa_2 = \mu^2 + \sigma^2$ as our statistics.  It is well-known that the maximum entropy distribution with a given mean and variance is the normal distribution, so the solution to the maximum entropy program (using Lebesgue as the base measure $\nu$) is
+%
+\[ p(x; \kappa) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left[ -\frac{(x-\mu)^2}{2\sigma^2} \right]. \]
+%
+Applying Theorem~\ref{thm:scoring} and choosing appropriate constants, we find that the following scoring rule is strictly proper in this context. %
+\[ S(\kappa, x) = -\frac{(x-\mu)^2}{\sigma^2} - \log \sigma^2. \]
+%
+Note that the fact that this scoring rule is proper for the mean amounts to the well-known fact that reporting the mean is a Bayes act under quadratic loss~\cite{someone}. \hfill{$\Box$} 
+
+\medskip\noindent
+A brief observation on parametrizations is in order. Note that the maximum entropy distribution here is parametrized by the uncentered moments $\kappa = (\kappa_1,\kappa_2)$ rather than $(\mu,\sigma^2)$ because the variance is not a valid statistic. However, it is clear that the agent does not have to directly report $\kappa$: the market maker itself can do the translation from reported mean and variance to uncentered moments. This is relevant because the $\kappa$ parametrization may be unintuitive for an agent, especially given the constraints $\kappa_2 - \kappa_1^2 \geq 0$ that must be enforced. In the $(\mu, \sigma^2)$ parametrization each parameter is unrestricted, and the parameters have intuitive interpretations.
+
+Our approach so far has been to identify relevant properties of the unknown distribution, and elicit them via a scoring rule computed through a maximum entropy program. However, it is the case that a distribution is a maximum entropy distribution if and only if it is an exponential family~\cite{}. Therefore, we see the following alternative approach. The market designer can begin by considering the outcome space $\mX$, and assessing what family of distributions over $\mX$ the unknown $p$ might come from. If this family is an exponential family, then Theorem~\ref{thm:scoring} immediately gives a proper scoring rule to elicit the parameters of the distribution. Many of the most familiar distributions are exponential families, including the normal, exponential, gamma, beta, binomial, Poisson, Weibull, and Dirichlet. To illustrate, we consider two examples in more depth. 
+
+%%
+%%
+
+\paragraph{Exponential}
+Suppose the designer would like an estimate of the rate at which servers fail in a data center. An outcome is the time between failures, so $\mX = [0,+\infty)$. The usual distribution for failure times is the exponential distribution $p(x;\lambda) = \lambda e^{-\lambda x}$, which is parametrized by the rate $\lambda$ and has mean $\mu = 1/\lambda$. The exponential distribution is the maximum entropy distribution given a fixed mean $\mu$. From Theorem~\ref{thm:scoring} we obtain the following proper scoring rule for this setting:
+%
+\[ S(\mu, x) = \log \lambda - \lambda x. \]
+%
+It is simple to check using basic calculus that an agent maximizes the expected score by reporting $\lambda = 1/\hmu$, where here $\hmu$ is its estimate of the mean. In this case, it is unclear a priori which of the mean or rate parametrizations is most intuitive, but the maximum entropy approach easily allows for either. \hfill{$\Box$} 
+
+%%
+%%
+
+\paragraph{Beta}
+Suppose the designer would like an estimate of the click-through rate of an online advertisement. The outcome space here is $\mX = (0,1)$. A typical prior over a probability like this is the beta distribution, which has two parameters $\alpha, \beta > 0$ and density function $p(x; \alpha, \beta) = x^{\alpha-1}(1-x)^{\beta-1}/B(\alpha,\beta)$, where $B$ is the beta function. By theorem~\ref{thm:scoring} this leads to the proper scoring rule
+%
+\[ S((\alpha, \beta), x) = (\alpha-1)\log x + (\beta-1)\log (1-x) - \log B(\alpha,\beta). \]
+%
+Although this parametrization is standard for the beta, it is perhaps more intuitive to use the parametrization $\mu = \alpha/(\alpha+\beta) \in (0,1)$ and $n = \alpha+\beta > 0$. Here $\mu$ is the mean of the distribution---corresponding to the agent's actual estimate of the click-through rate---and $n$ is a measure of the agent's confidence in the estimate. \hfill{$\Box$} 
+
+
+%%%
+%%% 
+%%%
+
+\subsection{Information Market}
+
+We next consider how to indirectly elicit $\mu$ by setting up a market of contingent claim securities. Under this approach, the elements of the index set $\mS$ are interpreted not as statistics but as securities. The payoff from one share of security $s$ when outcome $x$ occurs is given by the mapping $\phi_s$. Thus if the vector of shares held by the agent is $\theta \in \bR^d$, where entry $\theta_s$ corresponds the number of shares of security $s$, then the payoff to the agent when $x$ occurs is evaluated by taking the inner product $\la \theta, \phi(x) \ra$. As a concrete example, recall our multinomial distribution example from the previous section, where $\phi_x(x') = 1$ if $x' = x$ and 0 otherwise. This means that security $x \in \mS$ pays 1 dollar if outcome $x \in \mX$ occurs, and nothing otherwise. (Such securities are known as Arrow-Debreu securities.) In our normal distribution example, the statistic for the mean had the mapping $\phi_1(x) = x$. Therefore a share of the corresponding security has a payoff that is linear in the outcome. (Such securities amount to futures contracts.) 
+
+To extract useful information from such a securities market, we set a pricing scheme and examine the number of shares the agent chooses to acquire. Let $\Omega$ be the set of all portfolios (i.e., vectors of shares) that the agent can feasibly hold; we will see how this domain is determined in an instant. Each security $s$ has an associated price function $c_s : \Omega \rightarrow \bR$, which gives the marginal price $c_s(\theta)$ of security $s$ when the agent holds portfolio $\theta$. (Note that the marginal price depends on the entire portfolio $\theta$, not just the number of shares $\theta_s$.) A risk-neutral agent will choose to acquire shares up to the point where, for each share, expected payoff equals marginal price. Formally, if the agent acquires portfolio $\theta$, then for each $s \in \mS$ we must have
+%
+\begin{equation} \label{market}
+\Exp_p[\phi_s(x)] = c_s(\theta).
+\end{equation}
+%
+In this way, by its choice of $\theta$, the agent reveals that its belief is $\mu = c(\theta)$. There are several important properties that the price function $c$ should have. To simplify the agent's portfolio acquisition process, it should not be the case that the total cost of acquiring $\theta$ depends on the order in which shares are bought. This means that there should exist a \emph{cost function} $C : \Omega \rightarrow \bR$ such that $c = \nabla C$. The gradient $\nabla C$ must be onto $\mM$ to ensure that~(\ref{market}) always has a solution---this is the most important but technical condition to realize. To ensure that the solution is unique, it would also be convenient if the cost function were strictly convex. 
+%
+\begin{proposition}
+The following cost function is monotone, convex, and onto $\mM$: 
+%
+\begin{equation} \label{cost}
+C(\theta) = \log \int_{x \in \mX} \exp \left[\la \theta, \phi(x) \ra\right] \nu(dx).
+\end{equation}
+%
+\end{proposition}
+%
+\noindent
+Observe that in the context of our earlier multinomial example, cost function~(\ref{cost}) is exactly the cost function for Hanson's logarithmic market scoring rule. Our approach here provides a generalization of this market scoring rule to markets with contingent claim securities with arbitrary payoffs, designed to elicit specific properties of distributions, beyond just the probabilities of different outcomes. 
+
+Because an agent would never select a portfolio with infinite cost, the effective domain of $C$ is $\Omega = \{\theta \:|\: C(\theta) < +\infty \}$. In the context of the multinomial distribution example, $\Omega = \bR^d$, so that shares of each security can always be bought or sold short. In the context of the normal distribution example the effective domain is $\Omega = \{(\theta_1,\theta_2) \in \bR^2 \:|\: \theta_2 > 0 \}$ if we re-define the second statistic to be $\phi_2(x) = -x^2$; this means that the security has a negative payoff for each share, and consequently the agent must be compensated to acquire such shares. Evaluating~(\ref{cost}), the cost function takes the form $C(\theta) = \frac{\theta_1^2}{4\theta_2} - \frac{1}{2}\log(2\theta_2)$.
+
+Now, in our previous elicitation approach that used a scoring rule, the process of computing the scoring rule also provided a complete distribution $p(x;\mu)$ over outcomes, which could be used to infer other properties beyond just the agent beliefs $\mu$. In the current market-based approach, the agent's chosen portfolio $\theta$ can also form the basis of a distribution over outcomes. Consider the following distribution, represented as a density with respect to a base measure $\nu$:
+%
+\begin{equation} \label{expfam}
+p(x;\theta) = \exp\left[ \la \theta, \phi(x) \ra - C(\theta) \right].
+\end{equation}
+%
+Meaning, the probability that a subset $X \subseteq \mX$ of the outcomes occurs is $\int_{x \in X} p(x;\theta)\nu(dx)$. Observe that by definition~(\ref{cost}), this probability density indeed integrates to 1 over $\mX$, and it is clear that the density is non-negative as required.  
+
+In the statistical literature a distribution that takes the form~(\ref{expfam}) is known as an \emph{exponential family}. The mapping $\phi$ is known as the \emph{sufficient statistic}, $\theta$ is the \emph{natural parameter}, and $C$ is the log-partition or \emph{cumulant} function. %This connection between information markets and exponential families allows us to draw on a vast statistical literature to understand the market's properties, and a growing computer science literature to apply efficient algorithms to compute costs and perform inference. 
+
+
+%%%
+%%%
+%%%
+
+\subsection{Duality}
+
+There is a well-known duality between the maximum entropy approach and exponential families, which translates into a duality between the scoring rule and information market just developed. The duality implies that the approach leads to a \emph{market scoring rule}, applicable to both thin and thick multi-agent settings.
+
+It is known that a distribution is a maximum entropy distribution if and only if it is an exponential family~\cite{}. To see this, let $\theta(\mu) \in \bR^d$ be the Lagrange multiplier corresponding to constraints~(\ref{mean}) when solving the maximum entropy program given the agent report $\mu$. (Our choice of notation is deliberately suggestive.) Let $A(\mu)$ be the Lagrange multiplier corresponding to~(\ref{normalize}). From the first order necessary conditions for optimality, we find that
+%
+\[ p(x;\mu) = \exp \left[ \la \theta(\mu), \phi(x) \ra - A(\mu) - 1 \right], \]
+%
+so that the solution is indeed in exponential family form. Conversely, given a cumulant $C$ from an exponential family and a parameter $\theta$, we see that $p(x;\theta)$ defined according to~(\ref{expfam}) is the maximum entropy distribution under constraints $\Exp_p[\phi(x)] = \mu$ where $\mu = \nabla C(\theta)$. We obtain the following.
+%
+\begin{proposition}
+Let $C$ be the cumulant (i.e, cost function) for the exponential family corresponding to $\phi$, and let $\theta(\mu)$ be the optimal Lagrange multiplier for the mean constraints given an agent report of $\mu \in \mM$. Then the following scoring rule is equivalent to~(\ref{scoring}):
+%
+\begin{equation} \label{expscore}
+S(\mu, x) = \la \theta(\mu), \phi(x) \ra - C(\theta(\mu)).
+\end{equation}
+%
+\end{proposition}
+%
+\noindent
+The scoring rule~(\ref{expscore}) decomposes neatly into payoff and cost functions. The first term $\la \theta(\mu), \phi(x) \ra$ defines the agent's outcome-contingent reward, while the second term~$C(\theta(\mu))$ is the cost of acquiring a portfolio $\theta(\mu)$. We see here the duality between the approach of directly reporting $\mu$, or acquiring shares $\theta$: an agent reporting beliefs $\mu$ under scoring rule~(\ref{scoring}) would choose to acquire shares $\theta(\mu)$ in the information market with cost function~(\ref{cost}). Since~(\ref{scoring}) is a proper scoring rule, the information market with cost function~(\ref{cost}) is based on a proper market scoring rule.
+
+%\footnote{There is a lack of rigor here, because there might be more than one optimal Lagrange multiplier for a given $\mu$, so the function $\theta(\mu)$ may not be well-defined. it is well-defined if the representation $\phi$ is minimal. The mapping from $\theta$ to $\mu$ is well-defined and is given by $\nabla C$.}
+

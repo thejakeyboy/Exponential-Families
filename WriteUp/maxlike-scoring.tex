@@ -1,0 +1,86 @@
+\section{Maximum Likelihood Scoring Rules}
+
+%%%
+%%%
+%%%
+
+\subsection{Preliminaries}
+
+We consider a state space $\mX$ which may be discrete or continuous, and a measure $\nu$ over sets of states. We will typically take the state space to be  $\bR$ or $\bR^d$ together with the Lebesgue measure (perhaps restricted to some subset of states), or some finite set together with the counting measure.\footnote{We will not need to make reference to the underlying $\sigma$-algebra, but to complete the specification of the measure space we take it to be the collection of Borel sets in the case of $\bR$ and $\bR^d$, and the power set in the case of a discrete set.} A \emph{probability density} is a $\nu$-measurable function $p : \mX \rightarrow \bR_+$ that integrates to 1 over $\mX$. 
+
+Let $\mP$ denote the set of all probability densities over the given measure space. We are interested in eliciting information about some unknown density $p \in \mP$ which corresponds to the beliefs of an expert. The expert may be familiar with $p$ in its entirety, or only with certain properties of $p$.  Given a set of densities $\mD \subseteq \mP$, a \emph{property}  is a real (possibly vector-valued) function $\Gamma : \mD \rightarrow \bR^k$. With a slight abuse of terminology we call elements of its image $\Theta = \Gamma(\mD)$ \emph{properties} and we say that $p$ has property $\theta$ when $\Gamma(p) = \theta$. If $\Gamma$ is one-to-one, we instead call $\Gamma$ a \emph{parametrization} and refer to the elements of its image $\Theta$ as \emph{parameters}. 
+
+To be concrete, our outcome space could for instance be $\bR$ with $\nu$ the Lebesgue measure restricted to $[0,+\infty)$. The set $\mP$ then consists of all probability densities with support contained in the non-negative reals, and $\mD \subset \mP$ might consist of the densities of exponential distributions. An example of a property over $\mP$ is the mapping from a density to its mean.\footnote{The property may not be defined for all $p \in \mP$. In this case we implicitly restrict it to the subset of $\mP$ for which it is defined whenever its domain $\mD$ is not made explicit.} When restricted to the exponential densities $\mD$, this mapping is a parametrization. In much of this work, as in this example, the purpose of the measure $\nu$ is to implicitly encode bounds on the support of possible densities. The reason we use this approach, rather than explicitly stating bounds, is that it allows for clearer connections with maximum entropy estimation later on.
+
+Given the set of relevant densities $\mD \subseteq \mP$, which contains the expert's belief $p$, and a property $\Gamma$ over this set, the expert is asked to report $\theta = \Gamma(p)$. The expert is rewarded according to a \emph{scoring rule} $S : \Theta \times \mX \rightarrow \bR \cup \{-\infty\}$ which pays it $S(\htheta,x)$ according to how well its report $\htheta \in \Theta$ agrees with the eventual outcome $x \in \mX$. The idea is to design the scoring rule so that the expert is incentivized to report its true belief, setting $\htheta = \theta$. 
+%
+\begin{definition}
+Given a property $\Gamma : \mD \rightarrow \bR^k$, a scoring rule $S$ is  \emph{proper} over domain $\mD$ if for each $\theta \in \Theta$ and $p \in \mD$ with property $\theta$, we have
+%
+\begin{equation} \label{eq-proper}
+\Exp_p[S(\theta,x)] > \Exp_p[S(\htheta,x)]
+\end{equation}
+%
+for all $\htheta \neq \theta$. If the domain is $\mD = \mP$, the set of all possible densities, then we say the scoring rule is \emph{strongly proper}.
+\end{definition}
+%
+
+\begin{itemize}
+\item Note that the inequality is strict, in the literature these rules are called \emph{strictly} proper, but we only consider strictly proper rules here so don't make this qualification.
+\item Lambert et al.'s rules are actually strongly proper, however we consider scoring rules over vector valued properties. Lambert et al only develop these by adding together different scoring rules for each property. We go further in our constructions and develop rules that are not necessarily separable.
+\item It is useful to consider rules that are not strongly proper because we might have constructions for these for properties where no strongly proper rule is known.
+\item It is important to understand the informational requirements placed on the expert. Under a proper scoring rule, the expert does not need to be aware of the entire density $p$ to be incentivized to report its property $\theta$, since $\theta$ is an optimal report no matter what the density might be. The agent only needs to agree that the density indeed lies in $\mD$.
+\item For instance, if we are considering densities with support on $[0,+\infty)$, and $\mD$ is the set of lognormal densities, then a proper scoring rule over $\mD$ for the mean does not require the agent to know anything beyond the mean (e.g., it does not need to know the variance).  
+\item A strongly proper scoring rule goes further; with such a rule we do not require the expert to believe the density is drawn from some subset $\mD$, only that it agrees with the support implied by the base measure $\nu$. Therefore, a strongly proper scoring rule for the mean here would elicit the mean no matter what kind of density over the positive reals might apply (e.g., exponential, Pareto, lognormal).
+\item In practical scenarios this seems like an important extension, because while it might be clear which states are possible, it might be difficult to ensure the expert agrees that the probability density for states falls within some restricted family $\mD$.
+\end{itemize}
+
+%%%
+%%%
+%%%
+
+\subsection{Maximum Likelihood}
+
+%
+\begin{theorem} \label{maxlike}
+The logarithmic scoring rule defined by
+%
+\[ S(\theta, x) = \log p(x;\theta) \]
+%
+is weakly proper for $\mF$ over $\Theta$ if and only if the maximum likelihood estimate for $\theta$ is consistent. Furthermore, if $\mM$ is an alternative parameter space such that there exists a bijection $t : \mM \rightarrow \Theta$, then $\bar{S}(\mu, x) = S(t(\mu), x)$ is weakly proper for $\mF$ over $\mM$. 
+\end{theorem}
+%
+
+%
+\begin{example}
+Suppose $X$ is supported on $[0,+\infty)$ and follows an exponential distribution with density $f(x;\lambda) = \lambda e^{-\lambda x}$ parametrized by a rate $\lambda > 0$. The mean $\mu$ is related to the rate via the one-to-one mapping $\mu = 1/\lambda$, so the density can alternatively be parametrized by the mean. According to Theorem~\ref{maxlike} the following is a weakly proper scoring rule for the mean of an exponential distribution:
+%
+\begin{equation} \label{exp-scoring}
+S(\mu, x) = -\frac{x}{\mu} - \log \mu.
+\end{equation}
+%
+To verify this, suppose the agent believes $X$ follows an exponential distribution with rate $\lambda_0$, equivalently mean $\mu_0 = 1/\lambda_0$. By the one-to-one relation between rate and mean, choosing $\mu$ to maximize the expected score~(\ref{exp-scoring}) is equivalent to choosing $\lambda$ to maximize $\Exp{-\lambda x + \log \lambda} = -\lambda \mu_0 + \log \lambda$. The latter is strictly concave in $\lambda$, and using basic calculus its unique global maximum is $\lambda^* = 1/\mu_0$, which therefore leads the agent to report $\mu = \mu_0 = 1/\lambda^*$ under scoring rule~(\ref{exp-scoring}). 
+\end{example}
+%
+
+%
+\begin{example}
+Suppose that $X$ is supported on $[1,+\infty)$ and follows a Pareto distribution with density $f(x;\alpha) = \alpha/x^{\alpha+1}$ parametrized by an index $\alpha > 0$. The mean $\mu$ is related to the index via the one-to-one mapping $\mu = \frac{\alpha}{\alpha-1}$, so the density can alternatively be parametrized by the mean. Theorem~\ref{maxlike} gives the following weakly proper scoring rule for the mean of a Pareto distribution with support on $[1,+\infty)$:
+%
+\begin{equation} \label{pareto-scoring}
+S(\mu,x) = \log \frac{\mu}{\mu-1} - \left(\frac{\mu}{\mu-1} + 1\right) \log x.
+\end{equation}
+%
+To verify this, suppose the agent believes $X$ follows a Pareto distribution with index $\alpha_0$, equivalently mean $\mu_0 = \frac{\alpha_0}{\alpha_0-1}$. By the one-to-one relation between the index and mean, choosing $\mu$ to maximize the expected score~(\ref{pareto-scoring}) is equivalent to choosing $\alpha$ to maximize $\Exp{\log \alpha - (\alpha+1)\log x} = \log \alpha - (\alpha+1)\Exp{\log x}$. The latter is strictly concave in $\alpha$, and using basic calculus its unique global maximum is $\alpha^* = 1/\Exp{\log X} = \alpha_0$, where the last equality follows from the fact that $\log X$ has an exponential distribution with rate $\alpha$ when $X$ is Pareto with rate $\alpha$. Therefore~(\ref{pareto-scoring}) leads the agent to report $\mu = \mu_0 = \frac{\alpha^*}{\alpha^* - 1}$. 
+\end{example}
+%
+
+\begin{itemize}
+\item Explain that the scoring rule from Example 2 does not elicit the mean when the agent's distribution is exponential (with change of variable so that it lies in $[1,+\infty)$. 
+\item Observe that scoring rule from Example does elicit the mean when the agent's distribution is exponential, Pareto, or in fact any other distribution with support on $[0,+\infty)$ such as the lognormal. 
+\item This occurs because the scoring rule is linear in $x$, so its expectation is the same for any distribution with mean $\mu$. 
+\item Another feature to note is that under an appropriate parametrization (rate instead of mean), the scoring rule (1) is convex in the parameter being elicited. 
+\item These two observations taken together lay the groundwork for the characterization of strongly proper scoring rules for distribution statistics. 
+\item Before we proceed should note that the arguments behind Theorem~\ref{maxlike} apply not just to maximum likelihood but to any \emph{m-estimator}, which are notions from robust statistics. Explain what an m-estimator looks like and how there are general consistency results for those as well.
+\item The point of these alternative estimators is to be more robust to outliers in the sample, and so these kinds of estimators could translate into scoring rule more robust to inaccuracies in the agent's assessment of the underlying probability distribution or its parameters. (Just a hunch.)
+\end{itemize}

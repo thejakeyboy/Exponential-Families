@@ -1,0 +1,45 @@
+%%%
+%%% Conjugate Priors
+%%%
+
+\section{Conjugate Priors}
+
+In Sindhu's notes it's assumed that the agent has a belief $\q$, and moves the market state from initial state $\q_{init}$ to a convex combination $\tilde{\q} = \lambda \q + (1-\lambda)\q_{init}$. This note tries to justify this based on Bayesian updating, rather than budget limitations. (But it doesn't quite succeed.)
+
+\medskip\noindent
+Let $p(x;\theta)$ denote a probability density drawn from an exponential family with sufficient statistic $\phi : \mX \rightarrow \bR^d$, where $\theta$ is the natural parameter:
+$$
+p(x;\theta) = \exp \left[ \la \theta, \phi(x) \ra \right],
+$$
+and
+$$
+g(\theta) = \log \int_{\mX} \exp\la\phi(x),\theta\ra d\!x.
+$$
+Recall that $\grad g(\theta) = \Exp[\phi(x)]$ and $\grad^2 g(\theta) = \Var[\phi(x)]$. The family of conjugate priors is also an exponential family and takes the form
+$$
+p(\theta; n,\nu) = \exp\left[ \la n\nu,\theta \ra - ng(\theta) - h(\nu,n) \right].
+$$
+Here the feature map is $\psi(\theta) = (\theta, -g(\theta))$, the natural parameter is $(n\nu, n)$ where $n \in \bR$ and $\nu \in \bR^d$. The normalizer $h(\nu, n)$ is convex in $(n\nu,n)$. It is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. The justification for this is that
+$$
+\Exp_{\theta} \left[ \Exp_x \left[ \phi(x) | \theta \right]\right] 
+= \Exp_{\theta} \left[\grad g(\theta)\right]
+= \nu.
+$$
+(The proof is straightforward but not obvious. I have a reference for this but it's impossible to read---it's a mathematical statistics paper.)
+
+Suppose we draw a sample $X = (x_1,\ldots,x_m)$ of size $m$, and denote the empirical mean by $\mu[X] = \sum_{i=1}^m \phi(x_i)$. The posterior distribution is then
+$$
+p(\theta|X) \propto p(X|\theta)p(\theta|n,\nu) \propto \exp\left[ \la\mu[X]+n\nu,\theta\ra - (m+n)g(\theta) \right],
+$$
+and so the posterior mean is 
+\begin{equation} \label{posterior-mean}
+\frac{m\mu[X] + n\nu}{m+n}.
+\end{equation}
+Thus the posterior mean is a convex combination of the prior and posterior means, and their relative weights depend on the phantom and empirical sample sizes.
+
+In the context of prediction markets, one could imagine an agent who uses the current market estimate as its prior, and draws a empirical sample of size $m$. Its belief then takes the form~(\ref{posterior-mean}), where $n$ depends on the importance the agent places on the market estimate (perhaps based on how long the market has been running). However, note that the \emph{mean parameter} becomes a convex combination of market state and empirical belief, and this does not translate to the \emph{natural parameter}, which is what we would have liked. The new natural parameter is
+$$
+\grad g^{-1} \left(\frac{m\mu[X] + n\nu}{m+n}\right) = \grad g^* \left(\frac{m\mu[X] + n\nu}{m+n}\right).
+$$
+where $g^*$ is the convex conjugate of $g$.
+

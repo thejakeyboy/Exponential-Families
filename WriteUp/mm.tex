@@ -1,0 +1,151 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{parskip}
+
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\mX}{\mathcal{X}}
+\newcommand{\bR}{\mathbf{R}}
+\newcommand{\grad}{\nabla}
+\newcommand{\Exp}{\mathbf{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\q}{\mathbf{q}}
+\newcommand{\mM}{\ensuremath{\mathcal{M}}}
+\newcommand{\hmu}{\ensuremath{\hat{\mu}}}
+\newcommand{\mP}{\ensuremath{\mathcal{P}}}
+\newcommand{\mY}{\ensuremath{\mathcal{Y}}}
+\newcommand{\mS}{\ensuremath{\mathcal{S}}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\mF}{\mathcal{F}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\htheta}{\hat{\theta}}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+
+\newcounter{ExampleCount}
+\setcounter{ExampleCount}{1}
+\newenvironment{example}
+{% This is the begin code
+\medskip\noindent
+{\bf Example \arabic{ExampleCount}.}
+\stepcounter{ExampleCount} 
+}
+{% This is the end code
+\medskip
+} 
+
+
+\title{Maximum Entropy, Scoring Rules, and Prediction Markets}
+
+
+\begin{document}
+\maketitle
+
+%%%
+%%%
+%%%
+
+\section{Scoring Rule}
+
+* Discrete or continuous outcome space.
+
+* Want to elicit statistics of the distribution (not full distribution).
+
+* Single-agent setting: scoring rules for expectations of random variables.
+
+* Can also elicit one-to-one-functions of those expectations (e.g., mean and variance from first and second uncentered moments). Need to understand possible technical subtleties: see ``functional invariance'' property of maximum likelihood estimate. 
+
+* Strictly proper scoring rule implicitly defined via solution of a maximum entropy problem.
+
+* Take log of maxent distribution with mean parameters given by the agent. Generalizes the usual log scoring rule for complete probability distributions.
+
+* Although it's a generalization of the log scoring rule, may not look anything like log scoring rule: e.g.\ normal, exponential, beta distributions.
+
+* Informational advantage: the agent doesn't need to know full probability density to be incentivized to reveal the statistics truthfully. Only needs to know the statistics.
+
+* Does not have to agree that underlying density if from an exponential family.
+
+* Technical subtlety (need to understand better): agent must agree on the \emph{support} of the distribution. This is related to the ``base measure'' of the exponential family.
+
+* Important aspect of this approach: the primitive is now the \emph{uncertainty function} (e.g., negative entropy) defined over the space of probability densities.
+
+* Other uncertainty functions can be used, they just have to be convex (is that all?). But the point is that they're defined over the space of densities, and then the convex function over the space of statistics is derived from that primitive via an optimization problem.
+
+* It would be nice to show how many properties of the market follow from properties of the uncertainty function used.
+
+* Do all cost functions arise in this way? From an optimization problem having objective function an uncertainty function over probability densities? This is straightforward for proper scoring rules but not as much for \emph{strictly} proper scoring rules.
+
+* Connection between log scoring rule and maximum likelihood. This can give scoring rules for other kinds of parameters besides expectations? (Bounds on the support for the uniform distribution, for example). But it assumes that the agent's belief distribution takes a specific form (e.g., exponential, uniform, etc.) The maxent approach works for statistics of any underlying distribution, but is limited to expectations.
+
+* Can we broaden the maxent scoring rule approach beyond expectations? Can we develop a scoring rule for the median with this approach?
+
+* More generally, rather than just the maximum likelihood estimator, we can look at $m$-estimators to construct these kinds of scoring rules.
+
+* Need to understand the consistency proofs of these kinds of estimators well.
+
+
+%%%
+%%%
+%%%
+
+\section{Prediction Market}
+
+* Re-interpretation of the exponential family elements: sufficient statistic becomes payoff function, natural parameter is share vector, normalizer becomes cost function.
+
+* Go over desirable properties of a price/cost function: monotonicity, path independence, etc.
+
+* Important technical detail when looking at statistics: the domain of the cost function. For instance with first and second uncentered moments as statistics, can't have negative oustanding shares for the second security. How odd is this for practice?
+
+* Insight: LMSR prediction market is estimating the natural parameter of an exponential family.
+
+* Sequence of traders seeking to maximize profit can be viewed as MLE estimation of natural parameters.
+
+* With budgets, adversarial traders can cause limited damage (in what formal sense again?)
+
+* Budgets of informative traders grow in expectation over time
+
+* This assumes a market that occurs over rounds, i.e., there is not just a single ultimate outcome (like a Presidential election) but several outcomes over time so that securities pay off.
+
+* Need to think more about the model of bidder behavior: Bayesian updating? Budget constrained? Risk neutral or risk averse?
+
+* Connection to mirror descent: the update with Bayesian traders is the mirror descent update. Frongillo et al. also observed this but in their model they have budget-constrained bidders with log utility, so there are some differences. Need to understand this better.
+
+* What is the advantage of the mirror descent perspective/connection? Can we talk about the regret of the market and its convergence rate with Bayesian traders? How does it compare to the optimal rate (usually something like $\sqrt{T}$)?
+
+* Note: The kind of aggregation performed by Bayesian update bidders is also very reminiscent of \emph{exponential smoothing} (not related to ``exponential'' families, at least not directly as far as I'm aware). It's used for forecasting from time series data and has some nice properties.
+
+* Many of the results for prediction market bidders currently assume that they believe the underlying distribution to be an exponential family. It would be nice to do away with that as much as possible to try to match the mild informational requirements from the scoring rule section.
+
+
+%%%
+%%%
+%%%
+
+\section{Duality}
+
+* The duality between scoring and market scoring rules (i.e., cost function prediction markets) is understood from Hanson's work.
+
+* Exponential families perspective make the duality in even more concrete: share vector and agent belief live in dual spaces. Scoring rules work on mean parametrization and prediction markets work on natural parametrization.
+
+
+%%%
+%%%
+%%%
+
+\appendix
+
+\include{maxent-market}
+\include{sindhu-outline}
+\include{conj-prior}
+\include{maxlike-scoring}
+
+
+
+
+\end{document}
