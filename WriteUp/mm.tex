@@ -89,6 +89,8 @@
 
 * Need to understand the consistency proofs of these kinds of estimators well.
 
+* Show how to recover Savage representation of scoring rule from the primitives. Cost function is composition of adjoint of expectation map (linear map) and conjugate of the information function. Savage convex function is then the conjugate of the cost function.
+
 
 %%%
 %%%
@@ -121,6 +123,50 @@
 * Note: The kind of aggregation performed by Bayesian update bidders is also very reminiscent of \emph{exponential smoothing} (not related to ``exponential'' families, at least not directly as far as I'm aware). It's used for forecasting from time series data and has some nice properties.
 
 * Many of the results for prediction market bidders currently assume that they believe the underlying distribution to be an exponential family. It would be nice to do away with that as much as possible to try to match the mild informational requirements from the scoring rule section.
+
+* Share vector is maximum likelihood estimate of the natural parameter of distribution.
+
+* Adversarial and strategic traders.
+
+* Budgeted prediction market suffers limited damage under concerted attacks by adversarial traders.
+
+* Informative trader will eventually be unconstrained and will be able to carry out unrestricted trade.
+
+* Arbitrage-free property: cost of making a ``sure bet'' is exactly the payoff of that bet. Generalizes the fact that sum of all prices must equal 1 when there is a security for each outcome (in discrete case).
+
+* Do we really want to bound sufficient statistics?
+
+* Interpretation function is nice, what is the intuition there?
+
+* Do we want to assume that the sufficient statistics are \emph{minimal}? What are advantages and disadvantages of this from a market standpoint? By definition, there are no arbitrage opportunities with minimal statistics, independent of the cost function. (There are no sure bets.) 
+
+* If natural parameter space and sufficient statistics are bounded, then market has bounded loss. Are there weaker conditions?
+
+* Need to justify how traders choose to move share vector (equivalently, prices) given empirical beliefs. Several elements: empirical belief, market prior, budget, risk sensitivity.
+
+* The harm on the log loss of the market prediction that can be caused by adversarial traders is at most their combined budgets. It should be straightforward to generalize this to other losses (market uses a different cost function than LMSR).
+
+* Previous result is also interesting because it means log loss and budget should have the same units.
+
+* For Theorem 4, perhaps there is cleaner form in terms of just the natural/mean parameters and not the entire distributions. Could look at convex function defined on parameters via maximum entropy approach.
+
+* Perhaps introduce equivalence of uncertainty (entropy) function, Bregman divergence, and scoring rule from Dawid work.
+
+* Net profit of a trader equals the reduction in KL divergence with respect to the true distribution.
+
+* Can 5.4 proof work if trader has beliefs just over statistics and not entire distribution?
+
+* Theorem 5 makes no assumptions about optimality of belief updating procedure. Can we say something with respect to true distribution if the traders are doing correct Bayesian updates? What exactly does it mean for belief formation to be optimal?
+
+* Still don't understand the attack described in the conclusion.
+
+* Would be very nice for weak informational requirements of scoring rule setting could be carried over to prediction market setting (so don't have to assume beliefs are drawn from an exponential family).
+
+* Can something be said about the form of the agent utilities and how it interacts with cost function of the market. For instance, there are nice results for LMSR with Kelly betters (log utility), in a sense these two are aligned.
+
+* Is it interesting to have risk-averse agents, perhaps with just mean-variance utilities?
+
+* Can many of the nice properties of a scoring rule/market follow from properties of the underlying uncertainty function? E.g., conditional independence properties of LMSR that might relate to Hammersley-Clifford theorem.
 
 
 %%%
