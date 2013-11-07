@@ -1,0 +1,85 @@
+%%%
+%%% Exponential Utility
+%%%
+
+\section{Exponential Utility}
+
+Assume the agent's belief distribution $p$ belongs to an exponential family, so it takes the form
+%
+\[
+p(x;\theta) = \exp[\theta x - T(\theta)]
+\]
+%
+where $\theta$ is the natural parameter and $T$ is the log-partition function. (I'm assuming that the sufficient statistic is $\phi(x) = x$ just for simplicity.) Assume also that the agent has an exponential utility for money $w$:
+%
+\[
+U(w) = -\frac{1}{a} \exp(-aw).
+\]
+%
+Here $a$ is the coefficient of risk aversion (higher means more risk averse, and the utility function is more concave).
+
+%
+\begin{proposition}
+An agent with exponential family belief with natural parameter $\htheta$, and exponential utility with coefficient $a$, makes a trade that moves the current market share vector $\theta$ to the convex combination $\frac{1}{1+a} \htheta + \frac{a}{1+a} \theta$ assuming an LMSR cost function.
+\end{proposition}
+%
+%
+\begin{proof}
+Let $\delta$ be the vector of shares the agent trades. The payoff given eventual outcome $x$ is then $\delta x - C(\delta + \theta) + C(\theta)$. The utility for this payoff is as follows (recall that $\htheta$ is the agent's believed natural parameter).
+%
+\[ U( \delta x - C(\delta + \theta) + C(\theta) ) = -\frac{1}{a} \exp(-a \delta x + a C(\delta + \theta) - a C(\theta)).
+\]
+%
+Taking the expected utility, we obtain
+%
+\begin{eqnarray*}
+&   & \Exp\left[ U( \delta x - C(\delta + \theta) + C(\theta) ) \right] \\
+& = & \int_{\mX} -\frac{1}{a} \exp(-a \delta x + a C(\delta + \theta) - a C(\theta)) \exp[\htheta x - T(\htheta)]\, dx \\
+& = & -\frac{1}{a} \int_{\mX} \exp[(\htheta -a \delta) x + a C(\delta + \theta) - a C(\theta)) - T(\htheta)]\, dx \\
+& = & -\frac{1}{a} \exp[a C(\delta + \theta) - a C(\theta)) + T(\htheta - a\delta) - T(\htheta)] \int_{\mX} \exp[(\htheta -a \delta) x - T(\htheta -a \delta)]\, dx \\
+& = & -\frac{1}{a} \exp[a C(\delta + \theta) - a C(\theta)) + T(\htheta - a\delta) - T(\htheta)] \int_{\mX} p(x; \htheta -a \delta)\, dx \\
+& = & -\frac{1}{a} \exp[a C(\delta + \theta) - a C(\theta)) + T(\htheta - a\delta) - T(\htheta)]\\
+& = & U\left(- C(\delta + \theta) + C(\theta)) - \frac{1}{a} T(\htheta - a\delta) + \frac{1}{a} T(\htheta)\right)
+\end{eqnarray*}
+%
+The second-last equality follows from the fact that $\int_{\mX} p(x; \htheta -a \delta)\, dx = 1$. Since utility $U$ is monotone increasing, it is maximized by maximizing its argument, which is a concave function of $\delta$ by convexity of $C$ and $T$. The optimality condition for the argument is
+%
+\begin{equation} \label{eq:optim}
+\grad C(\delta^* + \theta) = \grad T(\htheta - a\delta^*)
+\end{equation}
+%
+Now if the market maker is using LMSR, then $C$ is the log-partition function of the corresponding exponential family and $C = T$. Then~(\ref{eq:optim}) can be solved by equating the arguments. This leads to $\delta^* = (\htheta - \theta) / (1+a)$, which moves the share vector to $\theta + \delta^* = \frac{1}{1+a} \htheta + \frac{a}{1+a} \theta$.
+\end{proof}
+%
+
+In the statement of the result I use the term ``LMSR cost function'' somewhat loosely, because we are not necessarily dealing with a market over exhaustive, mutually exclusive outcomes. What is meant is the cost function that arises by taking the dual to entropy of the maxent distribution with given mean parameter $\mu$. As we've discussed this seems like the right generalization of LMSR to arbitrary mean parameter spaces. 
+
+Note that as $a \rightarrow 0$, we approach risk neutrality and the agent moves the share vector all the way to its private estimate $\htheta$. As $a$ grows (agent grows more risk averse) the agent makes smaller and smaller trades that keep it closer to the current estimate $\theta$.
+
+So there is a kind of congruence between exponential family beliefs and exponential utility (as the names would suggest). It would be nice to have similar results for other utility-belief combinations. Table~\ref{tab:util-belief} lists many interesting/common utility functions, and the question is what beliefs to pair them with to get clear results on updating behavior.
+
+%
+\begin{table}[ht]
+\begin{tabular}{llll}
+\toprule
+\multicolumn{1}{c}{Utility} &
+\multicolumn{1}{c}{Belief} & 
+\multicolumn{1}{c}{Cost function} & 
+\multicolumn{1}{c}{Result} \\ \midrule
+Linear & Arbitrary & Arbitrary & $\theta \rightarrow \htheta$ ($\mu \rightarrow \hmu$) \\
+Exponental (CARA) & Exponential Family & LMSR & $\theta \rightarrow \frac{1}{1+a} \htheta + \frac{a}{1+a} \theta$ \\
+Mean-Variance &&& \\
+Quadratic &&& \\
+CRRA &&& \\
+Logarithmic &&& \\
+HARA &&& \\
+(Lindley) &&& \\
+\bottomrule
+\end{tabular}
+\caption{Behavior of agents with specific utility-belief combinations, in terms of how they update the market share vector $\theta$ when their own assessment is parameter $\htheta$.\label{tab:util-belief}}
+\end{table}
+%
+
+The behaviors in Table~\ref{tab:util-belief} have to do with how the share vector is updates. Recall that for a Bayesian agent with linear utility and an exponential family belief, it first updates its own mean estimate by $\hmu \rightarrow \frac{n_0}{n+n_0} \mu + \frac{n}{n+n_0} \hmu$, assuming the usual conjugate prior and that the agent takes the market estimate as prior mean. Here $n_0$ and $n$ are the ``phantom'' and actual samples sizes, in other words the relative weights on prior (market estimate) and private estimate. This belief update can occur before the further updates in the table. Note that the belief update occurs in mean parameter space, while the updates in the table occur in natural parameter (share vector) space, because they depend on properties of utility like risk aversion.
+
+\end{document}
