@@ -1,0 +1,875 @@
+% Adjusted to add \usepackage[numbers]{natbib}
+% \bibliographystyle{acmsmall} and \documentclass[prodmode,acmec]{ec-acmsmall}
+% Jan 5, 2013 - David Parkes
+%
+% v2-acmsmall-sample.tex, dated March 6 2012
+% This is a sample file for ACM small trim journals
+%
+% Compilation using 'acmsmall.cls' - version 1.3 (March 2012), Aptara Inc.
+% (c) 2010 Association for Computing Machinery (ACM)
+%
+% Questions/Suggestions/Feedback should be addressed to => "acmtexsupport@aptaracorp.com".
+% Users can also go through the FAQs available on the journal's submission webpage.
+%
+% Steps to compile: latex, bibtex, latex latex
+%
+% For tracking purposes => this is v1.3 - March 2012
+
+\documentclass[prodmode,acmec]{ec-acmsmall} % Aptara syntax
+
+% Package to generate and customize Algorithm as per ACM style
+\usepackage[ruled]{algorithm2e}
+\renewcommand{\algorithmcfname}{ALGORITHM}
+\SetAlFnt{\small}
+\SetAlCapFnt{\small}
+\SetAlCapNameFnt{\small}
+\SetAlCapHSkip{0pt}
+\IncMargin{-\parindent}
+
+% Metadata Information
+\acmVolume{9}
+\acmNumber{4}
+\acmArticle{39}
+\acmYear{2013}
+\acmMonth{6}
+\usepackage[numbers]{natbib}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{amsthm}
+\usepackage{parskip}
+\usepackage{booktabs}
+
+%new commands
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\mX}{\mathcal{X}}
+\newcommand{\bR}{\mathbf{R}}
+\newcommand{\grad}{\nabla}
+\newcommand{\Exp}{\mathbf{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\q}{\mathbf{q}}
+\newcommand{\mM}{\ensuremath{\mathcal{M}}}
+\newcommand{\hmu}{\ensuremath{\hat{\mu}}}
+\newcommand{\mP}{\ensuremath{\mathcal{P}}}
+\newcommand{\mY}{\ensuremath{\mathcal{Y}}}
+\newcommand{\mS}{\ensuremath{\mathcal{S}}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\mF}{\mathcal{F}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\htheta}{\hat{\theta}}
+%---------------------------------------------------------------------------
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{con}[thm]{Conjecture}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{qn}[thm]{Question}
+\newcommand{\defn}{\bigbreak\noindent{\bf Definition. }}
+\newcommand{\undefn}{\bigbreak}
+\newcommand{\rmk}{\bigbreak\noindent{\bf Remark. }}
+\newcommand{\unrmk}{\bigbreak}
+%\newcommand{\proof}{\noindent{\bf Proof. }}
+\newcommand{\unproof}{\hfill$\Box$\bigbreak}
+\newcommand{\defeq}{\stackrel{\mathrm{def}}{=}}
+\newcommand{\holds}[1]{\stackrel{?}{#1}}
+\newcommand{\conv}{\mathrm{conv}}
+\newcommand{\ie} {{\it i.e. }}
+\newcommand{\eg} {{\it e.g. }}
+\newcommand{\etal} {{\it et al. }}
+\newcommand{\E}{\mathbf{E}}
+\newcommand{\betavec}{\pmb{\beta}}
+\newcommand{\qvec}{\mathbf{q}}
+\newcommand{\lpf}{\mathbf{\psi}} %logpartition function
+\newcommand{\family}{\mathcal F} 
+\newcommand{\suff}{\pmb{\phi}} % suff stats
+\newcommand{\muvec}{\pmb{\mu}}
+
+
+% Document starts
+
+\begin{document}
+% Page heads
+\markboth{Abernethy et al.}{Maximum Entropy Prediction Markets}
+% Title portion
+\title{Maximum Entropy Prediction Markets}
+\author{JACOB ABERNETHY
+\affil{University of Michigan, Ann Arbor}
+SINDHU KUTTY
+\affil{University of Michigan, Ann Arbor}
+S\'{E}BASTIEN LAHAIE
+\affil{Microsoft Research, New York City}
+RAHUL SAMI
+\affil{University of Michigan, Ann Arbor}}
+%%\author{GANG ZHOU
+%%\affil{College of William and Mary}
+%%YAFENG WU
+%%\affil{University of Virginia}
+%%TING YAN
+%%\affil{Eaton Innovation Center}
+%%TIAN HE
+%%\affil{University of Minnesota}
+%%CHENGDU HUANG
+%%\affil{Google}
+%%JOHN A. STANKOVIC
+%%\affil{University of Virginia}
+%%TAREK F. ABDELZAHER
+%%\affil{University of Illinois at Urbana-Champaign}}
+% NOTE! Affiliations placed here should be for the institution where the
+%       BULK of the research was done. If the author has gone to a new
+%       institution, before publication, the (above) affiliation should NOT be changed.
+%       The authors 'current' address may be given in the "Author's addresses:" block (below).
+%       So for example, Mr. Abdelzaher, the bulk of the research was done at UIUC, and he is
+%       currently affiliated with NASA.
+
+\begin{abstract}
+In this paper, we draw connections between the aggregation performed by learning algorithms and the information aggregation done in prediction markets. We show that, under reasonable conditions, the behavior of rational traders can be understood as the result of performing a learning algorithm on their private data. Similarly,  the market state can be interpreted as a distribution over the outcome space. In particular, we show that a proper scoring rule can be derived from maximum entropy distributions. This scoring rule can be used as a general form of LMSR in prediction markets with over continuous outcome spaces. In order to provide insight on the behavior of rational traders in the market, we use the concept of exponential utility. We show that the traders' behavior can be understood as updating his belief using a Bayesian process and updating the market state in accordance with this utility function. These maxent prediction  markets can also be used to design  markets that are robust against adversarial traders. In fact, when traders are required to report their budgets and their beliefs, we can show that an informative trader eventually makes money and damaging traders eventually have limited influence in the market. Using ideas from convex analysis and the properties of the prediction market, we analyze the properties of the maxent market maker thus providing insight into the information content of the prediction market.
+\end{abstract}
+
+\category{J.4}{Social and Behavioral Sciences}{Economics}
+\category{I.2.6} {Artificial Intelligence}{Learning}
+
+\terms{Prediction Market Design, Machine Learning Algorithms}
+
+\keywords{Exponential Families, Bayesian Learning, Maximum Entropy Distributions, generalized LMSR}
+
+\acmformat{Jacob Abernethy, Sindhu Kutty, S\'{e}bastien Lahaie, and Rahul Sami, 2014. Maximum Entropy Prediction Markets}
+%%Gang Zhou, Yafeng Wu, Ting Yan, Tian He, Chengdu Huang, John A. Stankovic, and Tarek F. Abdelzaher, 2010. A multifrequency MAC specially designed for  wireless sensor network applications.
+
+% At a minimum you need to supply the author names, year and a title.
+% IMPORTANT:
+% Full first names whenever they are known, surname last, followed by a period.
+% In the case of two authors, 'and' is placed between them.
+% In the case of three or more authors, the serial comma is used, that is, all author names
+% except the last one but including the penultimate author's name are followed by a comma,
+% and then 'and' is placed before the final author's name.
+% If only first and middle initials are known, then each initial
+% is followed by a period and they are separated by a space.
+% The remaining information (journal title, volume, article number, date, etc.) is 'auto-generated'.
+
+\begin{bottomstuff}
+%%This work is supported by the National Science Foundation, under
+%%grant CNS-0435060, grant CCR-0325197 and grant EN-CS-0329609.
+%%
+%%Author's addresses: G. Zhou, Computer Science Department,
+%%College of William and Mary; Y. Wu  {and} J. A. Stankovic,
+%%Computer Science Department, University of Virginia; T. Yan,
+%%Eaton Innovation Center; T. He, Computer Science Department,
+%%University of Minnesota; C. Huang, Google; T. F. Abdelzaher,
+%%(Current address) NASA Ames Research Center, Moffett Field, California 94035.
+\end{bottomstuff}
+
+\maketitle
+
+
+\section{Introduction}
+We have dual goals in this paper. On the one hand, we highlight a structural similarity between prediction markets and exponential families. We see this as the syntax of our prediction market mechanism. On the other, this formulation has rich semantics as well: it allows for analysis of market behavior under various environments. For instance, we analyze market behavior with budget limited traders, traders that are exponential-utility-maximizers.
+\section{Notation and Definitions}
+convex conjugates, bregman divergences, scoring rules, sufficient statitics, exp families, Bayesi
+\section{Maximum Entropy Market Making}
+
+
+The purpose of a prediction market is to elicit and aggregate the beliefs (i.e., subjective probabilities) of agents over a space of \emph{outcomes}. In a single-agent setting, a scoring rule is used to elicit the agent's beliefs. In a multi-agent setting, an information market is used to aggregate the agent's beliefs. Hanson~\cite{} introduced the idea of a market scoring rule, which inherits the appealing elicitation and aggregation properties of both so that they can perform well in both thin and thick markets. In this work we derive a wide-ranging generalization of the logarithmic market scoring rule. Using a maximum entropy approach, we explain how a market scoring rule can be developed for outcome spaces both discrete and continuous, and for generic properties of the underlying distribution (e.g., mean and variance), rather than just the probabilities of individual outcomes. 
+
+%%%
+%%%
+%%%
+
+\subsection{The Model}
+\label{model}
+
+Let $\mX$ be the outcome space, which may be discrete or continuous. Let $\mP$ denote the set of probability distributions over the outcome space. We represent a probability distribution as a density $p$ absolutely continuous with respect to some base measure $\nu$ (e.g., counting for discrete outcomes, or Lebesgue for continuous outcomes).% We will discuss the interpretation of the base measure in a later section.
+
+There is an unknown distribution $p$ over outcomes. We are interested in estimating the expected value of different outcome \emph{statistics} under this distribution by aggregating the beliefs of agents. A statistic is a real-valued function $\phi_s : \mX \rightarrow \bR$ over outcomes, independent of $p$; here $s$ belongs to a finite index set $\mS$ of size $d$. The collection of functions $\phi = (\phi_s,\, s \in \mS)$ can be viewed as a vector-valued statistic mapping outcomes into $\bR^d$. Formally, the aim is to estimate
+%
+\begin{equation} \label{constraint}
+\Exp_p[\phi(x)] = \mu.
+\end{equation}
+%
+We stress that we are only seek to elicit $\mu \in \bR^d$, not the full distribution $p$. As an example, suppose that $\mX = \bR$. If we were interested in eliciting the first two uncentered moments of $p$, we would include $\phi_1(x) = x$ and $\phi_2(x) = x^2$ as statistics. Note that the variance cannot be directly obtained through any single statistic: it corresponds to the expectation of $(x - \Exp_p[x])$, which depends on $p$, violating our definition of a statistic. Of course, the variance can be indirectly obtained by eliciting the first two moments separately.\footnote{This is related to the notion of \emph{elicitation complexity} of statistical properties introduced by Lambert et al.~\cite{Lambert}, but we do not pursue this connection here.}
+
+There are two approaches to eliciting an agent's estimated $\mu$ in~(\ref{constraint}). The first approach is to incentivize the agent to directly report $\mu$ via a \emph{scoring rule}. The second approach is to form an \emph{information market} by issuing securities for each statistic $s \in \mS$, with payoff depending on the realized value of the statistic. (Such securities are known as contingent claims.) The amount of shares of each security acquired by the agent indirectly reveals it estimate $\mu$. In a market scoring rule~\cite{Hanson}, these two approaches are dual to each other in a formal sense. 
+
+%%%
+%%%
+%%%
+
+\subsection{Scoring Rule}
+
+We first consider how to directly elicit $\mu$ via a scoring rule. 
+%Note that the usual definition of a scoring rule presumes that a full probability distribution is elicited, rather than just some of its properties (e.g., mean and variance), so below we will adapt the definition to our setting. 
+The space of feasible reports from an agent corresponds to
+%
+\begin{equation} \label{marginal}
+\mM = \left\{ \mu \in \bR^d : \Exp_p[\phi(x)] = \mu,\, \mbox{for some $p \in \mP$} \right\}.
+\end{equation}
+%
+A scoring rule is a function $S : \mM \times \mX \rightarrow \bR$ that rewards an agent with $S(\mu,x)$ based on how its report $\mu$ agreed with the eventual outcome $x$. A scoring rule is \emph{proper} if for all $\mu \in \mM$, and $p \in \mP$ such that $\Exp_p[\phi(x)] = \mu$, we have
+%
+\begin{equation} \label{scoring}
+\Exp_p[S(\mu,x)] \geq \Exp_p[S(\hmu,x)]
+\end{equation}
+%
+for all $\hmu \neq \mu$; the rule is \emph{strictly proper} if the inequality is strict. Note that in the literature, scoring rules are defined over entire probability distributions, not just properties of those distributions. Our definition imposes a minimum of informational requirements on agents, because an agent does not need to assess the full distribution $p$ that might have lead to its estimates $\mu$ in order to realize that truthful reporting is an optimal strategy. 
+
+Our scoring rule is implicitly defined via the solution of a mathematical program. The program computes the maximum entropy distribution consistent with the agent's reported beliefs $\mu$.
+%
+\begin{eqnarray}
+\max_{p \geq 0} & \ds - \int_{x \in \mX} p(x) \log p(x) \nu(dx) & \label{obj} \\
+\mbox{s.t.} & \ds \int_{x \in \mX} \phi(x) p(x) \nu(dx) = \mu & \label{mean} \\
+ & \ds \int_{x \in \mX} p(x) \nu(dx) = 1 & \label{normalize}
+\end{eqnarray}
+%
+The non-negativity constraints together with~(\ref{normalize}) ensure that the solution is a probability distribution. Constraints~(\ref{mean}), which correspond to $d$ separate constraints, ensure consistency with the agent's report. The objective~(\ref{obj}) is the entropy of the solution $p$ with respect to the measure $\nu$. The program has a convex objective and linear constraints. %For continuous outcome spaces we will see in the next section that the optimal solution can still be cleanly characterized. 
+%
+\begin{theorem} \label{thm:scoring}
+Let $p(x;\mu)$ be the optimal solution to the maximum entropy program, given report $\mu \in \bR^d$. The scoring rule defined by
+%
+\begin{equation} \label{scoring}
+S(\mu,x) = a_x + b\log p(x;\mu),
+\end{equation}
+%
+where $b,a_x \in \bR$ and $b > 0$, is strictly proper.
+\end{theorem}
+%
+Recall that a  proper scoring rule $\mathbf{S}$ satisfies $$ \E_{x\sim p}[\mathbf{S}(p,x)]\geq \E_{x\sim p}[\mathbf{S}(p^{\prime},x)]$$
+ 
+Note that the maximum entropy distribution is an exponential family distribution. 
+ Let $p(x)=\exp\{\beta\cdot \phi(x)-\psi(\beta)\}$ be the true distribution and  $p'(x)=\exp\{\beta'\cdot \phi(x)-\psi(\beta')\}$ be the predicted distribution on the event $x$. 
+ 
+ We need to show that $$\E_{x\sim p}[\mathbf{S}(p,x)]\holds{\geq} \E_{x\sim p}[\mathbf{S}(p',x)]$$
+  In other words, we need $$\E_{x\sim p}[\log p(x)]\holds{\geq} \E_{x\sim p}[\log p'(x)]$$
+   Equivalently, $$\E_{x\sim p}[\beta\cdot \phi(x)-\psi(\beta)]\holds{\geq} \E_{x\sim p}[\beta'\cdot \phi(x)-\psi(\beta')]$$
+   Or 
+\begin{equation}\label{eq:proper}
+\beta\cdot \E_{x\sim p}[\phi(x)]-\psi(\beta)\holds{\geq} \beta'\cdot \E_{x\sim p}[\phi(x)]-\psi(\beta')
+\end{equation}
+
+   For an exponential family distribution, $\E_{x\sim p}[\phi(x)]=\nabla\psi(\beta)$. Substituting in  $(\ref{eq:proper})$, we need to show
+   $$\beta\cdot \nabla\psi(\beta)-\psi(\beta)\holds{\geq} \beta'\cdot \nabla\psi(\beta)-\psi(\beta')$$
+   Rearranging the terms,
+   $$(\beta-\beta')\cdot \nabla\psi(\beta)\holds{\geq} \psi(\beta)-\psi(\beta')$$   
+   which is the first order condition on the convexity of $\psi(\cdot)$.
+ \unproof   
+ 
+ \rmk The distance between the scores of the true and any predictive exponential family distribution is, in fact,  the Bregman divergence (based on the log partition function) between the corresponding natural parameters. That is,
+   $$\E_{x\sim p}[\mathbf{S}(p,x)]- \E_{x\sim p}[\mathbf{S}(p',x)] = D_{\psi}(\beta,\beta')$$
+   \unrmk
+   
+\noindent
+This rule represents a generalization of the logarithmic scoring rule for probability distributions to any properties of distributions that can be captured as expectations of statistics.  As explained in the next section, the solution to the maximum entropy program takes the form of an \emph{exponential family} distribution. For many common properties of interest, these distributions are familiar; for example, the maximum entropy distribution with a given mean is an exponential distribution, and the maximum entropy distribution with a given mean and variance is a normal distribution~\cite{}. We provide here two examples in more depth. 
+
+%%
+%%
+
+\paragraph{Multinomial Distribution}
+
+As a first example, consider the problem of estimating the individual probabilities of a finite set of outcomes. We have $\mX = \{1,\ldots,k\}$. The relevant statistics indicate which outcome actually occurs, so the index set is $\mS = \mX$. Statistic $\phi_x(x')$ is 1 if $x' = x$ and 0 otherwise. Observe that if $p$ is the distribution over outcomes, then $\Exp_p[\phi(x)] = p$. A feasible report from an agent is any non-negative $\pi = (\pi_1,\ldots,\pi_k)$ such that $\sum_{i=1}^k \pi_i = 1$. Given a report of $\mu = \pi$, the unique solution to the maximum entropy program is $p(x; \pi) = \pi$, and~(\ref{scoring}) corresponds to the classic logarithmic scoring rule of $S(\pi,x) = \log \pi_x$. \hfill{$\Box$}
+
+\paragraph{Normal Distribution}
+
+As a second example, suppose the outcome space is $\mX = \bR$ and that we are interested in estimating the mean $\mu$ and variance $\sigma^2$ of the underlying distribution. We choose the first and second (uncentered) moments, $\kappa_1 = \mu$ and  $\kappa_2 = \mu^2 + \sigma^2$ as our statistics.  It is well-known that the maximum entropy distribution with a given mean and variance is the normal distribution, so the solution to the maximum entropy program (using Lebesgue as the base measure $\nu$) is
+%
+\[ p(x; \kappa) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left[ -\frac{(x-\mu)^2}{2\sigma^2} \right]. \]
+%
+Applying Theorem~\ref{thm:scoring} and choosing appropriate constants, we find that the following scoring rule is strictly proper in this context. %
+\[ S(\kappa, x) = -\frac{(x-\mu)^2}{\sigma^2} - \log \sigma^2. \]
+%
+Note that the fact that this scoring rule is proper for the mean amounts to the well-known fact that reporting the mean is a Bayes act under quadratic loss~\cite{someone}. \hfill{$\Box$} 
+
+\medskip\noindent
+A brief observation on parametrizations is in order. Note that the maximum entropy distribution here is parametrized by the uncentered moments $\kappa = (\kappa_1,\kappa_2)$ rather than $(\mu,\sigma^2)$ because the variance is not a valid statistic. However, it is clear that the agent does not have to directly report $\kappa$: the market maker itself can do the translation from reported mean and variance to uncentered moments. This is relevant because the $\kappa$ parametrization may be unintuitive for an agent, especially given the constraints $\kappa_2 - \kappa_1^2 \geq 0$ that must be enforced. In the $(\mu, \sigma^2)$ parametrization each parameter is unrestricted, and the parameters have intuitive interpretations.
+
+Our approach so far has been to identify relevant properties of the unknown distribution, and elicit them via a scoring rule computed through a maximum entropy program. However, it is the case that a distribution is a maximum entropy distribution if and only if it is an exponential family~\cite{}. Therefore, we see the following alternative approach. The market designer can begin by considering the outcome space $\mX$, and assessing what family of distributions over $\mX$ the unknown $p$ might come from. If this family is an exponential family, then Theorem~\ref{thm:scoring} immediately gives a proper scoring rule to elicit the parameters of the distribution. Many of the most familiar distributions are exponential families, including the normal, exponential, gamma, beta, binomial, Poisson, Weibull, and Dirichlet. To illustrate, we consider two examples in more depth. 
+
+%%
+%%
+
+\paragraph{Exponential}
+Suppose the designer would like an estimate of the rate at which servers fail in a data center. An outcome is the time between failures, so $\mX = [0,+\infty)$. The usual distribution for failure times is the exponential distribution $p(x;\lambda) = \lambda e^{-\lambda x}$, which is parametrized by the rate $\lambda$ and has mean $\mu = 1/\lambda$. The exponential distribution is the maximum entropy distribution given a fixed mean $\mu$. From Theorem~\ref{thm:scoring} we obtain the following proper scoring rule for this setting:
+%
+\[ S(\mu, x) = \log \lambda - \lambda x. \]
+%
+It is simple to check using basic calculus that an agent maximizes the expected score by reporting $\lambda = 1/\hmu$, where here $\hmu$ is its estimate of the mean. In this case, it is unclear a priori which of the mean or rate parametrizations is most intuitive, but the maximum entropy approach easily allows for either. \hfill{$\Box$} 
+
+%%
+%%
+
+\paragraph{Beta}
+Suppose the designer would like an estimate of the click-through rate of an online advertisement. The outcome space here is $\mX = (0,1)$. A typical prior over a probability like this is the beta distribution, which has two parameters $\alpha, \beta > 0$ and density function $p(x; \alpha, \beta) = x^{\alpha-1}(1-x)^{\beta-1}/B(\alpha,\beta)$, where $B$ is the beta function. By theorem~\ref{thm:scoring} this leads to the proper scoring rule
+%
+\[ S((\alpha, \beta), x) = (\alpha-1)\log x + (\beta-1)\log (1-x) - \log B(\alpha,\beta). \]
+%
+Although this parametrization is standard for the beta, it is perhaps more intuitive to use the parametrization $\mu = \alpha/(\alpha+\beta) \in (0,1)$ and $n = \alpha+\beta > 0$. Here $\mu$ is the mean of the distribution---corresponding to the agent's actual estimate of the click-through rate---and $n$ is a measure of the agent's confidence in the estimate. \hfill{$\Box$} 
+
+
+%%%
+%%% 
+%%%
+
+\subsection{Information Market}
+
+We next consider how to indirectly elicit $\mu$ by setting up a market of contingent claim securities. Under this approach, the elements of the index set $\mS$ are interpreted not as statistics but as securities. The payoff from one share of security $s$ when outcome $x$ occurs is given by the mapping $\phi_s$. Thus if the vector of shares held by the agent is $\theta \in \bR^d$, where entry $\theta_s$ corresponds the number of shares of security $s$, then the payoff to the agent when $x$ occurs is evaluated by taking the inner product $\la \theta, \phi(x) \ra$. As a concrete example, recall our multinomial distribution example from the previous section, where $\phi_x(x') = 1$ if $x' = x$ and 0 otherwise. This means that security $x \in \mS$ pays 1 dollar if outcome $x \in \mX$ occurs, and nothing otherwise. (Such securities are known as Arrow-Debreu securities.) In our normal distribution example, the statistic for the mean had the mapping $\phi_1(x) = x$. Therefore a share of the corresponding security has a payoff that is linear in the outcome. (Such securities amount to futures contracts.) 
+
+To extract useful information from such a securities market, we set a pricing scheme and examine the number of shares the agent chooses to acquire. Let $\Omega$ be the set of all portfolios (i.e., vectors of shares) that the agent can feasibly hold; we will see how this domain is determined in an instant. Each security $s$ has an associated price function $c_s : \Omega \rightarrow \bR$, which gives the marginal price $c_s(\theta)$ of security $s$ when the agent holds portfolio $\theta$. (Note that the marginal price depends on the entire portfolio $\theta$, not just the number of shares $\theta_s$.) A risk-neutral agent will choose to acquire shares up to the point where, for each share, expected payoff equals marginal price. Formally, if the agent acquires portfolio $\theta$, then for each $s \in \mS$ we must have
+%
+\begin{equation} \label{market}
+\Exp_p[\phi_s(x)] = c_s(\theta).
+\end{equation}
+%
+In this way, by its choice of $\theta$, the agent reveals that its belief is $\mu = c(\theta)$. There are several important properties that the price function $c$ should have. To simplify the agent's portfolio acquisition process, it should not be the case that the total cost of acquiring $\theta$ depends on the order in which shares are bought. This means that there should exist a \emph{cost function} $C : \Omega \rightarrow \bR$ such that $c = \nabla C$. The gradient $\nabla C$ must be onto $\mM$ to ensure that~(\ref{market}) always has a solution---this is the most important but technical condition to realize. To ensure that the solution is unique, it would also be convenient if the cost function were strictly convex. 
+%
+\begin{proposition}
+The following cost function is monotone, convex, and onto $\mM$: 
+%
+\begin{equation} \label{cost}
+C(\theta) = \log \int_{x \in \mX} \exp \left[\la \theta, \phi(x) \ra\right] \nu(dx).
+\end{equation}
+%
+\end{proposition}
+%
+\noindent
+Observe that in the context of our earlier multinomial example, cost function~(\ref{cost}) is exactly the cost function for Hanson's logarithmic market scoring rule. Our approach here provides a generalization of this market scoring rule to markets with contingent claim securities with arbitrary payoffs, designed to elicit specific properties of distributions, beyond just the probabilities of different outcomes. 
+
+Because an agent would never select a portfolio with infinite cost, the effective domain of $C$ is $\Omega = \{\theta \:|\: C(\theta) < +\infty \}$. In the context of the multinomial distribution example, $\Omega = \bR^d$, so that shares of each security can always be bought or sold short. In the context of the normal distribution example the effective domain is $\Omega = \{(\theta_1,\theta_2) \in \bR^2 \:|\: \theta_2 > 0 \}$ if we re-define the second statistic to be $\phi_2(x) = -x^2$; this means that the security has a negative payoff for each share, and consequently the agent must be compensated to acquire such shares. Evaluating~(\ref{cost}), the cost function takes the form $C(\theta) = \frac{\theta_1^2}{4\theta_2} - \frac{1}{2}\log(2\theta_2)$.
+
+Now, in our previous elicitation approach that used a scoring rule, the process of computing the scoring rule also provided a complete distribution $p(x;\mu)$ over outcomes, which could be used to infer other properties beyond just the agent beliefs $\mu$. In the current market-based approach, the agent's chosen portfolio $\theta$ can also form the basis of a distribution over outcomes. Consider the following distribution, represented as a density with respect to a base measure $\nu$:
+%
+\begin{equation} \label{expfam}
+p(x;\theta) = \exp\left[ \la \theta, \phi(x) \ra - C(\theta) \right].
+\end{equation}
+%
+Meaning, the probability that a subset $X \subseteq \mX$ of the outcomes occurs is $\int_{x \in X} p(x;\theta)\nu(dx)$. Observe that by definition~(\ref{cost}), this probability density indeed integrates to 1 over $\mX$, and it is clear that the density is non-negative as required.  
+
+In the statistical literature a distribution that takes the form~(\ref{expfam}) is known as an \emph{exponential family}. The mapping $\phi$ is known as the \emph{sufficient statistic}, $\theta$ is the \emph{natural parameter}, and $C$ is the log-partition or \emph{cumulant} function. %This connection between information markets and exponential families allows us to draw on a vast statistical literature to understand the market's properties, and a growing computer science literature to apply efficient algorithms to compute costs and perform inference. 
+
+
+%%%
+%%%
+%%%
+
+\subsection{Duality}
+
+There is a well-known duality between the maximum entropy approach and exponential families, which translates into a duality between the scoring rule and information market just developed. The duality implies that the approach leads to a \emph{market scoring rule}, applicable to both thin and thick multi-agent settings.
+
+It is known that a distribution is a maximum entropy distribution if and only if it is an exponential family~\cite{}. To see this, let $\theta(\mu) \in \bR^d$ be the Lagrange multiplier corresponding to constraints~(\ref{mean}) when solving the maximum entropy program given the agent report $\mu$. (Our choice of notation is deliberately suggestive.) Let $A(\mu)$ be the Lagrange multiplier corresponding to~(\ref{normalize}). From the first order necessary conditions for optimality, we find that
+%
+\[ p(x;\mu) = \exp \left[ \la \theta(\mu), \phi(x) \ra - A(\mu) - 1 \right], \]
+%
+so that the solution is indeed in exponential family form. Conversely, given a cumulant $C$ from an exponential family and a parameter $\theta$, we see that $p(x;\theta)$ defined according to~(\ref{expfam}) is the maximum entropy distribution under constraints $\Exp_p[\phi(x)] = \mu$ where $\mu = \nabla C(\theta)$. We obtain the following.
+%
+\begin{proposition}
+Let $C$ be the cumulant (i.e, cost function) for the exponential family corresponding to $\phi$, and let $\theta(\mu)$ be the optimal Lagrange multiplier for the mean constraints given an agent report of $\mu \in \mM$. Then the following scoring rule is equivalent to~(\ref{scoring}):
+%
+\begin{equation} \label{expscore}
+S(\mu, x) = \la \theta(\mu), \phi(x) \ra - C(\theta(\mu)).
+\end{equation}
+%
+\end{proposition}
+%
+\noindent
+The scoring rule~(\ref{expscore}) decomposes neatly into payoff and cost functions. The first term $\la \theta(\mu), \phi(x) \ra$ defines the agent's outcome-contingent reward, while the second term~$C(\theta(\mu))$ is the cost of acquiring a portfolio $\theta(\mu)$. We see here the duality between the approach of directly reporting $\mu$, or acquiring shares $\theta$: an agent reporting beliefs $\mu$ under scoring rule~(\ref{scoring}) would choose to acquire shares $\theta(\mu)$ in the information market with cost function~(\ref{cost}). Since~(\ref{scoring}) is a proper scoring rule, the information market with cost function~(\ref{cost}) is based on a proper market scoring rule.
+
+\section{The Exponential Family Market Mechanism: A Maximum Likelihood Approach}
+In this section, we will set up a prediction market that aggregates beliefs from traders where the outcome is a continuous random variable. In particular, we assume that the outcome is drawn from an exponential family distribution. Each of the traders has access to a series of points drawn from this distribution. In other words, the traders have access an empirical mean of the sufficient statistics of the exponential family. Every trader has infinite budget so that the current market price after a trader has traded in the prediction market, exactly reflects his beliefs.
+
+%We will now provide a more formal description of the problem statement.
+%\subsection{Problem Statement}
+%\begin{description}
+%\item[Setup: ] Learning proceeds in rounds $j=1,2,\ldots$ where at the end of each round the algorithm may be provided with $x_{j}$  drawn from a set $\mathcal{X}$ according to some distribution $\mathcal{D}_{j}$, where $\mathcal{D}_{j}$ belongs to an exponential family defined by $k$ sufficient statistics.  In each round, some sequence of $n$ traders provide their estimates of the empirical means of each of the $k$ sufficient statistics drawn from $\mathcal{D}_{j}$.
+%\item[Define: ] A learning algorithm that learns this distribution by providing a maximum likelihood estimate of its unknown natural parameters based on the empirical means.  
+%\item[Proposed solution: ] Simulate a prediction market defined by a cost function $C$, securities $s_{0},s_{1},s_{2},\ldots, s_k$ and their payoffs $\phi_i(x)$ for $i=0,1,2,\ldots,k$ for the LMSR. Define a correspondence between the state of the prediction market and the output of the learning algorithm.
+%\end{description}
+
+For $x_{i}\sim P_{\betavec}$, recall that the likelihood function for independently drawn data $x_1,\ldots,x_n$ is given by $\prod_{i=1}^{n} P_{\betavec}(x_i)$. The maximum likelihood estimate of the natural parameters $\betavec$ is the value of the natural parameters that maximizes the likelihood function. 
+
+We will now set up a prediction market with log market scoring rule (LMSR) and infinite budget traders such that the market state represents the maximum likelihood estimate (MLE) of the natural parameters of an exponential family distribution. %Given  under some interpretation of what information the participating agents have, and how they bet.
+
+For a given exponential family distribution, the prediction market is defined as follows:
+\begin{description}
+\item[Traders] The prediction market will simulate a trader $i$ corresponding to expert $i$. This trader processes all information samples available to her directly or inferred from previous trades, and  forms a belief distribution such that the believed means of the sufficient statistics matches the empirical means of the sufficient statistics from the information samples. The trader trades in the market to maximize her expected payoff under her believed distribution.
+\item[Securities and their payoff]
+For each $i=1,2,\ldots,k$, we define a security $s_{i}$ with payoff $\phi_{i}(x)$ where $x$ is the ultimate outcome and $\Phi()$ defines the vector of sufficient statistics of the exponential family distribution according to which $x$ is drawn. We define an additional security $s_{0}$ with payoff $\phi_{0}(x):=a-\sum_{i=1}^{k}\phi_{i}(x)$ where $a$ is an appropriately chosen constant dependent on the range of $\Phi$ so that the payoff of $s_{0}$ is non-negative. 
+\end{description}
+
+We also note that since we want non-negative payoffs, we restrict the exponential families under consideration so that the sufficient statistics are lower bounded. If we have a constant lower bound on the sufficient statistics, then without loss of generality we can add a constant to each sufficient statistic without changing the exponential family in any way, as the constants will be absorbed in the log-partition function.
+
+\paragraph{Arbitrage-free Property}
+We can easily show that the prediction market we have defined is arbitrage-free: there is no sequence of trades that guarantees the trader a profit under all conditions. First, note that the incremental cost and payoff function are additive over multiple trades, so the net profit of a sequence of trades depends only on the initial and final market position, and is independent of the actual path along which the trade takes place.
+
+Now, consider any trade (or sequence of trades) that moves the market from an initial state of $\qvec$ to a final state of $\qvec + \qvec'$. The cost of this trade is $C(\qvec + \qvec') - C(\qvec)$. The cost function of our market is the log-partition function of an exponential family, and thus, $C(.)$ is a strictly convex function~\cite{WainJordan08}. Thus, we have the inequality:
+\[
+   C(\qvec + \qvec') - C(\qvec)  > \qvec' \nabla C|_\qvec = \qvec' \mu,
+ \]
+ where $\mu$ is the mean sufficient statistics vector for the distribution with parameters $\qvec$.
+The payoff due to this trade, with outcome $x$, is $\qvec'.\phi(x)$. 
+Now, we observe that under the distribution with parameters $\qvec$, the expected payoff is $\qvec' E[\Phi(x)] = \qvec' \mu$. Thus, under this distribution over outcomes $x$, the expected profit is strictly less than $0$. This is only possible if the
+realized profit is less than $0$ for at least one outcome $x$. As this statement is true for every $\qvec$ and $\qvec'$, and the profits are path-independent, the market is arbitrage-free.
+
+
+%Let $\qvec^*=(q^{*}_{0},q^{*}_{1},\ldots,q^{*}_{k})$ be the number of shares of each security held by the traders. First we note that under the assumption of perfectly rational, risk-neutral traders with infinite budget and  beliefs as indicated above, the gradient of the cost function at this point is
+ %$$\left(\frac{\partial C(\qvec)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}=\mu_{i}$$
+%where $\mu_{i}$ is believed to be the expected payoff of the $i^{th}$ security by the last trader who traded in this market. We show below that the instantaneous price of security $i$, $\left(\frac{\partial C(\qvec)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}$ at any $\qvec=\qvec^{*}$, can be written as $\left(\frac{\partial\log (\int e^{\sum_{i=1}^{n}(q_{i}-q_{0})\phi_{i}(x)}dx)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}$. This means that the instantaneous price of the $i^{th}$ security only depends on the difference between the number of held securities of $i$ and 0. This ensures that if there exists an instantaneous price that reflects the belief of a trader at any vector $\qvec^{*}$, there must exist a $\qvec'$  that also reflects his beliefs and with the desirable property that $\forall i=0,1,2,\ldots,k\ q_{i}'\geq 0$. This additional property ensures that no trader will be required to short sell securities to move the market state to  reflect his beliefs.
+
+\paragraph{Market State and Natural Parameters}
+We define the interpretation function 
+\begin{eqnarray}\label{eqn:int}
+I(\qvec)&=&(q_{1}-q_{0},q_{2}-q_{0},\ldots,q_{k}-q_{0})\nonumber\\
+&=&(\beta_{1}, \beta_{2},\ldots, \beta_{k})=\betavec
+\end{eqnarray}
+This allows us to interpret the state of the market in terms of a prediction on the natural parameters of the distribution.
+
+\begin{theorem}
+The natural parameter vector corresponding to the interpretation of the market state given by Equation \ref{eqn:int} is the vector of their maximum likelihood estimates. Further, this interpretation is unique.
+\end{theorem}
+\begin{proof}
+We observe that for $i=1,\ldots,n$,
+\begin{eqnarray*}
+\mu_{i}&=&\left(\frac{\partial C(\qvec)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial\log\int \exp(\qvec^{T}\Phi(x))dx}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial\log\int e^{q_{0}\phi_{0}(x)+\sum_{i=1}^{n}q_{i}\phi_{i}(x)}dx}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial\log\int e^{q_{0}(a-\sum_{i=1}^{n}\phi_{i}(x))+\sum_{i=1}^{n}q_{i}\phi_{i}(x)}dx}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial\log\int e^{q_{0}a} e^{\sum_{i=1}^{n}(q_{i}-q_{0})\phi_{i}(x)}dx}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial\log (e^{q_{0}a} \int e^{\sum_{i=1}^{n}(q_{i}-q_{0})\phi_{i}(x)}dx)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial (q_{0}a)}{\partial q_{i}} \frac{\partial\log (\int e^{\sum_{i=1}^{n}(q_{i}-q_{0})\phi_{i}(x)}dx)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial \lpf(\betavec)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial \lpf(\betavec)}{\partial \beta_{i}}\frac{\partial \beta_{i}}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial \lpf(\betavec)}{\partial \beta_{i}}\right)_{\rm \betavec=\betavec^{*}}
+\end{eqnarray*}
+Thus, this choice of parameters satisfies $\frac{\partial \lpf(\betavec)}{\partial \beta_{i}}=\mu_{i}$. We will now argue that this vector is unique. 
+
+If the exponential family is represented so that there is a unique parameter vector associated with each distribution, the representation is said to be minimal. The Bernoulli, Gaussian, and Poisson distributions all have minimal representations. Now, for an exponential family whose representation is minimal, the gradient is an injection \cite[Prop. 3.2]{WainJordan08}. Thus, there is a unique parameter vector $\betavec$ that satisfies $\frac{\partial \lpf(\betavec)}{\partial \beta_{i}}=\mu_{i}$, for each $i\in\{1,\ldots,n\}$. Thus, if the $\mu_{i}$'s correspond to the empirical means, since our choice of $\betavec$ satisfies the equality, it must also be the vector corresponding to the MLE.
+\end{proof}
+
+Thus, we have shown that this prediction market (along with its strategic traders) aggregates trader information in a way that the market state can be interpreted as a predictive distribution (the maximum likelihood distribution) over an infinite outcome space.
+
+It is worth noting here that if we can bound the parameter space and the sufficient statistics of the distribution, the market maker defined here has bounded worst case loss: The probability density, and hence log loss, would then be bounded for all market states that could be reached and all outcomes. In fact, for many practical applications, a distribution with unbounded parameter space is an approximation for a true space which itself may be bounded. In this case, worst case loss would thus be bounded.
+
+\subsection{The Exponential Family Market Mechanism in Adversarial Markets}
+In the previous section, we saw that we can define a cost-function based prediction market so that the aggregated belief of the traders represents the maximum likelihood estimate of the natural parameters of the true exponential family distribution.
+
+In this section, we consider the the prediction market setup with traders that may be either informative or malicious. The malicious traders may want to inject faulty information into the market. The informative traders on the other hand receive points drawn from the true distribution on which they base their beliefs.
+
+We will show that if we are able to impose finite initial budgets on the traders and control the market prices based on these budgets, then  it possible to set up the market so that it is prohibitive for damaging traders to participate in the market. Further, the informative traders can be shown to have expected growth in budget so that they are eventually able to move the market prices without restriction. 
+
+\subsubsection{Budget-limited Aggregation}
+Imposing budget limits on the traders will allow us to control the amount of influence any one trader can have on moving the market prices. We will also satisfy an additional requirement that no trader has negative budget at any point of participation in the market. This is achieved by restricting the movement of the market and hence influencing the cost incurred by the trader. Recall that the payoff in this market is non-negative and hence the only adverse influence on a trader's budget is the cost of movement of the market state. 
+
+%There is distribution under which expected profit is $\leq 0$. Cost function is convex. 
+
+%For any $\qvec$ there is a
+In this section, we assume that the budget of each trader is known to the market maker, and that the market maker can directly limit the allowed trades based on a trader's budget. 
+Let $\alpha$ be the budget of a trader in the market. Suppose with infinite budget, the trader would have moved the market state from $\qvec_{init}$ to $\qvec$, where $\qvec$ represents his true beliefs. Suppose further that $\alpha<C(\qvec)-C(\qvec_{init})$. In this case, we want to budget-limit the trader's influence on the market state. 
+
+We define the budget-limited final market state as $\tilde{\qvec}$. 
+Here, we consider a specific functional form of $\tilde{\qvec}$: $$\tilde{\qvec}=\lambda\qvec+(1-\lambda)\qvec_{init}$$  where $$\lambda=\min\Big(1, \frac{\alpha}{C(\qvec) - C(\qvec_{init})}\Big)$$ We first show that this trade is feasible given the trader's budget:
+\begin{theorem}
+Let the current market state be given by the vector $\qvec_{init}$ and $\tilde{\qvec}=\lambda\qvec+(1-\lambda)\qvec_{init}$. For $\lambda=\min\Big(1, \frac{\alpha}{C(\qvec) - C(\qvec_{init})}\Big)$, the cost to the trader to move the market state from $\qvec_{init}$ to $\tilde{\qvec}$ is at most his budget $\alpha$.
+\end{theorem}
+\begin{proof}
+From the convexity of $C$, we have
+ $$C(\tilde{\qvec})\leq(1-\lambda)C(\qvec_{init})+\lambda C(\qvec)$$
+
+Now 
+\begin{eqnarray*}
+C(\tilde{\qvec}) - C(\qvec_{init}) &\leq& (1-\lambda)C(\qvec_{init})\\&&+\lambda C(\qvec) - C(\qvec_{init})\\
+&=& \lambda\ (C(\qvec) - C(\qvec_{init}))
+\end{eqnarray*}
+
+%So when $\alpha<C(\qvec)-C(\qvec_{init})$, we pick $\lambda$ so that 
+%$$\lambda\leq \frac{\alpha}{(C(\qvec) - C(\qvec_{init}))}$$
+%
+%where we want $\lambda$ such that
+ Thus, $C(\tilde{\qvec}) - C(\qvec_{init}) \leq \alpha$. 
+ \end{proof}
+ 
+ We note that moving to $\tilde{\qvec}$ as defined may not be the optimal trade for a rational trader maximizing her expected profit. In general, the inequality above is strict, and so a trader does not fully exhaust her budget by moving to $\tilde{\qvec}$. Our results below will continue to hold in the case that strategic informative traders move to a position closer to their beliefs $\qvec$.
+\subsubsection{Damage Bound}
+Given this restriction on the initial budget of traders, we can now show that the total loss that can be induced by malicious traders is bounded. We define the loss function for $\qvec$ shares held as:
+$$L(\qvec,x)=-\log(p_{\betavec}(x))=\log\frac{\int e^{\qvec^{T}\Phi(x)}\ dx}{e^{\qvec^{T}\Phi(x)}}$$
+with the correspondence between $\betavec$ and $\qvec$ as defined earlier. %We extend this loss function to give zero loss in the absence of input. 
+
+%{\bf Setup:} The market evolves in rounds $t=1,\ldots,T$. The end of a time segment occurs either when each expert has made his report or when the actual value of the random variable is received as input. Each expert $i$ reports the means of the sufficient statistics as available to him at time $t$. These are combined with the previously reported means to yield $\mu_{0}^{t}(x),\mu_{1}^{t}(x),\ldots,\mu_{k}^{t}(x)$ and an associated weight $w_{i}^{t}$ which can be interpreted as the number of points from which these values have been determined. These sufficient statistics correspond to a particular value of $B$ and hence of $\qvec$, the number of shares of each security that are held by traders. Since trader $i$ has finite budget $\alpha_{i}^{t}$ at time $t$, the current market state is moved to $\qvec'$ instead, so that cost of moving it to $\qvec'$ is within his budget.
+
+%For an initial positive budget of $\alpha_{i}^{0}$, we perform updates to the budgets of each agent as
+%$$\alpha_{i}^{t}:=\alpha_{i}^{t-1}+\lambda_{i}^{t}(L(\tilde{q}_{i-1}^{t},x^{t})-L({q}_{i}^{t},x^{t}))$$ where we define
+%$$\lambda_{i}^{t}:=\min\Big(1, \frac{\alpha_{i}^{t-1}}{C(\qvec_{i}) - C(\tilde{\qvec}_{i-1})}\Big)$$
+
+Suppose the prediction market runs over multiple rounds $t$. Let $\qvec_{0}^{t}$ be the initial number of shares of each security that are held. Let $\tilde{\qvec}_{k}^{t}$ be the final values corresponding to the market state after the traders have made their reports. Let us assume that at this point we receive the value of the random variable $x^{t}$. 
+
+
+%Let the loss function be $L(\cdot,\cdot)$, where the two arguments are the vector representing the number of shares held of each security and the actual value of the random variable. 
+
+%We want to show:
+%$$L({\qvec}_{0}^{t},x^{t})-L(\tilde{\qvec}_{k}^{t},x^{t})+\sum_{i}\alpha_{i}^{t-1}\leq \sum_{i}\alpha_{i}^{t}$$
+%That is, the loss due to incorporating the budget-limited information of the traders, is not more than the increase in their budgets.
+Over multiple instances of the prediction market, we can track the change in budget of each trader. The change in budget for trader $i$ is
+\begin{eqnarray*}
+\alpha_{i}^{t}-\alpha_{i}^{t-1}&=&C(\tilde{\qvec}_{i-1}^{t})-C(\tilde{\qvec}_{i}^{t})-(\tilde{\qvec}_{i-1}^{t}-\tilde{\qvec}_{i}^{t})^{T}\Phi(x^{t})\\
+&=&L(\tilde{\qvec}_{i-1}^{t},x^{t})-L(\tilde{\qvec}_{i}^{t},x^{t})
+\end{eqnarray*}
+
+Define the myopic impact of a trader $i$ in segment $t$ as
+$$\Delta_{i}^{t}:=L(\tilde{\qvec}_{i-1}^{t},x^{t})-L(\tilde{\qvec}_{i}^{t},x^{t})$$
+Thus, the myopic impact captures incremental gain due to the trader in a round. Note that the myopic impact caused by trader $i$ at round $t$ is equal to the change in his budget in that round.
+
+The total myopic impact due to all $k$ active traders is given by
+$$\Delta^{t}=L(\qvec_{0}^{t},x^{t})-L(\tilde{\qvec}_{k}^{t},x^{t})$$
+Thus $-\Delta^{t}$ captures the incremental loss due to the predictive probability after aggregation of all $k$ traders. 
+
+%The myopic impact of a trader $i$ in segment $t$, is given by
+%$$\Delta_{i}^{t}:=L(\tilde{B}_{i-1}^{t},x^{t})-L(\tilde{B}_{i}^{t},x^{t})$$
+%where $\tilde{B}_{i}$ is the vector of sufficient statistics corresponding to the the budget-limited state of the market as induced by trader $i$.
+%The total myopic impact due to all $k$ active traders is thus given by
+%$$\Delta^{t}=L(B_{0}^{t},x^{t})-L(\tilde{B}_{k}^{t},x^{t})$$
+
+%If the loss function is convex in the first argument, then we have:
+%\begin{eqnarray*}
+%\Delta_{i}^{t}&=&L(\tilde{B}_{i-1}^{t},x^{t})-L(\tilde{B}_{i}^{t},x^{t})\\
+%&=&L(\tilde{q}_{i-1}^{t},x^{t})-L(\tilde{q}_{i}^{t},x^{t})\\
+%&=&L(\tilde{q}_{i-1}^{t},x^{t})-L(\lambda_{i}{q}_{i}^{t}+(1-\lambda_{i})\tilde{q}_{i-1}^{t},x^{t})\\
+%&\geq&L(\tilde{q}_{i-1}^{t},x^{t})-\lambda_{i}L({q}_{i}^{t},x^{t})-(1-\lambda_{i})L(\tilde{q}_{i-1}^{t},x^{t})\\
+%&=&\lambda_{i}(L(\tilde{q}_{i-1}^{t},x^{t})-L({q}_{i}^{t},x^{t}))\\
+%&=& \alpha_{i}^{t} - \alpha_{i}^{t-1}
+%\end{eqnarray*}
+%Thus, the myopic damage caused by trader $i$ at round $t$ is upper-bounded by the change in his budget in that round.
+
+
+%If we pick a loss function that is also bounded in $[0,1]$, then we see that the budget never falls below zero. 
+\begin{theorem}
+A coalition of $b$ malicious traders can at most cause loss bounded by their initial budgets.
+\end{theorem}
+\begin{proof}
+Consider the myopic impact of a single trader $i$ after participating in the market $T$ times. Since the market evolves so that the budget of any trader never falls below zero, the total myopic impact in $T$ rounds caused due to trader $i$ is:
+$$\Delta_{i}:=\sum_{t=1}^{T}\Delta_{i}^{t}= \sum_{t=1}^{T} (\alpha_{i}^{t} - \alpha_{i}^{t-1}) = \alpha_{i}^{T} - \alpha_{i}^{0}\geq -\alpha_{i}^{0}$$
+
+Thus, any coalition of $b$ adversaries $\{1,\ldots,b\}$ can cause at most $\sum_{i=1}^{b}\alpha_{i}^{0}$ damage.
+\end{proof}
+
+This means that if it can be made prohibitively expensive for an attacker to generate clones, we can set up the prediction market with mostly informative traders. 
+
+In Section \ref{sec:inf} we show that for an informative trader in every round, his budget increases in expectation. We provide an information-theoretic justification for this claim in Section \ref{sec:infth}. The intuition behind this claim is that his prediction moves the input moves the market probability closer to the true probability distribution resulting in net expected profit.
+
+
+\subsubsection{An Information-Theoretic Interpretation}\label{sec:infth}
+ We observe a useful alternative view of the market 
+scoring rule prediction market for exponential family learning. We connect the cost, payoff and profit function to information-theoretic 
+quantities associated with the exponential family.
+
+The following result has been previously pointed out by Amari \cite{Amari-KL}. 
+\begin{theorem}\label{lem:profit_decomposition}{\bf (Profit Decomposition)}: Consider an exponential 
+family $\family$ of distributions over some set of statistics $\suff(x)$, with natural parameters $\betavec$. Let $\pi, \rho \in \family$ be any two probability distributions in the family. We use 
+$\betavec_\pi$ to denote the natural parameters of $\pi$ and $\muvec_{\pi}$ to denote the expected value of the sufficient statistics under $\pi$. Likewise,
+we can define $\betavec_\rho$ and  $\muvec_\rho$. We abuse notation slightly and let $\lpf(\rho)$ indicate the log partition function of $\rho$ which technically depends on its natural parameters.
+Let $H(\pi)$ denote the entropy of the distribution $\pi$, and 
+ $K(\pi||\rho)$ denote the KL-divergence of $\rho$ relative to $\pi$.
+Then, the following equality holds:  
+\begin{equation}
+ K(\pi||\rho) + H(\pi) = \lpf(\rho) - \betavec_\rho \cdot \muvec_\pi
+\label{eq:profit_decomposition}
+\end{equation}
+\end{theorem}
+\begin{proof}
+\begin{eqnarray*}
+ K(\pi||\rho) + H(\pi) &=& \int_x \pi(x)\log{\frac{\pi(x)}{\rho(x)}}dx\\
+ &&\quad - \int_x \pi(x)\log{\pi(x)}dx \\
+&=& - \int_x \pi(x)\log{\rho(x)}dx \\
+&=& - \int_x \pi(x)\left[ \betavec_\rho \cdot \suff(x) - \lpf(\rho)\right]dx\\
+&=& - \betavec_\rho \cdot \int_x \pi(x) \suff(x) dx\\
+&&\quad + \lpf(\rho) \int_x \pi(x) dx \\
+&=&  \lpf(\rho) - \betavec_\rho \cdot \muvec_\pi
+\end{eqnarray*}
+\end{proof}
+
+Equation~\ref{eq:profit_decomposition} gives us an alternative view of the
+market scoring rule construction. Assume that $\pi$ is the true distribution, and consider two arbitrary
+distributions $\rho_1, \rho_2 \in \family$. Note that $\lpf(\rho)$  is independent of $\pi$, and $\betavec_\rho \cdot \muvec_\pi$ is linear in the probabilities $\pi(x)$. If we want to measure loss by the KL-divergence, we can do so (in expectation) by setting a cost function that captures the first term, and defining security quantities ($\betavec$) and payoffs ($\suff$) to capture the second term.  In particular, in a market with cost function $\lpf$, if the
+market price initially implies a distribution $\rho_1$, and a trader moves
+the market to price than implies a distribution $\rho_2$, then the cost she
+incurs is $\lpf(\rho_2) - \lpf(\rho_1)$. The number of securities bought to make this trade is given by the vector ($\betavec_{\rho_2} - \betavec_{\rho_1}$), and the expected payoff of the securities are given by $\muvec_\pi$. Thus, by equation \ref{eq:profit_decomposition}, the {\em net profit} of the trader is equal to $K(\pi||\rho_1) - K(\pi||\rho_2)$, {\it i.e.}, the reduction in KL-divergence with respect to the true distribution.  We note one useful property of this construction: For a fixed vector $\betavec$ of purchased securities, the cost is independent of the outcome 
+(and outcome distribution $\pi$), while the payoff is independent of the initial market state in which these securities were purchased.
+
+%Thus, we have shown that there exist deep connections between learning the natural parameters of an exponential family distribution and cost function based prediction markets. In Chapter \ref{nonmyopic} we exploit this connection and propose a bounded regret learning algorithm in a Bayesian model under less-than-ideal conditions: where the experts may be adversarial and strategic. 
+
+\subsubsection{Budget of Informative Traders}\label{sec:inf}
+Given the  information-theoretic interpretation of the cost-function based prediction market, we now show that the informative trader in the prediction market defined above increases his budget in a round in expectation {\em under his own belief distribution}.
+
+%For this, we need the following simple extension of Jensen's inequality that follows directly from the definition of convexity of a function.
+%\begin{lemma}\label{lem:convex}
+%For a strictly convex function $f$ with unique minimum $x_{min}$, $x\neq x_{min}$ in the domain of $f$, and $\lambda \in (0,1]$,
+%$$f(\lambda x_{min}+ (1-\lambda)x)< f(x)$$
+%\end{lemma}
+%\begin{proof}
+%\begin{eqnarray*}
+%f(\lambda x_{min}+ (1-\lambda)x) &<& \lambda f(x_{min})+ (1-\lambda)f(x)\\
+%&=& \lambda(f(x_{min})-f(x)) +f(x)\\
+%&\leq& f(x)
+%\end{eqnarray*}
+%\end{proof}
+
+We now characterize the expected change in budget for an informative trader. The following result holds for any round $t$; for simplicity, we have therefore dropped the superscript from the notation.
+\begin{theorem}\label{thm:growth}
+ Suppose that each informative trader gets a random sample of data, 
+resulting in a sequence of trader beliefs $\qvec_i$, and hence a sequence of budget-limited market positions
+$\tilde{\qvec}_i$, before a final outcome $x$. Then, the expectation, over trader $i$'s belief distribution $\qvec_i$, of trader $i$'s realized profit is greater than zero whenever her budget is positive and her belief differs from the previous market position $\tilde{\qvec}_{i-1}$. 
+\end {theorem}
+\begin{proof}
+Trader $i$'s believed distribution is the distribution parametrized by $\qvec_i$.
+Therefore, the expected profit, over possible outcome values $x$, for a trader $i$ in a given round is given by
+\begin{eqnarray*}
+&& E[C(\tilde{\qvec}_{i-1})-C(\tilde{\qvec}_{i})-(\tilde{\qvec}_{i-1}-\tilde{\qvec}_{i})\Phi(x)]\\
+&=& K(\qvec_{i}||\tilde{\qvec}_{i-1})] + H(\qvec_{i}) - [K(\qvec_{i}||\tilde{\qvec}_{i}) + H(\pi)]]\\
+&=& K(\qvec_{i}||\tilde{\qvec}_{i-1}) - K(\qvec_{i}||\tilde{\qvec}_{i})
+\end{eqnarray*}
+We recall that $\tilde{\qvec}_{i}$ can be expanded as:
+$$\tilde{\qvec_{i}} = \lambda \qvec_{i} + (1- \lambda) \tilde{\qvec}_{i-1}$$ where $\lambda$ is strictly greater than $0$, but no more than $1$. It is a standard result from information theory that $K(.,.)$ is a convex function, and therefore, we have:
+\[
+K(\qvec_{i}||\tilde{\qvec}_{i-1}) \leq \lambda K(\qvec_{i}||\qvec_{i}) + (1-\lambda) K(\qvec_{i}||\tilde{\qvec}_{i-1})
+\]
+The first term on the right hand side is zero, and thus, we get:
+\[
+  K(\qvec_{i}||\tilde{\qvec}_{i-1}) - K(\qvec_{i}||\tilde{\qvec}_{i}) \geq \lambda K(\qvec_{i}||\tilde{\qvec}_{i-1})
+\]
+%Thus, it is sufficient to prove that E_{\qvec}[K(\pi||\tilde{\qvec}_{i-1}^{t}] >= E_{\qvec}[K(\pi||\tilde{\qvec}_{i}^{t}].
+ \end{proof}
+%\begin{theorem}
+%The expected budget of an informative trader increases when he participates in the market. Here, expectation is taken with respect to the true distribution from which the outcome is drawn.
+%We show that the budget of an informative trader grows in expectation:\end{theorem}
+%\begin{proof}
+%Let $\pi$ be the true distribution from which the outcome $x^{t}$ is drawn. Let $K(\pi||\qvec)$ be the relative entropy between the true distribution $\pi$ and the predictive distribution determined by the securities vector $\qvec$. Then the expected change in budget for a trader $i$ in round $t$ is given by
+%\begin{eqnarray*}
+%E_{x,\qvec}[\alpha_{i}^{t}&-&\alpha_{i}^{t-1}]\\
+%&=&E_{x,\qvec}[C(\tilde{\qvec}_{i-1}^{t})-C(\tilde{\qvec}_{i}^{t})-(\tilde{\qvec}_{i-1}^{t}-\tilde{\qvec}_{i}^{t})^{T}\Phi(x^{t})]\\
+%&=& E_{\qvec}[K(\pi||\tilde{\qvec}_{i-1}^{t})] + H(\pi) - E[K(\pi||\tilde{\qvec}_{i}^{t}) + H(\pi)]]
+%\end{eqnarray*}
+%Thus, it is sufficient to prove that E_{\qvec}[K(\pi||\tilde{\qvec}_{i-1}^{t}] >= E_{\qvec}[K(\pi||\tilde{\qvec}_{i}^{t}].
+
+%In the case that 
+
+%It is well known that minimizing the relative entropy of a predictive distribution with respect to the true distribution is equivalent to maximizing the likelihood function. % (see, for instance, \cite{whom?}). 
+%In other words, the MLE of the natural parameters of an exponential family distribution minimizes the relative entropy of a predictive distribution with respect to the true distribution. 
+
+%Further, for a true distribution $\pi$ and predictive distribution determined by $\qvec$, $K(\pi||\qvec) + H(\pi)$ is a convex function of $\qvec$. In fact, it is strictly convex when the representation is minimal. Thus, it has a unique minimum. %Further, $K(\pi||\rho) + H(\pi)$ is non-negative.
+
+%Suppose the current market state is represented by $\tilde{\qvec}_{i-1}$ and $\qvec_{i}$ represents the belief of trader $i$. Since the trader is budget limited, he moves the market state to $\tilde{\qvec}_{i}$ instead where $\tilde{\qvec}_{i}=  \lambda \qvec_{i}+ (1-\lambda)\tilde{\qvec}_{i-1}$. For an informative trader $i$, $\qvec_{i}$ represents the MLE of the natural parameters of the distribution. Thus, $K(\pi||\qvec) + H(\pi)$ has a unique minimum at $\qvec_{i}$.
+
+%Thus,   from Lemma \ref{lem:convex}, $E[K(\pi||\tilde{\qvec}_{i-1}^{t})+ H(\pi)] > E[K(\pi||\tilde{\qvec}_{i}^{t})+ H(\pi)]$ and trader $i$'s expected budget increases.
+%\end{proof}
+
+For continuous distributions with a density, the probability that a trader with private information will form exactly the same beliefs as the current market position is $0$, and thus, each trader will have positive expected profit on almost all sequences of observed samples and beliefs. 
+This result suggests that, eventually, every informative trader will have the ability to influence the market state in accordance with his beliefs, without being budget limited.
+
+We note one important aspect of Theorem~\ref{thm:growth}: The expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure; depending on the distribution family and the prior distribution over parameter values, maximum likelihood estimation might not optimize the true expected score. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
+%To summarize our results for this in a market with budget-limited traders, the total loss induced by malicious traders is limited, while the budget of  informative traders grows.
+\section{The MaxEnt Market Mechanism: A Bayesian View}
+\subsubsection{Conjugate Priors}
+
+%In the previous section it's assumed that the agent has a belief $\q$, and moves the market state from initial state $\q_{init}$ to a convex combination $\tilde{\q} = \lambda \q + (1-\lambda)\q_{init}$. This note tries to justify this based on Bayesian updating, rather than budget limitations. (But it doesn't quite succeed.)
+
+\medskip\noindent
+Let $p(x;\theta)$ denote a probability density drawn from an exponential family with sufficient statistic $\phi : \mX \rightarrow \bR^d$, where $\theta$ is the natural parameter:
+$$
+p(x;\theta) = \exp \left[ \la \theta, \phi(x) \ra \right],
+$$
+and
+$$
+g(\theta) = \log \int_{\mX} \exp\la\phi(x),\theta\ra d\!x.
+$$
+Recall that $\grad g(\theta) = \Exp[\phi(x)]$ and $\grad^2 g(\theta) = \Var[\phi(x)]$. The family of conjugate priors is also an exponential family and takes the form
+$$
+p(\theta; n,\nu) = \exp\left[ \la n\nu,\theta \ra - ng(\theta) - h(\nu,n) \right].
+$$
+Here the feature map is $\psi(\theta) = (\theta, -g(\theta))$, the natural parameter is $(n\nu, n)$ where $n \in \bR$ and $\nu \in \bR^d$. The normalizer $h(\nu, n)$ is convex in $(n\nu,n)$. It is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. The justification for this is that
+$$
+\Exp_{\theta} \left[ \Exp_x \left[ \phi(x) | \theta \right]\right] 
+= \Exp_{\theta} \left[\grad g(\theta)\right]
+= \nu.
+$$
+%(The proof is straightforward but not obvious. I have a reference for this but it's impossible to read---it's a mathematical statistics paper.)
+
+Suppose we draw a sample $X = (x_1,\ldots,x_m)$ of size $m$, and denote the empirical mean by $\mu[X] = \sum_{i=1}^m \phi(x_i)$. The posterior distribution is then
+$$
+p(\theta|X) \propto p(X|\theta)p(\theta|n,\nu) \propto \exp\left[ \la\mu[X]+n\nu,\theta\ra - (m+n)g(\theta) \right],
+$$
+and so the posterior mean is 
+\begin{equation} \label{posterior-mean}
+\frac{m\mu[X] + n\nu}{m+n}.
+\end{equation}
+Thus the posterior mean is a convex combination of the prior and posterior means, and their relative weights depend on the phantom and empirical sample sizes.
+
+In the context of prediction markets, one could imagine an agent who uses the current market estimate as its prior, and draws a empirical sample of size $m$. Its belief then takes the form~(\ref{posterior-mean}), where $n$ depends on the importance the agent places on the market estimate (perhaps based on how long the market has been running). However, note that the \emph{mean parameter} becomes a convex combination of market state and empirical belief, and this does not translate to the \emph{natural parameter}, which is what we would have liked. The new natural parameter is
+$$
+\grad g^{-1} \left(\frac{m\mu[X] + n\nu}{m+n}\right) = \grad g^* \left(\frac{m\mu[X] + n\nu}{m+n}\right).
+$$
+where $g^*$ is the convex conjugate of $g$.
+
+\subsubsection{Exponential Utility}
+
+Assume the agent's belief distribution $p$ belongs to an exponential family, so it takes the form
+%
+\[
+p(x;\theta) = \exp[\theta x - T(\theta)]
+\]
+%
+where $\theta$ is the natural parameter and $T$ is the log-partition function. (I'm assuming that the sufficient statistic is $\phi(x) = x$ just for simplicity.) Assume also that the agent has an exponential utility for money $w$:
+%
+\[
+U(w) = -\frac{1}{a} \exp(-aw).
+\]
+%
+Here $a$ is the coefficient of risk aversion (higher means more risk averse, and the utility function is more concave).
+
+%
+\begin{proposition}
+An agent with exponential family belief with natural parameter $\htheta$, and exponential utility with coefficient $a$, makes a trade that moves the current market share vector $\theta$ to the convex combination $\frac{1}{1+a} \htheta + \frac{a}{1+a} \theta$ assuming an LMSR cost function.
+\end{proposition}
+%
+%
+\begin{proof}
+Let $\delta$ be the vector of shares the agent trades. The payoff given eventual outcome $x$ is then $\delta x - C(\delta + \theta) + C(\theta)$. The utility for this payoff is as follows (recall that $\htheta$ is the agent's believed natural parameter).
+%
+\[ U( \delta x - C(\delta + \theta) + C(\theta) ) = -\frac{1}{a} \exp(-a \delta x + a C(\delta + \theta) - a C(\theta)).
+\]
+%
+Taking the expected utility, we obtain
+%
+\begin{eqnarray*}
+&   & \Exp\left[ U( \delta x - C(\delta + \theta) + C(\theta) ) \right] \\
+& = & \int_{\mX} -\frac{1}{a} \exp(-a \delta x + a C(\delta + \theta) - a C(\theta)) \exp[\htheta x - T(\htheta)]\, dx \\
+& = & -\frac{1}{a} \int_{\mX} \exp[(\htheta -a \delta) x + a C(\delta + \theta) - a C(\theta)) - T(\htheta)]\, dx \\
+& = & -\frac{1}{a} \exp[a C(\delta + \theta) - a C(\theta)) + T(\htheta - a\delta) - T(\htheta)] \int_{\mX} \exp[(\htheta -a \delta) x - T(\htheta -a \delta)]\, dx \\
+& = & -\frac{1}{a} \exp[a C(\delta + \theta) - a C(\theta)) + T(\htheta - a\delta) - T(\htheta)] \int_{\mX} p(x; \htheta -a \delta)\, dx \\
+& = & -\frac{1}{a} \exp[a C(\delta + \theta) - a C(\theta)) + T(\htheta - a\delta) - T(\htheta)]\\
+& = & U\left(- C(\delta + \theta) + C(\theta)) - \frac{1}{a} T(\htheta - a\delta) + \frac{1}{a} T(\htheta)\right)
+\end{eqnarray*}
+%
+The second-last equality follows from the fact that $\int_{\mX} p(x; \htheta -a \delta)\, dx = 1$. Since utility $U$ is monotone increasing, it is maximized by maximizing its argument, which is a concave function of $\delta$ by convexity of $C$ and $T$. The optimality condition for the argument is
+%
+\begin{equation} \label{eq:optim}
+\grad C(\delta^* + \theta) = \grad T(\htheta - a\delta^*)
+\end{equation}
+%
+Now if the market maker is using LMSR, then $C$ is the log-partition function of the corresponding exponential family and $C = T$. Then~(\ref{eq:optim}) can be solved by equating the arguments. This leads to $\delta^* = (\htheta - \theta) / (1+a)$, which moves the share vector to $\theta + \delta^* = \frac{1}{1+a} \htheta + \frac{a}{1+a} \theta$.
+\end{proof}
+%
+
+In the statement of the result I use the term ``LMSR cost function'' somewhat loosely, because we are not necessarily dealing with a market over exhaustive, mutually exclusive outcomes. What is meant is the cost function that arises by taking the dual to entropy of the maxent distribution with given mean parameter $\mu$. As we've discussed this seems like the right generalization of LMSR to arbitrary mean parameter spaces. 
+
+Note that as $a \rightarrow 0$, we approach risk neutrality and the agent moves the share vector all the way to its private estimate $\htheta$. As $a$ grows (agent grows more risk averse) the agent makes smaller and smaller trades that keep it closer to the current estimate $\theta$.
+
+So there is a kind of congruence between exponential family beliefs and exponential utility (as the names would suggest). 
+\subsection{Properties of the Maximum Entropy Market}
+Consider the dual of the cost function, $C^{*}(\mu)$ defined as
+$$C^{*}(\mu) = \sup_{\beta} \beta\cdot\mu - C(\beta)$$
+This supremum is obtained at the value of $\beta$ for which $\mu = \nabla C(\beta)$; that is the natural parameter $\beta$ for which $\mu=\E_{p_{\beta}}[\phi(x)]$ is the mean parameter. Rewriting, 
+$$C^{*}(\E_{p_{\beta}}[\phi(x)]) = \beta\cdot\E_{p_{\beta}}[\phi(x)] - C(\beta)$$
+Thus, the mean parameters are the dual variables to the natural parameters.
+
+
+\begin{thm} The value of the dual of the cost function is the negative entropy of the exponential family distribution obtained from backward mapping the mean parameters. \end{thm}
+\proof
+To see this, we note that for $p(x)=\exp\{\beta\cdot\phi(x)-C(\beta)\}$
+\begin{eqnarray*}
+-H(p) &=& \int_{x}p(x)\log p(x)\\
+&=& \int_{x}p(x)[\beta\cdot\phi(x)-C(\beta)]\\
+&=& \beta\cdot\int_{x}p(x)[\phi(x)]-\int_{x}p(x)C(\beta)\\
+&=& \beta\cdot\E_{p}[\phi(x)]-C(\beta)
+\end{eqnarray*}
+\unproof
+\rmk This result shows a nice parallel to LMSR, since the dual of the cost function of the LMSR is the negative entropy.\unrmk
+\rmk The LMSR is essentially a special case applied to a multinomial distribution. The LMSR is known to have bounded ($\log n$) market maker loss. Thus, while in general the exponential family LMSR does not guarantee bounded market maker loss, for some special cases it can. 
+\unrmk
+
+{\thm Negative differential entropy $-H(p)\defeq \int_{x}p(x) \log p(x) dx$ is unbounded from above for an exponential family distribution.}
+\proof
+Note that, for an exponential family distribution
+\begin{eqnarray*}
+H(p) &=& -\int_{x}p(x)\log p(x)dx\\
+&=& -\int_{x}p(x)[\beta\cdot \phi(x)-\psi(\beta)] dx\\
+&=& -\beta\cdot\E[ \phi(x)]+\psi(\beta)
+\end{eqnarray*}
+If the range of $\beta$ is unbounded, the negative differential entropy is unbounded as well.
+\unproof
+
+%{\cor The exponential family market maker has unbounded worst case loss.}
+%\proof From \cite{ACV13} we know that the worst case market maker loss can be expressed in terms of the conjugate of the cost function as 
+%$$\sup_{\mu\in\phi(\mathcal{X})}C^{*}(\mu) - \min_{\mu\in\conv(\phi(\mathcal{X}))}C^{*}(\mu)$$ 
+%Unbounded differential entropy for an exponential family distribution thus implies unbounded market maker loss.\unproof
+\paragraph{Loss of the market maker}
+First we derive an expression for the conjugate dual $C^{*}$ in terms of the primal variables.
+
+Recall the definition of the conjugate dual:
+$$C^{*}(\mu) = \sup_{q}q\cdot\mu - C(q)$$
+The supremum is achieved at $q'$ such that $\nabla C(q')=\mu$. So we may rewrite:
+$$C^{*}(\nabla C(q')) = \sup_{q}q\cdot\nabla C(q') - C(q)$$
+This supremum is achieved at $q$ such that $\nabla C(q')=\nabla C(q)$. One such value of $q$ is $q'$.
+So we have 
+$$C^{*}(\nabla C(q')) = q'\cdot\nabla C(q') - C(q')$$
+Also, recall that $\nabla C^{*}(\nabla C(q))=q$ for the exponential family market. (I think there are some restrictions on $q$.)
+
+Let $q_{0}$ be the initial and $q_{f}$ the final market state. Then if $\mu$ is the expected value of the outcome sufficient statistics (\ie  the mean parameter) under the true distribution, the loss of the exponential family market maker can be written as:
+\begin{eqnarray*}
+\phi(x)(q_{f}-q_{0})-C(q_{f})+C(q_{0})&=& \phi(x) (q_{f}-q_{0})-q_{f}\nabla C(q_{f})+ C^{*}(\nabla C(q_{f}))\\
+&&+q_{0}\nabla C(q_{0})- C^{*}(\nabla C(q_{0}))\\
+&=&q_{f}(\phi(x) -\nabla C(q_{f}))+ C^{*}(\nabla C(q_{f}))\\
+&&-q_{0}(\phi(x) -\nabla C(q_{0}))- C^{*}(\nabla C(q_{0}))\\
+&=&-C^{*}(\nabla C(q_{0}))+ C^{*}(\phi(x))-q_{0}(\phi(x) -\nabla C(q_{0}))\\
+&&+C^{*}(\nabla C(q_{f}))- C^{*}(\phi(x))+q_{f}(\phi(x) -\nabla C(q_{f}))\\
+&=&  C^{*}(\phi(x))-C^{*}(\nabla C(q_{0}))-\nabla C^{*}(\nabla C(q_{0}))(\phi(x) -\nabla C(q_{0}))\\
+&&-\left[C^{*}(\phi(x))-C^{*}(\nabla C(q_{f}))-\nabla C^{*}(\nabla C(q_{f}))(\phi(x) -\nabla C(q_{f}))\right]\\
+&=&D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]
+\end{eqnarray*}
+
+\subsubsection{Example: Gaussian Markets}
+{\ex We will now derive an expression for the dual of the log partition function for the Gaussian distribution. In this case,  $\beta$ is a $2$-dimensional  vector. Let $\beta=\begin{pmatrix}\beta_{1}\\ \beta_{2}\end{pmatrix}$ and $\mu=\begin{pmatrix}\mu_{1}\\ \mu_{2}\end{pmatrix}$. So 
+\begin{eqnarray*}
+\pmb{\mu}&=&\nabla\psi(\pmb{\beta})\\
+&=&\nabla\left(-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})\right)\\
+&=&\begin{pmatrix}-\frac{\beta_{1}}{2\beta_{2}}\\ \frac{\beta_{1}^{2}}{4\beta_{2}^{2}}-\frac{1}{2\beta_{2}}\end{pmatrix}
+\end{eqnarray*}
+Thus, $\pmb{\beta}$ can be written in terms of $\pmb{\mu}$ as follows:
+$\beta_{1}=\frac{\mu_{1}}{\mu_{2}-\mu_{1}^{2}}$ and $\beta_{2}=\frac{1}{\mu_{1}^{2}-\mu_{2}}$. This leads to the following closed form expression for the dual of the log partition function:
+$$\psi^{*}(\mu)=-\frac{1}{2}-\frac{1}{2}\log(\mu_{2}-\mu_{1}^{2})$$}
+{\ex
+We will now derive the expression for the differential entropy for the normal distribution. Recall that for the normal distribution $$p(x) = \frac{1}{\sqrt{2\pi\sigma^{2}}}\exp\left\{\frac{-(x-\mu)^{2}}{2\sigma^{2}}\right\}$$
+\begin{eqnarray*}
+H(p) &=& -\int_{x}p(x)\log p(x)dx\\
+&=& -\int_{x}p(x)\left[-\log(2\pi)-\log\sigma+\frac{-(x-\mu)^{2}}{2\sigma^{2}}\right]dx\\
+&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\int_{x}p(x)(x-\mu)^{2}]dx\\
+&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\E_{p(x)}[(x-\mu)^{2}]dx\\
+&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\sigma^{2}dx\\
+&=& \log(2\pi)+\frac{1}{2}+\log\sigma 
+\end{eqnarray*}
+Recall that the value of the dual of the log partition function is the value of the negative entropy of the distribution for an exponential family distribution. Thus when the variance of the normal distribution $\sigma^{2} = 0$, the value of the dual of the cost function goes to $\infty$ and is thus unbounded.}
+
+{\ex For the normal distribution, the natural parameters $\pmb{\beta}=(\beta_{1},\beta_{2})$ can be written in terms of $\mu$ and $\sigma$ as $$\beta_{1}=\frac{\mu}{\sigma^{2}},\quad \beta_{2}=\frac{-1}{2\sigma^{2}}$$ and the log partition function is  $$\psi(\pmb{\beta})=-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})$$
+Alternately, the log partition function can be written in terms of its variance and mean as $\frac{\mu^{2}}{2\sigma^{2}}+\log\sigma$.
+Also note that the mean parameters are $\mu$ and $\mu^{2}+\sigma^{2}$.}
+Let's now work out the loss for the Gaussian market maker. First note that for a Gaussian market for mean parameters $\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}$ and $\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}$, we have 
+\begin{eqnarray*}
+D_{C^{*}}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix},\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}\right)
+&=& C^{*}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}\right)-C^{*}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}\right)\\
+&&-\nabla C^{*} \left(\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}\right)\begin{pmatrix}\mu_{1}-\mu_{2}\\ \mu_{1}^{2}+\sigma_{1}^{2}-\mu_{2}^{2}-\sigma_{2}^{2}\end{pmatrix}\\
+&=& -\log \frac{\sigma_{1}}{\sigma_{2}}-\begin{pmatrix}\frac{\mu_{2}}{\sigma_{2}^{2}}\\ -\frac{1}{2\sigma_{2}^{2}}\end{pmatrix}\cdot \begin{pmatrix}\mu_{1}-\mu_{2}\\ \mu_{1}^{2}+\sigma_{1}^{2}-\mu_{2}^{2}-\sigma_{2}^{2}\end{pmatrix}\\
+&=& -\log \frac{\sigma_{1}}{\sigma_{2}}-\frac{\mu_{2}(\mu_{1}-\mu_{2})-\frac{1}{2}(\mu_{1}^{2}-\mu_{2}^{2}+\sigma_{1}^{2}-\sigma_{2}^{2})}{\sigma_{2}^{2}}\\
+%&=& \log \frac{\sigma_{2}}{\sigma_{1}}-\frac{\sigma_{1}^{2}-\sigma_{2}^{2}-(\mu_{1}-\mu_{2})^{2}}{2\sigma_{2}^{2}}\\
+&=& \log \frac{\sigma_{2}}{\sigma_{1}}+\frac{\sigma_{2}^{2}-\sigma_{1}^{2}}{2\sigma_{2}^{2}}+\frac{(\mu_{1}-\mu_{2})^{2}}{2\sigma_{2}^{2}}
+\end{eqnarray*}
+
+So the Gaussian market maker loss is 
+%parallels to quadratic market maker loss? 
+\begin{eqnarray*}
+D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]&=& \log \frac{\sigma_{0}}{\sigma_{x}}+\frac{\sigma_{0}^{2}-\sigma_{x}^{2}}{2\sigma_{0}^{2}}+\frac{(\mu_{x}-\mu_{0})^{2}}{2\sigma_{0}^{2}}\\
+&&-\left[\log \frac{\sigma_{f}}{\sigma_{x}}+\frac{\sigma_{f}^{2}-\sigma_{x}^{2}}{2\sigma_{f}^{2}}+\frac{(\mu_{x}-\mu_{f})^{2}}{2\sigma_{f}^{2}}\right]\\
+&=& \log \frac{\sigma_{0}}{ \sigma_{f}}+\frac{(x-\mu_{0})^{2}}{2\sigma_{0}^{2}}-\frac{(x-\mu_{f})^{2}}{2\sigma_{f}^{2}}\\
+\end{eqnarray*}¥
+Here we have used the fact that $\mu_{x}=x$ and $\sigma_{x}=0$.
+\rmk In statistics, the standard score (aka z-score), $(x-\mu)/\sigma$, is the (signed) number of standard deviations an observation is above the mean. \unrmk
+
+\section{Connection to Mirror Descent?}
+
+\section{Conclusions}
+
+\end{document}
+
+
