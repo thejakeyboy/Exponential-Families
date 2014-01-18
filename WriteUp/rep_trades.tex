@@ -1,0 +1,84 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[oldstylenums]{kpfonts}
+\usepackage[ruled]{algorithm2e}
+
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+
+\textwidth6.5in
+
+\setlength{\topmargin}{0in} \addtolength{\topmargin}{-\headheight}
+\addtolength{\topmargin}{-\headsep}
+\textheight8.5in
+\setlength{\oddsidemargin}{0in}
+
+\oddsidemargin  0.0in \evensidemargin 0.0in \parindent0em
+
+\pagestyle{fancy}\lhead{} \rhead{\bf \thepage}
+\chead{{\Large\textsc{Exponential Family Prediction Markets}}} \lfoot{} \rfoot{} \cfoot{}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{con}[thm]{Conjecture}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{qn}[thm]{Question}
+\newcommand{\defn}{\bigbreak\noindent{\bf Definition. }}
+\newcommand{\undefn}{\bigbreak}
+\newcommand{\rmk}{\bigbreak\noindent{\bf Remark. }}
+\newcommand{\unrmk}{\bigbreak}
+%\newcommand{\proof}{\noindent{\bf Proof. }}
+\newcommand{\unproof}{\hfill$\Box$\bigbreak}
+\newcommand{\defeq}{\stackrel{\mathrm{def}}{=}}
+\newcommand{\holds}[1]{\stackrel{?}{#1}}
+\newcommand{\conv}{\mathrm{conv}}
+\newcommand{\ie} {{\it i.e. }}
+\newcommand{\eg} {{\it e.g. }}
+\newcommand{\etal} {{\it et al. }}
+\newcommand{\E}{\mathbb{E}}
+
+
+\begin{document}
+\section*{Reinterpreting repeated trades in a market}
+Let us suppose that traders in this market have exponential utility \[
+U(w) = -\frac{1}{a} \exp(-aw).
+\]
+%
+Here $a$ is the coefficient of risk aversion (higher means more risk averse, and the utility function is more concave).
+
+Let $\delta_{1}^{*}$ be the optimal vector of shares the agent decides to trade on first entering the market with exponential family belief parametrized by natural parameter $\hat{\theta}$. Thus, his belief distribution is given by the pdf $$\exp\{\hat{\theta} \phi(x) - T(\hat{\theta})\}]$$ where $T(\hat{\theta}) =\int_{\mathcal{X}}\exp\{\hat{\theta} \phi(x)\}\ dx$ is the log partition function and $\phi(x)$ are the sufficient statistics.
+On a subsequent entry into this market when the market state is $\theta'$, his optimal purchase $\delta_{2}^{*}$ is given by the solution of
+$$\arg\max_{\delta_{2}} \E_{x\sim \hat{\theta}} U[\mathrm{payoff}]$$
+Here, the payoff given eventual outcome $x$ is  $[\delta_{1}^{*}+\delta_{2}^{*} ]\phi(x) - C(\delta_{1}^{*} + \theta) + C(\theta)- C(\delta_{2}^{*} + \theta') + C(\theta')$. Here $\theta' = \theta+\delta_{1}^{*}+\delta'$ where $\delta'$ captures the movement of the share vector by other traders in the market. 
+The expected utility for this payoff is as follows.
+
+\begin{eqnarray*}
+&   & \arg\max_{\delta_{2}}\E\left[ (\delta_{1}^{*}+\delta_{2} )\phi(x) - C(\delta_{1}^{*} + \theta) + C(\theta)- C(\delta_{2} + \theta') + C(\theta') \right] \\
+& = & \arg\max_{\delta_{2}}\int_{\mathcal{X}} -\frac{1}{a} [\exp(-a (\delta_{1}^{*}+\delta_{2} )\phi(x) \\
+&  & + a C(\delta_{1}^{*} + \theta) -a C(\theta)+a C(\delta_{2} + \theta') -a C(\theta')) \exp\{\hat{\theta} \phi(x) - T(\hat{\theta})\}]\, dx \\
+& = & \arg\max_{\delta_{2}}\int_{\mathcal{X}} -\frac{1}{a} [\exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta') \\
+&  & + a C(\delta_{1}^{*} + \theta) -a C(\theta)\} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})\}]\, dx \\
+& = & \arg\max_{\delta_{2}}\int_{\mathcal{X}} U[N(\delta_{2},\theta')] \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}]\, dx 
+\end{eqnarray*}
+
+where we have written $-\frac{1}{a} [\exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta')]$ as $U[N(\delta_{2},\theta')]$ where $N(\delta_{2},\theta')$ is the net payoff when $\delta_{2}$ shares are purchased when the current market state is $\theta'$. This is equivalent to maximizing expected utility of $N(\delta_{2},\theta')$ so long as 
+$$\int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}]\, dx = c\times \int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)-T(\hat{\theta}-a \delta_{1}^{*})\} \, dx$$
+
+In other words we want the following statement to hold.
+\begin{eqnarray*}
+\exists c: c\times\exp\{- T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}&=&
+T(\hat{\theta}-a \delta_{1}^{*})\\
+&=& \int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)\}\ dx
+\end{eqnarray*}
+
+where $c$ is a constant with respect to $\delta_{2}$ and $x$ (but could potentially depend on $\hat{\theta}$, $a$ and $\delta_{1}^{*}$). This is true because the right hand side of the equation is a function of only $\hat{\theta}$, $a$ and $\delta_{1}^{*}$.
+
+Thus, optimizing a trade in a market with prior exposure $\delta_{1}^{*}$ and belief parameter $\hat{\theta}$ is equivalent to optimizing with a belief parameter $\hat{\theta}-a \delta_{1}^{*}$. Thus trades in the exponential family market can be understood as updates on the traders' beliefs.
+\end{document}
