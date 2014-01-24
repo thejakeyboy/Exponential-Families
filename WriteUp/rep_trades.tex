@@ -43,10 +43,12 @@
 \newcommand{\eg} {{\it e.g. }}
 \newcommand{\etal} {{\it et al. }}
 \newcommand{\E}{\mathbb{E}}
+\newcommand{\hmu}{\hat{\mu}}
 
 
 \begin{document}
-\section*{Reinterpreting repeated trades in a market}
+
+\section{Reinterpreting repeated trades in a market}
 Let us suppose that traders in this market have exponential utility \[
 U(w) = -\frac{1}{a} \exp(-aw).
 \]
@@ -58,7 +60,10 @@ On a subsequent entry into this market when the market state is $\theta'$, his o
 $$\arg\max_{\delta_{2}} \E_{x\sim \hat{\theta}} U[\mathrm{payoff}]$$
 Here, the payoff given eventual outcome $x$ is  $[\delta_{1}^{*}+\delta_{2}^{*} ]\phi(x) - C(\delta_{1}^{*} + \theta) + C(\theta)- C(\delta_{2}^{*} + \theta') + C(\theta')$. Here $\theta' = \theta+\delta_{1}^{*}+\delta'$ where $\delta'$ captures the movement of the share vector by other traders in the market. 
 The expected utility for this payoff is as follows.
-
+%%
+%\[ U( \delta x - C(\delta + \theta) + C(\theta) ) = -\frac{1}{a} \exp(-a \delta x + a C(\delta + \theta) - a C(\theta)).
+%\]
+%%
 \begin{eqnarray*}
 &   & \arg\max_{\delta_{2}}\E\left[ (\delta_{1}^{*}+\delta_{2} )\phi(x) - C(\delta_{1}^{*} + \theta) + C(\theta)- C(\delta_{2} + \theta') + C(\theta') \right] \\
 & = & \arg\max_{\delta_{2}}\int_{\mathcal{X}} -\frac{1}{a} [\exp(-a (\delta_{1}^{*}+\delta_{2} )\phi(x) \\
@@ -68,9 +73,14 @@ The expected utility for this payoff is as follows.
 & = & \arg\max_{\delta_{2}}\int_{\mathcal{X}} U[N(\delta_{2},\theta')] \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}]\, dx 
 \end{eqnarray*}
 
-where we have written $-\frac{1}{a} [\exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta')]$ as $U[N(\delta_{2},\theta')]$ where $N(\delta_{2},\theta')$ is the net payoff when $\delta_{2}$ shares are purchased when the current market state is $\theta'$. This is equivalent to maximizing expected utility of $N(\delta_{2},\theta')$ so long as 
+Here the first equality follows from the fact that we are taking expectation over the traders belief parameter $\hat{\theta}$ and the second equality follows simply from rearranging the factors of $\phi(x)$. And lastly we have written $-\frac{1}{a} [\exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta')]$ as $U[N(\delta_{2},\theta')]$ where $N(\delta_{2},\theta')$ is the net payoff when $\delta_{2}$ shares are purchased when the current market state is $\theta'$. 
+
+This is equivalent to maximizing expected utility of $N(\delta_{2},\theta')$, where expectation is taken with respect to an exponential family distribution over $\mathcal{X}$ parametrized by $\hat{\theta}-a \delta_{1}^{*}$, so long as 
 $$\int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}]\, dx = c\times \int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)-T(\hat{\theta}-a \delta_{1}^{*})\} \, dx$$
 
+%$$\int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)-\psi(\hat{\theta}-a \delta_{1}^{*})\} \, dx =1$$
+%That is
+%$$\psi(\hat{\theta}-a \delta_{1}^{*})= \int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)\}\ dx$$
 In other words we want the following statement to hold.
 \begin{eqnarray*}
 \exists c: c\times\exp\{- T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}&=&
@@ -78,7 +88,31 @@ T(\hat{\theta}-a \delta_{1}^{*})\\
 &=& \int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)\}\ dx
 \end{eqnarray*}
 
-where $c$ is a constant with respect to $\delta_{2}$ and $x$ (but could potentially depend on $\hat{\theta}$, $a$ and $\delta_{1}^{*}$). This is true because the right hand side of the equation is a function of only $\hat{\theta}$, $a$ and $\delta_{1}^{*}$.
+where $c$ is a constant with respect to $\delta_{2}$ and $x$ (but could potentially depend on $\hat{\theta}$, $a$ and $\delta_{1}^{*}$). This is true because the right hand side of the equation is a function of only $\hat{\theta}$, $a$ and $\delta_{1}^{*}$. Let $\Theta\defeq\hat{\theta}-a \delta_{1}^{*}  $ be the effective belief. Thus we have that the trader chooses his share vector as follows.
+\begin{eqnarray*}
+&&  \arg\max_{\delta_{2}}\int_{\mathcal{X}} U[N(\delta_{2},\theta')] \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}\, dx \\
+& = &\arg\max_{\delta_{2}}\int_{\mathcal{X}} U[N(\delta_{2},\theta')] \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta}-a \delta_{1}^{*})\}]\, dx\\
+& = & \arg\max_{\delta_{2}} \int_{\mathcal{X}} -\frac{1}{a} \exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta')\} \exp\{\Theta\cdot \phi(x) - T(\Theta)\}\, dx\\
+& = & \arg\max_{\delta_{2}} U\left[- C(\delta_{2} + \theta') + C(\theta') - \frac{1}{a} T(\Theta - a\delta_{2}) + \frac{1}{a} T(\Theta)\right]\\
+\end{eqnarray*}
+This follows from the argument detailed in in exp-util and simple substitution. Further,  the maximizer is $\delta_{2}^* = (\Theta - \theta') / (1+a)$, which moves the share vector to $\theta' + \delta_{2}^* = \frac{1}{1+a} \Theta + \frac{a}{1+a} \theta'$ which is a convex combination of the effective belief and the current market state.
 
-Thus, optimizing a trade in a market with prior exposure $\delta_{1}^{*}$ and belief parameter $\hat{\theta}$ is equivalent to optimizing with a belief parameter $\hat{\theta}-a \delta_{1}^{*}$. Thus trades in the exponential family market can be understood as updates on the traders' beliefs.
+In other words, an exponential utility maximizing trader who has belief $\hat{\theta}$ with prior exposure $\delta$ in a market  will behave identically as an exponential utility maximizing trader with belief $\hat{\theta}-a \delta$ and no prior exposure in the market. Here $a$ is the utility parameter. This means that financial exposure can be equivalently understood as changing the privately held beliefs.
+
+Note that as the trader becomes more risk averse, the  belief is updated more aggressively. As $a \rightarrow 0$, the trader becomes more risk neutral and his effective belief is closer to his true belief. 
+
+\subsection{Equilibrium in a market with multiple traders}
+For each trader $i$, 
+\begin{equation}\label{eq:eqbm}
+\beta_{i}-a_{i}\delta_{i}=\theta+\sum_{j=1}^{n}\delta_{j}
+\end{equation}¥
+Rewriting, we have for each trader $i$, 
+$$\frac{\beta_{i}}{a_{i}}-\delta_{i}=\frac{1}{a_{i}}(\theta+\sum_{j=1}^{n}\delta_{j})$$
+Thus,
+$$\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)-\sum_{i=1}^{n}\delta_{i}=\frac{1}{\sum_{i=1}^{n}a_{i}}\left(\theta+\sum_{j=1}^{n}\delta_{j}\right)$$
+And
+$$\sum_{j=1}^{n}\delta_{j}=
+\frac{\sum_{i=1}^{n}a_{i}\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)-\theta}{1+\sum_{i=1}^{n}a_{i}}$$
+Substituting in Equation \ref{eq:eqbm} we have the following expression for the final market state.
+$$\frac{\sum_{i=1}^{n}a_{i}}{1+\sum_{i=1}^{n}a_{i}}\left[\sum_{i=1}^{n}\left(a_{i}^{-1}\beta_{i}\right)+\theta\right]$$
 \end{document}
