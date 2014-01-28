@@ -100,19 +100,41 @@ This follows from the argument detailed in in exp-util and simple substitution. 
 In other words, an exponential utility maximizing trader who has belief $\hat{\theta}$ with prior exposure $\delta$ in a market  will behave identically as an exponential utility maximizing trader with belief $\hat{\theta}-a \delta$ and no prior exposure in the market. Here $a$ is the utility parameter. This means that financial exposure can be equivalently understood as changing the privately held beliefs.
 
 Note that as the trader becomes more risk averse, the  belief is updated more aggressively. As $a \rightarrow 0$, the trader becomes more risk neutral and his effective belief is closer to his true belief. 
+%
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
 
 \subsection{Equilibrium in a market with multiple traders}
-For each trader $i$, 
+We have shown that every exponential-utility maximizing trader picks the share vector $\delta_{i}$ so as to maximize the utility of $- C(\delta_{i} + \theta) + C(\theta) - \frac{1}{a_{i}} T(\beta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\beta_{i})$ where $\theta$ is the initial market state, $a_{i}$ the utility parameter and $\beta_{i}$ the belief parameter of  trader $i$. To maximize utility, it suffices to maximize the argument, assuming that $C()=T()=\psi()$. 
+
+Now consider a market with multiple exponential-utility maximizing traders. We wish to compute the equilibrium state. Let us assume that equilibrium is reached at a market state $\theta+\sum_{i}\delta_{i}$ where $\theta$ is the initial market state before trading begins and $\delta_{i}$ is each trader's purchase. 
+
+Recall the following result from game theory.
+\begin{thm}\label{thm:potl}
+Let $U_{i}(\vec{\delta})$ be the utility function of the $i^{th}$ trader given strategies $\vec{\delta}\defeq \delta_{1},\ldots,\delta_{i},\ldots,\delta_{n}$. If there exists a potential function $\phi(\vec{\delta})$ such that $$U_{i}(\vec{\delta})-U_{i}(\vec{\delta}_{-i},\delta_{i}')=\phi(\vec{\delta})-\phi(\vec{\delta}_{-i},\delta_{i}')$$
+then when $\phi(\vec{\delta})$ is maximized, $\vec{\delta}$ is an equilibrium.
+\end{thm}¥
+
+Let $$\phi(\vec{\delta})\defeq  \psi(\theta+\sum_{i}\delta_{i})+\sum_{i}\frac{1}{a_{i}}\psi(\beta_{i}-a_{i}\delta_{i})$$
+Now $U_{i}(\vec{\delta})=- \psi(\theta+\sum_{j}\delta_{j}) + \psi(\theta+\sum_{j\neq i}\delta_{j}) - \frac{1}{a_{i}} \psi(\beta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} \psi(\beta_{i})$.
+Thus, Theorem \ref{thm:potl} applies and we can find the equilibrium market state by maximizing $\phi(\vec{\delta})$ for each $\delta_{i}$.
+\begin{eqnarray*}
+\nabla_{\delta_{i}}\phi(\vec{\delta})&=&\nabla\psi(\theta+\sum_{j=1}^{n}\delta_{i})-\nabla\psi(\beta_{i}-a_{i}\delta_{i})\\
+&=&0
+\end{eqnarray*}¥
+This can be achieved by equating the arguments. That is, for each trader $i$, 
 \begin{equation}\label{eq:eqbm}
 \beta_{i}-a_{i}\delta_{i}=\theta+\sum_{j=1}^{n}\delta_{j}
 \end{equation}¥
 Rewriting, we have for each trader $i$, 
 $$\frac{\beta_{i}}{a_{i}}-\delta_{i}=\frac{1}{a_{i}}(\theta+\sum_{j=1}^{n}\delta_{j})$$
 Thus,
-$$\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)-\sum_{i=1}^{n}\delta_{i}=\frac{1}{\sum_{i=1}^{n}a_{i}}\left(\theta+\sum_{j=1}^{n}\delta_{j}\right)$$
+$$\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)-\sum_{i=1}^{n}\delta_{i}=\left(\theta+\sum_{j=1}^{n}\delta_{j}\right)\sum_{i=1}^{n}\frac{1}{a_{i}}$$
 And
 $$\sum_{j=1}^{n}\delta_{j}=
-\frac{\sum_{i=1}^{n}a_{i}\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)-\theta}{1+\sum_{i=1}^{n}a_{i}}$$
+\frac{\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)-\theta\sum_{i=1}^{n}\left(\frac{1}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
 Substituting in Equation \ref{eq:eqbm} we have the following expression for the final market state.
-$$\frac{\sum_{i=1}^{n}a_{i}}{1+\sum_{i=1}^{n}a_{i}}\left[\sum_{i=1}^{n}\left(a_{i}^{-1}\beta_{i}\right)+\theta\right]$$
+$$\theta+\sum_{j=1}^{n}\delta_{j}=
+\frac{\theta+\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
 \end{document}
