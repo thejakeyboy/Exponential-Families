@@ -181,7 +181,93 @@ In this paper, we draw connections between the aggregation performed by learning
 
 We have dual goals in this paper. On the one hand, we highlight a structural similarity between prediction markets and exponential families. We see this as the syntax of our prediction market mechanism. On the other, this formulation has rich semantics as well: it allows for analysis of market behavior under various environments. For instance, we analyze market behavior with budget limited traders, traders that are exponential-utility-maximizers.
 \section{Notation and Definitions}
-convex conjugates, bregman divergences, scoring rules, sufficient statitics, exp families, Bayesi
+convex conjugates, bregman divergences, scoring rules, sufficient statitics, exp families, Bayesian updates, conjugate prior.
+\section{Maximum Likelihood Scoring Rules}
+
+%%%
+%%%
+%%%
+
+\subsection{Preliminaries}
+
+We consider a state space $\mX$ which may be discrete or continuous, and a measure $\nu$ over sets of states. We will typically take the state space to be  $\bR$ or $\bR^d$ together with the Lebesgue measure (perhaps restricted to some subset of states), or some finite set together with the counting measure.\footnote{We will not need to make reference to the underlying $\sigma$-algebra, but to complete the specification of the measure space we take it to be the collection of Borel sets in the case of $\bR$ and $\bR^d$, and the power set in the case of a discrete set.} A \emph{probability density} is a $\nu$-measurable function $p : \mX \rightarrow \bR_+$ that integrates to 1 over $\mX$. 
+
+Let $\mP$ denote the set of all probability densities over the given measure space. We are interested in eliciting information about some unknown density $p \in \mP$ which corresponds to the beliefs of an expert. The expert may be familiar with $p$ in its entirety, or only with certain properties of $p$.  Given a set of densities $\mD \subseteq \mP$, a \emph{property}  is a real (possibly vector-valued) function $\Gamma : \mD \rightarrow \bR^k$. With a slight abuse of terminology we call elements of its image $\Theta = \Gamma(\mD)$ \emph{properties} and we say that $p$ has property $\theta$ when $\Gamma(p) = \theta$. If $\Gamma$ is one-to-one, we instead call $\Gamma$ a \emph{parametrization} and refer to the elements of its image $\Theta$ as \emph{parameters}. 
+
+To be concrete, our outcome space could for instance be $\bR$ with $\nu$ the Lebesgue measure restricted to $[0,+\infty)$. The set $\mP$ then consists of all probability densities with support contained in the non-negative reals, and $\mD \subset \mP$ might consist of the densities of exponential distributions. An example of a property over $\mP$ is the mapping from a density to its mean.\footnote{The property may not be defined for all $p \in \mP$. In this case we implicitly restrict it to the subset of $\mP$ for which it is defined whenever its domain $\mD$ is not made explicit.} When restricted to the exponential densities $\mD$, this mapping is a parametrization. In much of this work, as in this example, the purpose of the measure $\nu$ is to implicitly encode bounds on the support of possible densities. The reason we use this approach, rather than explicitly stating bounds, is that it allows for clearer connections with maximum entropy estimation later on.
+
+Given the set of relevant densities $\mD \subseteq \mP$, which contains the expert's belief $p$, and a property $\Gamma$ over this set, the expert is asked to report $\theta = \Gamma(p)$. The expert is rewarded according to a \emph{scoring rule} $S : \Theta \times \mX \rightarrow \bR \cup \{-\infty\}$ which pays it $S(\htheta,x)$ according to how well its report $\htheta \in \Theta$ agrees with the eventual outcome $x \in \mX$. The idea is to design the scoring rule so that the expert is incentivized to report its true belief, setting $\htheta = \theta$. 
+%
+\begin{definition}
+Given a property $\Gamma : \mD \rightarrow \bR^k$, a scoring rule $S$ is  \emph{proper} over domain $\mD$ if for each $\theta \in \Theta$ and $p \in \mD$ with property $\theta$, we have
+%
+\begin{equation} \label{eq-proper}
+\Exp_p[S(\theta,x)] > \Exp_p[S(\htheta,x)]
+\end{equation}
+%
+for all $\htheta \neq \theta$. If the domain is $\mD = \mP$, the set of all possible densities, then we say the scoring rule is \emph{strongly proper}.
+\end{definition}
+%
+
+\begin{itemize}
+\item Note that the inequality is strict, in the literature these rules are called \emph{strictly} proper, but we only consider strictly proper rules here so don't make this qualification.
+\item Lambert et al.'s rules are actually strongly proper, however we consider scoring rules over vector valued properties. Lambert et al only develop these by adding together different scoring rules for each property. We go further in our constructions and develop rules that are not necessarily separable.
+\item It is useful to consider rules that are not strongly proper because we might have constructions for these for properties where no strongly proper rule is known.
+\item It is important to understand the informational requirements placed on the expert. Under a proper scoring rule, the expert does not need to be aware of the entire density $p$ to be incentivized to report its property $\theta$, since $\theta$ is an optimal report no matter what the density might be. The agent only needs to agree that the density indeed lies in $\mD$.
+\item For instance, if we are considering densities with support on $[0,+\infty)$, and $\mD$ is the set of lognormal densities, then a proper scoring rule over $\mD$ for the mean does not require the agent to know anything beyond the mean (e.g., it does not need to know the variance).  
+\item A strongly proper scoring rule goes further; with such a rule we do not require the expert to believe the density is drawn from some subset $\mD$, only that it agrees with the support implied by the base measure $\nu$. Therefore, a strongly proper scoring rule for the mean here would elicit the mean no matter what kind of density over the positive reals might apply (e.g., exponential, Pareto, lognormal).
+\item In practical scenarios this seems like an important extension, because while it might be clear which states are possible, it might be difficult to ensure the expert agrees that the probability density for states falls within some restricted family $\mD$.
+\end{itemize}
+
+%%%
+%%%
+%%%
+
+\subsection{Maximum Likelihood}
+
+%
+\begin{theorem} \label{maxlike}
+The logarithmic scoring rule defined by
+%
+\[ S(\theta, x) = \log p(x;\theta) \]
+%
+is weakly proper for $\mF$ over $\Theta$ if and only if the maximum likelihood estimate for $\theta$ is consistent. Furthermore, if $\mM$ is an alternative parameter space such that there exists a bijection $t : \mM \rightarrow \Theta$, then $\bar{S}(\mu, x) = S(t(\mu), x)$ is weakly proper for $\mF$ over $\mM$. 
+\end{theorem}
+%
+
+%
+\begin{example}
+Suppose $X$ is supported on $[0,+\infty)$ and follows an exponential distribution with density $f(x;\lambda) = \lambda e^{-\lambda x}$ parametrized by a rate $\lambda > 0$. The mean $\mu$ is related to the rate via the one-to-one mapping $\mu = 1/\lambda$, so the density can alternatively be parametrized by the mean. According to Theorem~\ref{maxlike} the following is a weakly proper scoring rule for the mean of an exponential distribution:
+%
+\begin{equation} \label{exp-scoring}
+S(\mu, x) = -\frac{x}{\mu} - \log \mu.
+\end{equation}
+%
+To verify this, suppose the agent believes $X$ follows an exponential distribution with rate $\lambda_0$, equivalently mean $\mu_0 = 1/\lambda_0$. By the one-to-one relation between rate and mean, choosing $\mu$ to maximize the expected score~(\ref{exp-scoring}) is equivalent to choosing $\lambda$ to maximize $\Exp{-\lambda x + \log \lambda} = -\lambda \mu_0 + \log \lambda$. The latter is strictly concave in $\lambda$, and using basic calculus its unique global maximum is $\lambda^* = 1/\mu_0$, which therefore leads the agent to report $\mu = \mu_0 = 1/\lambda^*$ under scoring rule~(\ref{exp-scoring}). 
+\end{example}
+%
+
+%
+\begin{example}
+Suppose that $X$ is supported on $[1,+\infty)$ and follows a Pareto distribution with density $f(x;\alpha) = \alpha/x^{\alpha+1}$ parametrized by an index $\alpha > 0$. The mean $\mu$ is related to the index via the one-to-one mapping $\mu = \frac{\alpha}{\alpha-1}$, so the density can alternatively be parametrized by the mean. Theorem~\ref{maxlike} gives the following weakly proper scoring rule for the mean of a Pareto distribution with support on $[1,+\infty)$:
+%
+\begin{equation} \label{pareto-scoring}
+S(\mu,x) = \log \frac{\mu}{\mu-1} - \left(\frac{\mu}{\mu-1} + 1\right) \log x.
+\end{equation}
+%
+To verify this, suppose the agent believes $X$ follows a Pareto distribution with index $\alpha_0$, equivalently mean $\mu_0 = \frac{\alpha_0}{\alpha_0-1}$. By the one-to-one relation between the index and mean, choosing $\mu$ to maximize the expected score~(\ref{pareto-scoring}) is equivalent to choosing $\alpha$ to maximize $\Exp{\log \alpha - (\alpha+1)\log x} = \log \alpha - (\alpha+1)\Exp{\log x}$. The latter is strictly concave in $\alpha$, and using basic calculus its unique global maximum is $\alpha^* = 1/\Exp{\log X} = \alpha_0$, where the last equality follows from the fact that $\log X$ has an exponential distribution with rate $\alpha$ when $X$ is Pareto with rate $\alpha$. Therefore~(\ref{pareto-scoring}) leads the agent to report $\mu = \mu_0 = \frac{\alpha^*}{\alpha^* - 1}$. 
+\end{example}
+%
+
+\begin{itemize}
+\item Explain that the scoring rule from Example 2 does not elicit the mean when the agent's distribution is exponential (with change of variable so that it lies in $[1,+\infty)$. 
+\item Observe that scoring rule from Example does elicit the mean when the agent's distribution is exponential, Pareto, or in fact any other distribution with support on $[0,+\infty)$ such as the lognormal. 
+\item This occurs because the scoring rule is linear in $x$, so its expectation is the same for any distribution with mean $\mu$. 
+\item Another feature to note is that under an appropriate parametrization (rate instead of mean), the scoring rule (1) is convex in the parameter being elicited. 
+\item These two observations taken together lay the groundwork for the characterization of strongly proper scoring rules for distribution statistics. 
+\item Before we proceed should note that the arguments behind Theorem~\ref{maxlike} apply not just to maximum likelihood but to any \emph{m-estimator}, which are notions from robust statistics. Explain what an m-estimator looks like and how there are general consistency results for those as well.
+\item The point of these alternative estimators is to be more robust to outliers in the sample, and so these kinds of estimators could translate into scoring rule more robust to inaccuracies in the agent's assessment of the underlying probability distribution or its parameters. (Just a hunch.)
+\end{itemize}
 \section{Maximum Entropy Market Making}
 
 
@@ -881,9 +967,200 @@ D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]&=& \log 
 \end{eqnarray*}¥
 Here we have used the fact that $\mu_{x}=x$ and $\sigma_{x}=0$.
 \rmk In statistics, the standard score (aka z-score), $(x-\mu)/\sigma$, is the (signed) number of standard deviations an observation is above the mean. \unrmk
+\section{Generalized Log Scoring Rule}
+Suppose that an agent holds a belief in the expected value of the moments of a random variable $x$. The maximum entropy distribution that is consistent with these beliefs is an exponential family distribution.
+ \defn For an outcome $x$ with predicted probability $p$, the generalized log scoring rule is defined as $$S(p,x)\defeq a+b\log p(x)$$ where $a$ and $b$ are constants that we will set to $0$ and $1$ respectively in these notes.\undefn
 
-\section{Connection to Mirror Descent?}
+\begin{thm} The generalized log scoring rule for the maximum entropy distribution is proper.
+\end{thm}
+\proof
+Recall that a  proper scoring rule $\mathbf{S}$ satisfies $$ \E_{x\sim p}[\mathbf{S}(p,x)]\geq \E_{x\sim p}[\mathbf{S}(p^{\prime},x)]$$
+ 
+Note that the maximum entropy distribution is an exponential family distribution. 
+ Let $p(x)=\exp\{\beta\cdot \phi(x)-\psi(\beta)\}$ be the true distribution and  $p'(x)=\exp\{\beta'\cdot \phi(x)-\psi(\beta')\}$ be the predicted distribution on the event $x$. 
+ 
+ We need to show that $$\E_{x\sim p}[\mathbf{S}(p,x)]\holds{\geq} \E_{x\sim p}[\mathbf{S}(p',x)]$$
+  In other words, we need $$\E_{x\sim p}[\log p(x)]\holds{\geq} \E_{x\sim p}[\log p'(x)]$$
+   Equivalently, $$\E_{x\sim p}[\beta\cdot \phi(x)-\psi(\beta)]\holds{\geq} \E_{x\sim p}[\beta'\cdot \phi(x)-\psi(\beta')]$$
+   Or 
+\begin{equation}\label{eq:proper}
+\beta\cdot \E_{x\sim p}[\phi(x)]-\psi(\beta)\holds{\geq} \beta'\cdot \E_{x\sim p}[\phi(x)]-\psi(\beta')
+\end{equation}
 
+   For an exponential family distribution, $\E_{x\sim p}[\phi(x)]=\nabla\psi(\beta)$. Substituting in  $(\ref{eq:proper})$, we need to show
+   $$\beta\cdot \nabla\psi(\beta)-\psi(\beta)\holds{\geq} \beta'\cdot \nabla\psi(\beta)-\psi(\beta')$$
+   Rearranging the terms,
+   $$(\beta-\beta')\cdot \nabla\psi(\beta)\holds{\geq} \psi(\beta)-\psi(\beta')$$   
+   which is the first order condition on the convexity of $\psi(\cdot)$.
+ \unproof   
+ 
+ \rmk The distance between the scores of the true and any predictive exponential family distribution is, in fact,  the Bregman divergence (based on the log partition function) between the corresponding natural parameters. That is,
+   $$\E_{x\sim p}[\mathbf{S}(p,x)]- \E_{x\sim p}[\mathbf{S}(p',x)] = D_{\psi}(\beta,\beta')$$
+   \unrmk
+ 
+ \subsection{Exponential Smoothing}
+One way to model the exponential family prediction market might be through exponential smoothing.
+\begin{itemize}
+\item A \emph{time series} is a set of data points sampled at periodic instances.
+\item \emph{Smoothing} is the process of creating an approximation function based on time series that while capturing  patterns in the data is relatively insensitive to noise.
+\item Natural first step is to use moving average. But average on how many samples (say $k$)? What to do until the first $k$ samples have been received?
+\item
+Next attempt might be to use weighted moving average. Advantage is that you can give higher weight to more recent terms. But still same disadvantage as simple moving average technique.
+\item
+\emph{Exponential Smoothing} attempts to remove this disadvantage.
+\end{itemize}
+
+Exponential smoothing is defined iteratively for $\alpha\in(0,1)$ as
+\begin{eqnarray*}
+s_{1} &=& x_{0}\\
+s_{t}&=&\alpha x_{t-1}+(1-\alpha)s_{t-1}
+\end{eqnarray*}
+
+Smaller values of $\alpha$ means greater smoothing e.g., $\alpha=0$ gives a constant function ($=x_{0}$).
+Note that the selection of $x_{0}$ is important -- and increases in importance as $\alpha$. Some advantages over moving average: all data points matter (decreasing importance with time) and computationally only last data point need be stored.
+
+\section{Bayesian Traders}
+Suppose data is drawn from an exponential family distribution. Further suppose, following a Bayesian model, that each trader has some prior belief distribution over the parameters of the data distribution. Assuming a conjugate prior, this prior distribution is also an exponential family distribution.
+
+The data distribution is given by $\exp\{\beta\cdot\phi(x)-\psi(\beta)\}$ where $\psi()$ is the log partition function and $\phi()$ are the sufficient statistics. Then the conjugate prior parametrized by $b_{0}=(n\nu, n)$ is given by $\exp\{b_{0}\cdot(\beta,\psi(\beta))-\Psi(b_{0})\}$where $\Psi()$ is the corresponding log partition function. The posterior distribution is given by $b=(n\nu+m\hmu, n+m)$ where $\hmu$ is the empirical mean of the sufficient statistics of the $m$ data points drawn from the data distribution, $\hmu=\sum_{i=1}^{m}\phi(x_{i})$. We also have $\E_{\beta\sim b_{0}}\E_{x\sim \beta}[\phi(x)]=\nu$.
+
+\subsection{Linear Utility}
+
+Suppose the trader wishes to maximize his expected payoff. Then the number of shares $\delta$ that he purchases when the current market state is $\theta$ is given by $$\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}\left[ \delta\phi(x) - C(\delta + \theta) + C(\theta)\right]$$
+But, $\E_{\beta\sim b}\E_{x\sim \beta}[\phi(x)]=\frac{n\nu+m\hmu}{ n+m}$. To obtain the maximum, we set the gradient to $0$. Thus, we have $$\nabla C(\delta + \theta)=\frac{n\nu+m\hmu}{ n+m}$$ For an exponential family prediction market, the final market state is given by
+$$\nabla C^{*}\left(\frac{n\nu+m\hmu}{ n+m}\right)$$
+
+\subsection{Exponential Utility}
+Now suppose the trader has exponential utility, given by $$U(w) = -\frac{1}{a} \exp(-aw)$$ where $a$ is the coefficient of risk aversion. Suppose the trader wishes to maximize his expected utility. Then the number of shares $\delta$ that he purchases when the current market state is $\theta$ is given by 
+\begin{eqnarray*}
+&&\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}U\left[ \delta\phi(x) - C(\delta + \theta) + C(\theta)\right]\\
+&=&\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}-\frac{1}{a}\exp\left[ -a\delta\phi(x) +a C(\delta + \theta) -a C(\theta)\right]
+\end{eqnarray*}¥
+
+\begin{eqnarray*}
+\E_{\beta\sim b}\E_{x\sim \beta}\exp\left[-a\delta\phi(x)\right]&=&\int_{\mathcal{B}}\int_{\mathcal{X}}\exp[-a\delta\phi(x)]\, \exp\{\beta\cdot\phi(x)-\psi(\beta)\}\, dx\\
+&&\qquad\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\, d\beta\\
+&=&\int_{\mathcal{B}}\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\\
+&&\qquad\exp\{\psi(\beta-a\delta)-\psi(\beta)\}\,\, d\beta\int_{\mathcal{X}}\exp[(\beta-a\delta)\cdot\phi(x)-\psi(\beta-a\delta)]\, dx\\
+&=&\int_{\mathcal{B}}\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\\
+&&\qquad\exp\{\psi(\beta-a\delta)-\psi(\beta)\}\,\, d\beta\\
+\end{eqnarray*}¥
+
+\section{Reinterpreting repeated trades in a market}
+Let us suppose that traders in this market have exponential utility \[
+U(w) = -\frac{1}{a} \exp(-aw).
+\]
+%
+Here $a$ is the coefficient of risk aversion (higher means more risk averse, and the utility function is more concave).
+
+Let $\delta_{1}^{*}$ be the optimal vector of shares the agent decides to trade on first entering the market with exponential family belief parametrized by natural parameter $\hat{\theta}$. Thus, his belief distribution is given by the pdf $$\exp\{\hat{\theta} \phi(x) - T(\hat{\theta})\}]$$ where $T(\hat{\theta}) =\int_{\mathcal{X}}\exp\{\hat{\theta} \phi(x)\}\ dx$ is the log partition function and $\phi(x)$ are the sufficient statistics.
+On a subsequent entry into this market when the market state is $\theta'$, his optimal purchase $\delta_{2}^{*}$ is given by the solution of
+$$\arg\max_{\delta_{2}} \E_{x\sim \hat{\theta}} U[\mathrm{payoff}]$$
+Here, the payoff given eventual outcome $x$ is  $[\delta_{1}^{*}+\delta_{2}^{*} ]\phi(x) - C(\delta_{1}^{*} + \theta) + C(\theta)- C(\delta_{2}^{*} + \theta') + C(\theta')$. Here $\theta' = \theta+\delta_{1}^{*}+\delta'$ where $\delta'$ captures the movement of the share vector by other traders in the market. 
+The expected utility for this payoff is as follows.
+%%
+%\[ U( \delta x - C(\delta + \theta) + C(\theta) ) = -\frac{1}{a} \exp(-a \delta x + a C(\delta + \theta) - a C(\theta)).
+%\]
+%%
+\begin{eqnarray*}
+&   & \arg\max_{\delta_{2}}\E\left[ (\delta_{1}^{*}+\delta_{2} )\phi(x) - C(\delta_{1}^{*} + \theta) + C(\theta)- C(\delta_{2} + \theta') + C(\theta') \right] \\
+& = & \arg\max_{\delta_{2}}\int_{\mathcal{X}} -\frac{1}{a} [\exp(-a (\delta_{1}^{*}+\delta_{2} )\phi(x) \\
+&  & + a C(\delta_{1}^{*} + \theta) -a C(\theta)+a C(\delta_{2} + \theta') -a C(\theta')) \exp\{\hat{\theta} \phi(x) - T(\hat{\theta})\}]\, dx \\
+& = & \arg\max_{\delta_{2}}\int_{\mathcal{X}} -\frac{1}{a} [\exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta') \\
+&  & + a C(\delta_{1}^{*} + \theta) -a C(\theta)\} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})\}]\, dx \\
+& = & \arg\max_{\delta_{2}}\int_{\mathcal{X}} U[N(\delta_{2},\theta')] \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}]\, dx 
+\end{eqnarray*}
+
+Here the first equality follows from the fact that we are taking expectation over the traders belief parameter $\hat{\theta}$ and the second equality follows simply from rearranging the factors of $\phi(x)$. And lastly we have written $-\frac{1}{a} [\exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta')]$ as $U[N(\delta_{2},\theta')]$ where $N(\delta_{2},\theta')$ is the net payoff when $\delta_{2}$ shares are purchased when the current market state is $\theta'$. 
+
+This is equivalent to maximizing expected utility of $N(\delta_{2},\theta')$, where expectation is taken with respect to an exponential family distribution over $\mathcal{X}$ parametrized by $\hat{\theta}-a \delta_{1}^{*}$, so long as 
+$$\int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}]\, dx = c\times \int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)-T(\hat{\theta}-a \delta_{1}^{*})\} \, dx$$
+
+%$$\int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)-\psi(\hat{\theta}-a \delta_{1}^{*})\} \, dx =1$$
+%That is
+%$$\psi(\hat{\theta}-a \delta_{1}^{*})= \int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)\}\ dx$$
+In other words we want the following statement to hold.
+\begin{eqnarray*}
+\exists c: c\times\exp\{- T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}&=&
+T(\hat{\theta}-a \delta_{1}^{*})\\
+&=& \int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)\}\ dx
+\end{eqnarray*}
+
+where $c$ is a constant with respect to $\delta_{2}$ and $x$ (but could potentially depend on $\hat{\theta}$, $a$ and $\delta_{1}^{*}$). This is true because the right hand side of the equation is a function of only $\hat{\theta}$, $a$ and $\delta_{1}^{*}$. Let $\Theta\defeq\hat{\theta}-a \delta_{1}^{*}  $ be the effective belief. Thus we have that the trader chooses his share vector as follows.
+\begin{eqnarray*}
+&&  \arg\max_{\delta_{2}}\int_{\mathcal{X}} U[N(\delta_{2},\theta')] \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}\, dx \\
+& = &\arg\max_{\delta_{2}}\int_{\mathcal{X}} U[N(\delta_{2},\theta')] \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta}-a \delta_{1}^{*})\}]\, dx\\
+& = & \arg\max_{\delta_{2}} \int_{\mathcal{X}} -\frac{1}{a} \exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta')\} \exp\{\Theta\cdot \phi(x) - T(\Theta)\}\, dx\\
+& = & \arg\max_{\delta_{2}} U\left[- C(\delta_{2} + \theta') + C(\theta') - \frac{1}{a} T(\Theta - a\delta_{2}) + \frac{1}{a} T(\Theta)\right]\\
+\end{eqnarray*}
+This follows from the argument detailed in in exp-util and simple substitution. Further,  the maximizer is $\delta_{2}^* = (\Theta - \theta') / (1+a)$, which moves the share vector to $\theta' + \delta_{2}^* = \frac{1}{1+a} \Theta + \frac{a}{1+a} \theta'$ which is a convex combination of the effective belief and the current market state.
+
+In other words, an exponential utility maximizing trader who has belief $\hat{\theta}$ with prior exposure $\delta$ in a market  will behave identically as an exponential utility maximizing trader with belief $\hat{\theta}-a \delta$ and no prior exposure in the market. Here $a$ is the utility parameter. This means that financial exposure can be equivalently understood as changing the privately held beliefs.
+
+Note that as the trader becomes more risk averse, the  belief is updated more aggressively. As $a \rightarrow 0$, the trader becomes more risk neutral and his effective belief is closer to his true belief. 
+%
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\subsection{Equilibrium in a market with multiple traders}
+We have shown that every exponential-utility maximizing trader picks the share vector $\delta_{i}$ so as to maximize the utility of $- C(\delta_{i} + \theta) + C(\theta) - \frac{1}{a_{i}} T(\beta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\beta_{i})$ where $\theta$ is the initial market state, $a_{i}$ the utility parameter and $\beta_{i}$ the belief parameter of  trader $i$. To maximize utility, it suffices to maximize the argument, assuming that $C()=T()=\psi()$. 
+
+Now consider a market with multiple exponential-utility maximizing traders. We wish to compute the equilibrium state. Let us assume that equilibrium is reached at a market state $\theta+\sum_{i}\delta_{i}$ where $\theta$ is the initial market state before trading begins and $\delta_{i}$ is each trader's purchase. 
+
+%Thus, each trader picks $\delta_{i}$ as follows.
+%\begin{eqnarray*}
+%&&\arg\max_{\delta_{i}}\left(- \psi(\theta+\sum_{i}\delta_{i}) + \psi(\theta) - \frac{1}{a_{i}} \psi(\beta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} \psi(\beta_{i})\right)\\
+%&\iff&\arg\min_{\delta_{i}}\left( \psi(\theta+\sum_{i}\delta_{i})+\sum_{i}\frac{1}{a_{i}}\psi(\beta_{i}-a_{i}\delta_{i})\right)
+%\end{eqnarray*}¥
+Recall the following result from game theory.
+\begin{thm}\label{thm:potl}
+Let $U_{i}(\vec{\delta})$ be the utility function of the $i^{th}$ trader given strategies $\vec{\delta}\defeq \delta_{1},\ldots,\delta_{i},\ldots,\delta_{n}$. If there exists a potential function $\phi(\vec{\delta})$ such that $$U_{i}(\vec{\delta})-U_{i}(\vec{\delta}_{-i},\delta_{i}')=\phi(\vec{\delta})-\phi(\vec{\delta}_{-i},\delta_{i}')$$
+then when $\phi(\vec{\delta})$ is maximized, $\vec{\delta}$ is an equilibrium.
+\end{thm}¥
+
+Let $$\phi(\vec{\delta})\defeq  \psi(\theta+\sum_{i}\delta_{i})+\sum_{i}\frac{1}{a_{i}}\psi(\beta_{i}-a_{i}\delta_{i})$$
+Now $U_{i}(\vec{\delta})=- \psi(\theta+\sum_{j}\delta_{j}) + \psi(\theta+\sum_{j\neq i}\delta_{j}) - \frac{1}{a_{i}} \psi(\beta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} \psi(\beta_{i})$.
+Thus, Theorem \ref{thm:potl} applies and we can find the equilibrium market state by maximizing $\phi(\vec{\delta})$ for each $\delta_{i}$.
+\begin{eqnarray*}
+\nabla_{\delta_{i}}\phi(\vec{\delta})&=&\nabla\psi(\theta+\sum_{j=1}^{n}\delta_{i})-\nabla\psi(\beta_{i}-a_{i}\delta_{i})\\
+&=&0
+\end{eqnarray*}¥
+This can be achieved by equating the arguments. That is, for each trader $i$, 
+\begin{equation}\label{eq:eqbm}
+\beta_{i}-a_{i}\delta_{i}=\theta+\sum_{j=1}^{n}\delta_{j}
+\end{equation}¥
+Rewriting, we have for each trader $i$, 
+$$\frac{\beta_{i}}{a_{i}}-\delta_{i}=\frac{1}{a_{i}}(\theta+\sum_{j=1}^{n}\delta_{j})$$
+Thus,
+$$\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)-\sum_{i=1}^{n}\delta_{i}=\left(\theta+\sum_{j=1}^{n}\delta_{j}\right)\sum_{i=1}^{n}\frac{1}{a_{i}}$$
+And
+$$\sum_{j=1}^{n}\delta_{j}=
+\frac{\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)-\theta\sum_{i=1}^{n}\left(\frac{1}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
+Substituting in Equation \ref{eq:eqbm} we have the following expression for the final market state.
+$$\theta+\sum_{j=1}^{n}\delta_{j}=
+\frac{\theta+\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
+Let us modify the cost function so that it includes a liquidity parameter:
+$$C_{\lambda}(q)\defeq\lambda \psi(q/\lambda)$$
+
+\subsubsection{Lower Bound on Expected Payoff for Exponential Utility Traders}
+Let $\theta$ be the current market state. We have shown that an exponential utility trader with belief distribution  parametrized by $\beta$ will move the market state to $\theta'=\frac{1}{1+a} \beta + \frac{a}{1+a} \theta$. Therefore, the trader's expected net payoff is given by
+\begin{eqnarray*}
+&& \E_{x\sim P_{\beta}}[C(\theta)-C(\theta')-(\theta-\theta')\phi(x)]\\
+&=& \psi(\theta)-\theta\E_{x\sim P_{\beta}}[\phi(x)]-(\psi(\theta')-\theta' \E_{x\sim P_{\beta}}[\phi(x)])\\
+&=& \psi(\theta)-\theta\nabla\psi(\beta)-(\psi(\theta')-\theta' \nabla\psi(\beta))\\
+&=& \psi(\theta)-\psi(\beta)-\nabla\psi(\beta)(\theta-\beta)-(\psi(\theta')-\psi(\beta)- \nabla\psi(\beta)(\theta'-\beta))\\
+&=& D_{\psi}(\theta,\beta)-D_{\psi}(\theta',\beta)\\
+&\geq&\frac{1}{a}D_{\psi}(\theta',\beta)\geq0
+\end{eqnarray*}
+The second to last inequality holds since $D_{\psi}(\theta',\beta)$ is convex in $\theta'$ and we have:
+\begin{eqnarray*}
+D_{\psi}(\theta',\beta)&=&D_{\psi}\left(\frac{1}{1+a} \beta + \frac{a}{1+a} \theta,\beta\right)\\
+&\leq&\frac{1}{1+a}D_{\psi}( \beta ,\beta)+ \frac{a}{1+a} D_{\psi}( \theta ,\beta)\\
+&=&\frac{a}{1+a} D_{\psi}( \theta ,\beta)
+%\implies D_{\psi}(\theta',\beta)+aD_{\psi}(\theta',\beta)&\leq& aD_{\psi}( \theta ,\beta)\\
+\end{eqnarray*}¥
+Thus, a trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{\psi}(\theta',\beta)$.
 \section{Conclusions}
 
 \end{document}
