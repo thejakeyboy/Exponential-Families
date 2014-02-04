@@ -198,8 +198,8 @@ In this paper, we draw connections between the aggregation performed by learning
 
 
 We have dual goals in this paper. On the one hand, we highlight a structural similarity between prediction markets and exponential families. We see this as the syntax of our prediction market mechanism. On the other, this formulation has rich semantics as well: it allows for analysis of market behavior under various environments. For instance, we analyze market behavior with budget limited traders, traders that are exponential-utility-maximizers.
-\section{Notation and Definitions}
-convex conjugates, bregman divergences, scoring rules, sufficient statitics, exp families, Bayesian updates, conjugate prior.
+%\section{Notation and Definitions}
+%convex conjugates, bregman divergences, scoring rules, sufficient statitics, exp families, Bayesian updates, conjugate prior.
 
 
 
@@ -698,7 +698,7 @@ $$
 $$
 where $g^*$ is the convex conjugate of $g$.
 
-\subsubsection{Exponential Utility}
+\section{Exponential Utility}
 
 Assume the agent's belief distribution $p$ belongs to an exponential family, so it takes the form
 %
@@ -753,7 +753,7 @@ In the statement of the result I use the term ``LMSR cost function'' somewhat lo
 Note that as $a \rightarrow 0$, we approach risk neutrality and the agent moves the share vector all the way to its private estimate $\htheta$. As $a$ grows (agent grows more risk averse) the agent makes smaller and smaller trades that keep it closer to the current estimate $\theta$.
 
 So there is a kind of congruence between exponential family beliefs and exponential utility (as the names would suggest). 
-\subsection{Properties of the Maximum Entropy Market}
+\section{Properties of the Maximum Entropy Market}
 Consider the dual of the cost function, $C^{*}(\mu)$ defined as
 $$C^{*}(\mu) = \sup_{\beta} \beta\cdot\mu - C(\beta)$$
 This supremum is obtained at the value of $\beta$ for which $\mu = \nabla C(\beta)$; that is the natural parameter $\beta$ for which $\mu=\E_{p_{\beta}}[\phi(x)]$ is the mean parameter. Rewriting, 
@@ -815,7 +815,7 @@ Let $q_{0}$ be the initial and $q_{f}$ the final market state. Then if $\mu$ is 
 &=&D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]
 \end{eqnarray*}
 
-\subsubsection{Example: Gaussian Markets}
+\subsection{Example: Gaussian Markets}
 {\ex We will now derive an expression for the dual of the log partition function for the Gaussian distribution. In this case,  $\beta$ is a $2$-dimensional  vector. Let $\beta=\begin{pmatrix}\beta_{1}\\ \beta_{2}\end{pmatrix}$ and $\mu=\begin{pmatrix}\mu_{1}\\ \mu_{2}\end{pmatrix}$. So 
 \begin{eqnarray*}
 \pmb{\mu}&=&\nabla\psi(\pmb{\beta})\\
@@ -1000,43 +1000,40 @@ In other words, an exponential utility maximizing trader who has belief $\hat{\t
 
 
 \section{Equilibrium Market State for Exponential Utility Agents}
-We have shown that every exponential-utility maximizing trader picks the share vector $\delta_{i}$ so as to maximize the utility of $- C(\delta_{i} + \theta) + C(\theta) - \frac{1}{a_{i}} T(\beta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\beta_{i})$ where $\theta$ is the initial market state, $a_{i}$ the utility parameter and $\beta_{i}$ the belief parameter of  trader $i$. To maximize utility, it suffices to maximize the argument, assuming that $C()=T()=\psi()$. 
+We have shown that every exponential-utility maximizing trader picks the share vector $\delta$ so that the eventual market state can be represented as a convex combination of the initial market state and the natural parameter of his (exponential family) belief distribution. In this section we will compute the equilibrium state in an exponential family market with multiple exponential-utility maximizing traders. 
 
-Now consider a market with multiple exponential-utility maximizing traders. We wish to compute the equilibrium state. Let us assume that equilibrium is reached at a market state $\theta+\sum_{i}\delta_{i}$ where $\theta$ is the initial market state before trading begins and $\delta_{i}$ is each trader's purchase. 
 
-%Thus, each trader picks $\delta_{i}$ as follows.
-%\begin{eqnarray*}
-%&&\arg\max_{\delta_{i}}\left(- \psi(\theta+\sum_{i}\delta_{i}) + \psi(\theta) - \frac{1}{a_{i}} \psi(\beta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} \psi(\beta_{i})\right)\\
-%&\iff&\arg\min_{\delta_{i}}\left( \psi(\theta+\sum_{i}\delta_{i})+\sum_{i}\frac{1}{a_{i}}\psi(\beta_{i}-a_{i}\delta_{i})\right)
-%\end{eqnarray*}¥
-Recall the following result from game theory.
+Recall the following result from game theory. %need a reference/name for this result?
 \begin{thm}\label{thm:potl}
-Let $U_{i}(\vec{\delta})$ be the utility function of the $i^{th}$ trader given strategies $\vec{\delta}\defeq \delta_{1},\ldots,\delta_{i},\ldots,\delta_{n}$. If there exists a potential function $\phi(\vec{\delta})$ such that $$U_{i}(\vec{\delta})-U_{i}(\vec{\delta}_{-i},\delta_{i}')=\phi(\vec{\delta})-\phi(\vec{\delta}_{-i},\delta_{i}')$$
-then when $\phi(\vec{\delta})$ is maximized, $\vec{\delta}$ is an equilibrium.
+Let $U_{i}(\vec{\delta})$ be the utility function of the $i^{th}$ trader given strategies $\vec{\delta}\defeq \delta_{1},\ldots,\delta_{i},\ldots,\delta_{n}$. If there exists a potential function $g(\vec{\delta})$ such that $$U_{i}(\vec{\delta})-U_{i}(\vec{\delta}_{-i},\delta_{i}')=g(\vec{\delta})-g(\vec{\delta}_{-i},\delta_{i}')$$
+then when $g(\vec{\delta})$ is maximized, $\vec{\delta}$ is an equilibrium.
 \end{thm}¥
+In the exponential family market, the cost function $C$ is identical to the log partition function $T$.  Let $\vec{\delta}$ be the vector of vectors of shares purchased by every trader in the market when the market has reached equilibrium, $\theta$ the initial market state, $\htheta_{i}$ the natural parameter of trader $i$'s belief distribution and $a_{i}$ his utility parameter. 
 
-Let $$\phi(\vec{\delta})\defeq  \psi(\theta+\sum_{i}\delta_{i})+\sum_{i}\frac{1}{a_{i}}\psi(\beta_{i}-a_{i}\delta_{i})$$
-Now $U_{i}(\vec{\delta})=- \psi(\theta+\sum_{j}\delta_{j}) + \psi(\theta+\sum_{j\neq i}\delta_{j}) - \frac{1}{a_{i}} \psi(\beta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} \psi(\beta_{i})$.
-Thus, Theorem \ref{thm:potl} applies and we can find the equilibrium market state by maximizing $\phi(\vec{\delta})$ for each $\delta_{i}$.
+Define a potential function as  $$g(\vec{\delta})\defeq  T(\theta+\sum_{i}\delta_{i})+\sum_{i}\frac{1}{a_{i}}T(\htheta_{i}-a_{i}\delta_{i})$$
+
+%is the following expression for utility correct?
+Now the utility of trader $i$ is $U_{i}(\vec{\delta})=- T(\theta+\sum_{j}\delta_{j}) + T(\theta+\sum_{j\neq i}\delta_{j}) - \frac{1}{a_{i}} T(\htheta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\htheta_{i})$.
+Thus, Theorem \ref{thm:potl} applies and we can find the equilibrium market state by maximizing $g(\vec{\delta})$ for each $\delta_{i}$.
 \begin{eqnarray*}
-\nabla_{\delta_{i}}\phi(\vec{\delta})&=&\nabla\psi(\theta+\sum_{j=1}^{n}\delta_{i})-\nabla\psi(\beta_{i}-a_{i}\delta_{i})\\
+\nabla_{\delta_{i}}g(\vec{\delta})&=&\nabla T(\theta+\sum_{j=1}^{n}\delta_{i})-\nabla T(\htheta_{i}-a_{i}\delta_{i})\\
 &=&0
 \end{eqnarray*}¥
 This can be achieved by equating the arguments. That is, for each trader $i$, 
 \begin{equation}\label{eq:eqbm}
-\beta_{i}-a_{i}\delta_{i}=\theta+\sum_{j=1}^{n}\delta_{j}
+\htheta_{i}-a_{i}\delta_{i}=\theta+\sum_{j=1}^{n}\delta_{j}
 \end{equation}¥
 Rewriting, we have for each trader $i$, 
-$$\frac{\beta_{i}}{a_{i}}-\delta_{i}=\frac{1}{a_{i}}(\theta+\sum_{j=1}^{n}\delta_{j})$$
+$$\frac{\htheta_{i}}{a_{i}}-\delta_{i}=\frac{1}{a_{i}}(\theta+\sum_{j=1}^{n}\delta_{j})$$
 Thus,
-$$\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)-\sum_{i=1}^{n}\delta_{i}=\left(\theta+\sum_{j=1}^{n}\delta_{j}\right)\sum_{i=1}^{n}\frac{1}{a_{i}}$$
+$$\sum_{i=1}^{n}\left(\frac{\htheta_{i}}{a_{i}}\right)-\sum_{i=1}^{n}\delta_{i}=\left(\theta+\sum_{j=1}^{n}\delta_{j}\right)\sum_{i=1}^{n}\frac{1}{a_{i}}$$
 And
 $$\sum_{j=1}^{n}\delta_{j}=
-\frac{\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)-\theta\sum_{i=1}^{n}\left(\frac{1}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
+\frac{\sum_{i=1}^{n}\left(\frac{\htheta_{i}}{a_{i}}\right)-\theta\sum_{i=1}^{n}\left(\frac{1}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
 Substituting in Equation \ref{eq:eqbm} we have the following expression for the final market state.
 $$\theta+\sum_{j=1}^{n}\delta_{j}=
-\frac{\theta+\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
-
+\frac{\theta+\sum_{i=1}^{n}\left(\frac{\htheta_{i}}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
+Thus the equilibrium state is a convex combination of trader beliefs and initial market state.
 \section{Conclusions}
 %
 %----------------------------------------------------------------------------------------
