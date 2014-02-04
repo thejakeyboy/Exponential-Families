@@ -169,17 +169,24 @@ In this paper, we draw connections between the aggregation performed by learning
 %------------------------------------------------------------
 %Outline
 %------------------------------------------------------------
-%- exp family review
-%- maxent scoring rule
+%-introduction [Sindhu; Thursday]
+%-literature review
+%- exp family review [Sindhu; Tuesday]
+%- maxent scoring rule [Sebastien]
 %	- generalized lmsr
-%	- does modularity (a la Hanson) still hold?
-%- prediction market setup
+%	[- does modularity (a la Hanson) still hold?]
+%- prediction market setup [Sebastien]
 %	- MLE with risk neutrality
-%- conjugate prior market
+%- conjugate prior market [Sindhu; Wednesday]
 %	- also on hyperparam?
-%- exp-util
+%- exp-util [Sebastien]
 %- equilibrium for repeated trades
-%- budgets and adversarial markets
+% 	[- rate of convergence?]
+%- budgets and adversarial markets [Sindhu; Monday]
+% [any liquidity results?] [Sindhu: weekend]
+% conclusion
+% bibliography
+
 
 
 We have dual goals in this paper. On the one hand, we highlight a structural similarity between prediction markets and exponential families. We see this as the syntax of our prediction market mechanism. On the other, this formulation has rich semantics as well: it allows for analysis of market behavior under various environments. For instance, we analyze market behavior with budget limited traders, traders that are exponential-utility-maximizers.
@@ -471,11 +478,12 @@ In this section, we consider the the prediction market setup with traders that m
 
 We will show that if we are able to impose finite initial budgets on the traders and control the market prices based on these budgets, then  it possible to set up the market so that it is prohibitive for damaging traders to participate in the market. Further, the informative traders can be shown to have expected growth in budget so that they are eventually able to move the market prices without restriction. 
 
+In this section, we assume that the traders have exponential family beliefs. The cost function has the same form as the log partition function $\psi$ of the exponential family and the payoff is determined by the sufficient statistics of the data $\phi(x)$.
 \subsection{Budget-limited Aggregation}
 Imposing budget limits on the traders will allow us to control the amount of influence any one trader can have on moving the market prices. We will also satisfy an additional requirement that no trader has negative budget at any point of participation in the market. This is achieved by restricting the movement of the market and hence influencing the cost incurred by the trader. Recall that the payoff in this market is non-negative and hence the only adverse influence on a trader's budget is the cost of movement of the market state. 
 
 In this section, we assume that the budget of each trader is known to the market maker, and that the market maker can directly limit the allowed trades based on a trader's budget. 
-Let $\alpha$ be the budget of a trader in the market. Suppose with infinite budget, the trader would have moved the market state from $\theta$ to $\htheta$, where $\htheta$ represents his true belief. Suppose further that $\alpha<C(\htheta)-C(\theta)$; that is the trader's budget does not allow for purchasing enough shares to move the market state to his belief. In this case, we want to budget-limit the trader's influence on the market state. 
+Let $\alpha$ be the budget of a trader in the market. Suppose with infinite budget, the trader would have moved the market state from $\theta$ to $\htheta$, where $\htheta$ represents his true belief. Let $C$ be the cost function. Now suppose further that $\alpha<C(\htheta)-C(\theta)$; that is the trader's budget does not allow for purchasing enough shares to move the market state to his belief. In this case, we want to budget-limit the trader's influence on the market state. 
 
 We define the budget-limited final market state as $\theta'$. 
 Here, we consider a specific functional form of $\theta'$: $$\theta'=\lambda\htheta+(1-\lambda)\theta$$  where $$\lambda=\min\left(1, \frac{\alpha}{C(\htheta) - C(\theta)}\right)$$ 
@@ -550,7 +558,7 @@ The following result has been previously pointed out by Amari \cite{Amari-KL}.
 \begin{theorem}\label{lem:profit_decomposition}{\bf (Profit Decomposition)}: Consider an exponential 
 family $\family$ of distributions over some set of statistics $\suff(x)$, with natural parameters $\beta$. Let $\pi, \rho \in \family$ be any two probability distributions in the family. We use 
 $\beta_\pi$ to denote the natural parameters of $\pi$ and $\mu_{\pi}$ to denote the expected value of the sufficient statistics under $\pi$. Likewise,
-we can define $\beta_\rho$ and  $\mu_\rho$. Let $\lpf(\beta_{\rho})$ indicate the log partition function of $\rho$ which technically depends on its natural parameters.
+we can define $\beta_\rho$ and  $\mu_\rho$. Let $\lpf(\beta_{\rho})$ indicate the log partition function of $\rho$.
 Let $H(\pi)$ denote the entropy of the distribution $\pi$, and 
  $K(\pi||\rho)$ denote the KL-divergence of $\rho$ relative to $\pi$.
 Then, the following equality holds:  
@@ -584,36 +592,36 @@ Given the  information-theoretic interpretation of the cost-function based predi
 
 We now characterize the expected change in budget for an informative trader. The following result holds for any round $t$; for simplicity, we have therefore dropped the superscript from the notation.
 \begin{theorem}\label{thm:growth}
-Let $\theta$ be the current market state. Suppose that an  informative trader with belief distribution  parametrized by $\theta'$  moves the market state to the budget-limited state $\htheta=\lambda \theta' + (1-\lambda) \theta$. Then, the expectation (over the trader's belief) of the trader's profit  is greater than zero whenever his budget is positive and his belief differs from the previous market position $\theta$. 
+Let $\theta$ be the current market state in the exponential family prediction market. Suppose that an  informative trader with belief distribution  parametrized by $\theta'$  moves the market state to the budget-limited state $\htheta=\lambda \theta' + (1-\lambda) \theta$. Then, the expectation (over the trader's belief) of the trader's profit  is greater than zero whenever his budget is positive and his belief differs from the previous market position $\theta$. 
 % Suppose that each informative trader gets a random sample of data, 
 %resulting in a sequence of trader beliefs $\theta_i$, and hence a sequence of budget-limited market positions
 %$\hat{\theta}_i$, before a final outcome $x$. Then, the expectation, over trader $i$'s belief distribution $\theta_i$, of trader $i$'s realized profit is greater than zero whenever her budget is positive and her belief differs from the previous market position $\hat{\theta}_{i-1}$. 
 \end {theorem}
 \begin{proof}
-Let $\theta$ be the current market state. We have shown that an exponential utility trader with belief distribution  parametrized by $\beta$ will move the market state to $\theta'=\frac{1}{1+a} \beta + \frac{a}{1+a} \theta$. Therefore, the trader's expected net payoff is given by
+Let the cost function $C$ be equal to the log partition function $\psi$ of the belief distribution. The payoff is given by the sufficient statistics $\phi(x)$. Then, the trader's expected net payoff is given by
 \begin{eqnarray*}
-&& \E_{x\sim P_{\beta}}[C(\theta)-C(\theta')-(\theta-\theta')\phi(x)]\\
-&=& \psi(\theta)-\theta\E_{x\sim P_{\beta}}[\phi(x)]-(\psi(\theta')-\theta' \E_{x\sim P_{\beta}}[\phi(x)])\\
-&=& \psi(\theta)-\theta\nabla\psi(\beta)-(\psi(\theta')-\theta' \nabla\psi(\beta))\\
-&=& \psi(\theta)-\psi(\beta)-\nabla\psi(\beta)(\theta-\beta)-(\psi(\theta')-\psi(\beta)- \nabla\psi(\beta)(\theta'-\beta))\\
-&=& D_{\psi}(\theta,\beta)-D_{\psi}(\theta',\beta)\\
-&\geq&\frac{1}{a}D_{\psi}(\theta',\beta)\geq0
+&& \E_{x\sim P_{\htheta}}[C(\theta)-C(\theta')-(\theta-\theta')\phi(x)]\\
+&=& \psi(\theta)-\theta\E_{x\sim P_{\htheta}}[\phi(x)]-(\psi(\theta')-\theta' \E_{x\sim P_{\htheta}}[\phi(x)])\\
+&=& \psi(\theta)-\theta\nabla\psi(\htheta)-(\psi(\theta')-\theta' \nabla\psi(\htheta))\\
+&=& \psi(\theta)-\psi(\htheta)-\nabla\psi(\htheta)(\theta-\htheta)-(\psi(\theta')-\psi(\htheta)- \nabla\psi(\htheta)(\theta'-\htheta))\\
+&=& D_{\psi}(\theta,\htheta)-D_{\psi}(\theta',\htheta)\\
+&\geq&\lambda D_{\psi}(\theta,\htheta)\geq0
 \end{eqnarray*}
-The second to last inequality holds since $D_{\psi}(\theta',\beta)$ is convex in $\theta'$ and we have:
+The second to last inequality holds since $D_{\psi}(\theta',\htheta)$ is convex in $\theta'$ and we have:
 \begin{eqnarray*}
-D_{\psi}(\theta',\beta)&=&D_{\psi}\left(\frac{1}{1+a} \beta + \frac{a}{1+a} \theta,\beta\right)\\
-&\leq&\frac{1}{1+a}D_{\psi}( \beta ,\beta)+ \frac{a}{1+a} D_{\psi}( \theta ,\beta)\\
-&=&\frac{a}{1+a} D_{\psi}( \theta ,\beta)
+D_{\psi}(\theta',\htheta)&=&D_{\psi}\left(\lambda\htheta+(1-\lambda)\theta,\htheta\right)\\
+&\leq&\lambda D_{\psi}( \htheta ,\htheta)+ (1-\lambda) D_{\psi}( \theta ,\htheta)\\
+&=&(1-\lambda) D_{\psi}( \theta ,\htheta)
 %\implies D_{\psi}(\theta',\beta)+aD_{\psi}(\theta',\beta)&\leq& aD_{\psi}( \theta ,\beta)\\
 \end{eqnarray*}¥
-Thus, a trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{\psi}(\theta',\beta)$.
+Thus, a trader who moves the market state can expect his profit to be positive and at least $\lambda D_{\psi}(\theta,\htheta)$.
  \end{proof}
 
 
 For continuous distributions with a density, the probability that a trader with private information will form exactly the same beliefs as the current market position is $0$, and thus, each trader will have positive expected profit on almost all sequences of observed samples and beliefs. 
 This result suggests that, eventually, every informative trader will have the ability to influence the market state in accordance with his beliefs, without being budget limited.
 
-Notice that Theorem~\ref{thm:growth} only required that the market state to which the trader moves, be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{\psi}(\theta',\beta)$ where is the exponential utility parameter.
+Notice that Theorem~\ref{thm:growth} only required that the market state to which the trader moves, be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{\psi}(\theta,\htheta)$ where $a$ is the exponential utility parameter.
 
 We note one important aspect of Theorem~\ref{thm:growth}: The expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
 
