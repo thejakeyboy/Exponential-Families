@@ -470,6 +470,16 @@ S(\mu, x) = \la \theta(\mu), \phi(x) \ra - C(\theta(\mu)).
 %
 \noindent
 The scoring rule~(\ref{expscore}) decomposes neatly into payoff and cost functions. The first term $\la \theta(\mu), \phi(x) \ra$ defines the agent's outcome-contingent reward, while the second term~$C(\theta(\mu))$ is the cost of acquiring a portfolio $\theta(\mu)$. We see here the duality between the approach of directly reporting $\mu$, or acquiring shares $\theta$: an agent reporting beliefs $\mu$ under scoring rule~(\ref{scoring}) would choose to acquire shares $\theta(\mu)$ in the information market with cost function~(\ref{cost}). Since~(\ref{scoring}) is a proper scoring rule, the information market with cost function~(\ref{cost}) is based on a proper market scoring rule.
+\pagebreak
+
+
+
+
+
+
+
+
+
 
 \section{The Exponential Family Market Mechanism with Budgets}
 In the previous section, we saw that we can define a cost-function based prediction market so that the aggregated belief of the traders represents the maximum likelihood estimate of the natural parameters of the true exponential family distribution.
@@ -624,6 +634,19 @@ This result suggests that, eventually, every informative trader will have the ab
 Notice that Theorem~\ref{thm:growth} only required that the market state to which the trader moves, be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{\psi}(\theta,\htheta)$ where $a$ is the exponential utility parameter.
 
 We note one important aspect of Theorem~\ref{thm:growth}: The expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
+\pagebreak
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{The MaxEnt Market Mechanism: A Bayesian View}
 \subsubsection{Conjugate Priors}
