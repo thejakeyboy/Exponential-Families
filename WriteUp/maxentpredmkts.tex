@@ -464,172 +464,68 @@ S(\mu, x) = \la \theta(\mu), \phi(x) \ra - C(\theta(\mu)).
 \noindent
 The scoring rule~(\ref{expscore}) decomposes neatly into payoff and cost functions. The first term $\la \theta(\mu), \phi(x) \ra$ defines the agent's outcome-contingent reward, while the second term~$C(\theta(\mu))$ is the cost of acquiring a portfolio $\theta(\mu)$. We see here the duality between the approach of directly reporting $\mu$, or acquiring shares $\theta$: an agent reporting beliefs $\mu$ under scoring rule~(\ref{scoring}) would choose to acquire shares $\theta(\mu)$ in the information market with cost function~(\ref{cost}). Since~(\ref{scoring}) is a proper scoring rule, the information market with cost function~(\ref{cost}) is based on a proper market scoring rule.
 
-\section{The Exponential Family Market Mechanism: A Maximum Likelihood Approach}
-In this section, we will set up a prediction market that aggregates beliefs from traders where the outcome is a continuous random variable. In particular, we assume that the outcome is drawn from an exponential family distribution. Each of the traders has access to a series of points drawn from this distribution. In other words, the traders have access an empirical mean of the sufficient statistics of the exponential family. Every trader has infinite budget so that the current market price after a trader has traded in the prediction market, exactly reflects his beliefs.
-
-%We will now provide a more formal description of the problem statement.
-%\subsection{Problem Statement}
-%\begin{description}
-%\item[Setup: ] Learning proceeds in rounds $j=1,2,\ldots$ where at the end of each round the algorithm may be provided with $x_{j}$  drawn from a set $\mathcal{X}$ according to some distribution $\mathcal{D}_{j}$, where $\mathcal{D}_{j}$ belongs to an exponential family defined by $k$ sufficient statistics.  In each round, some sequence of $n$ traders provide their estimates of the empirical means of each of the $k$ sufficient statistics drawn from $\mathcal{D}_{j}$.
-%\item[Define: ] A learning algorithm that learns this distribution by providing a maximum likelihood estimate of its unknown natural parameters based on the empirical means.  
-%\item[Proposed solution: ] Simulate a prediction market defined by a cost function $C$, securities $s_{0},s_{1},s_{2},\ldots, s_k$ and their payoffs $\phi_i(x)$ for $i=0,1,2,\ldots,k$ for the LMSR. Define a correspondence between the state of the prediction market and the output of the learning algorithm.
-%\end{description}
-
-For $x_{i}\sim P_{\betavec}$, recall that the likelihood function for independently drawn data $x_1,\ldots,x_n$ is given by $\prod_{i=1}^{n} P_{\betavec}(x_i)$. The maximum likelihood estimate of the natural parameters $\betavec$ is the value of the natural parameters that maximizes the likelihood function. 
-
-We will now set up a prediction market with log market scoring rule (LMSR) and infinite budget traders such that the market state represents the maximum likelihood estimate (MLE) of the natural parameters of an exponential family distribution. %Given  under some interpretation of what information the participating agents have, and how they bet.
-
-For a given exponential family distribution, the prediction market is defined as follows:
-\begin{description}
-\item[Traders] The prediction market will simulate a trader $i$ corresponding to expert $i$. This trader processes all information samples available to her directly or inferred from previous trades, and  forms a belief distribution such that the believed means of the sufficient statistics matches the empirical means of the sufficient statistics from the information samples. The trader trades in the market to maximize her expected payoff under her believed distribution.
-\item[Securities and their payoff]
-For each $i=1,2,\ldots,k$, we define a security $s_{i}$ with payoff $\phi_{i}(x)$ where $x$ is the ultimate outcome and $\Phi()$ defines the vector of sufficient statistics of the exponential family distribution according to which $x$ is drawn. We define an additional security $s_{0}$ with payoff $\phi_{0}(x):=a-\sum_{i=1}^{k}\phi_{i}(x)$ where $a$ is an appropriately chosen constant dependent on the range of $\Phi$ so that the payoff of $s_{0}$ is non-negative. 
-\end{description}
-
-We also note that since we want non-negative payoffs, we restrict the exponential families under consideration so that the sufficient statistics are lower bounded. If we have a constant lower bound on the sufficient statistics, then without loss of generality we can add a constant to each sufficient statistic without changing the exponential family in any way, as the constants will be absorbed in the log-partition function.
-
-\paragraph{Arbitrage-free Property}
-We can easily show that the prediction market we have defined is arbitrage-free: there is no sequence of trades that guarantees the trader a profit under all conditions. First, note that the incremental cost and payoff function are additive over multiple trades, so the net profit of a sequence of trades depends only on the initial and final market position, and is independent of the actual path along which the trade takes place.
-
-Now, consider any trade (or sequence of trades) that moves the market from an initial state of $\qvec$ to a final state of $\qvec + \qvec'$. The cost of this trade is $C(\qvec + \qvec') - C(\qvec)$. The cost function of our market is the log-partition function of an exponential family, and thus, $C(.)$ is a strictly convex function~\cite{WainJordan08}. Thus, we have the inequality:
-\[
-   C(\qvec + \qvec') - C(\qvec)  > \qvec' \nabla C|_\qvec = \qvec' \mu,
- \]
- where $\mu$ is the mean sufficient statistics vector for the distribution with parameters $\qvec$.
-The payoff due to this trade, with outcome $x$, is $\qvec'.\phi(x)$. 
-Now, we observe that under the distribution with parameters $\qvec$, the expected payoff is $\qvec' E[\Phi(x)] = \qvec' \mu$. Thus, under this distribution over outcomes $x$, the expected profit is strictly less than $0$. This is only possible if the
-realized profit is less than $0$ for at least one outcome $x$. As this statement is true for every $\qvec$ and $\qvec'$, and the profits are path-independent, the market is arbitrage-free.
-
-
-%Let $\qvec^*=(q^{*}_{0},q^{*}_{1},\ldots,q^{*}_{k})$ be the number of shares of each security held by the traders. First we note that under the assumption of perfectly rational, risk-neutral traders with infinite budget and  beliefs as indicated above, the gradient of the cost function at this point is
- %$$\left(\frac{\partial C(\qvec)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}=\mu_{i}$$
-%where $\mu_{i}$ is believed to be the expected payoff of the $i^{th}$ security by the last trader who traded in this market. We show below that the instantaneous price of security $i$, $\left(\frac{\partial C(\qvec)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}$ at any $\qvec=\qvec^{*}$, can be written as $\left(\frac{\partial\log (\int e^{\sum_{i=1}^{n}(q_{i}-q_{0})\phi_{i}(x)}dx)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}$. This means that the instantaneous price of the $i^{th}$ security only depends on the difference between the number of held securities of $i$ and 0. This ensures that if there exists an instantaneous price that reflects the belief of a trader at any vector $\qvec^{*}$, there must exist a $\qvec'$  that also reflects his beliefs and with the desirable property that $\forall i=0,1,2,\ldots,k\ q_{i}'\geq 0$. This additional property ensures that no trader will be required to short sell securities to move the market state to  reflect his beliefs.
-
-\paragraph{Market State and Natural Parameters}
-We define the interpretation function 
-\begin{eqnarray}\label{eqn:int}
-I(\qvec)&=&(q_{1}-q_{0},q_{2}-q_{0},\ldots,q_{k}-q_{0})\nonumber\\
-&=&(\beta_{1}, \beta_{2},\ldots, \beta_{k})=\betavec
-\end{eqnarray}
-This allows us to interpret the state of the market in terms of a prediction on the natural parameters of the distribution.
-
-\begin{theorem}
-The natural parameter vector corresponding to the interpretation of the market state given by Equation \ref{eqn:int} is the vector of their maximum likelihood estimates. Further, this interpretation is unique.
-\end{theorem}
-\begin{proof}
-We observe that for $i=1,\ldots,n$,
-\begin{eqnarray*}
-\mu_{i}&=&\left(\frac{\partial C(\qvec)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
-&=&\left(\frac{\partial\log\int \exp(\qvec^{T}\Phi(x))dx}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
-&=&\left(\frac{\partial\log\int e^{q_{0}\phi_{0}(x)+\sum_{i=1}^{n}q_{i}\phi_{i}(x)}dx}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
-&=&\left(\frac{\partial\log\int e^{q_{0}(a-\sum_{i=1}^{n}\phi_{i}(x))+\sum_{i=1}^{n}q_{i}\phi_{i}(x)}dx}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
-&=&\left(\frac{\partial\log\int e^{q_{0}a} e^{\sum_{i=1}^{n}(q_{i}-q_{0})\phi_{i}(x)}dx}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
-&=&\left(\frac{\partial\log (e^{q_{0}a} \int e^{\sum_{i=1}^{n}(q_{i}-q_{0})\phi_{i}(x)}dx)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
-&=&\left(\frac{\partial (q_{0}a)}{\partial q_{i}} \frac{\partial\log (\int e^{\sum_{i=1}^{n}(q_{i}-q_{0})\phi_{i}(x)}dx)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
-&=&\left(\frac{\partial \lpf(\betavec)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
-&=&\left(\frac{\partial \lpf(\betavec)}{\partial \beta_{i}}\frac{\partial \beta_{i}}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
-&=&\left(\frac{\partial \lpf(\betavec)}{\partial \beta_{i}}\right)_{\rm \betavec=\betavec^{*}}
-\end{eqnarray*}
-Thus, this choice of parameters satisfies $\frac{\partial \lpf(\betavec)}{\partial \beta_{i}}=\mu_{i}$. We will now argue that this vector is unique. 
-
-If the exponential family is represented so that there is a unique parameter vector associated with each distribution, the representation is said to be minimal. The Bernoulli, Gaussian, and Poisson distributions all have minimal representations. Now, for an exponential family whose representation is minimal, the gradient is an injection \cite[Prop. 3.2]{WainJordan08}. Thus, there is a unique parameter vector $\betavec$ that satisfies $\frac{\partial \lpf(\betavec)}{\partial \beta_{i}}=\mu_{i}$, for each $i\in\{1,\ldots,n\}$. Thus, if the $\mu_{i}$'s correspond to the empirical means, since our choice of $\betavec$ satisfies the equality, it must also be the vector corresponding to the MLE.
-\end{proof}
-
-Thus, we have shown that this prediction market (along with its strategic traders) aggregates trader information in a way that the market state can be interpreted as a predictive distribution (the maximum likelihood distribution) over an infinite outcome space.
-
-It is worth noting here that if we can bound the parameter space and the sufficient statistics of the distribution, the market maker defined here has bounded worst case loss: The probability density, and hence log loss, would then be bounded for all market states that could be reached and all outcomes. In fact, for many practical applications, a distribution with unbounded parameter space is an approximation for a true space which itself may be bounded. In this case, worst case loss would thus be bounded.
-
-\subsection{The Exponential Family Market Mechanism in Adversarial Markets}
+\section{The Exponential Family Market Mechanism with Budgets}
 In the previous section, we saw that we can define a cost-function based prediction market so that the aggregated belief of the traders represents the maximum likelihood estimate of the natural parameters of the true exponential family distribution.
 
 In this section, we consider the the prediction market setup with traders that may be either informative or malicious. The malicious traders may want to inject faulty information into the market. The informative traders on the other hand receive points drawn from the true distribution on which they base their beliefs.
 
 We will show that if we are able to impose finite initial budgets on the traders and control the market prices based on these budgets, then  it possible to set up the market so that it is prohibitive for damaging traders to participate in the market. Further, the informative traders can be shown to have expected growth in budget so that they are eventually able to move the market prices without restriction. 
 
-\subsubsection{Budget-limited Aggregation}
+\subsection{Budget-limited Aggregation}
 Imposing budget limits on the traders will allow us to control the amount of influence any one trader can have on moving the market prices. We will also satisfy an additional requirement that no trader has negative budget at any point of participation in the market. This is achieved by restricting the movement of the market and hence influencing the cost incurred by the trader. Recall that the payoff in this market is non-negative and hence the only adverse influence on a trader's budget is the cost of movement of the market state. 
 
-%There is distribution under which expected profit is $\leq 0$. Cost function is convex. 
-
-%For any $\qvec$ there is a
 In this section, we assume that the budget of each trader is known to the market maker, and that the market maker can directly limit the allowed trades based on a trader's budget. 
-Let $\alpha$ be the budget of a trader in the market. Suppose with infinite budget, the trader would have moved the market state from $\qvec_{init}$ to $\qvec$, where $\qvec$ represents his true beliefs. Suppose further that $\alpha<C(\qvec)-C(\qvec_{init})$. In this case, we want to budget-limit the trader's influence on the market state. 
+Let $\alpha$ be the budget of a trader in the market. Suppose with infinite budget, the trader would have moved the market state from $\theta$ to $\htheta$, where $\htheta$ represents his true belief. Suppose further that $\alpha<C(\htheta)-C(\theta)$; that is the trader's budget does not allow for purchasing enough shares to move the market state to his belief. In this case, we want to budget-limit the trader's influence on the market state. 
 
-We define the budget-limited final market state as $\tilde{\qvec}$. 
-Here, we consider a specific functional form of $\tilde{\qvec}$: $$\tilde{\qvec}=\lambda\qvec+(1-\lambda)\qvec_{init}$$  where $$\lambda=\min\Big(1, \frac{\alpha}{C(\qvec) - C(\qvec_{init})}\Big)$$ We first show that this trade is feasible given the trader's budget:
+We define the budget-limited final market state as $\theta'$. 
+Here, we consider a specific functional form of $\theta'$: $$\theta'=\lambda\htheta+(1-\lambda)\theta$$  where $$\lambda=\min\left(1, \frac{\alpha}{C(\htheta) - C(\theta)}\right)$$ 
+
+First, we  show that this trade is feasible given the trader's budget:
 \begin{theorem}
-Let the current market state be given by the vector $\qvec_{init}$ and $\tilde{\qvec}=\lambda\qvec+(1-\lambda)\qvec_{init}$. For $\lambda=\min\Big(1, \frac{\alpha}{C(\qvec) - C(\qvec_{init})}\Big)$, the cost to the trader to move the market state from $\qvec_{init}$ to $\tilde{\qvec}$ is at most his budget $\alpha$.
+Let the current market state be given by $\theta$. Let the final market state $\theta'=\lambda\htheta+(1-\lambda)\theta$ where $\lambda=\min\left(1, \frac{\alpha}{C(\htheta) - C(\theta)}\right)$. The cost to the trader to move the market state from $\theta$ to $\theta'$ is at most his budget $\alpha$.
 \end{theorem}
 \begin{proof}
 From the convexity of $C$, we have
- $$C(\tilde{\qvec})\leq(1-\lambda)C(\qvec_{init})+\lambda C(\qvec)$$
+ $$C(\theta')\leq(1-\lambda)C(\theta)+\lambda C(\htheta)$$
 
 Now 
 \begin{eqnarray*}
-C(\tilde{\qvec}) - C(\qvec_{init}) &\leq& (1-\lambda)C(\qvec_{init})\\&&+\lambda C(\qvec) - C(\qvec_{init})\\
-&=& \lambda\ (C(\qvec) - C(\qvec_{init}))
+C(\theta') - C(\theta) &\leq& (1-\lambda)C(\theta)\\
+&&+\lambda C(\htheta) - C(\theta)\\
+&=& \lambda\ (C(\htheta) - C(\theta))
 \end{eqnarray*}
 
-%So when $\alpha<C(\qvec)-C(\qvec_{init})$, we pick $\lambda$ so that 
-%$$\lambda\leq \frac{\alpha}{(C(\qvec) - C(\qvec_{init}))}$$
-%
-%where we want $\lambda$ such that
- Thus, $C(\tilde{\qvec}) - C(\qvec_{init}) \leq \alpha$. 
+ Thus, $C(\theta') - C(\theta) \leq \alpha$. 
  \end{proof}
  
- We note that moving to $\tilde{\qvec}$ as defined may not be the optimal trade for a rational trader maximizing her expected profit. In general, the inequality above is strict, and so a trader does not fully exhaust her budget by moving to $\tilde{\qvec}$. Our results below will continue to hold in the case that strategic informative traders move to a position closer to their beliefs $\qvec$.
-\subsubsection{Damage Bound}
-Given this restriction on the initial budget of traders, we can now show that the total loss that can be induced by malicious traders is bounded. We define the loss function for $\qvec$ shares held as:
-$$L(\qvec,x)=-\log(p_{\betavec}(x))=\log\frac{\int e^{\qvec^{T}\Phi(x)}\ dx}{e^{\qvec^{T}\Phi(x)}}$$
-with the correspondence between $\betavec$ and $\qvec$ as defined earlier. %We extend this loss function to give zero loss in the absence of input. 
+ We note that moving to $\theta'$ as defined may not be the optimal trade for a rational trader maximizing her expected profit. In general, the inequality above is strict, and so a trader does not fully exhaust her budget by moving to $\theta$. Our results below will continue to hold in the case that strategic informative traders move to a position closer to their beliefs $\htheta$.
+\subsection{Damage Bound}
+In this section, we will quantify the error in prediction that the market maker might have to endure as a result of malicious entities entering the market. We assume that these malicious entities trade in multiple instances of the market; thus the exposure of the market maker is over several \emph{rounds}. We use the standard log loss to measure this error in terms of the initial budget of traders.
 
-%{\bf Setup:} The market evolves in rounds $t=1,\ldots,T$. The end of a time segment occurs either when each expert has made his report or when the actual value of the random variable is received as input. Each expert $i$ reports the means of the sufficient statistics as available to him at time $t$. These are combined with the previously reported means to yield $\mu_{0}^{t}(x),\mu_{1}^{t}(x),\ldots,\mu_{k}^{t}(x)$ and an associated weight $w_{i}^{t}$ which can be interpreted as the number of points from which these values have been determined. These sufficient statistics correspond to a particular value of $B$ and hence of $\qvec$, the number of shares of each security that are held by traders. Since trader $i$ has finite budget $\alpha_{i}^{t}$ at time $t$, the current market state is moved to $\qvec'$ instead, so that cost of moving it to $\qvec'$ is within his budget.
-
-%For an initial positive budget of $\alpha_{i}^{0}$, we perform updates to the budgets of each agent as
-%$$\alpha_{i}^{t}:=\alpha_{i}^{t-1}+\lambda_{i}^{t}(L(\tilde{q}_{i-1}^{t},x^{t})-L({q}_{i}^{t},x^{t}))$$ where we define
-%$$\lambda_{i}^{t}:=\min\Big(1, \frac{\alpha_{i}^{t-1}}{C(\qvec_{i}) - C(\tilde{\qvec}_{i-1})}\Big)$$
-
-Suppose the prediction market runs over multiple rounds $t$. Let $\qvec_{0}^{t}$ be the initial number of shares of each security that are held. Let $\tilde{\qvec}_{k}^{t}$ be the final values corresponding to the market state after the traders have made their reports. Let us assume that at this point we receive the value of the random variable $x^{t}$. 
+We define the loss function for $\theta$ shares held:
+$$L(\theta,x)=-\log(P_{\theta}(x))=\log\int \exp\{\theta^{T}\phi(x)\}\ dx-\theta^{T}\phi(x)=C(\theta)-\theta^{T}\phi(x)$$
+%with the correspondence between $\beta$ and $\theta$ as defined earlier. %We extend this loss function to give zero loss in the absence of input. 
 
 
-%Let the loss function be $L(\cdot,\cdot)$, where the two arguments are the vector representing the number of shares held of each security and the actual value of the random variable. 
 
-%We want to show:
-%$$L({\qvec}_{0}^{t},x^{t})-L(\tilde{\qvec}_{k}^{t},x^{t})+\sum_{i}\alpha_{i}^{t-1}\leq \sum_{i}\alpha_{i}^{t}$$
-%That is, the loss due to incorporating the budget-limited information of the traders, is not more than the increase in their budgets.
-Over multiple instances of the prediction market, we can track the change in budget of each trader. The change in budget for trader $i$ is
+Suppose the prediction market runs over multiple rounds $t$. Let $\theta_{0}^{t}$ be the initial number of shares of each security that are held. Let $\hat{\theta}_{k}^{t}$ be the final values corresponding to the market state after the traders have made their reports. Let us assume that at this point the outcome is revealed; that is, we receive the value of the random variable $x^{t}$. 
+
+
+
+Over multiple instances of the prediction market, we can track the change in budget of each trader. Let the budget at rounds $t$ and $t-1$ be $\alpha^{t}$ and $\alpha^{t-1}$ respectively. The change in budget for the trader is
 \begin{eqnarray*}
-\alpha_{i}^{t}-\alpha_{i}^{t-1}&=&C(\tilde{\qvec}_{i-1}^{t})-C(\tilde{\qvec}_{i}^{t})-(\tilde{\qvec}_{i-1}^{t}-\tilde{\qvec}_{i}^{t})^{T}\Phi(x^{t})\\
-&=&L(\tilde{\qvec}_{i-1}^{t},x^{t})-L(\tilde{\qvec}_{i}^{t},x^{t})
+\alpha^{t}-\alpha^{t-1}&=&C(\theta^{t})-C(\theta'^{t})-(\theta^{t}-\theta'^{t})^{T}\phi(x^{t})\\
+&=&L(\theta,x^{t})-L(\theta',x^{t})
 \end{eqnarray*}
 
 Define the myopic impact of a trader $i$ in segment $t$ as
-$$\Delta_{i}^{t}:=L(\tilde{\qvec}_{i-1}^{t},x^{t})-L(\tilde{\qvec}_{i}^{t},x^{t})$$
-Thus, the myopic impact captures incremental gain due to the trader in a round. Note that the myopic impact caused by trader $i$ at round $t$ is equal to the change in his budget in that round.
+$$\Delta_{i}^{t}:=L(\hat{\theta}_{i-1}^{t},x^{t})-L(\hat{\theta}_{i}^{t},x^{t})$$
+Thus, the myopic impact captures incremental gain in prediction due to the trader in a round. Note that the myopic impact caused by trader $i$ at round $t$ is equal to the change in his budget in that round.
 
 The total myopic impact due to all $k$ active traders is given by
-$$\Delta^{t}=L(\qvec_{0}^{t},x^{t})-L(\tilde{\qvec}_{k}^{t},x^{t})$$
-Thus $-\Delta^{t}$ captures the incremental loss due to the predictive probability after aggregation of all $k$ traders. 
+$$\Delta^{t}=L(\theta_{0}^{t},x^{t})-L(\hat{\theta}_{k}^{t},x^{t})$$
+Thus $-\Delta^{t}$ captures the incremental loss of the market prediction after aggregation of all $k$ traders. 
 
-%The myopic impact of a trader $i$ in segment $t$, is given by
-%$$\Delta_{i}^{t}:=L(\tilde{B}_{i-1}^{t},x^{t})-L(\tilde{B}_{i}^{t},x^{t})$$
-%where $\tilde{B}_{i}$ is the vector of sufficient statistics corresponding to the the budget-limited state of the market as induced by trader $i$.
-%The total myopic impact due to all $k$ active traders is thus given by
-%$$\Delta^{t}=L(B_{0}^{t},x^{t})-L(\tilde{B}_{k}^{t},x^{t})$$
-
-%If the loss function is convex in the first argument, then we have:
-%\begin{eqnarray*}
-%\Delta_{i}^{t}&=&L(\tilde{B}_{i-1}^{t},x^{t})-L(\tilde{B}_{i}^{t},x^{t})\\
-%&=&L(\tilde{q}_{i-1}^{t},x^{t})-L(\tilde{q}_{i}^{t},x^{t})\\
-%&=&L(\tilde{q}_{i-1}^{t},x^{t})-L(\lambda_{i}{q}_{i}^{t}+(1-\lambda_{i})\tilde{q}_{i-1}^{t},x^{t})\\
-%&\geq&L(\tilde{q}_{i-1}^{t},x^{t})-\lambda_{i}L({q}_{i}^{t},x^{t})-(1-\lambda_{i})L(\tilde{q}_{i-1}^{t},x^{t})\\
-%&=&\lambda_{i}(L(\tilde{q}_{i-1}^{t},x^{t})-L({q}_{i}^{t},x^{t}))\\
-%&=& \alpha_{i}^{t} - \alpha_{i}^{t-1}
-%\end{eqnarray*}
-%Thus, the myopic damage caused by trader $i$ at round $t$ is upper-bounded by the change in his budget in that round.
-
-
-%If we pick a loss function that is also bounded in $[0,1]$, then we see that the budget never falls below zero. 
 \begin{theorem}
 A coalition of $b$ malicious traders can at most cause loss bounded by their initial budgets.
 \end{theorem}
@@ -640,7 +536,7 @@ $$\Delta_{i}:=\sum_{t=1}^{T}\Delta_{i}^{t}= \sum_{t=1}^{T} (\alpha_{i}^{t} - \al
 Thus, any coalition of $b$ adversaries $\{1,\ldots,b\}$ can cause at most $\sum_{i=1}^{b}\alpha_{i}^{0}$ damage.
 \end{proof}
 
-This means that if it can be made prohibitively expensive for an attacker to generate clones, we can set up the prediction market with mostly informative traders. 
+This means that if it can be made prohibitively expensive for an attacker to generate clones, we can set up the prediction market with mostly informative traders. %imp
 
 In Section \ref{sec:inf} we show that for an informative trader in every round, his budget increases in expectation. We provide an information-theoretic justification for this claim in Section \ref{sec:infth}. The intuition behind this claim is that his prediction moves the input moves the market probability closer to the true probability distribution resulting in net expected profit.
 
@@ -652,14 +548,14 @@ quantities associated with the exponential family.
 
 The following result has been previously pointed out by Amari \cite{Amari-KL}. 
 \begin{theorem}\label{lem:profit_decomposition}{\bf (Profit Decomposition)}: Consider an exponential 
-family $\family$ of distributions over some set of statistics $\suff(x)$, with natural parameters $\betavec$. Let $\pi, \rho \in \family$ be any two probability distributions in the family. We use 
-$\betavec_\pi$ to denote the natural parameters of $\pi$ and $\muvec_{\pi}$ to denote the expected value of the sufficient statistics under $\pi$. Likewise,
-we can define $\betavec_\rho$ and  $\muvec_\rho$. We abuse notation slightly and let $\lpf(\rho)$ indicate the log partition function of $\rho$ which technically depends on its natural parameters.
+family $\family$ of distributions over some set of statistics $\suff(x)$, with natural parameters $\beta$. Let $\pi, \rho \in \family$ be any two probability distributions in the family. We use 
+$\beta_\pi$ to denote the natural parameters of $\pi$ and $\mu_{\pi}$ to denote the expected value of the sufficient statistics under $\pi$. Likewise,
+we can define $\beta_\rho$ and  $\mu_\rho$. Let $\lpf(\beta_{\rho})$ indicate the log partition function of $\rho$ which technically depends on its natural parameters.
 Let $H(\pi)$ denote the entropy of the distribution $\pi$, and 
  $K(\pi||\rho)$ denote the KL-divergence of $\rho$ relative to $\pi$.
 Then, the following equality holds:  
 \begin{equation}
- K(\pi||\rho) + H(\pi) = \lpf(\rho) - \betavec_\rho \cdot \muvec_\pi
+ K(\pi||\rho) + H(\pi) = \lpf(\beta_{\rho}) - \beta_\rho \cdot \mu_\pi
 \label{eq:profit_decomposition}
 \end{equation}
 \end{theorem}
@@ -668,10 +564,10 @@ Then, the following equality holds:
  K(\pi||\rho) + H(\pi) &=& \int_x \pi(x)\log{\frac{\pi(x)}{\rho(x)}}dx\\
  &&\quad - \int_x \pi(x)\log{\pi(x)}dx \\
 &=& - \int_x \pi(x)\log{\rho(x)}dx \\
-&=& - \int_x \pi(x)\left[ \betavec_\rho \cdot \suff(x) - \lpf(\rho)\right]dx\\
-&=& - \betavec_\rho \cdot \int_x \pi(x) \suff(x) dx\\
-&&\quad + \lpf(\rho) \int_x \pi(x) dx \\
-&=&  \lpf(\rho) - \betavec_\rho \cdot \muvec_\pi
+&=& - \int_x \pi(x)\left[ \beta_\rho \cdot \suff(x) - \lpf(\beta_{\rho})\right]dx\\
+&=& - \beta_\rho \cdot \int_x \pi(x) \suff(x) dx\\
+&&\quad + \lpf(\beta_{\rho}) \int_x \pi(x) dx \\
+&=&  \lpf(\beta_{\rho}) - \beta_\rho \cdot \mu_\pi
 \end{eqnarray*}
 \end{proof}
 
@@ -683,78 +579,44 @@ the market to price than implies a distribution $\rho_2$, then the cost she
 incurs is $\lpf(\rho_2) - \lpf(\rho_1)$. The number of securities bought to make this trade is given by the vector ($\betavec_{\rho_2} - \betavec_{\rho_1}$), and the expected payoff of the securities are given by $\muvec_\pi$. Thus, by equation \ref{eq:profit_decomposition}, the {\em net profit} of the trader is equal to $K(\pi||\rho_1) - K(\pi||\rho_2)$, {\it i.e.}, the reduction in KL-divergence with respect to the true distribution.  We note one useful property of this construction: For a fixed vector $\betavec$ of purchased securities, the cost is independent of the outcome 
 (and outcome distribution $\pi$), while the payoff is independent of the initial market state in which these securities were purchased.
 
-%Thus, we have shown that there exist deep connections between learning the natural parameters of an exponential family distribution and cost function based prediction markets. In Chapter \ref{nonmyopic} we exploit this connection and propose a bounded regret learning algorithm in a Bayesian model under less-than-ideal conditions: where the experts may be adversarial and strategic. 
-
 \subsubsection{Budget of Informative Traders}\label{sec:inf}
 Given the  information-theoretic interpretation of the cost-function based prediction market, we now show that the informative trader in the prediction market defined above increases his budget in a round in expectation {\em under his own belief distribution}.
 
-%For this, we need the following simple extension of Jensen's inequality that follows directly from the definition of convexity of a function.
-%\begin{lemma}\label{lem:convex}
-%For a strictly convex function $f$ with unique minimum $x_{min}$, $x\neq x_{min}$ in the domain of $f$, and $\lambda \in (0,1]$,
-%$$f(\lambda x_{min}+ (1-\lambda)x)< f(x)$$
-%\end{lemma}
-%\begin{proof}
-%\begin{eqnarray*}
-%f(\lambda x_{min}+ (1-\lambda)x) &<& \lambda f(x_{min})+ (1-\lambda)f(x)\\
-%&=& \lambda(f(x_{min})-f(x)) +f(x)\\
-%&\leq& f(x)
-%\end{eqnarray*}
-%\end{proof}
-
 We now characterize the expected change in budget for an informative trader. The following result holds for any round $t$; for simplicity, we have therefore dropped the superscript from the notation.
 \begin{theorem}\label{thm:growth}
- Suppose that each informative trader gets a random sample of data, 
-resulting in a sequence of trader beliefs $\qvec_i$, and hence a sequence of budget-limited market positions
-$\tilde{\qvec}_i$, before a final outcome $x$. Then, the expectation, over trader $i$'s belief distribution $\qvec_i$, of trader $i$'s realized profit is greater than zero whenever her budget is positive and her belief differs from the previous market position $\tilde{\qvec}_{i-1}$. 
+Let $\theta$ be the current market state. Suppose that an  informative trader with belief distribution  parametrized by $\theta'$  moves the market state to the budget-limited state $\htheta=\lambda \theta' + (1-\lambda) \theta$. Then, the expectation (over the trader's belief) of the trader's profit  is greater than zero whenever his budget is positive and his belief differs from the previous market position $\theta$. 
+% Suppose that each informative trader gets a random sample of data, 
+%resulting in a sequence of trader beliefs $\theta_i$, and hence a sequence of budget-limited market positions
+%$\hat{\theta}_i$, before a final outcome $x$. Then, the expectation, over trader $i$'s belief distribution $\theta_i$, of trader $i$'s realized profit is greater than zero whenever her budget is positive and her belief differs from the previous market position $\hat{\theta}_{i-1}$. 
 \end {theorem}
 \begin{proof}
-Trader $i$'s believed distribution is the distribution parametrized by $\qvec_i$.
-Therefore, the expected profit, over possible outcome values $x$, for a trader $i$ in a given round is given by
+Let $\theta$ be the current market state. We have shown that an exponential utility trader with belief distribution  parametrized by $\beta$ will move the market state to $\theta'=\frac{1}{1+a} \beta + \frac{a}{1+a} \theta$. Therefore, the trader's expected net payoff is given by
 \begin{eqnarray*}
-&& E[C(\tilde{\qvec}_{i-1})-C(\tilde{\qvec}_{i})-(\tilde{\qvec}_{i-1}-\tilde{\qvec}_{i})\Phi(x)]\\
-&=& K(\qvec_{i}||\tilde{\qvec}_{i-1})] + H(\qvec_{i}) - [K(\qvec_{i}||\tilde{\qvec}_{i}) + H(\pi)]]\\
-&=& K(\qvec_{i}||\tilde{\qvec}_{i-1}) - K(\qvec_{i}||\tilde{\qvec}_{i})
+&& \E_{x\sim P_{\beta}}[C(\theta)-C(\theta')-(\theta-\theta')\phi(x)]\\
+&=& \psi(\theta)-\theta\E_{x\sim P_{\beta}}[\phi(x)]-(\psi(\theta')-\theta' \E_{x\sim P_{\beta}}[\phi(x)])\\
+&=& \psi(\theta)-\theta\nabla\psi(\beta)-(\psi(\theta')-\theta' \nabla\psi(\beta))\\
+&=& \psi(\theta)-\psi(\beta)-\nabla\psi(\beta)(\theta-\beta)-(\psi(\theta')-\psi(\beta)- \nabla\psi(\beta)(\theta'-\beta))\\
+&=& D_{\psi}(\theta,\beta)-D_{\psi}(\theta',\beta)\\
+&\geq&\frac{1}{a}D_{\psi}(\theta',\beta)\geq0
 \end{eqnarray*}
-We recall that $\tilde{\qvec}_{i}$ can be expanded as:
-$$\tilde{\qvec_{i}} = \lambda \qvec_{i} + (1- \lambda) \tilde{\qvec}_{i-1}$$ where $\lambda$ is strictly greater than $0$, but no more than $1$. It is a standard result from information theory that $K(.,.)$ is a convex function, and therefore, we have:
-\[
-K(\qvec_{i}||\tilde{\qvec}_{i-1}) \leq \lambda K(\qvec_{i}||\qvec_{i}) + (1-\lambda) K(\qvec_{i}||\tilde{\qvec}_{i-1})
-\]
-The first term on the right hand side is zero, and thus, we get:
-\[
-  K(\qvec_{i}||\tilde{\qvec}_{i-1}) - K(\qvec_{i}||\tilde{\qvec}_{i}) \geq \lambda K(\qvec_{i}||\tilde{\qvec}_{i-1})
-\]
-%Thus, it is sufficient to prove that E_{\qvec}[K(\pi||\tilde{\qvec}_{i-1}^{t}] >= E_{\qvec}[K(\pi||\tilde{\qvec}_{i}^{t}].
+The second to last inequality holds since $D_{\psi}(\theta',\beta)$ is convex in $\theta'$ and we have:
+\begin{eqnarray*}
+D_{\psi}(\theta',\beta)&=&D_{\psi}\left(\frac{1}{1+a} \beta + \frac{a}{1+a} \theta,\beta\right)\\
+&\leq&\frac{1}{1+a}D_{\psi}( \beta ,\beta)+ \frac{a}{1+a} D_{\psi}( \theta ,\beta)\\
+&=&\frac{a}{1+a} D_{\psi}( \theta ,\beta)
+%\implies D_{\psi}(\theta',\beta)+aD_{\psi}(\theta',\beta)&\leq& aD_{\psi}( \theta ,\beta)\\
+\end{eqnarray*}¥
+Thus, a trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{\psi}(\theta',\beta)$.
  \end{proof}
-%\begin{theorem}
-%The expected budget of an informative trader increases when he participates in the market. Here, expectation is taken with respect to the true distribution from which the outcome is drawn.
-%We show that the budget of an informative trader grows in expectation:\end{theorem}
-%\begin{proof}
-%Let $\pi$ be the true distribution from which the outcome $x^{t}$ is drawn. Let $K(\pi||\qvec)$ be the relative entropy between the true distribution $\pi$ and the predictive distribution determined by the securities vector $\qvec$. Then the expected change in budget for a trader $i$ in round $t$ is given by
-%\begin{eqnarray*}
-%E_{x,\qvec}[\alpha_{i}^{t}&-&\alpha_{i}^{t-1}]\\
-%&=&E_{x,\qvec}[C(\tilde{\qvec}_{i-1}^{t})-C(\tilde{\qvec}_{i}^{t})-(\tilde{\qvec}_{i-1}^{t}-\tilde{\qvec}_{i}^{t})^{T}\Phi(x^{t})]\\
-%&=& E_{\qvec}[K(\pi||\tilde{\qvec}_{i-1}^{t})] + H(\pi) - E[K(\pi||\tilde{\qvec}_{i}^{t}) + H(\pi)]]
-%\end{eqnarray*}
-%Thus, it is sufficient to prove that E_{\qvec}[K(\pi||\tilde{\qvec}_{i-1}^{t}] >= E_{\qvec}[K(\pi||\tilde{\qvec}_{i}^{t}].
 
-%In the case that 
-
-%It is well known that minimizing the relative entropy of a predictive distribution with respect to the true distribution is equivalent to maximizing the likelihood function. % (see, for instance, \cite{whom?}). 
-%In other words, the MLE of the natural parameters of an exponential family distribution minimizes the relative entropy of a predictive distribution with respect to the true distribution. 
-
-%Further, for a true distribution $\pi$ and predictive distribution determined by $\qvec$, $K(\pi||\qvec) + H(\pi)$ is a convex function of $\qvec$. In fact, it is strictly convex when the representation is minimal. Thus, it has a unique minimum. %Further, $K(\pi||\rho) + H(\pi)$ is non-negative.
-
-%Suppose the current market state is represented by $\tilde{\qvec}_{i-1}$ and $\qvec_{i}$ represents the belief of trader $i$. Since the trader is budget limited, he moves the market state to $\tilde{\qvec}_{i}$ instead where $\tilde{\qvec}_{i}=  \lambda \qvec_{i}+ (1-\lambda)\tilde{\qvec}_{i-1}$. For an informative trader $i$, $\qvec_{i}$ represents the MLE of the natural parameters of the distribution. Thus, $K(\pi||\qvec) + H(\pi)$ has a unique minimum at $\qvec_{i}$.
-
-%Thus,   from Lemma \ref{lem:convex}, $E[K(\pi||\tilde{\qvec}_{i-1}^{t})+ H(\pi)] > E[K(\pi||\tilde{\qvec}_{i}^{t})+ H(\pi)]$ and trader $i$'s expected budget increases.
-%\end{proof}
 
 For continuous distributions with a density, the probability that a trader with private information will form exactly the same beliefs as the current market position is $0$, and thus, each trader will have positive expected profit on almost all sequences of observed samples and beliefs. 
 This result suggests that, eventually, every informative trader will have the ability to influence the market state in accordance with his beliefs, without being budget limited.
 
-We note one important aspect of Theorem~\ref{thm:growth}: The expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure; depending on the distribution family and the prior distribution over parameter values, maximum likelihood estimation might not optimize the true expected score. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
-%To summarize our results for this in a market with budget-limited traders, the total loss induced by malicious traders is limited, while the budget of  informative traders grows.
+Notice that Theorem~\ref{thm:growth} only required that the market state to which the trader moves, be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{\psi}(\theta',\beta)$ where is the exponential utility parameter.
+
+We note one important aspect of Theorem~\ref{thm:growth}: The expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
+
 \section{The MaxEnt Market Mechanism: A Bayesian View}
 \subsubsection{Conjugate Priors}
 
@@ -1132,27 +994,7 @@ $$\sum_{j=1}^{n}\delta_{j}=
 Substituting in Equation \ref{eq:eqbm} we have the following expression for the final market state.
 $$\theta+\sum_{j=1}^{n}\delta_{j}=
 \frac{\theta+\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
-Let us modify the cost function so that it includes a liquidity parameter:
-$$C_{\lambda}(q)\defeq\lambda \psi(q/\lambda)$$
 
-\subsubsection{Lower Bound on Expected Payoff for Exponential Utility Traders}
-Let $\theta$ be the current market state. We have shown that an exponential utility trader with belief distribution  parametrized by $\beta$ will move the market state to $\theta'=\frac{1}{1+a} \beta + \frac{a}{1+a} \theta$. Therefore, the trader's expected net payoff is given by
-\begin{eqnarray*}
-&& \E_{x\sim P_{\beta}}[C(\theta)-C(\theta')-(\theta-\theta')\phi(x)]\\
-&=& \psi(\theta)-\theta\E_{x\sim P_{\beta}}[\phi(x)]-(\psi(\theta')-\theta' \E_{x\sim P_{\beta}}[\phi(x)])\\
-&=& \psi(\theta)-\theta\nabla\psi(\beta)-(\psi(\theta')-\theta' \nabla\psi(\beta))\\
-&=& \psi(\theta)-\psi(\beta)-\nabla\psi(\beta)(\theta-\beta)-(\psi(\theta')-\psi(\beta)- \nabla\psi(\beta)(\theta'-\beta))\\
-&=& D_{\psi}(\theta,\beta)-D_{\psi}(\theta',\beta)\\
-&\geq&\frac{1}{a}D_{\psi}(\theta',\beta)\geq0
-\end{eqnarray*}
-The second to last inequality holds since $D_{\psi}(\theta',\beta)$ is convex in $\theta'$ and we have:
-\begin{eqnarray*}
-D_{\psi}(\theta',\beta)&=&D_{\psi}\left(\frac{1}{1+a} \beta + \frac{a}{1+a} \theta,\beta\right)\\
-&\leq&\frac{1}{1+a}D_{\psi}( \beta ,\beta)+ \frac{a}{1+a} D_{\psi}( \theta ,\beta)\\
-&=&\frac{a}{1+a} D_{\psi}( \theta ,\beta)
-%\implies D_{\psi}(\theta',\beta)+aD_{\psi}(\theta',\beta)&\leq& aD_{\psi}( \theta ,\beta)\\
-\end{eqnarray*}¥
-Thus, a trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{\psi}(\theta',\beta)$.
 \section{Conclusions}
 
 \end{document}
