@@ -177,16 +177,24 @@ In this paper, we draw connections between the aggregation performed by learning
 %	[- does modularity (a la Hanson) still hold?]
 %- prediction market setup [Sebastien]
 %	- MLE with risk neutrality
+% 	need a definition of term 'exponential family prediction market'
 %- conjugate prior market [Sindhu; Wednesday]
 %	- also on hyperparam?
 %- exp-util [Sebastien]
-%- equilibrium for repeated trades
+%- equilibrium for repeated trades [Sindhu; Tuesday]
 % 	[- rate of convergence?]
 %- budgets and adversarial markets [Sindhu; Monday]
 % [any liquidity results?] [Sindhu: weekend]
 % conclusion
 % bibliography
 
+%------------------------------------------------------------
+% Naming conventions:
+%------------------------------------------------------------
+%htheta belief
+%theta current market state
+%theta’ final state
+%T is the log partition function
 
 
 We have dual goals in this paper. On the one hand, we highlight a structural similarity between prediction markets and exponential families. We see this as the syntax of our prediction market mechanism. On the other, this formulation has rich semantics as well: it allows for analysis of market behavior under various environments. For instance, we analyze market behavior with budget limited traders, traders that are exponential-utility-maximizers.
@@ -488,7 +496,7 @@ In this section, we consider the the prediction market setup with traders that m
 
 We will show that if we are able to impose finite initial budgets on the traders and control the market prices based on these budgets, then  it possible to set up the market so that it is prohibitive for damaging traders to participate in the market. Further, the informative traders can be shown to have expected growth in budget so that they are eventually able to move the market prices without restriction. 
 
-In this section, we assume that the traders have exponential family beliefs. The cost function has the same form as the log partition function $\psi$ of the exponential family and the payoff is determined by the sufficient statistics of the data $\phi(x)$.
+In this section, we assume that the traders have exponential family beliefs. The cost function has the same form as the log partition function $T$ of the exponential family and the payoff is determined by the sufficient statistics of the data $\phi(x)$.
 \subsection{Budget-limited Aggregation}
 Imposing budget limits on the traders will allow us to control the amount of influence any one trader can have on moving the market prices. We will also satisfy an additional requirement that no trader has negative budget at any point of participation in the market. This is achieved by restricting the movement of the market and hence influencing the cost incurred by the trader. Recall that the payoff in this market is non-negative and hence the only adverse influence on a trader's budget is the cost of movement of the market state. 
 
@@ -608,30 +616,30 @@ Let $\theta$ be the current market state in the exponential family prediction ma
 %$\hat{\theta}_i$, before a final outcome $x$. Then, the expectation, over trader $i$'s belief distribution $\theta_i$, of trader $i$'s realized profit is greater than zero whenever her budget is positive and her belief differs from the previous market position $\hat{\theta}_{i-1}$. 
 \end {theorem}
 \begin{proof}
-Let the cost function $C$ be equal to the log partition function $\psi$ of the belief distribution. The payoff is given by the sufficient statistics $\phi(x)$. Then, the trader's expected net payoff is given by
+Let the cost function $C$ be equal to the log partition function $T$ of the belief distribution. The payoff is given by the sufficient statistics $\phi(x)$. Then, the trader's expected net payoff is given by
 \begin{eqnarray*}
 && \E_{x\sim P_{\htheta}}[C(\theta)-C(\theta')-(\theta-\theta')\phi(x)]\\
-&=& \psi(\theta)-\theta\E_{x\sim P_{\htheta}}[\phi(x)]-(\psi(\theta')-\theta' \E_{x\sim P_{\htheta}}[\phi(x)])\\
-&=& \psi(\theta)-\theta\nabla\psi(\htheta)-(\psi(\theta')-\theta' \nabla\psi(\htheta))\\
-&=& \psi(\theta)-\psi(\htheta)-\nabla\psi(\htheta)(\theta-\htheta)-(\psi(\theta')-\psi(\htheta)- \nabla\psi(\htheta)(\theta'-\htheta))\\
-&=& D_{\psi}(\theta,\htheta)-D_{\psi}(\theta',\htheta)\\
-&\geq&\lambda D_{\psi}(\theta,\htheta)\geq0
+&=& T(\theta)-\theta\E_{x\sim P_{\htheta}}[\phi(x)]-(T(\theta')-\theta' \E_{x\sim P_{\htheta}}[\phi(x)])\\
+&=& T(\theta)-\theta\nabla T(\htheta)-(T(\theta')-\theta' \nabla T(\htheta))\\
+&=& T(\theta)-T(\htheta)-\nabla T(\htheta)(\theta-\htheta)-(T(\theta')-T(\htheta)- \nabla T(\htheta)(\theta'-\htheta))\\
+&=& D_{T}(\theta,\htheta)-D_{T}(\theta',\htheta)\\
+&\geq&\lambda D_{T}(\theta,\htheta)\geq0
 \end{eqnarray*}
-The second to last inequality holds since $D_{\psi}(\theta',\htheta)$ is convex in $\theta'$ and we have:
+The second to last inequality holds since $D_{T}(\theta',\htheta)$ is convex in $\theta'$ and we have:
 \begin{eqnarray*}
-D_{\psi}(\theta',\htheta)&=&D_{\psi}\left(\lambda\htheta+(1-\lambda)\theta,\htheta\right)\\
-&\leq&\lambda D_{\psi}( \htheta ,\htheta)+ (1-\lambda) D_{\psi}( \theta ,\htheta)\\
-&=&(1-\lambda) D_{\psi}( \theta ,\htheta)
+D_{T}(\theta',\htheta)&=&D_{T}\left(\lambda\htheta+(1-\lambda)\theta,\htheta\right)\\
+&\leq&\lambda D_{T}( \htheta ,\htheta)+ (1-\lambda) D_{T}( \theta ,\htheta)\\
+&=&(1-\lambda) D_{T}( \theta ,\htheta)
 %\implies D_{\psi}(\theta',\beta)+aD_{\psi}(\theta',\beta)&\leq& aD_{\psi}( \theta ,\beta)\\
 \end{eqnarray*}•
-Thus, a trader who moves the market state can expect his profit to be positive and at least $\lambda D_{\psi}(\theta,\htheta)$.
+Thus, a trader who moves the market state can expect his profit to be positive and at least $\lambda D_{T}(\theta,\htheta)$.
  \end{proof}
 
 
 For continuous distributions with a density, the probability that a trader with private information will form exactly the same beliefs as the current market position is $0$, and thus, each trader will have positive expected profit on almost all sequences of observed samples and beliefs. 
 This result suggests that, eventually, every informative trader will have the ability to influence the market state in accordance with his beliefs, without being budget limited.
 
-Notice that Theorem~\ref{thm:growth} only required that the market state to which the trader moves, be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{\psi}(\theta,\htheta)$ where $a$ is the exponential utility parameter.
+Notice that Theorem~\ref{thm:growth} only required that the market state to which the trader moves, be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{T}(\theta,\htheta)$ where $a$ is the exponential utility parameter.
 
 We note one important aspect of Theorem~\ref{thm:growth}: The expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
 \pagebreak
@@ -707,7 +715,7 @@ U(w) = -\frac{1}{a} \exp(-aw).
 Here $a$ is the coefficient of risk aversion (higher means more risk averse, and the utility function is more concave).
 
 %
-\begin{proposition}
+\begin{proposition}\label{prop:exp-util}
 An agent with exponential family belief with natural parameter $\htheta$, and exponential utility with coefficient $a$, makes a trade that moves the current market share vector $\theta$ to the convex combination $\frac{1}{1+a} \htheta + \frac{a}{1+a} \theta$ assuming an LMSR cost function.
 \end{proposition}
 %
@@ -930,25 +938,28 @@ Now suppose the trader has exponential utility, given by $$U(w) = -\frac{1}{a} \
 &=&\int_{\mathcal{B}}\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\\
 &&\qquad\exp\{\psi(\beta-a\delta)-\psi(\beta)\}\,\, d\beta\\
 \end{eqnarray*}•
+\pagebreak
 
-\section{Reinterpreting repeated trades in a market}
-Let us suppose that traders in this market have exponential utility \[
+
+
+
+
+
+
+
+\section{Reinterpreting repeated trades}
+In previous sections we have analyzed trader behavior as if it is his first entry into the market. In this section we will quantify how prior exposure in the market affects a trader's choices. In particular, we will show that a trader who has previously purchased shares in a market will, on subsequent entry, behave as if this purchase has updated his private belief. This result implies that any financial trade made in a market is equivalent to changing the trader's effective belief.
+
+As before, we consider the exponential family prediction market where traders have exponential belief. Let us also suppose that traders in this market have exponential utility \[
 U(w) = -\frac{1}{a} \exp(-aw).
 \]
 %
 Here $a$ is the coefficient of risk aversion (higher means more risk averse, and the utility function is more concave).
 
-Let $\delta_{1}^{*}$ be the optimal vector of shares the agent decides to trade on first entering the market with exponential family belief parametrized by natural parameter $\hat{\theta}$. Thus, his belief distribution is given by the pdf $$\exp\{\hat{\theta} \phi(x) - T(\hat{\theta})\}]$$ where $T(\hat{\theta}) =\int_{\mathcal{X}}\exp\{\hat{\theta} \phi(x)\}\ dx$ is the log partition function and $\phi(x)$ are the sufficient statistics.
-On a subsequent entry into this market when the market state is $\theta'$, his optimal purchase $\delta_{2}^{*}$ is given by the solution of
-$$\arg\max_{\delta_{2}} \E_{x\sim \hat{\theta}} U[\mathrm{payoff}]$$
-Here, the payoff given eventual outcome $x$ is  $[\delta_{1}^{*}+\delta_{2}^{*} ]\phi(x) - C(\delta_{1}^{*} + \theta) + C(\theta)- C(\delta_{2}^{*} + \theta') + C(\theta')$. Here $\theta' = \theta+\delta_{1}^{*}+\delta'$ where $\delta'$ captures the movement of the share vector by other traders in the market. 
-The expected utility for this payoff is as follows.
-%%
-%\[ U( \delta x - C(\delta + \theta) + C(\theta) ) = -\frac{1}{a} \exp(-a \delta x + a C(\delta + \theta) - a C(\theta)).
-%\]
-%%
+Suppose an agent has exponential family belief parametrized by natural parameter $\hat{\theta}$. Based on this belief, let $\delta_{1}^{*}$ be the optimal vector of shares the agent decides to trade on first entering the market. Thus, his belief distribution is given by the density $$p(x;\htheta)=\exp(\la\hat{\theta}, \phi(x)\ra - T(\hat{\theta}))$$ where $T(\hat{\theta}) =\int_{\mathcal{X}}\exp\{\la\hat{\theta}, \phi(x)\ra\}\ dx$ is the log partition function and $\phi(x)$ are the sufficient statistics of the outcome $x\in \mathcal{X}$. On a subsequent entry into this market with market state $\theta'$, his optimal purchase $\delta_{2}^{*}$ is given by the solution of
+%Here $\theta' = \theta+\delta_{1}^{*}+\delta'$ where $\delta'$ captures the movement of the share vector by other traders in the market.
 \begin{eqnarray*}
-&   & \arg\max_{\delta_{2}}\E\left[ (\delta_{1}^{*}+\delta_{2} )\phi(x) - C(\delta_{1}^{*} + \theta) + C(\theta)- C(\delta_{2} + \theta') + C(\theta') \right] \\
+&   & \arg\max_{\delta_{2}} \E_{x\sim p(x;\htheta)} U\left[ (\delta_{1}^{*}+\delta_{2} )\phi(x) - C(\delta_{1}^{*} + \theta) + C(\theta)- C(\delta_{2} + \theta') + C(\theta') \right] \\
 & = & \arg\max_{\delta_{2}}\int_{\mathcal{X}} -\frac{1}{a} [\exp(-a (\delta_{1}^{*}+\delta_{2} )\phi(x) \\
 &  & + a C(\delta_{1}^{*} + \theta) -a C(\theta)+a C(\delta_{2} + \theta') -a C(\theta')) \exp\{\hat{\theta} \phi(x) - T(\hat{\theta})\}]\, dx \\
 & = & \arg\max_{\delta_{2}}\int_{\mathcal{X}} -\frac{1}{a} [\exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta') \\
@@ -956,39 +967,39 @@ The expected utility for this payoff is as follows.
 & = & \arg\max_{\delta_{2}}\int_{\mathcal{X}} U[N(\delta_{2},\theta')] \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}]\, dx 
 \end{eqnarray*}
 
-Here the first equality follows from the fact that we are taking expectation over the traders belief parameter $\hat{\theta}$ and the second equality follows simply from rearranging the factors of $\phi(x)$. And lastly we have written $-\frac{1}{a} [\exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta')]$ as $U[N(\delta_{2},\theta')]$ where $N(\delta_{2},\theta')$ is the net payoff when $\delta_{2}$ shares are purchased when the current market state is $\theta'$. 
+Here, the first equality follows from the fact that we are taking expectation over the agent's belief parameter $\hat{\theta}$ and the second equality follows simply from rearranging the factors of $\phi(x)$. And lastly we have written $-\frac{1}{a} [\exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta')]$ as $U[N(\delta_{2},\theta')]$ where $N(\delta_{2},\theta')$ is the net payoff when $\delta_{2}$ shares are purchased when the current market state is $\theta'$. 
 
-This is equivalent to maximizing expected utility of $N(\delta_{2},\theta')$, where expectation is taken with respect to an exponential family distribution over $\mathcal{X}$ parametrized by $\hat{\theta}-a \delta_{1}^{*}$, so long as 
-$$\int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}]\, dx = c\times \int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)-T(\hat{\theta}-a \delta_{1}^{*})\} \, dx$$
+Note that since $C=T$, $- T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)$ is proportional to $T(\hat{\theta}-a \delta_{1}^{*})$, it follows that $\int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}]\, dx$ is proportional to the density with parameter $\hat{\theta}-a \delta_{1}^{*}$. Thus, picking the optimal share vector is equivalent to maximizing expected utility of $N(\delta_{2},\theta')$, where expectation is taken with respect to an exponential family distribution over $\mathcal{X}$ parametrized by $\hat{\theta}-a \delta_{1}^{*}$.
 
-%$$\int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)-\psi(\hat{\theta}-a \delta_{1}^{*})\} \, dx =1$$
-%That is
-%$$\psi(\hat{\theta}-a \delta_{1}^{*})= \int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)\}\ dx$$
-In other words we want the following statement to hold.
-\begin{eqnarray*}
-\exists c: c\times\exp\{- T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}&=&
-T(\hat{\theta}-a \delta_{1}^{*})\\
-&=& \int_{\mathcal{X}} \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x)\}\ dx
-\end{eqnarray*}
 
-where $c$ is a constant with respect to $\delta_{2}$ and $x$ (but could potentially depend on $\hat{\theta}$, $a$ and $\delta_{1}^{*}$). This is true because the right hand side of the equation is a function of only $\hat{\theta}$, $a$ and $\delta_{1}^{*}$. Let $\Theta\defeq\hat{\theta}-a \delta_{1}^{*}  $ be the effective belief. Thus we have that the trader chooses his share vector as follows.
+
+
+Let $\Theta\defeq\hat{\theta}-a \delta_{1}^{*}  $ be the effective belief. Thus we have that the trader chooses his share vector as follows.
 \begin{eqnarray*}
 &&  \arg\max_{\delta_{2}}\int_{\mathcal{X}} U[N(\delta_{2},\theta')] \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta})+ a C(\delta_{1}^{*} + \theta) -a C(\theta)\}\, dx \\
 & = &\arg\max_{\delta_{2}}\int_{\mathcal{X}} U[N(\delta_{2},\theta')] \exp\{(\hat{\theta}-a \delta_{1}^{*}) \phi(x) - T(\hat{\theta}-a \delta_{1}^{*})\}]\, dx\\
 & = & \arg\max_{\delta_{2}} \int_{\mathcal{X}} -\frac{1}{a} \exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta')\} \exp\{\Theta\cdot \phi(x) - T(\Theta)\}\, dx\\
 & = & \arg\max_{\delta_{2}} U\left[- C(\delta_{2} + \theta') + C(\theta') - \frac{1}{a} T(\Theta - a\delta_{2}) + \frac{1}{a} T(\Theta)\right]\\
 \end{eqnarray*}
-This follows from the argument detailed in in exp-util and simple substitution. Further,  the maximizer is $\delta_{2}^* = (\Theta - \theta') / (1+a)$, which moves the share vector to $\theta' + \delta_{2}^* = \frac{1}{1+a} \Theta + \frac{a}{1+a} \theta'$ which is a convex combination of the effective belief and the current market state.
+This follows from Proposition \ref{prop:exp-util}. The maximizer is $\delta_{2}^* = (\Theta - \theta') / (1+a)$, which moves the share vector to $\theta' + \delta_{2}^* = \frac{1}{1+a} \Theta + \frac{a}{1+a} \theta'$ which is a convex combination of the effective belief and the current market state.
 
-In other words, an exponential utility maximizing trader who has belief $\hat{\theta}$ with prior exposure $\delta$ in a market  will behave identically as an exponential utility maximizing trader with belief $\hat{\theta}-a \delta$ and no prior exposure in the market. Here $a$ is the utility parameter. This means that financial exposure can be equivalently understood as changing the privately held beliefs.
+In other words, an exponential utility maximizing trader who has belief $\hat{\theta}$ with prior exposure $\delta$ in a market  will behave identically to an exponential utility maximizing trader with belief $\hat{\theta}-a \delta$ and no prior exposure in the market. Here $a$ is the utility parameter. This means that financial exposure can be equivalently understood as changing the privately held beliefs.
+\pagebreak
 
-Note that as the trader becomes more risk averse, the  belief is updated more aggressively. As $a \rightarrow 0$, the trader becomes more risk neutral and his effective belief is closer to his true belief. 
-%
-%----------------------------------------------------------------------------------------
-%	BIBLIOGRAPHY
-%----------------------------------------------------------------------------------------
 
-\subsection{Equilibrium in a market with multiple traders}
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Equilibrium Market State for Exponential Utility Agents}
 We have shown that every exponential-utility maximizing trader picks the share vector $\delta_{i}$ so as to maximize the utility of $- C(\delta_{i} + \theta) + C(\theta) - \frac{1}{a_{i}} T(\beta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\beta_{i})$ where $\theta$ is the initial market state, $a_{i}$ the utility parameter and $\beta_{i}$ the belief parameter of  trader $i$. To maximize utility, it suffices to maximize the argument, assuming that $C()=T()=\psi()$. 
 
 Now consider a market with multiple exponential-utility maximizing traders. We wish to compute the equilibrium state. Let us assume that equilibrium is reached at a market state $\theta+\sum_{i}\delta_{i}$ where $\theta$ is the initial market state before trading begins and $\delta_{i}$ is each trader's purchase. 
@@ -1027,6 +1038,10 @@ $$\theta+\sum_{j=1}^{n}\delta_{j}=
 \frac{\theta+\sum_{i=1}^{n}\left(\frac{\beta_{i}}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
 
 \section{Conclusions}
+%
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
 
 \end{document}
 
