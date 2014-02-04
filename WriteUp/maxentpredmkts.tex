@@ -405,9 +405,60 @@ Here the statistics being elicited are the mean vector ${\boldsymbol \mu}$ and t
 
 
 
+%%%%%%%%%%%%
+%This bit needs editing
+%%%%%%%%%%%%
+\subsection{Generalized Log Scoring Rule}
+Suppose that an agent holds a belief in the expected value of the moments of a random variable $x$. The maximum entropy distribution that is consistent with these beliefs is an exponential family distribution.
+ \defn For an outcome $x$ with predicted probability $p$, the generalized log scoring rule is defined as $$S(p,x)\defeq a+b\log p(x)$$ where $a$ and $b$ are constants that we will set to $0$ and $1$ respectively in these notes.\undefn
 
+\begin{thm} The generalized log scoring rule for the maximum entropy distribution is proper.
+\end{thm}
+\proof
+Recall that a  proper scoring rule $\mathbf{S}$ satisfies $$ \E_{x\sim p}[\mathbf{S}(p,x)]\geq \E_{x\sim p}[\mathbf{S}(p^{\prime},x)]$$
+ 
+Note that the maximum entropy distribution is an exponential family distribution. 
+ Let $p(x)=\exp\{\beta\cdot \phi(x)-\psi(\beta)\}$ be the true distribution and  $p'(x)=\exp\{\beta'\cdot \phi(x)-\psi(\beta')\}$ be the predicted distribution on the event $x$. 
+ 
+ We need to show that $$\E_{x\sim p}[\mathbf{S}(p,x)]\holds{\geq} \E_{x\sim p}[\mathbf{S}(p',x)]$$
+  In other words, we need $$\E_{x\sim p}[\log p(x)]\holds{\geq} \E_{x\sim p}[\log p'(x)]$$
+   Equivalently, $$\E_{x\sim p}[\beta\cdot \phi(x)-\psi(\beta)]\holds{\geq} \E_{x\sim p}[\beta'\cdot \phi(x)-\psi(\beta')]$$
+   Or 
+\begin{equation}\label{eq:proper}
+\beta\cdot \E_{x\sim p}[\phi(x)]-\psi(\beta)\holds{\geq} \beta'\cdot \E_{x\sim p}[\phi(x)]-\psi(\beta')
+\end{equation}
 
+   For an exponential family distribution, $\E_{x\sim p}[\phi(x)]=\nabla\psi(\beta)$. Substituting in  $(\ref{eq:proper})$, we need to show
+   $$\beta\cdot \nabla\psi(\beta)-\psi(\beta)\holds{\geq} \beta'\cdot \nabla\psi(\beta)-\psi(\beta')$$
+   Rearranging the terms,
+   $$(\beta-\beta')\cdot \nabla\psi(\beta)\holds{\geq} \psi(\beta)-\psi(\beta')$$   
+   which is the first order condition on the convexity of $\psi(\cdot)$.
+ \unproof   
+ 
+ \rmk The distance between the scores of the true and any predictive exponential family distribution is, in fact,  the Bregman divergence (based on the log partition function) between the corresponding natural parameters. That is,
+   $$\E_{x\sim p}[\mathbf{S}(p,x)]- \E_{x\sim p}[\mathbf{S}(p',x)] = D_{\psi}(\beta,\beta')$$
+   \unrmk
+ 
+\subsection{Exponential Smoothing}
+One way to model the exponential family prediction market might be through exponential smoothing.
+\begin{itemize}
+\item A \emph{time series} is a set of data points sampled at periodic instances.
+\item \emph{Smoothing} is the process of creating an approximation function based on time series that while capturing  patterns in the data is relatively insensitive to noise.
+\item Natural first step is to use moving average. But average on how many samples (say $k$)? What to do until the first $k$ samples have been received?
+\item
+Next attempt might be to use weighted moving average. Advantage is that you can give higher weight to more recent terms. But still same disadvantage as simple moving average technique.
+\item
+\emph{Exponential Smoothing} attempts to remove this disadvantage.
+\end{itemize}
 
+Exponential smoothing is defined iteratively for $\alpha\in(0,1)$ as
+\begin{eqnarray*}
+s_{1} &=& x_{0}\\
+s_{t}&=&\alpha x_{t-1}+(1-\alpha)s_{t-1}
+\end{eqnarray*}
+
+Smaller values of $\alpha$ means greater smoothing e.g., $\alpha=0$ gives a constant function ($=x_{0}$).
+Note that the selection of $x_{0}$ is important -- and increases in importance as $\alpha$. Some advantages over moving average: all data points matter (decreasing importance with time) and computationally only last data point need be stored.
 \pagebreak
 \section{Maximum Entropy Market Making}
 
@@ -478,6 +529,113 @@ S(\mu, x) = \la \theta(\mu), \phi(x) \ra - C(\theta(\mu)).
 %
 \noindent
 The scoring rule~(\ref{expscore}) decomposes neatly into payoff and cost functions. The first term $\la \theta(\mu), \phi(x) \ra$ defines the agent's outcome-contingent reward, while the second term~$C(\theta(\mu))$ is the cost of acquiring a portfolio $\theta(\mu)$. We see here the duality between the approach of directly reporting $\mu$, or acquiring shares $\theta$: an agent reporting beliefs $\mu$ under scoring rule~(\ref{scoring}) would choose to acquire shares $\theta(\mu)$ in the information market with cost function~(\ref{cost}). Since~(\ref{scoring}) is a proper scoring rule, the information market with cost function~(\ref{cost}) is based on a proper market scoring rule.
+\subsection{Properties of the Maximum Entropy Market}
+Consider the dual of the cost function, $C^{*}(\mu)$ defined as
+$$C^{*}(\mu) = \sup_{\beta} \beta\cdot\mu - C(\beta)$$
+This supremum is obtained at the value of $\beta$ for which $\mu = \nabla C(\beta)$; that is the natural parameter $\beta$ for which $\mu=\E_{p_{\beta}}[\phi(x)]$ is the mean parameter. Rewriting, 
+$$C^{*}(\E_{p_{\beta}}[\phi(x)]) = \beta\cdot\E_{p_{\beta}}[\phi(x)] - C(\beta)$$
+Thus, the mean parameters are the dual variables to the natural parameters.
+
+
+\begin{thm} The value of the dual of the cost function is the negative entropy of the exponential family distribution obtained from backward mapping the mean parameters. \end{thm}
+\proof
+To see this, we note that for $p(x)=\exp\{\beta\cdot\phi(x)-C(\beta)\}$
+\begin{eqnarray*}
+-H(p) &=& \int_{x}p(x)\log p(x)\\
+&=& \int_{x}p(x)[\beta\cdot\phi(x)-C(\beta)]\\
+&=& \beta\cdot\int_{x}p(x)[\phi(x)]-\int_{x}p(x)C(\beta)\\
+&=& \beta\cdot\E_{p}[\phi(x)]-C(\beta)
+\end{eqnarray*}
+\unproof
+\rmk This result shows a nice parallel to LMSR, since the dual of the cost function of the LMSR is the negative entropy.\unrmk
+\rmk The LMSR is essentially a special case applied to a multinomial distribution. The LMSR is known to have bounded ($\log n$) market maker loss. Thus, while in general the exponential family LMSR does not guarantee bounded market maker loss, for some special cases it can. 
+\unrmk
+
+{\thm Negative differential entropy $-H(p)\defeq \int_{x}p(x) \log p(x) dx$ is unbounded from above for an exponential family distribution.}
+\proof
+Note that, for an exponential family distribution
+\begin{eqnarray*}
+H(p) &=& -\int_{x}p(x)\log p(x)dx\\
+&=& -\int_{x}p(x)[\beta\cdot \phi(x)-\psi(\beta)] dx\\
+&=& -\beta\cdot\E[ \phi(x)]+\psi(\beta)
+\end{eqnarray*}
+If the range of $\beta$ is unbounded, the negative differential entropy is unbounded as well.
+\unproof
+
+%{\cor The exponential family market maker has unbounded worst case loss.}
+%\proof From \cite{ACV13} we know that the worst case market maker loss can be expressed in terms of the conjugate of the cost function as 
+%$$\sup_{\mu\in\phi(\mathcal{X})}C^{*}(\mu) - \min_{\mu\in\conv(\phi(\mathcal{X}))}C^{*}(\mu)$$ 
+%Unbounded differential entropy for an exponential family distribution thus implies unbounded market maker loss.\unproof
+\paragraph{Loss of the market maker}
+First we derive an expression for the conjugate dual $C^{*}$ in terms of the primal variables.
+
+Recall the definition of the conjugate dual:
+$$C^{*}(\mu) = \sup_{q}q\cdot\mu - C(q)$$
+The supremum is achieved at $q'$ such that $\nabla C(q')=\mu$. So we may rewrite:
+$$C^{*}(\nabla C(q')) = \sup_{q}q\cdot\nabla C(q') - C(q)$$
+This supremum is achieved at $q$ such that $\nabla C(q')=\nabla C(q)$. One such value of $q$ is $q'$.
+So we have 
+$$C^{*}(\nabla C(q')) = q'\cdot\nabla C(q') - C(q')$$
+Also, recall that $\nabla C^{*}(\nabla C(q))=q$ for the exponential family market. (I think there are some restrictions on $q$.)
+
+Let $q_{0}$ be the initial and $q_{f}$ the final market state. Then if $\mu$ is the expected value of the outcome sufficient statistics (\ie  the mean parameter) under the true distribution, the loss of the exponential family market maker can be written as:
+\begin{eqnarray*}
+\phi(x)(q_{f}-q_{0})-C(q_{f})+C(q_{0})&=& \phi(x) (q_{f}-q_{0})-q_{f}\nabla C(q_{f})+ C^{*}(\nabla C(q_{f}))\\
+&&+q_{0}\nabla C(q_{0})- C^{*}(\nabla C(q_{0}))\\
+&=&q_{f}(\phi(x) -\nabla C(q_{f}))+ C^{*}(\nabla C(q_{f}))\\
+&&-q_{0}(\phi(x) -\nabla C(q_{0}))- C^{*}(\nabla C(q_{0}))\\
+&=&-C^{*}(\nabla C(q_{0}))+ C^{*}(\phi(x))-q_{0}(\phi(x) -\nabla C(q_{0}))\\
+&&+C^{*}(\nabla C(q_{f}))- C^{*}(\phi(x))+q_{f}(\phi(x) -\nabla C(q_{f}))\\
+&=&  C^{*}(\phi(x))-C^{*}(\nabla C(q_{0}))-\nabla C^{*}(\nabla C(q_{0}))(\phi(x) -\nabla C(q_{0}))\\
+&&-\left[C^{*}(\phi(x))-C^{*}(\nabla C(q_{f}))-\nabla C^{*}(\nabla C(q_{f}))(\phi(x) -\nabla C(q_{f}))\right]\\
+&=&D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]
+\end{eqnarray*}
+
+\subsection{Example: Gaussian Markets}
+{\ex We will now derive an expression for the dual of the log partition function for the Gaussian distribution. In this case,  $\beta$ is a $2$-dimensional  vector. Let $\beta=\begin{pmatrix}\beta_{1}\\ \beta_{2}\end{pmatrix}$ and $\mu=\begin{pmatrix}\mu_{1}\\ \mu_{2}\end{pmatrix}$. So 
+\begin{eqnarray*}
+\pmb{\mu}&=&\nabla\psi(\pmb{\beta})\\
+&=&\nabla\left(-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})\right)\\
+&=&\begin{pmatrix}-\frac{\beta_{1}}{2\beta_{2}}\\ \frac{\beta_{1}^{2}}{4\beta_{2}^{2}}-\frac{1}{2\beta_{2}}\end{pmatrix}
+\end{eqnarray*}
+Thus, $\pmb{\beta}$ can be written in terms of $\pmb{\mu}$ as follows:
+$\beta_{1}=\frac{\mu_{1}}{\mu_{2}-\mu_{1}^{2}}$ and $\beta_{2}=\frac{1}{\mu_{1}^{2}-\mu_{2}}$. This leads to the following closed form expression for the dual of the log partition function:
+$$\psi^{*}(\mu)=-\frac{1}{2}-\frac{1}{2}\log(\mu_{2}-\mu_{1}^{2})$$}
+{\ex
+We will now derive the expression for the differential entropy for the normal distribution. Recall that for the normal distribution $$p(x) = \frac{1}{\sqrt{2\pi\sigma^{2}}}\exp\left\{\frac{-(x-\mu)^{2}}{2\sigma^{2}}\right\}$$
+\begin{eqnarray*}
+H(p) &=& -\int_{x}p(x)\log p(x)dx\\
+&=& -\int_{x}p(x)\left[-\log(2\pi)-\log\sigma+\frac{-(x-\mu)^{2}}{2\sigma^{2}}\right]dx\\
+&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\int_{x}p(x)(x-\mu)^{2}]dx\\
+&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\E_{p(x)}[(x-\mu)^{2}]dx\\
+&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\sigma^{2}dx\\
+&=& \log(2\pi)+\frac{1}{2}+\log\sigma 
+\end{eqnarray*}
+Recall that the value of the dual of the log partition function is the value of the negative entropy of the distribution for an exponential family distribution. Thus when the variance of the normal distribution $\sigma^{2} = 0$, the value of the dual of the cost function goes to $\infty$ and is thus unbounded.}
+
+{\ex For the normal distribution, the natural parameters $\pmb{\beta}=(\beta_{1},\beta_{2})$ can be written in terms of $\mu$ and $\sigma$ as $$\beta_{1}=\frac{\mu}{\sigma^{2}},\quad \beta_{2}=\frac{-1}{2\sigma^{2}}$$ and the log partition function is  $$\psi(\pmb{\beta})=-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})$$
+Alternately, the log partition function can be written in terms of its variance and mean as $\frac{\mu^{2}}{2\sigma^{2}}+\log\sigma$.
+Also note that the mean parameters are $\mu$ and $\mu^{2}+\sigma^{2}$.}
+Let's now work out the loss for the Gaussian market maker. First note that for a Gaussian market for mean parameters $\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}$ and $\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}$, we have 
+\begin{eqnarray*}
+D_{C^{*}}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix},\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}\right)
+&=& C^{*}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}\right)-C^{*}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}\right)\\
+&&-\nabla C^{*} \left(\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}\right)\begin{pmatrix}\mu_{1}-\mu_{2}\\ \mu_{1}^{2}+\sigma_{1}^{2}-\mu_{2}^{2}-\sigma_{2}^{2}\end{pmatrix}\\
+&=& -\log \frac{\sigma_{1}}{\sigma_{2}}-\begin{pmatrix}\frac{\mu_{2}}{\sigma_{2}^{2}}\\ -\frac{1}{2\sigma_{2}^{2}}\end{pmatrix}\cdot \begin{pmatrix}\mu_{1}-\mu_{2}\\ \mu_{1}^{2}+\sigma_{1}^{2}-\mu_{2}^{2}-\sigma_{2}^{2}\end{pmatrix}\\
+&=& -\log \frac{\sigma_{1}}{\sigma_{2}}-\frac{\mu_{2}(\mu_{1}-\mu_{2})-\frac{1}{2}(\mu_{1}^{2}-\mu_{2}^{2}+\sigma_{1}^{2}-\sigma_{2}^{2})}{\sigma_{2}^{2}}\\
+%&=& \log \frac{\sigma_{2}}{\sigma_{1}}-\frac{\sigma_{1}^{2}-\sigma_{2}^{2}-(\mu_{1}-\mu_{2})^{2}}{2\sigma_{2}^{2}}\\
+&=& \log \frac{\sigma_{2}}{\sigma_{1}}+\frac{\sigma_{2}^{2}-\sigma_{1}^{2}}{2\sigma_{2}^{2}}+\frac{(\mu_{1}-\mu_{2})^{2}}{2\sigma_{2}^{2}}
+\end{eqnarray*}
+
+So the Gaussian market maker loss is 
+%parallels to quadratic market maker loss? 
+\begin{eqnarray*}
+D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]&=& \log \frac{\sigma_{0}}{\sigma_{x}}+\frac{\sigma_{0}^{2}-\sigma_{x}^{2}}{2\sigma_{0}^{2}}+\frac{(\mu_{x}-\mu_{0})^{2}}{2\sigma_{0}^{2}}\\
+&&-\left[\log \frac{\sigma_{f}}{\sigma_{x}}+\frac{\sigma_{f}^{2}-\sigma_{x}^{2}}{2\sigma_{f}^{2}}+\frac{(\mu_{x}-\mu_{f})^{2}}{2\sigma_{f}^{2}}\right]\\
+&=& \log \frac{\sigma_{0}}{ \sigma_{f}}+\frac{(x-\mu_{0})^{2}}{2\sigma_{0}^{2}}-\frac{(x-\mu_{f})^{2}}{2\sigma_{f}^{2}}\\
+\end{eqnarray*}¥
+Here we have used the fact that $\mu_{x}=x$ and $\sigma_{x}=0$.
+\rmk In statistics, the standard score (aka z-score), $(x-\mu)/\sigma$, is the (signed) number of standard deviations an observation is above the mean. \unrmk
 \pagebreak
 
 
@@ -697,6 +855,32 @@ $$
 \grad g^{-1} \left(\frac{m\mu[X] + n\nu}{m+n}\right) = \grad g^* \left(\frac{m\mu[X] + n\nu}{m+n}\right).
 $$
 where $g^*$ is the convex conjugate of $g$.
+\subsection{Bayesian Traders}
+Suppose data is drawn from an exponential family distribution. Further suppose, following a Bayesian model, that each trader has some prior belief distribution over the parameters of the data distribution. Assuming a conjugate prior, this prior distribution is also an exponential family distribution.
+
+The data distribution is given by $\exp\{\beta\cdot\phi(x)-\psi(\beta)\}$ where $\psi()$ is the log partition function and $\phi()$ are the sufficient statistics. Then the conjugate prior parametrized by $b_{0}=(n\nu, n)$ is given by $\exp\{b_{0}\cdot(\beta,\psi(\beta))-\Psi(b_{0})\}$where $\Psi()$ is the corresponding log partition function. The posterior distribution is given by $b=(n\nu+m\hmu, n+m)$ where $\hmu$ is the empirical mean of the sufficient statistics of the $m$ data points drawn from the data distribution, $\hmu=\sum_{i=1}^{m}\phi(x_{i})$. We also have $\E_{\beta\sim b_{0}}\E_{x\sim \beta}[\phi(x)]=\nu$.
+
+\subsection{Linear Utility}
+
+Suppose the trader wishes to maximize his expected payoff. Then the number of shares $\delta$ that he purchases when the current market state is $\theta$ is given by $$\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}\left[ \delta\phi(x) - C(\delta + \theta) + C(\theta)\right]$$
+But, $\E_{\beta\sim b}\E_{x\sim \beta}[\phi(x)]=\frac{n\nu+m\hmu}{ n+m}$. To obtain the maximum, we set the gradient to $0$. Thus, we have $$\nabla C(\delta + \theta)=\frac{n\nu+m\hmu}{ n+m}$$ For an exponential family prediction market, the final market state is given by
+$$\nabla C^{*}\left(\frac{n\nu+m\hmu}{ n+m}\right)$$
+
+\subsection{Exponential Utility}
+Now suppose the trader has exponential utility, given by $$U(w) = -\frac{1}{a} \exp(-aw)$$ where $a$ is the coefficient of risk aversion. Suppose the trader wishes to maximize his expected utility. Then the number of shares $\delta$ that he purchases when the current market state is $\theta$ is given by 
+\begin{eqnarray*}
+&&\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}U\left[ \delta\phi(x) - C(\delta + \theta) + C(\theta)\right]\\
+&=&\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}-\frac{1}{a}\exp\left[ -a\delta\phi(x) +a C(\delta + \theta) -a C(\theta)\right]
+\end{eqnarray*}¥
+
+\begin{eqnarray*}
+\E_{\beta\sim b}\E_{x\sim \beta}\exp\left[-a\delta\phi(x)\right]&=&\int_{\mathcal{B}}\int_{\mathcal{X}}\exp[-a\delta\phi(x)]\, \exp\{\beta\cdot\phi(x)-\psi(\beta)\}\, dx\\
+&&\qquad\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\, d\beta\\
+&=&\int_{\mathcal{B}}\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\\
+&&\qquad\exp\{\psi(\beta-a\delta)-\psi(\beta)\}\,\, d\beta\int_{\mathcal{X}}\exp[(\beta-a\delta)\cdot\phi(x)-\psi(\beta-a\delta)]\, dx\\
+&=&\int_{\mathcal{B}}\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\\
+&&\qquad\exp\{\psi(\beta-a\delta)-\psi(\beta)\}\,\, d\beta\\
+\end{eqnarray*}¥
 
 \section{Exponential Utility}
 
@@ -753,191 +937,9 @@ In the statement of the result I use the term ``LMSR cost function'' somewhat lo
 Note that as $a \rightarrow 0$, we approach risk neutrality and the agent moves the share vector all the way to its private estimate $\htheta$. As $a$ grows (agent grows more risk averse) the agent makes smaller and smaller trades that keep it closer to the current estimate $\theta$.
 
 So there is a kind of congruence between exponential family beliefs and exponential utility (as the names would suggest). 
-\section{Properties of the Maximum Entropy Market}
-Consider the dual of the cost function, $C^{*}(\mu)$ defined as
-$$C^{*}(\mu) = \sup_{\beta} \beta\cdot\mu - C(\beta)$$
-This supremum is obtained at the value of $\beta$ for which $\mu = \nabla C(\beta)$; that is the natural parameter $\beta$ for which $\mu=\E_{p_{\beta}}[\phi(x)]$ is the mean parameter. Rewriting, 
-$$C^{*}(\E_{p_{\beta}}[\phi(x)]) = \beta\cdot\E_{p_{\beta}}[\phi(x)] - C(\beta)$$
-Thus, the mean parameters are the dual variables to the natural parameters.
 
 
-\begin{thm} The value of the dual of the cost function is the negative entropy of the exponential family distribution obtained from backward mapping the mean parameters. \end{thm}
-\proof
-To see this, we note that for $p(x)=\exp\{\beta\cdot\phi(x)-C(\beta)\}$
-\begin{eqnarray*}
--H(p) &=& \int_{x}p(x)\log p(x)\\
-&=& \int_{x}p(x)[\beta\cdot\phi(x)-C(\beta)]\\
-&=& \beta\cdot\int_{x}p(x)[\phi(x)]-\int_{x}p(x)C(\beta)\\
-&=& \beta\cdot\E_{p}[\phi(x)]-C(\beta)
-\end{eqnarray*}
-\unproof
-\rmk This result shows a nice parallel to LMSR, since the dual of the cost function of the LMSR is the negative entropy.\unrmk
-\rmk The LMSR is essentially a special case applied to a multinomial distribution. The LMSR is known to have bounded ($\log n$) market maker loss. Thus, while in general the exponential family LMSR does not guarantee bounded market maker loss, for some special cases it can. 
-\unrmk
 
-{\thm Negative differential entropy $-H(p)\defeq \int_{x}p(x) \log p(x) dx$ is unbounded from above for an exponential family distribution.}
-\proof
-Note that, for an exponential family distribution
-\begin{eqnarray*}
-H(p) &=& -\int_{x}p(x)\log p(x)dx\\
-&=& -\int_{x}p(x)[\beta\cdot \phi(x)-\psi(\beta)] dx\\
-&=& -\beta\cdot\E[ \phi(x)]+\psi(\beta)
-\end{eqnarray*}
-If the range of $\beta$ is unbounded, the negative differential entropy is unbounded as well.
-\unproof
-
-%{\cor The exponential family market maker has unbounded worst case loss.}
-%\proof From \cite{ACV13} we know that the worst case market maker loss can be expressed in terms of the conjugate of the cost function as 
-%$$\sup_{\mu\in\phi(\mathcal{X})}C^{*}(\mu) - \min_{\mu\in\conv(\phi(\mathcal{X}))}C^{*}(\mu)$$ 
-%Unbounded differential entropy for an exponential family distribution thus implies unbounded market maker loss.\unproof
-\paragraph{Loss of the market maker}
-First we derive an expression for the conjugate dual $C^{*}$ in terms of the primal variables.
-
-Recall the definition of the conjugate dual:
-$$C^{*}(\mu) = \sup_{q}q\cdot\mu - C(q)$$
-The supremum is achieved at $q'$ such that $\nabla C(q')=\mu$. So we may rewrite:
-$$C^{*}(\nabla C(q')) = \sup_{q}q\cdot\nabla C(q') - C(q)$$
-This supremum is achieved at $q$ such that $\nabla C(q')=\nabla C(q)$. One such value of $q$ is $q'$.
-So we have 
-$$C^{*}(\nabla C(q')) = q'\cdot\nabla C(q') - C(q')$$
-Also, recall that $\nabla C^{*}(\nabla C(q))=q$ for the exponential family market. (I think there are some restrictions on $q$.)
-
-Let $q_{0}$ be the initial and $q_{f}$ the final market state. Then if $\mu$ is the expected value of the outcome sufficient statistics (\ie  the mean parameter) under the true distribution, the loss of the exponential family market maker can be written as:
-\begin{eqnarray*}
-\phi(x)(q_{f}-q_{0})-C(q_{f})+C(q_{0})&=& \phi(x) (q_{f}-q_{0})-q_{f}\nabla C(q_{f})+ C^{*}(\nabla C(q_{f}))\\
-&&+q_{0}\nabla C(q_{0})- C^{*}(\nabla C(q_{0}))\\
-&=&q_{f}(\phi(x) -\nabla C(q_{f}))+ C^{*}(\nabla C(q_{f}))\\
-&&-q_{0}(\phi(x) -\nabla C(q_{0}))- C^{*}(\nabla C(q_{0}))\\
-&=&-C^{*}(\nabla C(q_{0}))+ C^{*}(\phi(x))-q_{0}(\phi(x) -\nabla C(q_{0}))\\
-&&+C^{*}(\nabla C(q_{f}))- C^{*}(\phi(x))+q_{f}(\phi(x) -\nabla C(q_{f}))\\
-&=&  C^{*}(\phi(x))-C^{*}(\nabla C(q_{0}))-\nabla C^{*}(\nabla C(q_{0}))(\phi(x) -\nabla C(q_{0}))\\
-&&-\left[C^{*}(\phi(x))-C^{*}(\nabla C(q_{f}))-\nabla C^{*}(\nabla C(q_{f}))(\phi(x) -\nabla C(q_{f}))\right]\\
-&=&D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]
-\end{eqnarray*}
-
-\subsection{Example: Gaussian Markets}
-{\ex We will now derive an expression for the dual of the log partition function for the Gaussian distribution. In this case,  $\beta$ is a $2$-dimensional  vector. Let $\beta=\begin{pmatrix}\beta_{1}\\ \beta_{2}\end{pmatrix}$ and $\mu=\begin{pmatrix}\mu_{1}\\ \mu_{2}\end{pmatrix}$. So 
-\begin{eqnarray*}
-\pmb{\mu}&=&\nabla\psi(\pmb{\beta})\\
-&=&\nabla\left(-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})\right)\\
-&=&\begin{pmatrix}-\frac{\beta_{1}}{2\beta_{2}}\\ \frac{\beta_{1}^{2}}{4\beta_{2}^{2}}-\frac{1}{2\beta_{2}}\end{pmatrix}
-\end{eqnarray*}
-Thus, $\pmb{\beta}$ can be written in terms of $\pmb{\mu}$ as follows:
-$\beta_{1}=\frac{\mu_{1}}{\mu_{2}-\mu_{1}^{2}}$ and $\beta_{2}=\frac{1}{\mu_{1}^{2}-\mu_{2}}$. This leads to the following closed form expression for the dual of the log partition function:
-$$\psi^{*}(\mu)=-\frac{1}{2}-\frac{1}{2}\log(\mu_{2}-\mu_{1}^{2})$$}
-{\ex
-We will now derive the expression for the differential entropy for the normal distribution. Recall that for the normal distribution $$p(x) = \frac{1}{\sqrt{2\pi\sigma^{2}}}\exp\left\{\frac{-(x-\mu)^{2}}{2\sigma^{2}}\right\}$$
-\begin{eqnarray*}
-H(p) &=& -\int_{x}p(x)\log p(x)dx\\
-&=& -\int_{x}p(x)\left[-\log(2\pi)-\log\sigma+\frac{-(x-\mu)^{2}}{2\sigma^{2}}\right]dx\\
-&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\int_{x}p(x)(x-\mu)^{2}]dx\\
-&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\E_{p(x)}[(x-\mu)^{2}]dx\\
-&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\sigma^{2}dx\\
-&=& \log(2\pi)+\frac{1}{2}+\log\sigma 
-\end{eqnarray*}
-Recall that the value of the dual of the log partition function is the value of the negative entropy of the distribution for an exponential family distribution. Thus when the variance of the normal distribution $\sigma^{2} = 0$, the value of the dual of the cost function goes to $\infty$ and is thus unbounded.}
-
-{\ex For the normal distribution, the natural parameters $\pmb{\beta}=(\beta_{1},\beta_{2})$ can be written in terms of $\mu$ and $\sigma$ as $$\beta_{1}=\frac{\mu}{\sigma^{2}},\quad \beta_{2}=\frac{-1}{2\sigma^{2}}$$ and the log partition function is  $$\psi(\pmb{\beta})=-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})$$
-Alternately, the log partition function can be written in terms of its variance and mean as $\frac{\mu^{2}}{2\sigma^{2}}+\log\sigma$.
-Also note that the mean parameters are $\mu$ and $\mu^{2}+\sigma^{2}$.}
-Let's now work out the loss for the Gaussian market maker. First note that for a Gaussian market for mean parameters $\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}$ and $\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}$, we have 
-\begin{eqnarray*}
-D_{C^{*}}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix},\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}\right)
-&=& C^{*}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}\right)-C^{*}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}\right)\\
-&&-\nabla C^{*} \left(\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}\right)\begin{pmatrix}\mu_{1}-\mu_{2}\\ \mu_{1}^{2}+\sigma_{1}^{2}-\mu_{2}^{2}-\sigma_{2}^{2}\end{pmatrix}\\
-&=& -\log \frac{\sigma_{1}}{\sigma_{2}}-\begin{pmatrix}\frac{\mu_{2}}{\sigma_{2}^{2}}\\ -\frac{1}{2\sigma_{2}^{2}}\end{pmatrix}\cdot \begin{pmatrix}\mu_{1}-\mu_{2}\\ \mu_{1}^{2}+\sigma_{1}^{2}-\mu_{2}^{2}-\sigma_{2}^{2}\end{pmatrix}\\
-&=& -\log \frac{\sigma_{1}}{\sigma_{2}}-\frac{\mu_{2}(\mu_{1}-\mu_{2})-\frac{1}{2}(\mu_{1}^{2}-\mu_{2}^{2}+\sigma_{1}^{2}-\sigma_{2}^{2})}{\sigma_{2}^{2}}\\
-%&=& \log \frac{\sigma_{2}}{\sigma_{1}}-\frac{\sigma_{1}^{2}-\sigma_{2}^{2}-(\mu_{1}-\mu_{2})^{2}}{2\sigma_{2}^{2}}\\
-&=& \log \frac{\sigma_{2}}{\sigma_{1}}+\frac{\sigma_{2}^{2}-\sigma_{1}^{2}}{2\sigma_{2}^{2}}+\frac{(\mu_{1}-\mu_{2})^{2}}{2\sigma_{2}^{2}}
-\end{eqnarray*}
-
-So the Gaussian market maker loss is 
-%parallels to quadratic market maker loss? 
-\begin{eqnarray*}
-D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]&=& \log \frac{\sigma_{0}}{\sigma_{x}}+\frac{\sigma_{0}^{2}-\sigma_{x}^{2}}{2\sigma_{0}^{2}}+\frac{(\mu_{x}-\mu_{0})^{2}}{2\sigma_{0}^{2}}\\
-&&-\left[\log \frac{\sigma_{f}}{\sigma_{x}}+\frac{\sigma_{f}^{2}-\sigma_{x}^{2}}{2\sigma_{f}^{2}}+\frac{(\mu_{x}-\mu_{f})^{2}}{2\sigma_{f}^{2}}\right]\\
-&=& \log \frac{\sigma_{0}}{ \sigma_{f}}+\frac{(x-\mu_{0})^{2}}{2\sigma_{0}^{2}}-\frac{(x-\mu_{f})^{2}}{2\sigma_{f}^{2}}\\
-\end{eqnarray*}¥
-Here we have used the fact that $\mu_{x}=x$ and $\sigma_{x}=0$.
-\rmk In statistics, the standard score (aka z-score), $(x-\mu)/\sigma$, is the (signed) number of standard deviations an observation is above the mean. \unrmk
-\section{Generalized Log Scoring Rule}
-Suppose that an agent holds a belief in the expected value of the moments of a random variable $x$. The maximum entropy distribution that is consistent with these beliefs is an exponential family distribution.
- \defn For an outcome $x$ with predicted probability $p$, the generalized log scoring rule is defined as $$S(p,x)\defeq a+b\log p(x)$$ where $a$ and $b$ are constants that we will set to $0$ and $1$ respectively in these notes.\undefn
-
-\begin{thm} The generalized log scoring rule for the maximum entropy distribution is proper.
-\end{thm}
-\proof
-Recall that a  proper scoring rule $\mathbf{S}$ satisfies $$ \E_{x\sim p}[\mathbf{S}(p,x)]\geq \E_{x\sim p}[\mathbf{S}(p^{\prime},x)]$$
- 
-Note that the maximum entropy distribution is an exponential family distribution. 
- Let $p(x)=\exp\{\beta\cdot \phi(x)-\psi(\beta)\}$ be the true distribution and  $p'(x)=\exp\{\beta'\cdot \phi(x)-\psi(\beta')\}$ be the predicted distribution on the event $x$. 
- 
- We need to show that $$\E_{x\sim p}[\mathbf{S}(p,x)]\holds{\geq} \E_{x\sim p}[\mathbf{S}(p',x)]$$
-  In other words, we need $$\E_{x\sim p}[\log p(x)]\holds{\geq} \E_{x\sim p}[\log p'(x)]$$
-   Equivalently, $$\E_{x\sim p}[\beta\cdot \phi(x)-\psi(\beta)]\holds{\geq} \E_{x\sim p}[\beta'\cdot \phi(x)-\psi(\beta')]$$
-   Or 
-\begin{equation}\label{eq:proper}
-\beta\cdot \E_{x\sim p}[\phi(x)]-\psi(\beta)\holds{\geq} \beta'\cdot \E_{x\sim p}[\phi(x)]-\psi(\beta')
-\end{equation}
-
-   For an exponential family distribution, $\E_{x\sim p}[\phi(x)]=\nabla\psi(\beta)$. Substituting in  $(\ref{eq:proper})$, we need to show
-   $$\beta\cdot \nabla\psi(\beta)-\psi(\beta)\holds{\geq} \beta'\cdot \nabla\psi(\beta)-\psi(\beta')$$
-   Rearranging the terms,
-   $$(\beta-\beta')\cdot \nabla\psi(\beta)\holds{\geq} \psi(\beta)-\psi(\beta')$$   
-   which is the first order condition on the convexity of $\psi(\cdot)$.
- \unproof   
- 
- \rmk The distance between the scores of the true and any predictive exponential family distribution is, in fact,  the Bregman divergence (based on the log partition function) between the corresponding natural parameters. That is,
-   $$\E_{x\sim p}[\mathbf{S}(p,x)]- \E_{x\sim p}[\mathbf{S}(p',x)] = D_{\psi}(\beta,\beta')$$
-   \unrmk
- 
- \subsection{Exponential Smoothing}
-One way to model the exponential family prediction market might be through exponential smoothing.
-\begin{itemize}
-\item A \emph{time series} is a set of data points sampled at periodic instances.
-\item \emph{Smoothing} is the process of creating an approximation function based on time series that while capturing  patterns in the data is relatively insensitive to noise.
-\item Natural first step is to use moving average. But average on how many samples (say $k$)? What to do until the first $k$ samples have been received?
-\item
-Next attempt might be to use weighted moving average. Advantage is that you can give higher weight to more recent terms. But still same disadvantage as simple moving average technique.
-\item
-\emph{Exponential Smoothing} attempts to remove this disadvantage.
-\end{itemize}
-
-Exponential smoothing is defined iteratively for $\alpha\in(0,1)$ as
-\begin{eqnarray*}
-s_{1} &=& x_{0}\\
-s_{t}&=&\alpha x_{t-1}+(1-\alpha)s_{t-1}
-\end{eqnarray*}
-
-Smaller values of $\alpha$ means greater smoothing e.g., $\alpha=0$ gives a constant function ($=x_{0}$).
-Note that the selection of $x_{0}$ is important -- and increases in importance as $\alpha$. Some advantages over moving average: all data points matter (decreasing importance with time) and computationally only last data point need be stored.
-
-\section{Bayesian Traders}
-Suppose data is drawn from an exponential family distribution. Further suppose, following a Bayesian model, that each trader has some prior belief distribution over the parameters of the data distribution. Assuming a conjugate prior, this prior distribution is also an exponential family distribution.
-
-The data distribution is given by $\exp\{\beta\cdot\phi(x)-\psi(\beta)\}$ where $\psi()$ is the log partition function and $\phi()$ are the sufficient statistics. Then the conjugate prior parametrized by $b_{0}=(n\nu, n)$ is given by $\exp\{b_{0}\cdot(\beta,\psi(\beta))-\Psi(b_{0})\}$where $\Psi()$ is the corresponding log partition function. The posterior distribution is given by $b=(n\nu+m\hmu, n+m)$ where $\hmu$ is the empirical mean of the sufficient statistics of the $m$ data points drawn from the data distribution, $\hmu=\sum_{i=1}^{m}\phi(x_{i})$. We also have $\E_{\beta\sim b_{0}}\E_{x\sim \beta}[\phi(x)]=\nu$.
-
-\subsection{Linear Utility}
-
-Suppose the trader wishes to maximize his expected payoff. Then the number of shares $\delta$ that he purchases when the current market state is $\theta$ is given by $$\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}\left[ \delta\phi(x) - C(\delta + \theta) + C(\theta)\right]$$
-But, $\E_{\beta\sim b}\E_{x\sim \beta}[\phi(x)]=\frac{n\nu+m\hmu}{ n+m}$. To obtain the maximum, we set the gradient to $0$. Thus, we have $$\nabla C(\delta + \theta)=\frac{n\nu+m\hmu}{ n+m}$$ For an exponential family prediction market, the final market state is given by
-$$\nabla C^{*}\left(\frac{n\nu+m\hmu}{ n+m}\right)$$
-
-\subsection{Exponential Utility}
-Now suppose the trader has exponential utility, given by $$U(w) = -\frac{1}{a} \exp(-aw)$$ where $a$ is the coefficient of risk aversion. Suppose the trader wishes to maximize his expected utility. Then the number of shares $\delta$ that he purchases when the current market state is $\theta$ is given by 
-\begin{eqnarray*}
-&&\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}U\left[ \delta\phi(x) - C(\delta + \theta) + C(\theta)\right]\\
-&=&\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}-\frac{1}{a}\exp\left[ -a\delta\phi(x) +a C(\delta + \theta) -a C(\theta)\right]
-\end{eqnarray*}¥
-
-\begin{eqnarray*}
-\E_{\beta\sim b}\E_{x\sim \beta}\exp\left[-a\delta\phi(x)\right]&=&\int_{\mathcal{B}}\int_{\mathcal{X}}\exp[-a\delta\phi(x)]\, \exp\{\beta\cdot\phi(x)-\psi(\beta)\}\, dx\\
-&&\qquad\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\, d\beta\\
-&=&\int_{\mathcal{B}}\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\\
-&&\qquad\exp\{\psi(\beta-a\delta)-\psi(\beta)\}\,\, d\beta\int_{\mathcal{X}}\exp[(\beta-a\delta)\cdot\phi(x)-\psi(\beta-a\delta)]\, dx\\
-&=&\int_{\mathcal{B}}\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\\
-&&\qquad\exp\{\psi(\beta-a\delta)-\psi(\beta)\}\,\, d\beta\\
-\end{eqnarray*}¥
 \pagebreak
 
 
