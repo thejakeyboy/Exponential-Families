@@ -172,7 +172,7 @@ In this paper, we draw connections between the aggregation performed by learning
 %- exp family review
 %- maxent scoring rule
 %	- generalized lmsr
-%	[- does modularity (a la Hanson) still hold?]
+%	- does modularity (a la Hanson) still hold?
 %- prediction market setup
 %	- MLE with risk neutrality
 %- conjugate prior market
@@ -180,7 +180,6 @@ In this paper, we draw connections between the aggregation performed by learning
 %- exp-util
 %- equilibrium for repeated trades
 %- budgets and adversarial markets
-% any liquidity results?
 
 
 We have dual goals in this paper. On the one hand, we highlight a structural similarity between prediction markets and exponential families. We see this as the syntax of our prediction market mechanism. On the other, this formulation has rich semantics as well: it allows for analysis of market behavior under various environments. For instance, we analyze market behavior with budget limited traders, traders that are exponential-utility-maximizers.
@@ -465,8 +464,82 @@ S(\mu, x) = \la \theta(\mu), \phi(x) \ra - C(\theta(\mu)).
 \noindent
 The scoring rule~(\ref{expscore}) decomposes neatly into payoff and cost functions. The first term $\la \theta(\mu), \phi(x) \ra$ defines the agent's outcome-contingent reward, while the second term~$C(\theta(\mu))$ is the cost of acquiring a portfolio $\theta(\mu)$. We see here the duality between the approach of directly reporting $\mu$, or acquiring shares $\theta$: an agent reporting beliefs $\mu$ under scoring rule~(\ref{scoring}) would choose to acquire shares $\theta(\mu)$ in the information market with cost function~(\ref{cost}). Since~(\ref{scoring}) is a proper scoring rule, the information market with cost function~(\ref{cost}) is based on a proper market scoring rule.
 
+\section{The Exponential Family Market Mechanism: A Maximum Likelihood Approach}
+In this section, we will set up a prediction market that aggregates beliefs from traders where the outcome is a continuous random variable. In particular, we assume that the outcome is drawn from an exponential family distribution. Each of the traders has access to a series of points drawn from this distribution. In other words, the traders have access an empirical mean of the sufficient statistics of the exponential family. Every trader has infinite budget so that the current market price after a trader has traded in the prediction market, exactly reflects his beliefs.
 
-\section{The Exponential Family Market Mechanism in Adversarial Markets}
+%We will now provide a more formal description of the problem statement.
+%\subsection{Problem Statement}
+%\begin{description}
+%\item[Setup: ] Learning proceeds in rounds $j=1,2,\ldots$ where at the end of each round the algorithm may be provided with $x_{j}$  drawn from a set $\mathcal{X}$ according to some distribution $\mathcal{D}_{j}$, where $\mathcal{D}_{j}$ belongs to an exponential family defined by $k$ sufficient statistics.  In each round, some sequence of $n$ traders provide their estimates of the empirical means of each of the $k$ sufficient statistics drawn from $\mathcal{D}_{j}$.
+%\item[Define: ] A learning algorithm that learns this distribution by providing a maximum likelihood estimate of its unknown natural parameters based on the empirical means.  
+%\item[Proposed solution: ] Simulate a prediction market defined by a cost function $C$, securities $s_{0},s_{1},s_{2},\ldots, s_k$ and their payoffs $\phi_i(x)$ for $i=0,1,2,\ldots,k$ for the LMSR. Define a correspondence between the state of the prediction market and the output of the learning algorithm.
+%\end{description}
+
+For $x_{i}\sim P_{\betavec}$, recall that the likelihood function for independently drawn data $x_1,\ldots,x_n$ is given by $\prod_{i=1}^{n} P_{\betavec}(x_i)$. The maximum likelihood estimate of the natural parameters $\betavec$ is the value of the natural parameters that maximizes the likelihood function. 
+
+We will now set up a prediction market with log market scoring rule (LMSR) and infinite budget traders such that the market state represents the maximum likelihood estimate (MLE) of the natural parameters of an exponential family distribution. %Given  under some interpretation of what information the participating agents have, and how they bet.
+
+For a given exponential family distribution, the prediction market is defined as follows:
+\begin{description}
+\item[Traders] The prediction market will simulate a trader $i$ corresponding to expert $i$. This trader processes all information samples available to her directly or inferred from previous trades, and  forms a belief distribution such that the believed means of the sufficient statistics matches the empirical means of the sufficient statistics from the information samples. The trader trades in the market to maximize her expected payoff under her believed distribution.
+\item[Securities and their payoff]
+For each $i=1,2,\ldots,k$, we define a security $s_{i}$ with payoff $\phi_{i}(x)$ where $x$ is the ultimate outcome and $\Phi()$ defines the vector of sufficient statistics of the exponential family distribution according to which $x$ is drawn. We define an additional security $s_{0}$ with payoff $\phi_{0}(x):=a-\sum_{i=1}^{k}\phi_{i}(x)$ where $a$ is an appropriately chosen constant dependent on the range of $\Phi$ so that the payoff of $s_{0}$ is non-negative. 
+\end{description}
+
+We also note that since we want non-negative payoffs, we restrict the exponential families under consideration so that the sufficient statistics are lower bounded. If we have a constant lower bound on the sufficient statistics, then without loss of generality we can add a constant to each sufficient statistic without changing the exponential family in any way, as the constants will be absorbed in the log-partition function.
+
+\paragraph{Arbitrage-free Property}
+We can easily show that the prediction market we have defined is arbitrage-free: there is no sequence of trades that guarantees the trader a profit under all conditions. First, note that the incremental cost and payoff function are additive over multiple trades, so the net profit of a sequence of trades depends only on the initial and final market position, and is independent of the actual path along which the trade takes place.
+
+Now, consider any trade (or sequence of trades) that moves the market from an initial state of $\qvec$ to a final state of $\qvec + \qvec'$. The cost of this trade is $C(\qvec + \qvec') - C(\qvec)$. The cost function of our market is the log-partition function of an exponential family, and thus, $C(.)$ is a strictly convex function~\cite{WainJordan08}. Thus, we have the inequality:
+\[
+   C(\qvec + \qvec') - C(\qvec)  > \qvec' \nabla C|_\qvec = \qvec' \mu,
+ \]
+ where $\mu$ is the mean sufficient statistics vector for the distribution with parameters $\qvec$.
+The payoff due to this trade, with outcome $x$, is $\qvec'.\phi(x)$. 
+Now, we observe that under the distribution with parameters $\qvec$, the expected payoff is $\qvec' E[\Phi(x)] = \qvec' \mu$. Thus, under this distribution over outcomes $x$, the expected profit is strictly less than $0$. This is only possible if the
+realized profit is less than $0$ for at least one outcome $x$. As this statement is true for every $\qvec$ and $\qvec'$, and the profits are path-independent, the market is arbitrage-free.
+
+
+%Let $\qvec^*=(q^{*}_{0},q^{*}_{1},\ldots,q^{*}_{k})$ be the number of shares of each security held by the traders. First we note that under the assumption of perfectly rational, risk-neutral traders with infinite budget and  beliefs as indicated above, the gradient of the cost function at this point is
+ %$$\left(\frac{\partial C(\qvec)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}=\mu_{i}$$
+%where $\mu_{i}$ is believed to be the expected payoff of the $i^{th}$ security by the last trader who traded in this market. We show below that the instantaneous price of security $i$, $\left(\frac{\partial C(\qvec)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}$ at any $\qvec=\qvec^{*}$, can be written as $\left(\frac{\partial\log (\int e^{\sum_{i=1}^{n}(q_{i}-q_{0})\phi_{i}(x)}dx)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}$. This means that the instantaneous price of the $i^{th}$ security only depends on the difference between the number of held securities of $i$ and 0. This ensures that if there exists an instantaneous price that reflects the belief of a trader at any vector $\qvec^{*}$, there must exist a $\qvec'$  that also reflects his beliefs and with the desirable property that $\forall i=0,1,2,\ldots,k\ q_{i}'\geq 0$. This additional property ensures that no trader will be required to short sell securities to move the market state to  reflect his beliefs.
+
+\paragraph{Market State and Natural Parameters}
+We define the interpretation function 
+\begin{eqnarray}\label{eqn:int}
+I(\qvec)&=&(q_{1}-q_{0},q_{2}-q_{0},\ldots,q_{k}-q_{0})\nonumber\\
+&=&(\beta_{1}, \beta_{2},\ldots, \beta_{k})=\betavec
+\end{eqnarray}
+This allows us to interpret the state of the market in terms of a prediction on the natural parameters of the distribution.
+
+\begin{theorem}
+The natural parameter vector corresponding to the interpretation of the market state given by Equation \ref{eqn:int} is the vector of their maximum likelihood estimates. Further, this interpretation is unique.
+\end{theorem}
+\begin{proof}
+We observe that for $i=1,\ldots,n$,
+\begin{eqnarray*}
+\mu_{i}&=&\left(\frac{\partial C(\qvec)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial\log\int \exp(\qvec^{T}\Phi(x))dx}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial\log\int e^{q_{0}\phi_{0}(x)+\sum_{i=1}^{n}q_{i}\phi_{i}(x)}dx}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial\log\int e^{q_{0}(a-\sum_{i=1}^{n}\phi_{i}(x))+\sum_{i=1}^{n}q_{i}\phi_{i}(x)}dx}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial\log\int e^{q_{0}a} e^{\sum_{i=1}^{n}(q_{i}-q_{0})\phi_{i}(x)}dx}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial\log (e^{q_{0}a} \int e^{\sum_{i=1}^{n}(q_{i}-q_{0})\phi_{i}(x)}dx)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial (q_{0}a)}{\partial q_{i}} \frac{\partial\log (\int e^{\sum_{i=1}^{n}(q_{i}-q_{0})\phi_{i}(x)}dx)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial \lpf(\betavec)}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial \lpf(\betavec)}{\partial \beta_{i}}\frac{\partial \beta_{i}}{\partial q_{i}}\right)_{\qvec=\qvec^{*}}\\
+&=&\left(\frac{\partial \lpf(\betavec)}{\partial \beta_{i}}\right)_{\rm \betavec=\betavec^{*}}
+\end{eqnarray*}
+Thus, this choice of parameters satisfies $\frac{\partial \lpf(\betavec)}{\partial \beta_{i}}=\mu_{i}$. We will now argue that this vector is unique. 
+
+If the exponential family is represented so that there is a unique parameter vector associated with each distribution, the representation is said to be minimal. The Bernoulli, Gaussian, and Poisson distributions all have minimal representations. Now, for an exponential family whose representation is minimal, the gradient is an injection \cite[Prop. 3.2]{WainJordan08}. Thus, there is a unique parameter vector $\betavec$ that satisfies $\frac{\partial \lpf(\betavec)}{\partial \beta_{i}}=\mu_{i}$, for each $i\in\{1,\ldots,n\}$. Thus, if the $\mu_{i}$'s correspond to the empirical means, since our choice of $\betavec$ satisfies the equality, it must also be the vector corresponding to the MLE.
+\end{proof}
+
+Thus, we have shown that this prediction market (along with its strategic traders) aggregates trader information in a way that the market state can be interpreted as a predictive distribution (the maximum likelihood distribution) over an infinite outcome space.
+
+It is worth noting here that if we can bound the parameter space and the sufficient statistics of the distribution, the market maker defined here has bounded worst case loss: The probability density, and hence log loss, would then be bounded for all market states that could be reached and all outcomes. In fact, for many practical applications, a distribution with unbounded parameter space is an approximation for a true space which itself may be bounded. In this case, worst case loss would thus be bounded.
+
+\subsection{The Exponential Family Market Mechanism in Adversarial Markets}
 In the previous section, we saw that we can define a cost-function based prediction market so that the aggregated belief of the traders represents the maximum likelihood estimate of the natural parameters of the true exponential family distribution.
 
 In this section, we consider the the prediction market setup with traders that may be either informative or malicious. The malicious traders may want to inject faulty information into the market. The informative traders on the other hand receive points drawn from the true distribution on which they base their beliefs.
@@ -476,6 +549,9 @@ We will show that if we are able to impose finite initial budgets on the traders
 \subsubsection{Budget-limited Aggregation}
 Imposing budget limits on the traders will allow us to control the amount of influence any one trader can have on moving the market prices. We will also satisfy an additional requirement that no trader has negative budget at any point of participation in the market. This is achieved by restricting the movement of the market and hence influencing the cost incurred by the trader. Recall that the payoff in this market is non-negative and hence the only adverse influence on a trader's budget is the cost of movement of the market state. 
 
+%There is distribution under which expected profit is $\leq 0$. Cost function is convex. 
+
+%For any $\qvec$ there is a
 In this section, we assume that the budget of each trader is known to the market maker, and that the market maker can directly limit the allowed trades based on a trader's budget. 
 Let $\alpha$ be the budget of a trader in the market. Suppose with infinite budget, the trader would have moved the market state from $\qvec_{init}$ to $\qvec$, where $\qvec$ represents his true beliefs. Suppose further that $\alpha<C(\qvec)-C(\qvec_{init})$. In this case, we want to budget-limit the trader's influence on the market state. 
 
