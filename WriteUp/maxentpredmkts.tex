@@ -784,53 +784,58 @@ We note one important aspect of Theorem~\ref{thm:growth}: The expectation is tak
 %\subsection{Conjugate Priors}
 
 %In the previous section it's assumed that the agent has a belief $\q$, and moves the market state from initial state $\q_{init}$ to a convex combination $\tilde{\q} = \lambda \q + (1-\lambda)\q_{init}$. This note tries to justify this based on Bayesian updating, rather than budget limitations. (But it doesn't quite succeed.)
+In this section, we lay the foundation for interpreting trader behavior in terms of Bayesian updates. 
 
-\medskip\noindent
-Let $p(x;\theta)$ denote a probability density drawn from an exponential family with sufficient statistic $\phi : \mX \rightarrow \bR^d$, where $\theta$ is the natural parameter:
-$$
-p(x;\theta) = \exp \left[ \la \theta, \phi(x) \ra \right],
-$$
-and
-$$
-g(\theta) = \log \int_{\mX} \exp\la\phi(x),\theta\ra d\!x.
-$$
-Recall that $\grad g(\theta) = \Exp[\phi(x)]$ and $\grad^2 g(\theta) = \Var[\phi(x)]$. The family of conjugate priors is also an exponential family and takes the form
-$$
-p(\theta; n,\nu) = \exp\left[ \la n\nu,\theta \ra - ng(\theta) - h(\nu,n) \right].
-$$
-Here the feature map is $\psi(\theta) = (\theta, -g(\theta))$, the natural parameter is $(n\nu, n)$ where $n \in \bR$ and $\nu \in \bR^d$. The normalizer $h(\nu, n)$ is convex in $(n\nu,n)$. It is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. The justification for this is that
-$$
-\Exp_{\theta} \left[ \Exp_x \left[ \phi(x) | \theta \right]\right] 
-= \Exp_{\theta} \left[\grad g(\theta)\right]
-= \nu.
-$$
+As before, we are interested in eliciting the sufficient statistics of the data. We assume that the outcome is drawn from an exponential family distribution; the prediction market is setup as before with the cost function corresponding to the log partition function and the payoff function corresponding to the sufficient statistics. Thus, the market state provides an estimate on the natural parameter of the distribution from which the outcome is drawn. Additionally, we assume that the market also makes public the total number of traders that have traded in the market.
+
+The goal is to aggregate information from risk neutral agents who have a belief distribution over the natural parameters. This prior distribution is updated by the agents based on the current market state, They also each have to access to the empirical mean of sufficient statistics based on a fixed number  $m$ of data points. Assuming a conjugate prior, both the prior and posterior belief distributions on the natural parameters are also an exponential family distributions. 
+
+Now we will define the setup more formally. 
+
+Let the data distribution be given by $p(x;\beta)=\exp\{\beta\cdot\phi(x)-T(\beta)\}$ where $T()$ is the log partition function and $\phi()$ are the sufficient statistics. Then the conjugate prior parametrized by $b_{0}=(n\nu, n)$ is given by $p(\beta;b_{0})=\exp\{b_{0}\cdot(\beta,\psi(\beta))-\psi(b_{0})\}$where $\psi()$ is the corresponding log partition function. The posterior distribution on the natural parameters is given by $p(\beta;b)$ where $b=(n\nu+m\hmu, n+m)$ where $\hmu$ is the empirical mean of the sufficient statistics of the $m$ data points drawn from the data distribution; that is, $\hmu=\sum_{i=1}^{m}\phi(x_{i})$. It turns out that $\E_{\beta\sim b_{0}}\E_{x\sim \beta}[\phi(x)]=\nu$; thus, it is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. Thus the posterior mean is a convex combination of the prior and posterior means, and their relative weights depend on the phantom and empirical sample sizes.% need a reference here
+
+Suppose the current market state is $\theta$ and $i$ traders have traded in the market when trader $i+1$ with prior belief distribution $p(\beta;b^{i}_{0})$ enters the market. Here $b^{i}_{0} = (n\nu_{i}, n)$. This trader also has access to private information in the form of empirical sufficient statistics $\hmu_{i}$ from $m$ data points. Thus, he updates his belief as $p(\beta;b_{i})$ where $b=(m\hmu+mi \nabla T(\theta) + n\nu_{i}, n+mi+m)$. 
+ 
+Suppose the trader wishes to maximize his expected payoff. Then the number of shares $\delta_{i}$ that he purchases when the current market state is $\theta$ is given by $$\arg\max_{\delta_{i}}\E_{\beta\sim b_{i}}\E_{x\sim \beta}\left[ \delta_{i}\phi(x) - T(\delta_{i} + \theta) + T(\theta)\right]$$
+But, $\E_{\beta\sim b}\E_{x\sim \beta}[\phi(x)]=\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}$. To obtain the maximum, we set the gradient of the above expression with respect to $\delta_{i}$ to $0$. Thus, we have for the optimal number of shares $\delta_{i}^{*}$ $$\nabla T(\delta_{i}^{*} + \theta)=\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}$$ For an exponential family prediction market, the final market state is given by
+$$\nabla T^{*}\left(\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}\right)$$ where $T^*$ is the convex conjugate of $T$. Thus, the final market state is a convex combination of prior, posterior and market means.
+
+%Let $p(x;\theta)$ denote a probability density drawn from an exponential family with sufficient statistic $\phi : \mX \rightarrow \bR^d$, where $\theta$ is the natural parameter:
+%$$
+%p(x;\theta) = \exp \left[ \la \theta, \phi(x) \ra \right],
+%$$
+%and
+%$$
+%g(\theta) = \log \int_{\mX} \exp\la\phi(x),\theta\ra d\!x.
+%$$
+%Recall that $\grad g(\theta) = \Exp[\phi(x)]$ and $\grad^2 g(\theta) = \Var[\phi(x)]$. The family of conjugate priors is also an exponential family and takes the form
+%$$
+%p(\theta; n,\nu) = \exp\left[ \la n\nu,\theta \ra - ng(\theta) - h(\nu,n) \right].
+%$$
+%Here the feature map is $\psi(\theta) = (\theta, -g(\theta))$, the natural parameter is $(n\nu, n)$ where $n \in \bR$ and $\nu \in \bR^d$. The normalizer $h(\nu, n)$ is convex in $(n\nu,n)$. It is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. The justification for this is that
+%$$
+%\Exp_{\theta} \left[ \Exp_x \left[ \phi(x) | \theta \right]\right] 
+%= \Exp_{\theta} \left[\grad g(\theta)\right]
+%= \nu.
+%$$
 %(The proof is straightforward but not obvious. I have a reference for this but it's impossible to read---it's a mathematical statistics paper.)
 
-Suppose we draw a sample $X = (x_1,\ldots,x_m)$ of size $m$, and denote the empirical mean by $\mu[X] = \sum_{i=1}^m \phi(x_i)$. The posterior distribution is then
-$$
-p(\theta|X) \propto p(X|\theta)p(\theta|n,\nu) \propto \exp\left[ \la\mu[X]+n\nu,\theta\ra - (m+n)g(\theta) \right],
-$$
-and so the posterior mean is 
-\begin{equation} \label{posterior-mean}
-\frac{m\mu[X] + n\nu}{m+n}.
-\end{equation}
-Thus the posterior mean is a convex combination of the prior and posterior means, and their relative weights depend on the phantom and empirical sample sizes.
+%Suppose we draw a sample $X = (x_1,\ldots,x_m)$ of size $m$, and denote the empirical mean by $\mu[X] = \sum_{i=1}^m \phi(x_i)$. The posterior distribution is then
+%$$
+%p(\theta|X) \propto p(X|\theta)p(\theta|n,\nu) \propto \exp\left[ \la\mu[X]+n\nu,\theta\ra - (m+n)g(\theta) \right],
+%$$
+%and so the posterior mean is 
+%\begin{equation} \label{posterior-mean}
+%\frac{m\mu[X] + n\nu}{m+n}.
+%\end{equation}
 
-In the context of prediction markets, one could imagine an agent who uses the current market estimate as its prior, and draws a empirical sample of size $m$. Its belief then takes the form~(\ref{posterior-mean}), where $n$ depends on the importance the agent places on the market estimate (perhaps based on how long the market has been running). However, note that the \emph{mean parameter} becomes a convex combination of market state and empirical belief, and this does not translate to the \emph{natural parameter}, which is what we would have liked. The new natural parameter is
-$$
-\grad g^{-1} \left(\frac{m\mu[X] + n\nu}{m+n}\right) = \grad g^* \left(\frac{m\mu[X] + n\nu}{m+n}\right).
-$$
-where $g^*$ is the convex conjugate of $g$.
-\subsection{Bayesian Traders}
-Suppose data is drawn from an exponential family distribution. Further suppose, following a Bayesian model, that each trader has some prior belief distribution over the parameters of the data distribution. Assuming a conjugate prior, this prior distribution is also an exponential family distribution.
 
-The data distribution is given by $\exp\{\beta\cdot\phi(x)-\psi(\beta)\}$ where $\psi()$ is the log partition function and $\phi()$ are the sufficient statistics. Then the conjugate prior parametrized by $b_{0}=(n\nu, n)$ is given by $\exp\{b_{0}\cdot(\beta,\psi(\beta))-\Psi(b_{0})\}$where $\Psi()$ is the corresponding log partition function. The posterior distribution is given by $b=(n\nu+m\hmu, n+m)$ where $\hmu$ is the empirical mean of the sufficient statistics of the $m$ data points drawn from the data distribution, $\hmu=\sum_{i=1}^{m}\phi(x_{i})$. We also have $\E_{\beta\sim b_{0}}\E_{x\sim \beta}[\phi(x)]=\nu$.
+%In the context of prediction markets, one could imagine an agent who uses the current market estimate as its prior, and draws a empirical sample of size $m$. Its belief then takes the form~(\ref{posterior-mean}), where $n$ depends on the importance the agent places on the market estimate (perhaps based on how long the market has been running). However, note that the \emph{mean parameter} becomes a convex combination of market state and empirical belief, and this does not translate to the \emph{natural parameter}, which is what we would have liked. The new natural parameter is
+%$$
+%\grad g^{-1} \left(\frac{m\mu[X] + n\nu}{m+n}\right) = \grad g^* \left(\frac{m\mu[X] + n\nu}{m+n}\right).
+%$$
+%where $g^*$ is the convex conjugate of $g$.
 
-\subsection{Linear Utility}
-
-Suppose the trader wishes to maximize his expected payoff. Then the number of shares $\delta$ that he purchases when the current market state is $\theta$ is given by $$\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}\left[ \delta\phi(x) - C(\delta + \theta) + C(\theta)\right]$$
-But, $\E_{\beta\sim b}\E_{x\sim \beta}[\phi(x)]=\frac{n\nu+m\hmu}{ n+m}$. To obtain the maximum, we set the gradient to $0$. Thus, we have $$\nabla C(\delta + \theta)=\frac{n\nu+m\hmu}{ n+m}$$ For an exponential family prediction market, the final market state is given by
-$$\nabla C^{*}\left(\frac{n\nu+m\hmu}{ n+m}\right)$$
 
 %\subsection{Exponential Utility}
 %Now suppose the trader has exponential utility, given by $$U(w) = -\frac{1}{a} \exp(-aw)$$ where $a$ is the coefficient of risk aversion. Suppose the trader wishes to maximize his expected utility. Then the number of shares $\delta$ that he purchases when the current market state is $\theta$ is given by 
