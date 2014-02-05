@@ -1,29 +1,24 @@
 \section{Introduction}
+
 \section{Generalized Log Scoring Rules}
 	\subsection{Proper Scoring from Consistency}
 	\subsection{Proper Scoring from Maximum Entropy}
 		\subsubsection*{Exponential Families}
 		\subsubsection*{Proper Log Scoring}
-	\subsection{Generalized Log Scoring Rule}
-	\subsection{Exponential Smoothing}
 
 \section{Maximum Entropy Market Making}
 	\subsection{Information Market}
 	\subsection{Duality}
+	\subsection{An Information-Theoretic Interpretation}\label{sec:infth}
 	\subsection{Properties of the Maximum Entropy Market}
 	\subsection{Example: Gaussian Markets}
 
 \section{The Exponential Family Market Mechanism with Budgets}
 	\subsection{Budget-limited Aggregation}
 	\subsection{Damage Bound}
-		\subsubsection{An Information-Theoretic Interpretation}\label{sec:infth}
-		\subsubsection{Budget of Informative Traders}\label{sec:inf}
+	\subsection{Budget of Informative Traders}\label{sec:inf}
 
-\section{The MaxEnt Market Mechanism: A Bayesian View}
-	\subsection{Conjugate Priors}
-	\subsection{Bayesian Traders}
-	\subsection{Linear Utility}
-	\subsection{Exponential Utility}
+\section{Bayesian Traders with Linear Utility}
 
 \section{Exponential Utility}
 

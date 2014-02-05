@@ -365,6 +365,9 @@ which shows that $p(x;\mu)$ takes the form of an exponential family.
 %
 This theorem leads to a straightforward procedure for constructing score rules for expectations: define the relevant statistic, and consider the maximum entropy (equivalently, exponential family) distribution consistent with the agent's reported mean $\mu$. The agent is compensated according to the log likelihood of the eventual outcome according to the latter. The interpretation is that the agent is only providing partial information about the underlying density, so the principal first infers a full density according to the principle of maximum entropy, and then scores the agent using the usual log score.
 
+ We note that the expected difference between the scores of the true and any predictive exponential family distribution is, in fact,  the Bregman divergence (based on the log partition function) between the corresponding natural parameters. That is,
+   $$\E_{x\sim p}[S(p,x)]- \E_{x\sim p}[S(p',x)] = D_{T}(\theta,\theta')$$
+  
 An advantage of this generalization of the log score is that, for many statistics of interest, it leads to simple \emph{closed-form} formulas for the scoring rule. The following examples illustrate the construction.
 %
 \begin{example}
@@ -396,69 +399,29 @@ S(({\boldsymbol \mu}, {\boldsymbol \Sigma}), \boldsymbol{x}) = -( \boldsymbol{x}
 Here the statistics being elicited are the mean vector ${\boldsymbol \mu}$ and the covariance matrix ${\boldsymbol \Sigma}$. These scoring rules have been studied by Dawid and Sebastiani~\cite{} as rules that only depend on the mean and variance of the reported density. They note that these rules are weakly proper (because they do not distinguish between densities with the same first and second moments), but do not make the point that knowledge of the full density is not necessary on the part of the agent.
 \end{example}
 %
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%
-%This bit needs editing
-%%%%%%%%%%%%
-\subsection{Generalized Log Scoring Rule}
-Suppose that an agent holds a belief in the expected value of the moments of a random variable $x$. The maximum entropy distribution that is consistent with these beliefs is an exponential family distribution.
- \defn For an outcome $x$ with predicted probability $p$, the generalized log scoring rule is defined as $$S(p,x)\defeq a+b\log p(x)$$ where $a$ and $b$ are constants that we will set to $0$ and $1$ respectively in these notes.\undefn
-
-\begin{thm} The generalized log scoring rule for the maximum entropy distribution is proper.
-\end{thm}
-\proof
-Recall that a  proper scoring rule $\mathbf{S}$ satisfies $$ \E_{x\sim p}[\mathbf{S}(p,x)]\geq \E_{x\sim p}[\mathbf{S}(p^{\prime},x)]$$
  
-Note that the maximum entropy distribution is an exponential family distribution. 
- Let $p(x)=\exp\{\beta\cdot \phi(x)-\psi(\beta)\}$ be the true distribution and  $p'(x)=\exp\{\beta'\cdot \phi(x)-\psi(\beta')\}$ be the predicted distribution on the event $x$. 
- 
- We need to show that $$\E_{x\sim p}[\mathbf{S}(p,x)]\holds{\geq} \E_{x\sim p}[\mathbf{S}(p',x)]$$
-  In other words, we need $$\E_{x\sim p}[\log p(x)]\holds{\geq} \E_{x\sim p}[\log p'(x)]$$
-   Equivalently, $$\E_{x\sim p}[\beta\cdot \phi(x)-\psi(\beta)]\holds{\geq} \E_{x\sim p}[\beta'\cdot \phi(x)-\psi(\beta')]$$
-   Or 
-\begin{equation}\label{eq:proper}
-\beta\cdot \E_{x\sim p}[\phi(x)]-\psi(\beta)\holds{\geq} \beta'\cdot \E_{x\sim p}[\phi(x)]-\psi(\beta')
-\end{equation}
 
-   For an exponential family distribution, $\E_{x\sim p}[\phi(x)]=\nabla\psi(\beta)$. Substituting in  $(\ref{eq:proper})$, we need to show
-   $$\beta\cdot \nabla\psi(\beta)-\psi(\beta)\holds{\geq} \beta'\cdot \nabla\psi(\beta)-\psi(\beta')$$
-   Rearranging the terms,
-   $$(\beta-\beta')\cdot \nabla\psi(\beta)\holds{\geq} \psi(\beta)-\psi(\beta')$$   
-   which is the first order condition on the convexity of $\psi(\cdot)$.
- \unproof   
  
- \rmk The distance between the scores of the true and any predictive exponential family distribution is, in fact,  the Bregman divergence (based on the log partition function) between the corresponding natural parameters. That is,
-   $$\E_{x\sim p}[\mathbf{S}(p,x)]- \E_{x\sim p}[\mathbf{S}(p',x)] = D_{\psi}(\beta,\beta')$$
-   \unrmk
- 
-\subsection{Exponential Smoothing}
-One way to model the exponential family prediction market might be through exponential smoothing.
-\begin{itemize}
-\item A \emph{time series} is a set of data points sampled at periodic instances.
-\item \emph{Smoothing} is the process of creating an approximation function based on time series that while capturing  patterns in the data is relatively insensitive to noise.
-\item Natural first step is to use moving average. But average on how many samples (say $k$)? What to do until the first $k$ samples have been received?
-\item
-Next attempt might be to use weighted moving average. Advantage is that you can give higher weight to more recent terms. But still same disadvantage as simple moving average technique.
-\item
-\emph{Exponential Smoothing} attempts to remove this disadvantage.
-\end{itemize}
-
-Exponential smoothing is defined iteratively for $\alpha\in(0,1)$ as
-\begin{eqnarray*}
-s_{1} &=& x_{0}\\
-s_{t}&=&\alpha x_{t-1}+(1-\alpha)s_{t-1}
-\end{eqnarray*}
-
-Smaller values of $\alpha$ means greater smoothing e.g., $\alpha=0$ gives a constant function ($=x_{0}$).
-Note that the selection of $x_{0}$ is important -- and increases in importance as $\alpha$. Some advantages over moving average: all data points matter (decreasing importance with time) and computationally only last data point need be stored.
+%\subsection{Exponential Smoothing}
+%One way to model the exponential family prediction market might be through exponential smoothing.
+%\begin{itemize}
+%\item A \emph{time series} is a set of data points sampled at periodic instances.
+%\item \emph{Smoothing} is the process of creating an approximation function based on time series that while capturing  patterns in the data is relatively insensitive to noise.
+%\item Natural first step is to use moving average. But average on how many samples (say $k$)? What to do until the first $k$ samples have been received?
+%\item
+%Next attempt might be to use weighted moving average. Advantage is that you can give higher weight to more recent terms. But still same disadvantage as simple moving average technique.
+%\item
+%\emph{Exponential Smoothing} attempts to remove this disadvantage.
+%\end{itemize}
+%
+%Exponential smoothing is defined iteratively for $\alpha\in(0,1)$ as
+%\begin{eqnarray*}
+%s_{1} &=& x_{0}\\
+%s_{t}&=&\alpha x_{t-1}+(1-\alpha)s_{t-1}
+%\end{eqnarray*}
+%
+%Smaller values of $\alpha$ means greater smoothing e.g., $\alpha=0$ gives a constant function ($=x_{0}$).
+%Note that the selection of $x_{0}$ is important -- and increases in importance as $\alpha$. Some advantages over moving average: all data points matter (decreasing importance with time) and computationally only last data point need be stored.
 \pagebreak
 \section{Maximum Entropy Market Making}
 
@@ -529,6 +492,43 @@ S(\mu, x) = \la \theta(\mu), \phi(x) \ra - C(\theta(\mu)).
 %
 \noindent
 The scoring rule~(\ref{expscore}) decomposes neatly into payoff and cost functions. The first term $\la \theta(\mu), \phi(x) \ra$ defines the agent's outcome-contingent reward, while the second term~$C(\theta(\mu))$ is the cost of acquiring a portfolio $\theta(\mu)$. We see here the duality between the approach of directly reporting $\mu$, or acquiring shares $\theta$: an agent reporting beliefs $\mu$ under scoring rule~(\ref{scoring}) would choose to acquire shares $\theta(\mu)$ in the information market with cost function~(\ref{cost}). Since~(\ref{scoring}) is a proper scoring rule, the information market with cost function~(\ref{cost}) is based on a proper market scoring rule.
+\subsection{An Information-Theoretic Interpretation}\label{sec:infth}
+ We observe a useful alternative view of the market 
+scoring rule prediction market for exponential family learning. We connect the cost, payoff and profit function to information-theoretic 
+quantities associated with the exponential family.
+
+The following result has been previously pointed out by Amari \cite{Amari-KL}. 
+\begin{theorem}\label{lem:profit_decomposition}{\bf (Profit Decomposition)}: Consider an exponential 
+family $\family$ of distributions over some set of statistics $\suff(x)$, with natural parameters $\beta$. Let $\pi, \rho \in \family$ be any two probability distributions in the family. We use 
+$\beta_\pi$ to denote the natural parameters of $\pi$ and $\mu_{\pi}$ to denote the expected value of the sufficient statistics under $\pi$. Likewise,
+we can define $\beta_\rho$ and  $\mu_\rho$. Let $\lpf(\beta_{\rho})$ indicate the log partition function of $\rho$.
+Let $H(\pi)$ denote the entropy of the distribution $\pi$, and 
+ $K(\pi||\rho)$ denote the KL-divergence of $\rho$ relative to $\pi$.
+Then, the following equality holds:  
+\begin{equation}
+ K(\pi||\rho) + H(\pi) = \lpf(\beta_{\rho}) - \beta_\rho \cdot \mu_\pi
+\label{eq:profit_decomposition}
+\end{equation}
+\end{theorem}
+\begin{proof}
+\begin{eqnarray*}
+ K(\pi||\rho) + H(\pi) &=& \int_x \pi(x)\log{\frac{\pi(x)}{\rho(x)}}dx\\
+ &&\quad - \int_x \pi(x)\log{\pi(x)}dx \\
+&=& - \int_x \pi(x)\log{\rho(x)}dx \\
+&=& - \int_x \pi(x)\left[ \beta_\rho \cdot \suff(x) - \lpf(\beta_{\rho})\right]dx\\
+&=& - \beta_\rho \cdot \int_x \pi(x) \suff(x) dx\\
+&&\quad + \lpf(\beta_{\rho}) \int_x \pi(x) dx \\
+&=&  \lpf(\beta_{\rho}) - \beta_\rho \cdot \mu_\pi
+\end{eqnarray*}
+\end{proof}
+
+Equation~\ref{eq:profit_decomposition} gives us an alternative view of the
+market scoring rule construction. Assume that $\pi$ is the true distribution, and consider two arbitrary
+distributions $\rho_1, \rho_2 \in \family$. Note that $\lpf(\rho)$  is independent of $\pi$, and $\betavec_\rho \cdot \muvec_\pi$ is linear in the probabilities $\pi(x)$. If we want to measure loss by the KL-divergence, we can do so (in expectation) by setting a cost function that captures the first term, and defining security quantities ($\betavec$) and payoffs ($\suff$) to capture the second term.  In particular, in a market with cost function $\lpf$, if the
+market price initially implies a distribution $\rho_1$, and a trader moves
+the market to price than implies a distribution $\rho_2$, then the cost she
+incurs is $\lpf(\rho_2) - \lpf(\rho_1)$. The number of securities bought to make this trade is given by the vector ($\betavec_{\rho_2} - \betavec_{\rho_1}$), and the expected payoff of the securities are given by $\muvec_\pi$. Thus, by equation \ref{eq:profit_decomposition}, the {\em net profit} of the trader is equal to $K(\pi||\rho_1) - K(\pi||\rho_2)$, {\it i.e.}, the reduction in KL-divergence with respect to the true distribution.  We note one useful property of this construction: For a fixed vector $\betavec$ of purchased securities, the cost is independent of the outcome 
+(and outcome distribution $\pi$), while the payoff is independent of the initial market state in which these securities were purchased.
 \subsection{Properties of the Maximum Entropy Market}
 Consider the dual of the cost function, $C^{*}(\mu)$ defined as
 $$C^{*}(\mu) = \sup_{\beta} \beta\cdot\mu - C(\beta)$$
@@ -722,48 +722,14 @@ Thus, any coalition of $b$ adversaries $\{1,\ldots,b\}$ can cause at most $\sum_
 
 This means that if it can be made prohibitively expensive for an attacker to generate clones, we can set up the prediction market with mostly informative traders. %imp
 
-In Section \ref{sec:inf} we show that for an informative trader in every round, his budget increases in expectation. We provide an information-theoretic justification for this claim in Section \ref{sec:infth}. The intuition behind this claim is that his prediction moves the input moves the market probability closer to the true probability distribution resulting in net expected profit.
+In Section \ref{sec:inf} we show that for an informative trader in every round, his budget increases in expectation. 
+%We provide an information-theoretic justification for this claim in Section \ref{sec:infth}. 
+The intuition behind this  is that a trader's prediction moves the input moves the market probability closer to the true probability distribution resulting in net expected profit.
 
 
-\subsubsection{An Information-Theoretic Interpretation}\label{sec:infth}
- We observe a useful alternative view of the market 
-scoring rule prediction market for exponential family learning. We connect the cost, payoff and profit function to information-theoretic 
-quantities associated with the exponential family.
 
-The following result has been previously pointed out by Amari \cite{Amari-KL}. 
-\begin{theorem}\label{lem:profit_decomposition}{\bf (Profit Decomposition)}: Consider an exponential 
-family $\family$ of distributions over some set of statistics $\suff(x)$, with natural parameters $\beta$. Let $\pi, \rho \in \family$ be any two probability distributions in the family. We use 
-$\beta_\pi$ to denote the natural parameters of $\pi$ and $\mu_{\pi}$ to denote the expected value of the sufficient statistics under $\pi$. Likewise,
-we can define $\beta_\rho$ and  $\mu_\rho$. Let $\lpf(\beta_{\rho})$ indicate the log partition function of $\rho$.
-Let $H(\pi)$ denote the entropy of the distribution $\pi$, and 
- $K(\pi||\rho)$ denote the KL-divergence of $\rho$ relative to $\pi$.
-Then, the following equality holds:  
-\begin{equation}
- K(\pi||\rho) + H(\pi) = \lpf(\beta_{\rho}) - \beta_\rho \cdot \mu_\pi
-\label{eq:profit_decomposition}
-\end{equation}
-\end{theorem}
-\begin{proof}
-\begin{eqnarray*}
- K(\pi||\rho) + H(\pi) &=& \int_x \pi(x)\log{\frac{\pi(x)}{\rho(x)}}dx\\
- &&\quad - \int_x \pi(x)\log{\pi(x)}dx \\
-&=& - \int_x \pi(x)\log{\rho(x)}dx \\
-&=& - \int_x \pi(x)\left[ \beta_\rho \cdot \suff(x) - \lpf(\beta_{\rho})\right]dx\\
-&=& - \beta_\rho \cdot \int_x \pi(x) \suff(x) dx\\
-&&\quad + \lpf(\beta_{\rho}) \int_x \pi(x) dx \\
-&=&  \lpf(\beta_{\rho}) - \beta_\rho \cdot \mu_\pi
-\end{eqnarray*}
-\end{proof}
 
-Equation~\ref{eq:profit_decomposition} gives us an alternative view of the
-market scoring rule construction. Assume that $\pi$ is the true distribution, and consider two arbitrary
-distributions $\rho_1, \rho_2 \in \family$. Note that $\lpf(\rho)$  is independent of $\pi$, and $\betavec_\rho \cdot \muvec_\pi$ is linear in the probabilities $\pi(x)$. If we want to measure loss by the KL-divergence, we can do so (in expectation) by setting a cost function that captures the first term, and defining security quantities ($\betavec$) and payoffs ($\suff$) to capture the second term.  In particular, in a market with cost function $\lpf$, if the
-market price initially implies a distribution $\rho_1$, and a trader moves
-the market to price than implies a distribution $\rho_2$, then the cost she
-incurs is $\lpf(\rho_2) - \lpf(\rho_1)$. The number of securities bought to make this trade is given by the vector ($\betavec_{\rho_2} - \betavec_{\rho_1}$), and the expected payoff of the securities are given by $\muvec_\pi$. Thus, by equation \ref{eq:profit_decomposition}, the {\em net profit} of the trader is equal to $K(\pi||\rho_1) - K(\pi||\rho_2)$, {\it i.e.}, the reduction in KL-divergence with respect to the true distribution.  We note one useful property of this construction: For a fixed vector $\betavec$ of purchased securities, the cost is independent of the outcome 
-(and outcome distribution $\pi$), while the payoff is independent of the initial market state in which these securities were purchased.
-
-\subsubsection{Budget of Informative Traders}\label{sec:inf}
+\subsection{Budget of Informative Traders}\label{sec:inf}
 Given the  information-theoretic interpretation of the cost-function based prediction market, we now show that the informative trader in the prediction market defined above increases his budget in a round in expectation {\em under his own belief distribution}.
 
 We now characterize the expected change in budget for an informative trader. The following result holds for any round $t$; for simplicity, we have therefore dropped the superscript from the notation.
@@ -813,9 +779,9 @@ We note one important aspect of Theorem~\ref{thm:growth}: The expectation is tak
 
 
 
-
-\section{The MaxEnt Market Mechanism: A Bayesian View}
-\subsection{Conjugate Priors}
+\pagebreak
+\section{Bayesian Traders with Linear Utility}
+%\subsection{Conjugate Priors}
 
 %In the previous section it's assumed that the agent has a belief $\q$, and moves the market state from initial state $\q_{init}$ to a convex combination $\tilde{\q} = \lambda \q + (1-\lambda)\q_{init}$. This note tries to justify this based on Bayesian updating, rather than budget limitations. (But it doesn't quite succeed.)
 
@@ -866,21 +832,22 @@ Suppose the trader wishes to maximize his expected payoff. Then the number of sh
 But, $\E_{\beta\sim b}\E_{x\sim \beta}[\phi(x)]=\frac{n\nu+m\hmu}{ n+m}$. To obtain the maximum, we set the gradient to $0$. Thus, we have $$\nabla C(\delta + \theta)=\frac{n\nu+m\hmu}{ n+m}$$ For an exponential family prediction market, the final market state is given by
 $$\nabla C^{*}\left(\frac{n\nu+m\hmu}{ n+m}\right)$$
 
-\subsection{Exponential Utility}
-Now suppose the trader has exponential utility, given by $$U(w) = -\frac{1}{a} \exp(-aw)$$ where $a$ is the coefficient of risk aversion. Suppose the trader wishes to maximize his expected utility. Then the number of shares $\delta$ that he purchases when the current market state is $\theta$ is given by 
-\begin{eqnarray*}
-&&\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}U\left[ \delta\phi(x) - C(\delta + \theta) + C(\theta)\right]\\
-&=&\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}-\frac{1}{a}\exp\left[ -a\delta\phi(x) +a C(\delta + \theta) -a C(\theta)\right]
-\end{eqnarray*}¥
-
-\begin{eqnarray*}
-\E_{\beta\sim b}\E_{x\sim \beta}\exp\left[-a\delta\phi(x)\right]&=&\int_{\mathcal{B}}\int_{\mathcal{X}}\exp[-a\delta\phi(x)]\, \exp\{\beta\cdot\phi(x)-\psi(\beta)\}\, dx\\
-&&\qquad\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\, d\beta\\
-&=&\int_{\mathcal{B}}\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\\
-&&\qquad\exp\{\psi(\beta-a\delta)-\psi(\beta)\}\,\, d\beta\int_{\mathcal{X}}\exp[(\beta-a\delta)\cdot\phi(x)-\psi(\beta-a\delta)]\, dx\\
-&=&\int_{\mathcal{B}}\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\\
-&&\qquad\exp\{\psi(\beta-a\delta)-\psi(\beta)\}\,\, d\beta\\
-\end{eqnarray*}¥
+%\subsection{Exponential Utility}
+%Now suppose the trader has exponential utility, given by $$U(w) = -\frac{1}{a} \exp(-aw)$$ where $a$ is the coefficient of risk aversion. Suppose the trader wishes to maximize his expected utility. Then the number of shares $\delta$ that he purchases when the current market state is $\theta$ is given by 
+%\begin{eqnarray*}
+%&&\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}U\left[ \delta\phi(x) - C(\delta + \theta) + C(\theta)\right]\\
+%&=&\arg\max_{\delta}\E_{\beta\sim b}\E_{x\sim \beta}-\frac{1}{a}\exp\left[ -a\delta\phi(x) +a C(\delta + \theta) -a C(\theta)\right]
+%\end{eqnarray*}¥
+%
+%\begin{eqnarray*}
+%\E_{\beta\sim b}\E_{x\sim \beta}\exp\left[-a\delta\phi(x)\right]&=&\int_{\mathcal{B}}\int_{\mathcal{X}}\exp[-a\delta\phi(x)]\, \exp\{\beta\cdot\phi(x)-\psi(\beta)\}\, dx\\
+%&&\qquad\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\, d\beta\\
+%&=&\int_{\mathcal{B}}\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\\
+%&&\qquad\exp\{\psi(\beta-a\delta)-\psi(\beta)\}\,\, d\beta\int_{\mathcal{X}}\exp[(\beta-a\delta)\cdot\phi(x)-\psi(\beta-a\delta)]\, dx\\
+%&=&\int_{\mathcal{B}}\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\\
+%&&\qquad\exp\{\psi(\beta-a\delta)-\psi(\beta)\}\,\, d\beta\\
+%\end{eqnarray*}¥
+\pagebreak
 
 \section{Exponential Utility}
 
