@@ -308,7 +308,7 @@ The function $T$ is known as the \emph{log-partition} or \emph{cumulant} functio
 
 The following proposition collects the relevant results on regular exponential families and their associated parameter domains and functions. A convex function $T$ is of \emph{Legendre type} if it is proper, closed, strictly convex and differentiable on the interior of its domain, and $\lim_{\theta \rightarrow \bar{\theta}} \norm{\grad T(\theta)} = +\infty$ when $\bar{\theta}$ lies on the boundary of the domain. 
 %
-\begin{prop}
+\begin{prop}\label{prop:exp}
 Consider a regular exponential family with minimal sufficient statistic. The following properties hold:
 \begin{enumerate}
 \item $T$ and $G$ are of Legendre type, and $T = G^*$ (equivalently $G = T^*$). 
@@ -792,13 +792,16 @@ The goal is to aggregate information from risk neutral agents who have a belief 
 
 Now we will define the setup more formally. 
 
-Let the data distribution be given by $p(x;\beta)=\exp\{\beta\cdot\phi(x)-T(\beta)\}$ where $T()$ is the log partition function and $\phi()$ are the sufficient statistics. Then the conjugate prior parametrized by $b_{0}=(n\nu, n)$ is given by $p(\beta;b_{0})=\exp\{b_{0}\cdot(\beta,\psi(\beta))-\psi(b_{0})\}$where $\psi()$ is the corresponding log partition function. The posterior distribution on the natural parameters is given by $p(\beta;b)$ where $b=(n\nu+m\hmu, n+m)$ where $\hmu$ is the empirical mean of the sufficient statistics of the $m$ data points drawn from the data distribution; that is, $\hmu=\sum_{i=1}^{m}\phi(x_{i})$. It turns out that $\E_{\beta\sim b_{0}}\E_{x\sim \beta}[\phi(x)]=\nu$; thus, it is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. Thus the posterior mean is a convex combination of the prior and posterior means, and their relative weights depend on the phantom and empirical sample sizes.% need a reference here
+Let the data distribution be given by $p(x;\beta)=\exp\{\beta\cdot\phi(x)-T(\beta)\}$ where $T()$ is the log partition function and $\phi()$ are the sufficient statistics. Then the conjugate prior parametrized by $b_{0}=(n\nu, n)$ is given by $p(\beta;b_{0})=\exp\{b_{0}\cdot(\beta,\psi(\beta))-\psi(b_{0})\}$where $\psi()$ is the corresponding log partition function. The posterior distribution on the natural parameters is given by $p(\beta;b)$ where $b=(n\nu+m\hmu, n+m)$ where $\hmu$ is the empirical mean of the sufficient statistics of the $m$ data points drawn from the data distribution; that is, $\hmu=\sum_{i=1}^{m}\phi(x_{i})$. It turns out that 
+\begin{equation}\label{eq:prior}
+\E_{\beta\sim b_{0}}\E_{x\sim \beta}[\phi(x)]=\nu
+\end{equation}¥ Thus, it is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. Thus the posterior mean is a convex combination of the prior and posterior means, and their relative weights depend on the phantom and empirical sample sizes.% need a reference here
 
-Suppose the current market state is $\theta$ and $i$ traders have traded in the market when trader $i+1$ with prior belief distribution $p(\beta;b^{i}_{0})$ enters the market. Here $b^{i}_{0} = (n\nu_{i}, n)$. This trader also has access to private information in the form of empirical sufficient statistics $\hmu_{i}$ from $m$ data points. Thus, he updates his belief as $p(\beta;b_{i})$ where $b=(m\hmu+mi \nabla T(\theta) + n\nu_{i}, n+mi+m)$. 
+Suppose the current market state is $\theta$ and $i$ traders have traded in the market when trader $i+1$ with prior belief distribution $p(\beta;b^{i}_{0})$ enters the market. Here $b^{i}_{0} = (n\nu_{i}, n)$. This trader also has access to private information in the form of empirical sufficient statistics $\hmu_{i}$ from $m$ data points. Recall from Proposition \ref{prop:exp} that natural parameter $\theta$ corresponds to expected statistics $\nabla T(\theta)$. Thus, he updates his belief as $p(\beta;b_{i})$ where $b=(m\hmu+mi \nabla T(\theta) + n\nu_{i}, n+mi+m)$. 
  
 Suppose the trader wishes to maximize his expected payoff. Then the number of shares $\delta_{i}$ that he purchases when the current market state is $\theta$ is given by $$\arg\max_{\delta_{i}}\E_{\beta\sim b_{i}}\E_{x\sim \beta}\left[ \delta_{i}\phi(x) - T(\delta_{i} + \theta) + T(\theta)\right]$$
-But, $\E_{\beta\sim b}\E_{x\sim \beta}[\phi(x)]=\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}$. To obtain the maximum, we set the gradient of the above expression with respect to $\delta_{i}$ to $0$. Thus, we have for the optimal number of shares $\delta_{i}^{*}$ $$\nabla T(\delta_{i}^{*} + \theta)=\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}$$ For an exponential family prediction market, the final market state is given by
-$$\nabla T^{*}\left(\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}\right)$$ where $T^*$ is the convex conjugate of $T$. Thus, the final market state is a convex combination of prior, posterior and market means.
+But, from Equation \ref{eq:prior} we have $\E_{\beta\sim b}\E_{x\sim \beta}[\phi(x)]=\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}$. To obtain the maximum, we set the gradient of the above expression with respect to $\delta_{i}$ to $0$. Thus, we have for the optimal number of shares $\delta_{i}^{*}$ $$\nabla T(\delta_{i}^{*} + \theta)=\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}$$ Thus, from Proposition \ref{prop:exp} we have that for an exponential family prediction market, the final market state is given by
+$$\nabla G\left(\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}\right)$$ where $G$ is the convex conjugate of $T$. Thus, the final market state is a convex combination of prior, posterior and market means.
 
 %Let $p(x;\theta)$ denote a probability density drawn from an exponential family with sufficient statistic $\phi : \mX \rightarrow \bR^d$, where $\theta$ is the natural parameter:
 %$$
