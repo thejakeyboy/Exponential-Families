@@ -207,13 +207,14 @@ We have dual goals in this paper. On the one hand, we highlight a structural sim
 \pagebreak
 
 \section{Generalized Log Scoring Rules}
+\label{sec:scoring}
 
 
 We consider a measurable space that consists of a set of outcomes $\mX$ together with a $\sigma$-algebra $\mF$. An agent or expert has a \emph{belief} over potential outcomes taking the form of a probability measure absolutely continuous with respect to a base measure~$\nu$.\footnote{Recall that a measure $P$ is absolutely continuous with respect to~$\nu$ if $P(A) = 0$ for every $A \in \mF$ for which $\nu(A) = 0$. In essence the base measure~$\nu$ restricts the support of $P$. In our examples $\nu$ will typically be a restriction of the Lebesgue measure for continuous outcomes or the counting measure for discrete outcomes.} Throughout we represent the belief as the corresponding density $p$ with respect to~$\nu$. Let $\mP$ denote the set of all such probability densities, and let $\mD \subseteq \mP$ be a subset from which the beliefs are drawn.
 
 We are interested in eliciting information about the agent's belief, in particular expectation information. Let $\phi: \mX \rightarrow \bR^d$ be a vector-valued random variable or \emph{statistic}, where $d$ is finite. The aim is to elicit $\mu = \E_{p}[\phi(x)]$ where $x$ is the random outcome. A \emph{scoring rule} is a device for this purpose. Let $$\mM = \left\{ \mu \in \bR^d : \Exp_p[\phi(x)] = \mu,\, \mbox{for some $p \in \mP$} \right\}$$ be the set of realizable statistic expectations.  A scoring rule $S : \mM \times \mX \rightarrow \bR \cup \{-\infty\}$ pays the agent $S(\hmu,x)$ according to how well its report $\hmu \in \mM$ agrees with the eventual outcome $x \in \mX$. 
 %
-\begin{definition}
+\begin{definition} \label{def:proper-score}
 A scoring rule $S$ is  \emph{proper over domain $\mD$} for statistic $\phi$ if for each $\mu \in \mM$ and $p \in \mD$ with expected statistic $\mu$, we have
 %
 \begin{equation} \label{eq-proper}
@@ -324,13 +325,13 @@ In the above $T^*$ denotes as usual the convex conjugate of $T$, which here can 
 
 We are now in a position to analyze the log scoring rule under exponential family distributions. From our discussion so far, we have that an exponential family density can be parametrized either by the natural parameter $\theta$, or by the mean parameter $\mu$, and that the two are related by the invertible gradient map $\mu = \grad T(\theta)$. We will write $p(x;\theta)$ or $p(x;\mu)$ given the parametrization used, which should be clear from context.
 
-The following observation is crucial. Let $\tp \in \mP$ be a density (not necessarily an exponential family) with expected statistic $\mu$, let $p(\cdot\,;\mu)$ be the exponential family with the same expected statistic, and let $\mu' \in \mM$ be an alternative report. Then note that
+The following observation is crucial. Let $\tp \in \mP$ be a density (not necessarily from an exponential family) with expected statistic $\mu$, let $p(\cdot\,;\mu)$ be the exponential family with the same expected statistic, and let $\mu' \in \mM$ be an alternative report. Then note from~(\ref{exp-fam}) that
 %
 \begin{equation} \label{equalizer-rule}
 \Exp_{\tp}[\log p(x;\mu')] = \Exp_{p(\cdot;\mu)}[\log p(x;\mu')] = \la \theta', \mu \ra - T(\theta'),
 \end{equation}
 %
-where $\theta' = \grad G(\mu')$ is the natural parameter for the exponential family with statistic $\mu'$. We see from this that the expected log score only depends on the expectation $\mu$ of the underlying density, not the full density, so when reasoning about the agent's reporting incentives we can just as well assume its beliefs are from an exponential family for simplicity.
+where $\theta' = \grad G(\mu')$ is the natural parameter for the exponential family with statistic $\mu'$. We see from this that the expected log score only depends on the expectation $\mu$ of the underlying density, not the full density, which is how we can achieve proper scoring according to Definition~{\ref{def:proper-score}.
 %
 \begin{theorem} \label{maxent-score}
 Consider the logarithmic scoring rule $S(\mu,x) = \log p(x;\mu)$ defined over a set of densities $\mD$ parametrized by $\mM$. The scoring rule is proper over the entire domain of densities $\mP$ if and only if $\mD$ is the exponential family with statistic $\phi$. 
@@ -352,7 +353,7 @@ The latter is positive by the strict convexity of $T$, which shows that the log 
 $$
 S(\mu,x) = G(\mu) - \la \grad G(\mu), \mu - \phi(x) \ra
 $$
-for some strictly convex function $G$. Let $T = G^*$, so that $\grad G = {\grad T}^{-1}$, and let $\theta = \grad G(\mu)$. Then the above takes the form
+for some strictly convex function $G$. Let $T = G^*$, so that $\grad G = {\grad T}^{-1}$, and let $\theta = \grad G(\mu)$. Then the above can be written as
 %
 \begin{eqnarray*}
 \log p(x;\mu) & = & G(\mu) - \la \grad G(\mu), \mu - \phi(x) \ra \\
@@ -363,7 +364,7 @@ for some strictly convex function $G$. Let $T = G^*$, so that $\grad G = {\grad 
 which shows that $p(x;\mu)$ takes the form of an exponential family.
 \end{proof}
 %
-As further intuition for the result, note that~(\ref{breg-div}) is the definition of the Bregman divergence with respect to strictly convex function $T$. Therefore we have 
+As further intuition for the result, note that~(\ref{breg-div}) is the definition of the so-called Bregman divergence with respect to strictly convex function $T$. Therefore we have 
 %
 \begin{equation*}
 \Exp_p[\log p(x;\mu)] - \Exp_p[\log p(x;\mu')] = D_T(\theta',\theta) = D_G(\mu, \mu'),
@@ -371,9 +372,9 @@ As further intuition for the result, note that~(\ref{breg-div}) is the definitio
 %
 where the last equality is a well-known identity relating the Bregman divergences of $T$ and $T^* = G$~\citep{}. The equation states that the agent's regret from misreporting its mean parameter does not depend on the full density $p$, only the mean $\mu$.   
 
-Theorem~\ref{maxent-score} leads to a straightforward procedure for constructing score rules for expectations: define the relevant statistic, and consider the maximum entropy (equivalently, exponential family) distribution consistent with the agent's reported mean $\mu$. The agent is compensated according to the log likelihood of the eventual outcome according to the latter. The interpretation is that the agent is only providing partial information about the underlying density, so the principal first infers a full density according to the principle of maximum entropy, and then scores the agent using the usual log score.
+Theorem~\ref{maxent-score} leads to a straightforward procedure for constructing score rules for expectations: define the relevant statistic, and consider the maximum entropy (equivalently, exponential family) distribution consistent with the agent's reported mean $\mu$. The scoring rule compensates the agent according to the log likelihood of the eventual outcome according to the latter. The interpretation is that the agent is only providing partial information about the underlying density, so the principal first infers a full density according to the principle of maximum entropy, and then scores the agent using the usual log score.
   
-An advantage of this generalization of the log score is that, for many statistics of interest, it leads to simple \emph{closed-form} formulas for the scoring rule. The following examples illustrate the construction.
+An advantage of this generalization of the log score is that, for many expectations of interest, it leads to simple \emph{closed-form} formulas for the scoring rule (including for multi-dimensional outcomes in some cases). This covers for instance several different combinations of the arithmetic, geometric, and harmonic means, as well as higher order moments. The following examples illustrate the construction.
 %
 \begin{example} \label{ex:exponential}
 As base measure we take the Lebesgue restricted to $[0,+\infty)$, and we consider the statistic $\phi(x) = x$ so that we are simply eliciting the mean. The maximum entropy distribution with a given mean $\mu$ is the exponential distribution, and taking its log density gives the scoring rule
@@ -384,11 +385,19 @@ S(\mu, x) = -\frac{x}{\mu} - \log \mu.
 %
 We stress that although this rule is derived from the exponential distribution, Theorem~\ref{maxent-score} implies that it elicits the mean of any distribution supported on the non-negative reals (e.g., Pareto, lognormal), in contrast to~(\ref{pareto-scoring}). Indeed, it is easy to see that the expected score~(\ref{exp-scoring}) depends only on the mean of the agent's belief because it is linear in $x$. 
 %
-Typically the exponential distribution is parametrized by its rate $\lambda = 1/\mu$. In that case the rule takes the form $S(\mu, x) = -\lambda x + \log \lambda$, and we see that $\lambda$ corresponds to the natural parameter.
+%Typically the exponential distribution is parametrized by its rate $\lambda = 1/\mu$. In that case the rule takes the form $S(\mu, x) = -\lambda x + \log \lambda$, and we see that $\lambda$ corresponds to the natural parameter.
+%
+As a generalization of this example, the maximum entropy distribution for the $k$-th moment $\phi(x) = x^k$ with respect to the same base measure is the Weibull distribution. Taking its log density leads to the following equivalent scoring rule (after scaling and eliminating unnecessary additive constants):
+%
+\begin{equation*}
+S(\mu, x) = (k-1) \log x - k \log \mu - \Gamma\left(1+\frac{1}{k}\right)^k \left(\frac{x}{\mu}\right)^k,
+\end{equation*}
+%
+where $\Gamma$ denotes the usual gamma function (the extension of the factorial to the reals).
 \end{example}
 %
 %
-\begin{example}
+\begin{example} \label{ex:gaussian}
 As a base measure we take the Lebesgue over the real numbers $\bR$. We are interested in eliciting the mean $\mu$ and variance $\sigma^2$, so as a statistic we take $\phi(x) = (x, x^2)$ for which $\Exp_p[\phi(x)] = (\mu, \mu^2+\sigma^2)$. The maximum entropy distribution for a given mean and variance is the normal distribution, and taking its log density gives the scoring rule
 %
 \begin{equation}
@@ -404,7 +413,18 @@ S(({\boldsymbol \mu}, {\boldsymbol \Sigma}), \boldsymbol{x}) = -( \boldsymbol{x}
 Here the statistics being elicited are the mean vector ${\boldsymbol \mu}$ and the covariance matrix ${\boldsymbol \Sigma}$. These scoring rules have been studied by~\citet{} as rules that only depend on the mean and variance of the reported density. They note that these rules are weakly proper (because they do not distinguish between densities with the same first and second moments), but do not make the point that knowledge of the full density is not necessary on the part of the agent.
 \end{example}
 %
+
+
+
+In the above, Example~\ref{ex:gaussian} illustrates an important point about parametrizations of the elicited expectations. The variance $\sigma^2$ cannot be written as $\Exp[\phi(x)]$ for any $\phi$, because the mean $\mu$ enters the definition of $\sigma^2$ but is not available when $\phi$ is defined (indeed it is elicited in tandem with the variance).\footnote{This is an intuitive but far from formal explanation for the fact that the dimension of the message space, or \emph{elicitation complexity}, for eliciting the variance is at least 2~\citep{}.} Instead one must use the first two \emph{uncentered} moments $\Exp[x]$ and $\Exp[x^2]$. These are in bijection with $\mu$ and $\sigma^2$, so the resulting scoring rule can be re-written in terms of the latter. Therefore, it is possible to elicit not just expectations but also bijective transformations of expectations. 
+
+
+
+
  
+ 
+ VON-MISES FISHER
+
 
  
 %\subsection{Exponential Smoothing}
@@ -449,17 +469,15 @@ As a concrete example, recall that in the classic finite-outcome case the statis
 
 The standard way to implement an information market in the literature, due to~\citet{}, is via a centralized market maker. The market maker maintains a convex, differentiable cost function $C : \bR^d \rightarrow (-\infty,+\infty]$, where $C(\theta)$ records the revenue collected when the vector of outstanding shares is $\theta$. The cost to an agent of purchasing portfolio $\delta$ under a market state of $\theta$ is $C(\theta + \delta) - C(\theta)$, and therefore the instantaneous prices of the securities are given by the gradient $\grad C(\theta)$. 
 
-A risk-neutral agent will choose to acquire shares up to the point where, for each share, expected payoff equals marginal price. Formally, if the agent acquires portfolio $\delta$, then we must have
+A risk-neutral agent will choose to acquire shares up to the point where, for each share, expected payoff equals marginal price. Formally, if the agent acquires portfolio $\delta$, moving the market state vector to $\theta' = \theta + \delta$, then we must have
 %
 \begin{equation} \label{risk-neutral-agent}
-\Exp_p[\phi(x)] = \grad C(\theta + \delta).
+\Exp_p[\phi(x)] = \grad C(\theta').
 \end{equation}
 %
-In this way, by its choice of $\delta$, the agent reveals that its expected belief is $\mu = \grad C(\theta + \delta)$. We stress that this observation relies on the assumptions that 1) the agent is risk-neutral, 2) the agent does not incorporate the market's information into its own beliefs, and 3) the agent is not budget constrained.
+In this way, by its choice of $\delta$, the agent reveals that its expected belief is $\mu = \grad C(\theta')$. We stress that this observation relies on the assumptions that 1) the agent is risk-neutral, 2) the agent does not incorporate the market's information into its own beliefs, and 3) the agent is not budget constrained. We will examine relaxations of each assumption in later sections.
 
 \subsection{Information-Theoretic Interpretation}
-
-
 
 In the remainder of this paper we focus on the following cost function, which arises from the ``generalized'' logarithmic market scoring rule (LMSR):
 %
@@ -467,137 +485,44 @@ In the remainder of this paper we focus on the following cost function, which ar
 C(\theta) = \log \int_{\mX} \exp \la \theta, \phi(x) \ra \,d\nu(x).
 \end{equation}
 %
-This is of course exactly the log-partition function~(\ref{log-part}) for the exponential family with sufficient statistic $\phi$, and we recover the classic LMSR using outcome indicator vectors as statistics. Because an agent would never select a portfolio with infinite cost, the effective domain (i.e., the possible vectors of outstanding shares) of $C$ is $\Theta = \{\theta \in \bR^d : C(\theta) < +\infty \}$.
+This is of course exactly the log-partition function~(\ref{log-part}) for the exponential family with sufficient statistic $\phi$, and we recover the classic LMSR using outcome indicator vectors as statistics. Because an agent would never select a portfolio with infinite cost, the effective domain (i.e., the possible vectors of outstanding shares) of $C$ is $\Theta = \{\theta \in \bR^d : C(\theta) < +\infty \}$, which gives an economic interpretation to the natural parameter space of an exponential family.
+
+The correspondence between the cost function~({\ref{lmsr-cost}) and the log-partition function~(\ref{log-part}) suggests the following interpretation. The market maker maintains an exponential family distribution over the state space $\mX$ parametrized by share vectors that lie in $\Theta$. When an agent buys shares, it moves the distribution's natural parameter so that the market prices matches its beliefs, or in other words the market's mean parametrization matches the agent's expectation. 
+
+There is a well-known duality between scoring rules and cost-function based markets. To see this in our context, recall from~(\ref{equalizer-rule}) that
+%
+\begin{equation*}
+\Exp_{\tp}[\log p(x;\mu')] = \la \theta', \mu \ra - T(\theta')
+\end{equation*}
+%
+where $\tp$ is the agent's belief and $\mu'$ the agent's report. The expected log score from reporting $\mu'$ is exactly the same as the expected payoff from buying portfolio of shares $\theta' = \grad C(\mu')$ (assuming an initial market state of 0), as $\la \theta', \mu \ra$ is the expected revenue and $T(\theta')$ is the cost. As in Section~\ref{sec:scoring} this reasoning relies on the assumption of risk-neutrality (and no budget constraints), not on any specific form for the agent's belief.
+
+The agent's expected profit from moving the share vector from $\theta$ to $\theta'$ is
+%
+\begin{eqnarray*}
+& & \la \theta' - \theta, \mu \ra - C(\theta') + C(\theta) \\
+& = & C(\theta) - C(\theta') - \la \theta - \theta', \grad C(\theta) \rangle \\
+& = & D_C(\theta, \theta') = D_{C^*}(\mu', \mu),
+\end{eqnarray*}
+%
+recalling~(\ref{breg-div}). Now~\citet{} have observed (among others) that the Kullback-Leibler divergence between two exponential family distributions is the Bregman divergence, with repect to the log-partition function, between their natural parameters. The agent's expected profit is therefore the KL divergence between the market's implied expectation and the exponential family corresponding to the agent's expectation, a well-known property from the classical LMSR~\citep{}.
+
+%* DIFFERENTIAL ENTROPY
+%* UNBOUNDED LOSS?
+%* EXAMPLE OF LOSS FOR EXPONENTIAL/GAUSSIAN
 
 
+EXPONENTIAL EXAMPLE: EFFECTIVE DOMAIN AND COST FUNCTION
+GAUSSIAN EXAMPLE
+VON MISES EXAMPLE
 
 
 Observe that in the context of our earlier multinomial example, cost function~(\ref{cost}) is exactly the cost function for Hanson's logarithmic market scoring rule.
 
 . In the context of the multinomial distribution example, $\Omega = \bR^d$, so that shares of each security can always be bought or sold short. In the context of the normal distribution example the effective domain is $\Omega = \{(\theta_1,\theta_2) \in \bR^2 \:|\: \theta_2 > 0 \}$ if we re-define the second statistic to be $\phi_2(x) = -x^2$; this means that the security has a negative payoff for each share, and consequently the agent must be compensated to acquire such shares. Evaluating~(\ref{cost}), the cost function takes the form $C(\theta) = \frac{\theta_1^2}{4\theta_2} - \frac{1}{2}\log(2\theta_2)$.
 
- In the current market-based approach, the agent's chosen portfolio $\theta$ can also form the basis of a distribution over outcomes. 
-
-The scoring rule~(\ref{expscore}) decomposes neatly into payoff and cost functions. The first term $\la \theta(\mu), \phi(x) \ra$ defines the agent's outcome-contingent reward, while the second term~$C(\theta(\mu))$ is the cost of acquiring a portfolio $\theta(\mu)$. We see here the duality between the approach of directly reporting $\mu$, or acquiring shares $\theta$: an agent reporting beliefs $\mu$ under scoring rule~(\ref{scoring}) would choose to acquire shares $\theta(\mu)$ in the information market with cost function~(\ref{cost}). Since~(\ref{scoring}) is a proper scoring rule, the information market with cost function~(\ref{cost}) is based on a proper market scoring rule.
-
-%
-\begin{proposition}
-Let $C$ be the cumulant (i.e, cost function) for the exponential family corresponding to $\phi$, and let $\theta(\mu)$ be the optimal Lagrange multiplier for the mean constraints given an agent report of $\mu \in \mM$. Then the following scoring rule is equivalent to~(\ref{scoring}):
-%
-\begin{equation} \label{expscore}
-S(\mu, x) = \la \theta(\mu), \phi(x) \ra - C(\theta(\mu)).
-\end{equation}
-%
-\end{proposition}
-%
-
-\vfill
-\pagebreak
 
 
-
-
-
-
-
-\subsection{An Information-Theoretic Interpretation}\label{sec:infth}
- We observe a useful alternative view of the market 
-scoring rule prediction market for exponential family learning. We connect the cost, payoff and profit function to information-theoretic 
-quantities associated with the exponential family.
-
-The following result has been previously pointed out by Amari \cite{Amari-KL}. 
-\begin{theorem}\label{lem:profit_decomposition}{\bf (Profit Decomposition)}: Consider an exponential 
-family $\family$ of distributions over some set of statistics $\suff(x)$, with natural parameters $\beta$. Let $\pi, \rho \in \family$ be any two probability distributions in the family. We use 
-$\beta_\pi$ to denote the natural parameters of $\pi$ and $\mu_{\pi}$ to denote the expected value of the sufficient statistics under $\pi$. Likewise,
-we can define $\beta_\rho$ and  $\mu_\rho$. Let $\lpf(\beta_{\rho})$ indicate the log partition function of $\rho$.
-Let $H(\pi)$ denote the entropy of the distribution $\pi$, and 
- $K(\pi||\rho)$ denote the KL-divergence of $\rho$ relative to $\pi$.
-Then, the following equality holds:  
-\begin{equation}
- K(\pi||\rho) + H(\pi) = \lpf(\beta_{\rho}) - \beta_\rho \cdot \mu_\pi
-\label{eq:profit_decomposition}
-\end{equation}
-\end{theorem}
-\begin{proof}
-\begin{eqnarray*}
- K(\pi||\rho) + H(\pi) &=& \int_x \pi(x)\log{\frac{\pi(x)}{\rho(x)}}dx\\
- &&\quad - \int_x \pi(x)\log{\pi(x)}dx \\
-&=& - \int_x \pi(x)\log{\rho(x)}dx \\
-&=& - \int_x \pi(x)\left[ \beta_\rho \cdot \suff(x) - \lpf(\beta_{\rho})\right]dx\\
-&=& - \beta_\rho \cdot \int_x \pi(x) \suff(x) dx\\
-&&\quad + \lpf(\beta_{\rho}) \int_x \pi(x) dx \\
-&=&  \lpf(\beta_{\rho}) - \beta_\rho \cdot \mu_\pi
-\end{eqnarray*}
-\end{proof}
-
-Equation~\ref{eq:profit_decomposition} gives us an alternative view of the
-market scoring rule construction. Assume that $\pi$ is the true distribution, and consider two arbitrary
-distributions $\rho_1, \rho_2 \in \family$. Note that $\lpf(\rho)$  is independent of $\pi$, and $\betavec_\rho \cdot \muvec_\pi$ is linear in the probabilities $\pi(x)$. If we want to measure loss by the KL-divergence, we can do so (in expectation) by setting a cost function that captures the first term, and defining security quantities ($\betavec$) and payoffs ($\suff$) to capture the second term.  In particular, in a market with cost function $\lpf$, if the
-market price initially implies a distribution $\rho_1$, and a trader moves
-the market to price than implies a distribution $\rho_2$, then the cost she
-incurs is $\lpf(\rho_2) - \lpf(\rho_1)$. The number of securities bought to make this trade is given by the vector ($\betavec_{\rho_2} - \betavec_{\rho_1}$), and the expected payoff of the securities are given by $\muvec_\pi$. Thus, by equation \ref{eq:profit_decomposition}, the {\em net profit} of the trader is equal to $K(\pi||\rho_1) - K(\pi||\rho_2)$, {\it i.e.}, the reduction in KL-divergence with respect to the true distribution.  We note one useful property of this construction: For a fixed vector $\betavec$ of purchased securities, the cost is independent of the outcome 
-(and outcome distribution $\pi$), while the payoff is independent of the initial market state in which these securities were purchased.
-\subsection{Properties of the Maximum Entropy Market}
-Consider the dual of the cost function, $C^{*}(\mu)$ defined as
-$$C^{*}(\mu) = \sup_{\beta} \beta\cdot\mu - C(\beta)$$
-This supremum is obtained at the value of $\beta$ for which $\mu = \nabla C(\beta)$; that is the natural parameter $\beta$ for which $\mu=\E_{p_{\beta}}[\phi(x)]$ is the mean parameter. Rewriting, 
-$$C^{*}(\E_{p_{\beta}}[\phi(x)]) = \beta\cdot\E_{p_{\beta}}[\phi(x)] - C(\beta)$$
-Thus, the mean parameters are the dual variables to the natural parameters.
-
-
-\begin{thm} The value of the dual of the cost function is the negative entropy of the exponential family distribution obtained from backward mapping the mean parameters. \end{thm}
-\proof
-To see this, we note that for $p(x)=\exp\{\beta\cdot\phi(x)-C(\beta)\}$
-\begin{eqnarray*}
--H(p) &=& \int_{x}p(x)\log p(x)\\
-&=& \int_{x}p(x)[\beta\cdot\phi(x)-C(\beta)]\\
-&=& \beta\cdot\int_{x}p(x)[\phi(x)]-\int_{x}p(x)C(\beta)\\
-&=& \beta\cdot\E_{p}[\phi(x)]-C(\beta)
-\end{eqnarray*}
-\unproof
-\rmk This result shows a nice parallel to LMSR, since the dual of the cost function of the LMSR is the negative entropy.\unrmk
-\rmk The LMSR is essentially a special case applied to a multinomial distribution. The LMSR is known to have bounded ($\log n$) market maker loss. Thus, while in general the exponential family LMSR does not guarantee bounded market maker loss, for some special cases it can. 
-\unrmk
-
-{\thm Negative differential entropy $-H(p)\defeq \int_{x}p(x) \log p(x) dx$ is unbounded from above for an exponential family distribution.}
-\proof
-Note that, for an exponential family distribution
-\begin{eqnarray*}
-H(p) &=& -\int_{x}p(x)\log p(x)dx\\
-&=& -\int_{x}p(x)[\beta\cdot \phi(x)-\psi(\beta)] dx\\
-&=& -\beta\cdot\E[ \phi(x)]+\psi(\beta)
-\end{eqnarray*}
-If the range of $\beta$ is unbounded, the negative differential entropy is unbounded as well.
-\unproof
-
-%{\cor The exponential family market maker has unbounded worst case loss.}
-%\proof From \cite{ACV13} we know that the worst case market maker loss can be expressed in terms of the conjugate of the cost function as 
-%$$\sup_{\mu\in\phi(\mathcal{X})}C^{*}(\mu) - \min_{\mu\in\conv(\phi(\mathcal{X}))}C^{*}(\mu)$$ 
-%Unbounded differential entropy for an exponential family distribution thus implies unbounded market maker loss.\unproof
-\paragraph{Loss of the market maker}
-First we derive an expression for the conjugate dual $C^{*}$ in terms of the primal variables.
-
-Recall the definition of the conjugate dual:
-$$C^{*}(\mu) = \sup_{q}q\cdot\mu - C(q)$$
-The supremum is achieved at $q'$ such that $\nabla C(q')=\mu$. So we may rewrite:
-$$C^{*}(\nabla C(q')) = \sup_{q}q\cdot\nabla C(q') - C(q)$$
-This supremum is achieved at $q$ such that $\nabla C(q')=\nabla C(q)$. One such value of $q$ is $q'$.
-So we have 
-$$C^{*}(\nabla C(q')) = q'\cdot\nabla C(q') - C(q')$$
-Also, recall that $\nabla C^{*}(\nabla C(q))=q$ for the exponential family market. (I think there are some restrictions on $q$.)
-
-Let $q_{0}$ be the initial and $q_{f}$ the final market state. Then if $\mu$ is the expected value of the outcome sufficient statistics (\ie  the mean parameter) under the true distribution, the loss of the exponential family market maker can be written as:
-\begin{eqnarray*}
-\phi(x)(q_{f}-q_{0})-C(q_{f})+C(q_{0})&=& \phi(x) (q_{f}-q_{0})-q_{f}\nabla C(q_{f})+ C^{*}(\nabla C(q_{f}))\\
-&&+q_{0}\nabla C(q_{0})- C^{*}(\nabla C(q_{0}))\\
-&=&q_{f}(\phi(x) -\nabla C(q_{f}))+ C^{*}(\nabla C(q_{f}))\\
-&&-q_{0}(\phi(x) -\nabla C(q_{0}))- C^{*}(\nabla C(q_{0}))\\
-&=&-C^{*}(\nabla C(q_{0}))+ C^{*}(\phi(x))-q_{0}(\phi(x) -\nabla C(q_{0}))\\
-&&+C^{*}(\nabla C(q_{f}))- C^{*}(\phi(x))+q_{f}(\phi(x) -\nabla C(q_{f}))\\
-&=&  C^{*}(\phi(x))-C^{*}(\nabla C(q_{0}))-\nabla C^{*}(\nabla C(q_{0}))(\phi(x) -\nabla C(q_{0}))\\
-&&-\left[C^{*}(\phi(x))-C^{*}(\nabla C(q_{f}))-\nabla C^{*}(\nabla C(q_{f}))(\phi(x) -\nabla C(q_{f}))\right]\\
-&=&D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]
-\end{eqnarray*}
 
 \subsection{Example: Gaussian Markets}
 {\ex We will now derive an expression for the dual of the log partition function for the Gaussian distribution. In this case,  $\beta$ is a $2$-dimensional  vector. Let $\beta=\begin{pmatrix}\beta_{1}\\ \beta_{2}\end{pmatrix}$ and $\mu=\begin{pmatrix}\mu_{1}\\ \mu_{2}\end{pmatrix}$. So 
@@ -1028,3 +953,143 @@ Thus the equilibrium state is a convex combination of trader beliefs and initial
 \end{document}
 
 
+
+
+
+%----------------------------------------------------------------------------------------
+
+\subsection{Properties of the Maximum Entropy Market}
+Consider the dual of the cost function, $C^{*}(\mu)$ defined as
+$$C^{*}(\mu) = \sup_{\beta} \beta\cdot\mu - C(\beta)$$
+This supremum is obtained at the value of $\beta$ for which $\mu = \nabla C(\beta)$; that is the natural parameter $\beta$ for which $\mu=\E_{p_{\beta}}[\phi(x)]$ is the mean parameter. Rewriting, 
+$$C^{*}(\E_{p_{\beta}}[\phi(x)]) = \beta\cdot\E_{p_{\beta}}[\phi(x)] - C(\beta)$$
+Thus, the mean parameters are the dual variables to the natural parameters.
+
+
+\begin{thm} The value of the dual of the cost function is the negative entropy of the exponential family distribution obtained from backward mapping the mean parameters. \end{thm}
+\proof
+To see this, we note that for $p(x)=\exp\{\beta\cdot\phi(x)-C(\beta)\}$
+\begin{eqnarray*}
+-H(p) &=& \int_{x}p(x)\log p(x)\\
+&=& \int_{x}p(x)[\beta\cdot\phi(x)-C(\beta)]\\
+&=& \beta\cdot\int_{x}p(x)[\phi(x)]-\int_{x}p(x)C(\beta)\\
+&=& \beta\cdot\E_{p}[\phi(x)]-C(\beta)
+\end{eqnarray*}
+\unproof
+\rmk This result shows a nice parallel to LMSR, since the dual of the cost function of the LMSR is the negative entropy.\unrmk
+\rmk The LMSR is essentially a special case applied to a multinomial distribution. The LMSR is known to have bounded ($\log n$) market maker loss. Thus, while in general the exponential family LMSR does not guarantee bounded market maker loss, for some special cases it can. 
+\unrmk
+
+
+
+Consider the dual of the cost function, $C^{*}(\mu)$ defined as
+$$C^{*}(\mu) = \sup_{\beta} \beta\cdot\mu - C(\beta)$$
+This supremum is obtained at the value of $\beta$ for which $\mu = \nabla C(\beta)$; that is the natural parameter $\beta$ for which $\mu=\E_{p_{\beta}}[\phi(x)]$ is the mean parameter. Rewriting, 
+$$C^{*}(\E_{p_{\beta}}[\phi(x)]) = \beta\cdot\E_{p_{\beta}}[\phi(x)] - C(\beta)$$
+Thus, the mean parameters are the dual variables to the natural parameters.
+
+
+\begin{thm} The value of the dual of the cost function is the negative entropy of the exponential family distribution obtained from backward mapping the mean parameters. \end{thm}
+\proof
+To see this, we note that for $p(x)=\exp\{\beta\cdot\phi(x)-C(\beta)\}$
+\begin{eqnarray*}
+-H(p) &=& \int_{x}p(x)\log p(x)\\
+&=& \int_{x}p(x)[\beta\cdot\phi(x)-C(\beta)]\\
+&=& \beta\cdot\int_{x}p(x)[\phi(x)]-\int_{x}p(x)C(\beta)\\
+&=& \beta\cdot\E_{p}[\phi(x)]-C(\beta)
+\end{eqnarray*}
+\unproof
+\rmk This result shows a nice parallel to LMSR, since the dual of the cost function of the LMSR is the negative entropy.\unrmk
+\rmk The LMSR is essentially a special case applied to a multinomial distribution. The LMSR is known to have bounded ($\log n$) market maker loss. Thus, while in general the exponential family LMSR does not guarantee bounded market maker loss, for some special cases it can. 
+\unrmk
+
+
+
+
+\subsection{An Information-Theoretic Interpretation}
+\label{sec:infth}
+
+
+ We observe a useful alternative view of the market 
+scoring rule prediction market for exponential family learning. We connect the cost, payoff and profit function to information-theoretic 
+quantities associated with the exponential family.
+
+The following result has been previously pointed out by Amari \cite{Amari-KL}. 
+\begin{theorem}\label{lem:profit_decomposition}{\bf (Profit Decomposition)}: Consider an exponential 
+family $\family$ of distributions over some set of statistics $\suff(x)$, with natural parameters $\beta$. Let $\pi, \rho \in \family$ be any two probability distributions in the family. We use 
+$\beta_\pi$ to denote the natural parameters of $\pi$ and $\mu_{\pi}$ to denote the expected value of the sufficient statistics under $\pi$. Likewise,
+we can define $\beta_\rho$ and  $\mu_\rho$. Let $\lpf(\beta_{\rho})$ indicate the log partition function of $\rho$.
+Let $H(\pi)$ denote the entropy of the distribution $\pi$, and 
+ $K(\pi||\rho)$ denote the KL-divergence of $\rho$ relative to $\pi$.
+Then, the following equality holds:  
+\begin{equation}
+ K(\pi||\rho) + H(\pi) = \lpf(\beta_{\rho}) - \beta_\rho \cdot \mu_\pi
+\label{eq:profit_decomposition}
+\end{equation}
+\end{theorem}
+\begin{proof}
+\begin{eqnarray*}
+ K(\pi||\rho) + H(\pi) &=& \int_x \pi(x)\log{\frac{\pi(x)}{\rho(x)}}dx\\
+ &&\quad - \int_x \pi(x)\log{\pi(x)}dx \\
+&=& - \int_x \pi(x)\log{\rho(x)}dx \\
+&=& - \int_x \pi(x)\left[ \beta_\rho \cdot \suff(x) - \lpf(\beta_{\rho})\right]dx\\
+&=& - \beta_\rho \cdot \int_x \pi(x) \suff(x) dx\\
+&&\quad + \lpf(\beta_{\rho}) \int_x \pi(x) dx \\
+&=&  \lpf(\beta_{\rho}) - \beta_\rho \cdot \mu_\pi
+\end{eqnarray*}
+\end{proof}
+
+Equation~\ref{eq:profit_decomposition} gives us an alternative view of the
+market scoring rule construction. Assume that $\pi$ is the true distribution, and consider two arbitrary
+distributions $\rho_1, \rho_2 \in \family$. Note that $\lpf(\rho)$  is independent of $\pi$, and $\betavec_\rho \cdot \muvec_\pi$ is linear in the probabilities $\pi(x)$. If we want to measure loss by the KL-divergence, we can do so (in expectation) by setting a cost function that captures the first term, and defining security quantities ($\betavec$) and payoffs ($\suff$) to capture the second term.  In particular, in a market with cost function $\lpf$, if the
+market price initially implies a distribution $\rho_1$, and a trader moves
+the market to price than implies a distribution $\rho_2$, then the cost she
+incurs is $\lpf(\rho_2) - \lpf(\rho_1)$. The number of securities bought to make this trade is given by the vector ($\betavec_{\rho_2} - \betavec_{\rho_1}$), and the expected payoff of the securities are given by $\muvec_\pi$. Thus, by equation \ref{eq:profit_decomposition}, the {\em net profit} of the trader is equal to $K(\pi||\rho_1) - K(\pi||\rho_2)$, {\it i.e.}, the reduction in KL-divergence with respect to the true distribution.  We note one useful property of this construction: For a fixed vector $\betavec$ of purchased securities, the cost is independent of the outcome 
+(and outcome distribution $\pi$), while the payoff is independent of the initial market state in which these securities were purchased.
+
+
+
+
+
+\subsection{Properties of the Maximum Entropy Market}
+
+
+{\thm Negative differential entropy $-H(p)\defeq \int_{x}p(x) \log p(x) dx$ is unbounded from above for an exponential family distribution.}
+\proof
+Note that, for an exponential family distribution
+\begin{eqnarray*}
+H(p) &=& -\int_{x}p(x)\log p(x)dx\\
+&=& -\int_{x}p(x)[\beta\cdot \phi(x)-\psi(\beta)] dx\\
+&=& -\beta\cdot\E[ \phi(x)]+\psi(\beta)
+\end{eqnarray*}
+If the range of $\beta$ is unbounded, the negative differential entropy is unbounded as well.
+\unproof
+
+%{\cor The exponential family market maker has unbounded worst case loss.}
+%\proof From \cite{ACV13} we know that the worst case market maker loss can be expressed in terms of the conjugate of the cost function as 
+%$$\sup_{\mu\in\phi(\mathcal{X})}C^{*}(\mu) - \min_{\mu\in\conv(\phi(\mathcal{X}))}C^{*}(\mu)$$ 
+%Unbounded differential entropy for an exponential family distribution thus implies unbounded market maker loss.\unproof
+\paragraph{Loss of the market maker}
+First we derive an expression for the conjugate dual $C^{*}$ in terms of the primal variables.
+
+Recall the definition of the conjugate dual:
+$$C^{*}(\mu) = \sup_{q}q\cdot\mu - C(q)$$
+The supremum is achieved at $q'$ such that $\nabla C(q')=\mu$. So we may rewrite:
+$$C^{*}(\nabla C(q')) = \sup_{q}q\cdot\nabla C(q') - C(q)$$
+This supremum is achieved at $q$ such that $\nabla C(q')=\nabla C(q)$. One such value of $q$ is $q'$.
+So we have 
+$$C^{*}(\nabla C(q')) = q'\cdot\nabla C(q') - C(q')$$
+Also, recall that $\nabla C^{*}(\nabla C(q))=q$ for the exponential family market. (I think there are some restrictions on $q$.)
+
+Let $q_{0}$ be the initial and $q_{f}$ the final market state. Then if $\mu$ is the expected value of the outcome sufficient statistics (\ie  the mean parameter) under the true distribution, the loss of the exponential family market maker can be written as:
+\begin{eqnarray*}
+\phi(x)(q_{f}-q_{0})-C(q_{f})+C(q_{0})&=& \phi(x) (q_{f}-q_{0})-q_{f}\nabla C(q_{f})+ C^{*}(\nabla C(q_{f}))\\
+&&+q_{0}\nabla C(q_{0})- C^{*}(\nabla C(q_{0}))\\
+&=&q_{f}(\phi(x) -\nabla C(q_{f}))+ C^{*}(\nabla C(q_{f}))\\
+&&-q_{0}(\phi(x) -\nabla C(q_{0}))- C^{*}(\nabla C(q_{0}))\\
+&=&-C^{*}(\nabla C(q_{0}))+ C^{*}(\phi(x))-q_{0}(\phi(x) -\nabla C(q_{0}))\\
+&&+C^{*}(\nabla C(q_{f}))- C^{*}(\phi(x))+q_{f}(\phi(x) -\nabla C(q_{f}))\\
+&=&  C^{*}(\phi(x))-C^{*}(\nabla C(q_{0}))-\nabla C^{*}(\nabla C(q_{0}))(\phi(x) -\nabla C(q_{0}))\\
+&&-\left[C^{*}(\phi(x))-C^{*}(\nabla C(q_{f}))-\nabla C^{*}(\nabla C(q_{f}))(\phi(x) -\nabla C(q_{f}))\right]\\
+&=&D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]
+\end{eqnarray*}
