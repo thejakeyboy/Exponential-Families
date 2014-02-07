@@ -211,26 +211,47 @@ In this paper, we draw connections between the aggregation performed by learning
 %	- budgets
 %- multiple trades
 %- multiple traders
-Prediction markets are aggregation mechanisms that allow market prices to be interpreted as predictive probabilities on an event. Each trader in the market is assumed to have some private information that he uses to make a prediction on the outcome of the event. The traders are assumed to be strategic in the sense that every trader wants to maximize his profit by participating in the market. Further, since the trades are done sequentially, the trader is allowed to observe all past trades in the market and update his private information based on this information.
+Prediction markets are aggregation mechanisms that allow market prices to be interpreted as predictive probabilities on an event. Each trader in the market is assumed to have some private information that he uses to make a prediction on the outcome of the event. Traders are allowed to report their beliefs on the outcome of the event by allowing them to buy and sell securities whose value depends on the outcome of this future event. This will effect the state of the market, thus updating the predictive probabilities for the event. Further, since the trades are done sequentially, the trader is allowed to observe all past trades in the market and update his private information based on this information. Traders can see the past history of trades, so the price at which a current trader is willing to buy and sell these securities can be interpreted as an aggregate ``consensus probability forecast'' of a particular candidate winning the election. 
 
-Traders are allowed to report their beliefs on the outcome of the event by allowing them to buy and sell securities whose value depends on the outcome of this future event. This will effect the state of the market, thus updating the predictive probabilities for the event. For example, the Iowa Electronic Market predicts the outcome of a presidential election by allowing one to trade on securities that pay off only if the Democratic candidate wins, or only if the Republican candidate wins. Traders can see the past history of trades, so the price at which a current trader is willing to buy and sell these securities can be interpreted as an aggregate ``market probability'' of a particular candidate winning the election. 
+% For example, the Iowa Electronic Market predicts the outcome of a presidential election by allowing one to trade on securities that pay off only if the Democratic candidate wins, or only if the Republican candidate wins. 
 
-Currently, most deployed prediction markets have binary or finite discrete outcome spaces. This means that the outcome of every event can be characterized by a finite set of mutually exclusive exhaustive outcomes. The securities in these market are usually tied to each outcome so that buying (respectively, selling) a security related to an outcome, indicates a belief in an increased (respectively, decreased) probability of occurrence of the outcome.
+% JAKE: I think most people reading this will have enough background on markets.
+% Currently, most deployed prediction markets have binary or finite discrete outcome spaces. This means that the outcome of every event can be characterized by a finite set of mutually exclusive exhaustive outcomes. The securities in these market are usually tied to each outcome so that buying (respectively, selling) a security related to an outcome, indicates a belief in an increased (respectively, decreased) probability of occurrence of the outcome.
 
-Directly applying techniques used for binary outcome spaces to large outcome spaces is computationally infeasible. In fact, it has been shown that computing and updating prices for combinatorial outcomes spaces is $\#$P-hard \cite{Chen08}. Infinite outcome spaces pose a particular challenge in prediction markets since it is not clear how to define securities in such spaces. The most direct way of discretizing the space may lead to loss of information from the traders. Extending prediction market techniques to this space has been a subject of recent interest. Various techniques to bound market maker loss in both a combinatorial and infinite outcome space have been studied (see, for instance, \cite{Abernethy13,OthmanS11}). 
 
-One popular form of prediction markets is the market scoring rule~\cite{hanson03}. A market scoring rule considers all trades as a single chronological sequence. Traders earn rewards proportional to the incremental reduction in prediction loss caused by their trades in comparison to the previous trade. In other words, their rewards depend on the change in market probabilities caused by their trade, as well as on the eventual outcome. Thus, each trader has an 
-incentive to minimize the prediction loss. In this format, the {\em market maker} who runs the market can suffer an overall loss, but Hanson~\cite{hanson03} showed that, for market scoring rules on finite outcome spaces, the loss of the market maker can be bounded.
+% JAKE: removing this paragraph, we don't want to harp too much on the efficiency question
+%       as this has already been adressed in a number of papers 
+% Directly applying techniques used for binary outcome spaces to large outcome spaces is computationally infeasible. In fact, it has been shown that computing and updating prices for combinatorial outcomes spaces is $\#$P-hard \cite{Chen08}. Infinite outcome spaces pose a particular challenge in prediction markets since it is not clear how to define securities in such spaces. The most direct way of discretizing the space may lead to loss of information from the traders. Extending prediction market techniques to this space has been a subject of recent interest. Various techniques to bound market maker loss in both a combinatorial and infinite outcome space have been studied (see, for instance, \cite{Abernethy13,OthmanS11}). 
 
-In this paper, we propose a general version of the popular logarithmic scoring rule extended to continuous outcome spaces. Our version of the scoring rule uses parametric distributions to elicit traders' expectation on some function (called statistics) of the data. It turns out that the maximum entropy distribution given the statistics are  exponential family distributions.
+(JAKE: I want to use this paragraph for a general overview of mm frameworks) One popular form of prediction markets is the market scoring rule~\cite{hanson03}. A market scoring rule considers all trades as a single chronological sequence. Traders earn rewards proportional to the incremental reduction in prediction loss caused by their trades in comparison to the previous trade. In other words, their rewards depend on the change in market probabilities caused by their trade, as well as on the eventual outcome. Thus, each trader has an incentive to minimize the prediction loss. In this format, the {\em market maker} who runs the market can suffer an overall loss, but Hanson~\cite{hanson03} showed that, for market scoring rules on finite outcome spaces, the loss of the market maker can be bounded.
 
-We have dual goals in this paper. On the one hand, we highlight a structural similarity between prediction markets and exponential families. We see this as the syntax of our prediction market mechanism. On the other, this formulation has rich semantics as well: it allows for analysis of the evolution of the market under various  models of trader behavior. 
+Much the work on prediction market frameworks has focused primarily on structural properties of the mechanism: incentive compatibility, the market maker loss, the available liquidity, the fluctuations of the prices as a function of the trading volume, to name a few. Absent from much of the literature is a corresponding \emph{semantics} of the market behavior or the observed prices. That is, how can we interpret the equilibrium market state when we have a number of traders with diverse beliefs on the underlying state of the world? In what sense is the market an aggregation mechanism? Do price changes relate to our usual Bayesian notion of information incorporation via posterior updating?
 
-Traders with limited budgets are constrained in how much they influence the market. Their purchases may not reflect their true beliefs. We analyze the market  under these circumstances; we are able to show that traders with good information can expect to profit and their influence over the market state increases over time whereas malicious traders have limited impact on the market.
+In the present work we show that a number of classical statistical tools can be leveraged to design a prediction market framework in the mold of an \emph{exponential family distributions} that possesses a number of attractive properties. Common concepts in statistics \emph{entropy maximization}, \emph{log loss}, and \emph{bayesian inference}, relate to natural aspects of our class of mechanisms. In particular, the central objects in our market framework can be interpreted as elements of exponential families:
+\begin{itemize}
+	\item the \emph{payoff function} of the market corresponds to the \emph{sufficient statistics} of the probabiilty distribution;
+	\item the vector of \emph{oustanding shares} in the market corresponds to the \emph{natural parameter vector} of the distribution;
+	\item the market prices correspond to \emph{mean parameters};
+	\item the profit potential for a trader corresponds to a \emph{Kullback-Leibler divergence} between the trader's belief and that of the market.
+\end{itemize}
 
-We also analyze the behavior of traders with prior exposure in the market. Our results formalize the intuitive notion that private belief and financial exposure are just two sides of the same coin; trades in a prediction market can be seen as updating privately held beliefs.
+In addition to showing this syntactic relationship between exponential families and prediction markets, we also explore the semantic implications as well. In particular, we show that our formulation allows us to analyze the evolution of the market under various  models of trader behavior:
+\begin{itemize}
+	\item We consider \emph{budget-limited traders} who are constrained in how much they influence the market. We analyze the market  under these circumstances; we are able to show that traders with good information can expect to profit and their influence over the market state increases over time whereas malicious traders have limited impact on the market.
+	\item We consider when our agents are risk-averse in an interestins special case, that is under the assumption they utilize \emph{exponential utility} to optimize their bets. In this case we can characterize precisely how a single trader interacts with the market as well as the equilibrium reached given multiple traders. The eventual market state turns out to be a weighted combination of trader beliefs and initial market state; the weights depend on the risk aversion parameter of the individual traders.
+	\item In addition, we observe that trader behavior varies depending on whether they assimilate information as Bayesians or as frequentists.  Interestingly, we show that although these two kinds of traders pick the eventual market state as a convex combination of their private belief and current market state, they do so in dual spaces.
+\end{itemize}
 
-For risk averse traders, we show how a single trader interacts with the market as well as when multiple traders achieve equilibrium. The eventual market state turns out to be a weighted combination of trader beliefs and initial market state; the weights depend on the risk aversion parameter of the individual traders. Trader behavior varies depending on whether they assimilate information as Bayesians or as frequentists.  Interestingly, we show that although these two kinds of traders pick the eventual market state as a convex combination of their private belief and current market state, they do so in dual spaces.
+
+% In this paper, we propose a general version of the popular logarithmic scoring rule extended to continuous outcome spaces. Our version of the scoring rule uses parametric distributions to elicit traders' expectation on some function (called statistics) of the data. It turns out that the maximum entropy distribution given the statistics are  exponential family distributions.
+
+% The connection we establish between markets and exponential  We have dual goals in this paper. On the one hand, we highlight a structural similarity between prediction markets and exponential families. We see this as the syntax of our prediction market mechanism. On the other,  
+
+
+
+% We also analyze the behavior of traders with prior exposure in the market. Our results formalize the intuitive notion that private belief and financial exposure are just two sides of the same coin; trades in a prediction market can be seen as updating privately held beliefs.
+
+
 
 
 
@@ -240,7 +261,7 @@ For risk averse traders, we show how a single trader interacts with the market a
 
 
 
-\pagebreak
+%\pagebreak
 
 \section{Generalized Log Scoring Rules}
 \label{sec:scoring}
@@ -484,7 +505,7 @@ In the above, Example~\ref{ex:gaussian} illustrates an important point about par
 %
 %Smaller values of $\alpha$ means greater smoothing e.g., $\alpha=0$ gives a constant function ($=x_{0}$).
 %Note that the selection of $x_{0}$ is important -- and increases in importance as $\alpha$. Some advantages over moving average: all data points matter (decreasing importance with time) and computationally only last data point need be stored.
-\pagebreak
+%\pagebreak
 \section{Maximum Entropy Market Making}
 
 
@@ -591,7 +612,7 @@ D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]&=& \log 
 \end{eqnarray*}¥
 Here we have used the fact that $\mu_{x}=x$ and $\sigma_{x}=0$.
 \rmk In statistics, the standard score (aka z-score), $(x-\mu)/\sigma$, is the (signed) number of standard deviations an observation is above the mean. \unrmk
-\pagebreak
+%\pagebreak
 
 
 
@@ -721,7 +742,7 @@ This result suggests that, eventually, every informative trader will have the ab
 Notice that Theorem~\ref{thm:growth} only required that the market state to which the trader moves, be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{T}(\theta,\htheta)$ where $a$ is the exponential utility parameter.
 
 We note one important aspect of Theorem~\ref{thm:growth}: The expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
-\pagebreak
+%\pagebreak
 
 
 
@@ -734,7 +755,7 @@ We note one important aspect of Theorem~\ref{thm:growth}: The expectation is tak
 
 
 
-\pagebreak
+%\pagebreak
 \section{Bayesian Traders with Linear Utility}
 %\subsection{Conjugate Priors}
 
@@ -810,7 +831,7 @@ $$\nabla G\left(\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}\right)$$ where 
 %&=&\int_{\mathcal{B}}\exp\{(n\nu+m\hmu)\cdot\beta-(n+m)\psi(\beta))-\Psi((n\nu+m\hmu, n+m))\}\\
 %&&\qquad\exp\{\psi(\beta-a\delta)-\psi(\beta)\}\,\, d\beta\\
 %\end{eqnarray*}¥
-\pagebreak
+%\pagebreak
 
 \section{Exponential Utility}
 
@@ -870,7 +891,7 @@ So there is a kind of congruence between exponential family beliefs and exponent
 
 
 
-\pagebreak
+%\pagebreak
 
 
 
@@ -916,7 +937,7 @@ Let $\Theta\defeq\hat{\theta}-a \delta_{1}^{*}  $ be the effective belief. Thus 
 This follows from Proposition \ref{prop:exp-util}. The maximizer is $\delta_{2}^* = (\Theta - \theta') / (1+a)$, which moves the share vector to $\theta' + \delta_{2}^* = \frac{1}{1+a} \Theta + \frac{a}{1+a} \theta'$ which is a convex combination of the effective belief and the current market state.
 
 In other words, an exponential utility maximizing trader who has belief $\hat{\theta}$ with prior exposure $\delta$ in a market  will behave identically to an exponential utility maximizing trader with belief $\hat{\theta}-a \delta$ and no prior exposure in the market. Here $a$ is the utility parameter. This means that financial exposure can be equivalently understood as changing the privately held beliefs.
-\pagebreak
+%\pagebreak
 
 
 
