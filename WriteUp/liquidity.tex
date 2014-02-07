@@ -1,0 +1,131 @@
+\documentclass[prodmode,acmec]{ec-acmsmall} % Aptara syntax
+
+% Package to generate and customize Algorithm as per ACM style
+\usepackage[ruled]{algorithm2e}
+\renewcommand{\algorithmcfname}{ALGORITHM}
+\SetAlFnt{\small}
+\SetAlCapFnt{\small}
+\SetAlCapNameFnt{\small}
+\SetAlCapHSkip{0pt}
+\IncMargin{-\parindent}
+
+% Metadata Information
+\acmVolume{9}
+\acmNumber{4}
+\acmArticle{39}
+\acmYear{2013}
+\acmMonth{6}
+\usepackage[numbers]{natbib}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{amsthm}
+\usepackage{parskip}
+\usepackage{booktabs}
+%new commands
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\mX}{\mathcal{X}}
+\newcommand{\bR}{\mathbf{R}}
+\newcommand{\grad}{\nabla}
+\newcommand{\Exp}{\mathbf{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\q}{\mathbf{q}}
+\newcommand{\mM}{\ensuremath{\mathcal{M}}}
+\newcommand{\hmu}{\ensuremath{\hat{\mu}}}
+\newcommand{\mP}{\ensuremath{\mathcal{P}}}
+\newcommand{\mY}{\ensuremath{\mathcal{Y}}}
+\newcommand{\mS}{\ensuremath{\mathcal{S}}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\mF}{\mathcal{F}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\htheta}{\hat{\theta}}
+%---------------------------------------------------------------------------
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{con}[thm]{Conjecture}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{ex}[thm]{Example}
+\newtheorem{qn}[thm]{Question}
+\newcommand{\defn}{\bigbreak\noindent{\bf Definition. }}
+\newcommand{\undefn}{\bigbreak}
+\newcommand{\rmk}{\bigbreak\noindent{\bf Remark. }}
+\newcommand{\unrmk}{\bigbreak}
+%\newcommand{\proof}{\noindent{\bf Proof. }}
+\newcommand{\unproof}{\hfill$\Box$\bigbreak}
+\newcommand{\defeq}{\stackrel{\mathrm{def}}{=}}
+\newcommand{\holds}[1]{\stackrel{?}{#1}}
+\newcommand{\conv}{\mathrm{conv}}
+\newcommand{\ie} {{\it i.e. }}
+\newcommand{\eg} {{\it e.g. }}
+\newcommand{\etal} {{\it et al. }}
+\newcommand{\E}{\mathbf{E}}
+\newcommand{\betavec}{\pmb{\beta}}
+\newcommand{\qvec}{\mathbf{q}}
+\newcommand{\lpf}{\mathbf{\psi}} %logpartition function
+\newcommand{\family}{\mathcal F} 
+\newcommand{\suff}{\pmb{\phi}} % suff stats
+\newcommand{\muvec}{\pmb{\mu}}
+
+
+% Document starts
+
+\begin{document}
+\markboth{Abernethy et al.}{Maximum Entropy Prediction Markets}
+% Title portion
+\title{Maximum Entropy Prediction Markets}
+\author{JACOB ABERNETHY
+\affil{University of Michigan, Ann Arbor}
+SINDHU KUTTY
+\affil{University of Michigan, Ann Arbor}
+S\'{E}BASTIEN LAHAIE
+\affil{Microsoft Research, New York City}
+RAHUL SAMI
+\affil{University of Michigan, Ann Arbor}}
+
+\section{Cost Function with a Liquidity Parameter}
+We may introduce a liquidity parameter to the cost function as $C_{\lambda}(\theta)=\lambda C\left(\frac{\theta}{\lambda}\right)$. We would like to find an expression for a lower bound on expected payoff. We would also like to find an expression for final market state for exponential utility traders with exponential family beliefs.
+\subsection{lower bound on expected payoff}
+The prediction market is set up with cost function $C_{\lambda}(\theta)$  and payoff for a unit share vector as $\phi(x)$. To find a lower bound on expected payoff, we first note that
+\begin{eqnarray*}
+\E_{x\sim p(x;\beta)}[C_{\lambda}(\theta)-\theta\phi(x)]&=&C_{\lambda}(\theta)-\theta\nabla T(\beta)\\
+&=&\lambda T(\theta/\lambda)-\theta\nabla T(\beta)\\
+&=&\lambda [T(\theta/\lambda)-\theta/\lambda\nabla T(\beta)-T(\beta)+\beta\nabla T(\beta)]+\lambda T(\beta)-\theta\lambda\nabla T(\beta)\\
+&=&\lambda D_{T}(\theta/\lambda,\beta)+\lambda [T(\beta)-\theta\nabla T(\beta)]
+\end{eqnarray*}¥ 
+where $D_{T}(x_{1},x_{2}) = T(x_{1})-T(x_{2})-\nabla T(x_{1}-x_{2})$ is the Bregman Divergence between $x_{1}$ and $x_{2}$ based on $T$.
+
+Thus, the expected payoff  for a trader with exponential family belief parameter $\beta$ who moves the market state from $\theta$ to $\theta'$ can be written as
+\begin{eqnarray*}
+\E_{x\sim p(x;\beta)}\left[C_{\lambda}(\theta)-\theta\phi(x)-(C_{\lambda}(\theta')-\theta'\phi(x))\right]=\lambda[D_{T}(\theta/\lambda,\beta)-D_{T}(\theta'/\lambda,\beta)]
+\end{eqnarray*}¥
+If $\theta'=a\beta+(1-a)\theta$ for some $a\in[0,1]$ we can write
+\begin{eqnarray*}
+D_{T}(\theta'/\lambda,\beta)&\leq& a D_{T}(\beta/\lambda,\beta)+(1-a) D_{T}(\theta/\lambda,\beta)\\
+D_{T}(\theta/\lambda,\beta)-D(\theta'/\lambda,\beta)&\geq& a D_{T}(\theta/\lambda,\beta)-a D_{T}(\beta/\lambda,\beta)
+\end{eqnarray*}¥
+%Note that 
+%\begin{eqnarray*}
+%\nabla_{\theta} C_{\lambda} (\theta)&=&\nabla_{\theta}\lambda C\left(\frac{\theta}{\lambda}\right)\\
+%&=&\nabla_{\theta/\lambda}C\left(\frac{\theta}{\lambda}\right)\\
+%&=&\E_{\theta/\lambda}[\phi(x)]
+%\end{eqnarray*}¥
+\subsection{exponential utility traders with exponential family beliefs}
+As before the prediction market is set up with cost function $C_{\lambda}(\theta)$  and payoff for a unit share vector as $\phi(x)$. Thus, the  payoff of a trader who moves the market state from $\theta$ to $\theta'$ is given by $C_{\lambda}(\theta)-C_{\lambda}(\theta')+\delta\phi(x)$ where $\delta=\theta'-\theta$ and the expected utility of the payoff for a trader with exponential belief parameter $\beta$ is given by
+\begin{eqnarray*}
+&&\E_{x\sim p(x;\beta)}U[C_{\lambda}(\theta)-C_{\lambda}(\theta')+\delta\phi(x)]\\
+&=&U[C_{\lambda}(\theta)-C_{\lambda}(\theta+\delta)+\frac{1}{a}(T(\beta)-T(\beta-a\delta))]\\
+&=&U[\lambda C(\theta/\lambda)-\lambda C\left(\frac{\theta+\delta}{\lambda}\right)+\frac{1}{a}(T(\beta)-T(\beta-a\delta))]\\
+&=&U[\lambda T(\theta/\lambda)-\lambda T\left(\frac{\theta+\delta}{\lambda}\right)+\frac{1}{a}(T(\beta)-T(\beta-a\delta))]
+\end{eqnarray*}¥
+Here $T$ is the log partition function; for the exponential family prediction market $C=T$. To maximize the utility, we set the gradient of the argument with respect to $\delta$ to 0. 
+$$\nabla T\left(\frac{\theta+\delta}{\lambda}\right) = \nabla T(\beta-a\delta)$$
+So we have for an optimal choice of $\delta$, 
+\begin{eqnarray*}
+\frac{\theta+\delta}{\lambda} &=& \beta-a\delta\\
+\implies \delta&=&\frac{\beta\lambda-\theta}{1+a\lambda}\\
+\implies \theta+\delta&=&\lambda\frac{\beta+a\delta}{1+a\lambda}
+\end{eqnarray*}
+
+
+\end{document}

@@ -242,6 +242,12 @@ In addition to showing this syntactic relationship between exponential families 
 	\item In addition, we observe that trader behavior varies depending on whether they assimilate information as Bayesians or as frequentists.  Interestingly, we show that although these two kinds of traders pick the eventual market state as a convex combination of their private belief and current market state, they do so in dual spaces.
 \end{itemize}
 
+\subsection{Related Work}
+Designing prediction markets to handle a large outcome space is an active area of research.  In \cite{Chen08}, the authors use a restricted betting language to design efficient markets for a combinatorial outcome space. This technique is generalized by \cite{Pennock11}. \cite{Gao09} consider extending various automated market makers to an infinite outcome space. For the logarithmic market scoring rule they show that unbounded market maker loss can result in this setting.   \cite{Abernethy11} and \cite{OthmanS11} specify frameworks under which they design cost function based markets that satisfy the desirable property of bounded market maker loss even in infinite outcome spaces.
+
+The connection between machine learning and prediction markets has been studied previously. \cite{Chen10} and \cite{Abernethy11} have previously explored the connection to learning algorithms to inform the design and understanding of prediction markets. In particular, \cite{Chen10}  consider the correspondence between prediction markets with market scoring rules and the Follow the Regularized Leader algorithm proposed by \cite{Kalai05} and thus provide insight into the aggregation mechanism of a prediction market. 
+
+Independently of this work, Beygelzimer et al.~\cite{BLP12} have shown that, for a particular form of binary prediction markets and traders with log-utility, the long-run dynamics of trading activity and budgets over many prediction markets lead the markets to satisfy a bounded regret property with respect to the best single trader. Our results here, and the future work we have suggested, form a program to prove bounded regret properties of budget-limited prediction markets under much more general conditions.
 
 % In this paper, we propose a general version of the popular logarithmic scoring rule extended to continuous outcome spaces. Our version of the scoring rule uses parametric distributions to elicit traders' expectation on some function (called statistics) of the data. It turns out that the maximum entropy distribution given the statistics are  exponential family distributions.
 
@@ -992,7 +998,8 @@ Thus the equilibrium state is a convex combination of trader beliefs and initial
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
-
+\bibliographystyle{acmsmall}
+\bibliography{maxentpredmkts}
 \end{document}
 
 
