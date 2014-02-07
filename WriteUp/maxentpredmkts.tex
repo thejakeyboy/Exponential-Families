@@ -404,12 +404,12 @@ Consider the logarithmic scoring rule $S(\mu,x) = \log p(x;\mu)$ defined over a 
 \begin{proof}
 Let $\mu,\mu' \in \mM$ be the agent's true belief and an alternative report, and let $p,p' \in \mP$ be densities consistent with each belief. Let $\theta = \grad G(\mu)$ and $\theta' = \grad G(\mu')$, and note that $\mu = \grad T(\theta)$. We have
 %
-\begin{eqnarray*}
-& & \Exp_p[\log p(x;\mu)] - \Exp_p[\log p(x;\mu')] \\
-& = & \la \theta, \mu \ra - T(\theta) - \la \theta', \mu \ra + T(\theta') \\
-& = & T(\theta') - T(\theta) - \la \theta' - \theta, \mu \ra \\
-& = & T(\theta') - T(\theta) - \la \theta' - \theta, \grad T(\theta) \ra.
-\end{eqnarray*}
+\begin{eqnarray}
+& & \Exp_p[\log p(x;\mu)] - \Exp_p[\log p(x;\mu')] \nonumber\\
+& = & \la \theta, \mu \ra - T(\theta) - \la \theta', \mu \ra + T(\theta') \nonumber\\
+& = & T(\theta') - T(\theta) - \la \theta' - \theta, \mu \ra \nonumber\\
+& = & T(\theta') - T(\theta) - \la \theta' - \theta, \grad T(\theta) \ra. \label{breg-div}
+\end{eqnarray}
 %
 The latter is positive by the strict convexity of $T$, which shows that the log score is proper. Now assume the defined log score is proper. By the Savage characterization of proper scoring rules for expectations (see~\cite{}), we must have
 %
@@ -451,7 +451,7 @@ We stress that although this rule is derived from the exponential distribution, 
 %
 %Typically the exponential distribution is parametrized by its rate $\lambda = 1/\mu$. In that case the rule takes the form $S(\mu, x) = -\lambda x + \log \lambda$, and we see that $\lambda$ corresponds to the natural parameter.
 %
-As a generalization of this example, the maximum entropy distribution for the $k$-th moment $\phi(x) = x^k$ with respect to the same base measure is the Weibull distribution. Taking its log density leads to the following equivalent scoring rule (after scaling and eliminating unnecessary additive constants):
+As a generalization of this example, the maximum entropy distribution for the $k$-th moment $\phi(x) = x^k$ with respect to the same base measure is the Weibull distribution. Taking its log density leads to the following equivalent scoring rule:
 %
 \begin{equation*}
 S(\mu, x) = (k-1) \log x - k \log \mu - \Gamma\left(1+\frac{1}{k}\right)^k \left(\frac{x}{\mu}\right)^k,
@@ -478,18 +478,7 @@ Here the statistics being elicited are the mean vector ${\boldsymbol \mu}$ and t
 \end{example}
 %
 
-
-
 In the above, Example~\ref{ex:gaussian} illustrates an important point about parametrizations of the elicited expectations. The variance $\sigma^2$ cannot be written as $\Exp[\phi(x)]$ for any $\phi$, because the mean $\mu$ enters the definition of $\sigma^2$ but is not available when $\phi$ is defined (indeed it is elicited in tandem with the variance).\footnote{This is an intuitive but far from formal explanation for the fact that the dimension of the message space, or \emph{elicitation complexity}, for eliciting the variance is at least 2~\citep{}.} Instead one must use the first two \emph{uncentered} moments $\Exp[x]$ and $\Exp[x^2]$. These are in bijection with $\mu$ and $\sigma^2$, so the resulting scoring rule can be re-written in terms of the latter. Therefore, it is possible to elicit not just expectations but also bijective transformations of expectations. 
-
-
-
-
- 
- 
- VON-MISES FISHER
-
-
  
 %\subsection{Exponential Smoothing}
 %One way to model the exponential family prediction market might be through exponential smoothing.
