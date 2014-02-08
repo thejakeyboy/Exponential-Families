@@ -87,6 +87,7 @@
 \newcommand{\st}{\hspace{10pt}\mathrm{s.t.}\hspace{10pt}}
 \newcommand{\norm}[1]{|| #1 ||}
 \newcommand{\tp}{\tilde{p}}
+\newcommand{\CE}{C\!E}
 
 
 % Document starts
@@ -806,70 +807,95 @@ $$\nabla G\left(\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}\right)$$ where 
 %\end{eqnarray*}¥
 %\pagebreak
 
-\section{Exponential Utility}
 
-Assume the agent's belief distribution $p$ belongs to an exponential family, so it takes the form
-%
-\[
-p(x;\theta) = \exp[\theta x - T(\theta)]
-\]
-%
-where $\theta$ is the natural parameter and $T$ is the log-partition function. (I'm assuming that the sufficient statistic is $\phi(x) = x$ just for simplicity.) Assume also that the agent has an exponential utility for money $w$:
-%
-\[
-U(w) = -\frac{1}{a} \exp(-aw).
-\]
-%
-Here $a$ is the coefficient of risk aversion (higher means more risk averse, and the utility function is more concave).
+\section{Risk Averse Traders with Exponential Utility}
 
+In this section we relax that standard assumption that agents in the market are risk-neutral. We show that, with sufficient extra structure to the agents' beliefs and utilities, the market performs a clean aggregation of the agents' expectations in the form of a simple weighted averages.
+Assume that the agent has an exponential utility function for money $w$:
 %
-\begin{proposition}\label{prop:exp-util}
-An agent with exponential family belief with natural parameter $\htheta$, and exponential utility with coefficient $a$, makes a trade that moves the current market share vector $\theta$ to the convex combination $\frac{1}{1+a} \htheta + \frac{a}{1+a} \theta$ assuming an LMSR cost function.
-\end{proposition}
+\begin{equation} \label{exp-util}
+U_a(w) = -\frac{1}{a} \exp(-aw).
+\end{equation}
+%
+Here $a$ controls the level of risk aversion: the agent is more risk averse as $a$ increases, and as $a$ tends to 0 we approach linear utility (risk-neutrality). Specifically, $a$ is the Arrow-Pratt coefficient of absolute risk aversion, and exponential utilities of the form~(\ref{exp-util}) are the unique utilities that exhibit constant absolute risk aversion (CARA). 
+
+If wealth is distributed according to a probability measure $P$, then the \emph{certainty equivalent} of a random amount of wealth is defined as
+$$
+\CE(w) = U_a^{-1} \Exp_P\left[ U_a(w) \right].
+$$
+Suppose as before that the agent's belief over outcomes takes the form of a density $p$ with respect to base measure $\nu$. There is a close relationship between the log-partition function and the certainty equivalent under exponential utility.
+%
+\begin{lemma} \label{lem:exp-util}
+The certainty equivalent of the agent's expected profit, under exponential utility, when acquiring shares $\delta$ under a market state of $\theta$ is
+\begin{equation}
+\log a - T_p(-a\delta) - aC(\theta+\delta) + aC(\theta),
+\end{equation}
+where $T_p$ is the log partition function~(\ref{log-part}) with a base measure of $p\,d\nu$. Furthermore, if the agent's belief is an exponential family with parameter $\htheta$, we have
+%
+\begin{equation*}
+T_p(\delta) = T(\htheta + \delta) - T(\htheta),
+\end{equation*}
+%
+where $T$ is the usual log partition function with base measure $\nu$.
+\end{lemma}
 %
 %
 \begin{proof}
-Let $\delta$ be the vector of shares the agent trades. The payoff given eventual outcome $x$ is then $\delta x - C(\delta + \theta) + C(\theta)$. The utility for this payoff is as follows (recall that $\htheta$ is the agent's believed natural parameter).
-%
-\[ U( \delta x - C(\delta + \theta) + C(\theta) ) = -\frac{1}{a} \exp(-a \delta x + a C(\delta + \theta) - a C(\theta)).
-\]
-%
-Taking the expected utility, we obtain
+Explicitly, the certainty equivalent of the profit is
 %
 \begin{eqnarray*}
-&   & \Exp\left[ U( \delta x - C(\delta + \theta) + C(\theta) ) \right] \\
-& = & \int_{\mX} -\frac{1}{a} \exp(-a \delta x + a C(\delta + \theta) - a C(\theta)) \exp[\htheta x - T(\htheta)]\, dx \\
-& = & -\frac{1}{a} \int_{\mX} \exp[(\htheta -a \delta) x + a C(\delta + \theta) - a C(\theta)) - T(\htheta)]\, dx \\
-& = & -\frac{1}{a} \exp[a C(\delta + \theta) - a C(\theta)) + T(\htheta - a\delta) - T(\htheta)] \int_{\mX} \exp[(\htheta -a \delta) x - T(\htheta -a \delta)]\, dx \\
-& = & -\frac{1}{a} \exp[a C(\delta + \theta) - a C(\theta)) + T(\htheta - a\delta) - T(\htheta)] \int_{\mX} p(x; \htheta -a \delta)\, dx \\
-& = & -\frac{1}{a} \exp[a C(\delta + \theta) - a C(\theta)) + T(\htheta - a\delta) - T(\htheta)]\\
-& = & U\left(- C(\delta + \theta) + C(\theta)) - \frac{1}{a} T(\htheta - a\delta) + \frac{1}{a} T(\htheta)\right)
+& & \CE(\,\la\delta,\phi(x)\ra - [C(\theta+\delta) - C(\theta)]\,)\\
+& = & -\log \int_{\mX} \frac{1}{a} \exp\left( \la-a\delta,\phi(x)\ra + a [C(\theta+\delta) - C(\theta)]  \right) p(x)d\nu(x)\\
+& = & \log a - a [C(\theta+\delta) - C(\theta)] - \log \int_{\mX} \exp\left( \la-a\delta,\phi(x)\ra \right)  p(x)d\nu(x)\\
+& = & \log a - a [C(\theta+\delta) - C(\theta)] - T_p(-a\delta).
 \end{eqnarray*}
 %
-The second-last equality follows from the fact that $\int_{\mX} p(x; \htheta -a \delta)\, dx = 1$. Since utility $U$ is monotone increasing, it is maximized by maximizing its argument, which is a concave function of $\delta$ by convexity of $C$ and $T$. The optimality condition for the argument is
+For the second part of the result, we have
 %
-\begin{equation} \label{eq:optim}
-\grad C(\delta^* + \theta) = \grad T(\htheta - a\delta^*)
+\begin{eqnarray*}
+T_p(\delta) & = & \log \int_{\mX} \exp(\la\delta,\phi(x)\ra)\,p(x;\htheta)\, d\nu(x)\\
+& = &  \log \int_{\mX} \exp( \la\delta+\htheta,\phi(x)\ra - T(\htheta) )\, d\nu(x)\\
+& = &  T(\htheta+\delta) - T(\theta) + \log \int_{\mX} \exp( \la\delta+\htheta,\phi(x)\ra - T(\htheta+\delta) )\, d\nu(x)\\
+& = &  T(\htheta+\delta) - T(\theta) + \log \int_{\mX} p(x;\htheta+\delta) \, d\nu(x)\\
+& = &  T(\htheta+\delta) - T(\theta),
+\end{eqnarray*}
+%
+where the last line follows from the fact that density $p(x;\htheta+\delta)$ integrates to 1.
+\end{proof}
+
+\noindent
+Recall that for the generalized LMSR, the cost function $C$ is exactly the log partition function $T$. We are therefore lead to the following clear understanding of a risk-averse agent's behavior in such a market.
+%
+\begin{theorem}
+Suppose an agent has exponential utility with coefficient $a$ and exponential family beliefs with natural parameter $\htheta$. In the generalized LMSR market with current market state $\theta$, the agent's optimal trade $\delta$ moves the state vector to
+%
+\begin{equation} \label{exp-update}
+\theta + \delta = \frac{1}{1+a} \htheta + \frac{a}{1+a} \theta.
 \end{equation}
 %
-Now if the market maker is using LMSR, then $C$ is the log-partition function of the corresponding exponential family and $C = T$. Then~(\ref{eq:optim}) can be solved by equating the arguments. This leads to $\delta^* = (\htheta - \theta) / (1+a)$, which moves the share vector to $\theta + \delta^* = \frac{1}{1+a} \htheta + \frac{a}{1+a} \theta$.
+\end{theorem}
+%
+%
+\begin{proof}
+The agent's optimal trade maximizes its expected utility, or equivalently the certainty equivalent. From Lemma~\ref{lem:exp-util} and the fact that $T = C$, the agent therefore maximizes
+%
+$$
+\log a - T(\htheta - a\delta) + T(\htheta) - aT(\theta+\delta) + aT(\theta). 
+$$
+This objective is strictly concave, from the strict convexity of $T$. The optimum is therefore characterized by the first-order conditions:
+$$
+\grad T(\htheta - a\delta) = \grad T(\theta+\delta).
+$$
+As the gradient map $\grad T$ is one-to-one, this is solved by equating the arguments, which leads to $\delta = (\htheta - \theta) / (1+a)$ and~(\ref{exp-update}).
+% 
 \end{proof}
 %
 
-In the statement of the result I use the term ``LMSR cost function'' somewhat loosely, because we are not necessarily dealing with a market over exhaustive, mutually exclusive outcomes. What is meant is the cost function that arises by taking the dual to entropy of the maxent distribution with given mean parameter $\mu$. As we've discussed this seems like the right generalization of LMSR to arbitrary mean parameter spaces. 
-
-Note that as $a \rightarrow 0$, we approach risk neutrality and the agent moves the share vector all the way to its private estimate $\htheta$. As $a$ grows (agent grows more risk averse) the agent makes smaller and smaller trades that keep it closer to the current estimate $\theta$.
-
-So there is a kind of congruence between exponential family beliefs and exponential utility (as the names would suggest). 
+Note that as, $a$ tends to 0, we approach risk neutrality and the agent moves the share vector all the way to its private estimate $\htheta$. As $a$ grows larger (agent grows more risk averse) the agent makes smaller trades to reduce it exposure, and the final state stays closer to the current state $\theta$. Update~(\ref{exp-update}) implies that under the conditions of the theorem, a market that receives a sequence of myopic traders aggregates their natural parameters in the form of an exponentially weighted moving average. The final market estimates (i.e., prices) are obtained by applying $\grad T$ to this average.
 
 
 
 %\pagebreak
-
-
-
-
-
 
 
 
