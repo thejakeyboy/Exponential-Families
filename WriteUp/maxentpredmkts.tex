@@ -273,74 +273,39 @@ Independently of this work, Beygelzimer et al.~\cite{BLP12} have shown that, for
 \section{Generalized Log Scoring Rules}
 \label{sec:scoring}
 
+We consider a measurable space consisting of a set of outcomes $\mX$ together with a $\sigma$-algebra $\mF$. An agent or expert has a \emph{belief} over potential outcomes taking the form of a probability measure absolutely continuous with respect to a base measure~$\nu$.\footnote{Recall that a measure $P$ is absolutely continuous with respect to~$\nu$ if $P(A) = 0$ for every $A \in \mF$ for which $\nu(A) = 0$. In essence the base measure~$\nu$ restricts the support of $P$. In our examples $\nu$ will typically be a restriction of the Lebesgue measure for continuous outcomes or the counting measure for discrete outcomes.} Throughout we represent the belief as the corresponding density $p$ with respect to~$\nu$. Let $\mP$ denote the set of all such probability densities.
 
-We consider a measurable space that consists of a set of outcomes $\mX$ together with a $\sigma$-algebra $\mF$. An agent or expert has a \emph{belief} over potential outcomes taking the form of a probability measure absolutely continuous with respect to a base measure~$\nu$.\footnote{Recall that a measure $P$ is absolutely continuous with respect to~$\nu$ if $P(A) = 0$ for every $A \in \mF$ for which $\nu(A) = 0$. In essence the base measure~$\nu$ restricts the support of $P$. In our examples $\nu$ will typically be a restriction of the Lebesgue measure for continuous outcomes or the counting measure for discrete outcomes.} Throughout we represent the belief as the corresponding density $p$ with respect to~$\nu$. Let $\mP$ denote the set of all such probability densities, and let $\mD \subseteq \mP$ be a subset from which the beliefs are drawn.
-
-We are interested in eliciting information about the agent's belief, in particular expectation information. Let $\phi: \mX \rightarrow \bR^d$ be a vector-valued random variable or \emph{statistic}, where $d$ is finite. The aim is to elicit $\mu = \E_{p}[\phi(x)]$ where $x$ is the random outcome. A \emph{scoring rule} is a device for this purpose. Let $$\mM = \left\{ \mu \in \bR^d : \Exp_p[\phi(x)] = \mu,\, \mbox{for some $p \in \mP$} \right\}$$ be the set of realizable statistic expectations.  A scoring rule $S : \mM \times \mX \rightarrow \bR \cup \{-\infty\}$ pays the agent $S(\hmu,x)$ according to how well its report $\hmu \in \mM$ agrees with the eventual outcome $x \in \mX$. 
+We are interested in eliciting information about the agent's belief, in particular expectation information. Let $\phi: \mX \rightarrow \bR^d$ be a vector-valued random variable or \emph{statistic}, where $d$ is finite. The aim is to elicit $\mu = \E_{p}[\phi(x)]$ where $x$ is the random outcome. A \emph{scoring rule} is a device for this purpose. Let $$\mM = \left\{ \mu \in \bR^d : \Exp_p[\phi(x)] = \mu,\, \mbox{for some $p \in \mP$} \right\}$$ be the set of realizable statistic expectations.  A scoring rule $S : \mM \times \mX \rightarrow \bR \cup \{-\infty\}$ pays the agent $S(\hmu,x)$ according to how well its report $\hmu \in \mM$ agrees with the eventual outcome $x \in \mX$. The following definition is due to~\citet{}.
 %
 \begin{definition} \label{def:proper-score}
-A scoring rule $S$ is  \emph{proper over domain $\mD$} for statistic $\phi$ if for each $\mu \in \mM$ and $p \in \mD$ with expected statistic $\mu$, we have
+A scoring rule $S$ is  \emph{proper} for statistic $\phi$ if for each $\mu \in \mM$ and $p \in \mP$ with expected statistic $\mu$, we have
 %
 \begin{equation} \label{eq-proper}
 \Exp_p[S(\mu,x)] \geq \Exp_p[S(\hmu,x)]
 \end{equation}
 %
-for all alternative $\hmu$. If the domain is $\mD = \mP$, the set of all possible densities, then we simply say the scoring rule is \emph{proper}.
+for all alternative $\hmu \neq \mu$.% If the domain is $\mD = \mP$, the set of all possible densities, then we simply say the scoring rule is \emph{proper}.
 \end{definition}
 %
 
 \noindent
-Note that given a proper scoring rule $S$ any affine transformation $\tilde{S}(\mu,x) = aS(\mu,x) + b(x)$ of the rule, with $a > 0$ and $b$ an arbitrary real-valued function of the outcomes, again yields a proper scoring rule termed \emph{equivalent}. Throughout we will often apply such affine transformations to obtain the clearest version of the scoring rule. We will also focus on scoring rules where inequality~(\ref{eq-proper}) is strict to avoid trivial cases such as constant scoring rules.
+Note that given a proper scoring rule $S$ any affine transformation $\tilde{S}(\mu,x) = aS(\mu,x) + b(x)$ of the rule, with $a > 0$ and $b$ an arbitrary real-valued function of the outcomes, again yields a proper scoring rule termed \emph{equivalent}~\citep{}. Throughout we will implicitly apply such affine transformations to obtain the clearest version of the scoring rule. We will also focus on scoring rules where inequality~(\ref{eq-proper}) is strict to avoid trivial cases such as constant scoring rules.
 
-Our definition is more general than classical scoring rules in two respects. Classically, scoring rules take in the entire density $p$ rather than just some statistic, and incentive compatibility must hold over all of $\mP$. When the outcome space is large or infinite, it is not feasible to directly communicate $p$, so our definition allows for summary information of the belief. If there is a bijection between the sets $\mD$ and $\mM$, then we say that $\mM$ parametrizes $\mD$ and write $p(\cdot\,;\mu)$ for the density mapping to $\mu$.
+ Classically, scoring rules take in the entire density $p$ rather than just some statistic, and incentive compatibility must hold over all of $\mP$. When the outcome space is large or infinite, it is not feasible to directly communicate $p$, so the definition allows for summary information of the belief.
 
-Note that this definition of a scoring rule places only mild information requirements on the part of the agent to ensure truthful reporting. Because condition~(\ref{eq-proper}) holds for all $p$ consistent with expectation $\mu$, it is enough for the agent to simply know the latter and not the complete density to be properly incentivized. However, the agent must also agree that the density is actually drawn from domain $\mD$; if the scoring rule is proper, it is enough that the agent agree with the support of the density as implicitly defined by base measure $\nu$. 
+Note that Definition~\ref{def:proper-score} places only mild information requirements on the part of the agent to ensure truthful reporting. Because condition~(\ref{eq-proper}) holds for all $p$ consistent with expectation $\mu$, it is enough for the agent to simply know the latter and not the complete density to be properly incentivized. However, the agent must also agree with the support of the density as implicitly defined by base measure $\nu$. 
 
-When the outcome space is finite we can recover classical scoring rules from the definition by taking $\mD = \mP$ and using the statistic $\phi : \mX \rightarrow \{0,1\}^{\mX}$ that maps an outcome $x$ to a unit vector with a 1 in the component corresponding to $x$. The expectation of $\phi$ is then exactly the probability mass function.
-
-\subsection{Proper Scoring from Consistency}
-
-Our starting point for designing proper scoring rules is the classic logarithmic scoring rule for eliciting probabilities in the case of finite outcomes. This rule is simply $S(p,x) = \log p(x)$ and there are several ways to understand why it is proper, with different implications for generalization. 
-
-First observe that the scoring rule compensates the agent with the log likelihood it assigned to the outcome, so the agent is maximizing the expected log likelihood via its report. Now it is a fundamental result in statistics that, under a variety of different sufficient conditions, the maximum likelihood estimator is statistically consistent; see~\cite{} for an overview of such conditions. This means that in the limit (as the size of the i.i.d.\ empirical sample increases) the log likelihood is maximized by the true parameters. By this reasoning, the following result follows immediately from the definition of consistency and the law of large numbers.
-%
-\begin{theorem} \label{max-like}
-Suppose that $\mM$ parametrizes $\mD$. The logarithmic scoring rule defined by
-%
-\begin{equation} \label{log-score}
-S(\mu, x) = \log p(x;\mu),
-\end{equation}
-%
-where $\mu \in \mM$, is proper over $\mD$ if and only if the maximum likelihood estimator for $\mu$ is consistent.
-\end{theorem}
-%
-We note that although our focus is on parametrizations by expectations, the preceding theorem in fact holds for more generic parameter spaces. The range of scoring rules it provides is broader than those characterized by~\cite{}, because it allows for a restriction over the set of beliefs. On the other hand, its applicability is limited to those domains $\mD$ that can be parametrized by the relevant statistics. The following provide concrete examples of these points. 
-%
-\begin{example}
-Suppose the outcomes are supported on $[1,+\infty)$ and follow a Pareto distribution with density $f(x;\alpha) = \alpha/x^{\alpha+1}$ parametrized by an index $\alpha > 0$. The mean $\mu$ is related to the index via the one-to-one mapping $\mu = \frac{\alpha}{\alpha-1}$, so the density can alternatively be parametrized by the mean. Theorem~\ref{max-like} gives the following proper scoring rule for the mean of a Pareto distribution with support on $[1,+\infty)$:
-%
-\begin{equation} \label{pareto-scoring}
-S(\mu,x) = \log \frac{\mu}{\mu-1} - \left(\frac{\mu}{\mu-1} + 1\right) \log x.
-\end{equation}
-%
-We stress that the rule can only elicit the mean assuming the agent knows its belief is a Pareto distribution over $[1,+\infty]$. It does not elicit the mean of other families of densities parametrized by the mean (e.g., the exponential distribution). 
-\end{example}
-%
-%
-\begin{example}
-Suppose the outcomes are supported on $(-\infty,+\infty)$ and follow a Cauchy distribution with density $f(x;m) = 1/\pi[1+(x-m)^2]$, parametrized by the median $m$. Theorem~\ref{max-like} leads to the following proper scoring rule for the median:
-%
-\begin{equation} \label{cauchy-scoring}
-S(m,x) = -\log[1+(x-m)^2].
-\end{equation}
-%
-Note that the median cannot be obtained as the expectation of any statistic. This highlights the range of parameters than may be elicited by the log score in different circumstances.
-\end{example}
-%
+When the outcome space is finite we can recover classical scoring rules from the definition by using the statistic $\phi : \mX \rightarrow \{0,1\}^{\mX}$ that maps an outcome $x$ to a unit vector with a 1 in the component corresponding to $x$. The expectation of $\phi$ is then exactly the probability mass function.
 
 \subsection{Proper Scoring from Maximum Entropy}
 
-We now turn to scoring rules that are proper over the entire domain of densities $\mP$. Our construction is the same as in the previous section: we take the log likelihood of a density parametrized by the relevant statistics. If the family of densities is chosen appropriately, the resulting rule will in fact hold over all $\mP$. To achieve this we draw on a well-known duality between maximum likelihood and maximum entropy.
+Our starting point for designing proper scoring rules is the classic logarithmic scoring rule for eliciting probabilities in the case of finite outcomes. This rule is simply $S(p,x) = \log p(x)$, namely we take the log likelihood of the reported density at the eventual outcome. To generalize the rule to expected statistics rather than full densities, we consider a subset of densities $\mD \subseteq \mP$. If there is a bijection between the sets $\mD$ and $\mM$, then we say that $\mM$ parametrizes $\mD$ and write $p(\cdot\,;\mu)$ for the density mapping to $\mu$. Given such a family parametrized be the relevant statistics, the generalized log scoring rule is then
+%
+\begin{equation} \label{log-score}
+S(\mu, x) = \log p(x;\mu).
+\end{equation}
+%
+Even though the log score is only applied to densities from $\mD$, according to Definition~\ref{def:proper-score} it must work over all densities in $\mP$. It turns out this is possible if $\mD$ is chosen appropriately, drawing on a well-known duality between maximum likelihood and maximum entropy~\citep{}.
 
 \subsubsection*{Exponential Families}
 
@@ -355,7 +320,7 @@ where the objective function is the negative entropy of the distribution, namely
 \[ F(p) = \int_{x \in \mX} p(x) \log p(x)\, d\nu(x).
 \]
 %
-Note that the explicit set of constraints in~(\ref{maxent-prog}) are linear, and to stress this fact we find it helpful to re-write them as $A_{\phi} p = \mu$, where $A_{\phi}$ is the expectation operator of statistics $\phi$. We let $G : \mM \rightarrow \bR$ be the optimal value function of~(\ref{maxent-prog}), meaning $G(\mu)$ is the (negative) entropy of the maximum entropy distribution with expected statistics $\mu$. 
+Note that the explicit set of constraints in~(\ref{maxent-prog}) are linear, whereas the objective is convex. We let $G : \mM \rightarrow \bR$ be the optimal value function of~(\ref{maxent-prog}), meaning $G(\mu)$ is the negative entropy of the maximum entropy distribution with expected statistics $\mu$. 
 
 It is well-known that solutions to~(\ref{maxent-prog}) are \emph{exponential family} distributions, whose densities with respect to $\nu$ take the form
 %
@@ -363,7 +328,7 @@ It is well-known that solutions to~(\ref{maxent-prog}) are \emph{exponential fam
 p(x;\theta) = \exp( \la \theta, \phi(x) \ra - T(\theta) ).
 \end{equation}
 %
-The density is stated here in terms of its \emph{natural} parametrization $\theta \in \bR^d$, where $\theta$ arises as the Lagrange multiplier associated with linear constraints $A_{\phi}p = \mu$. The term $T(\theta)$ essentially arises as the multiplier for the normalization constraint (the density must integrate to 1), and so ensures that~(\ref{exp-fam}) is normalized:
+The density is stated here in terms of its \emph{natural} parametrization $\theta \in \bR^d$, where $\theta$ arises as the Lagrange multiplier associated with the linear constraints in~(\ref{maxent-prog}). The term $T(\theta)$ essentially arises as the multiplier for the normalization constraint (the density must integrate to 1), and so ensures that~(\ref{exp-fam}) is normalized:
 %
 \begin{equation} \label{log-part}
 T(\theta) = \log \int_{\mX} \exp \la \theta, \phi(x) \ra \,d\nu(x).
@@ -371,7 +336,7 @@ T(\theta) = \log \int_{\mX} \exp \la \theta, \phi(x) \ra \,d\nu(x).
 %
 The function $T$ is known as the \emph{log-partition} or \emph{cumulant} function corresponding to the exponential family. Its domain is $\Theta = \{ \theta \in \bR^d : T(\theta) < +\infty \}$, called the natural parameter space. The exponential family is \emph{regular} if $\Theta$ is open---almost all exponential families of interest, and all those we consider in this work, are regular. The family is \emph{minimal} if there is no $\alpha \in \Theta$ such that $\la \alpha, \phi(x) \ra$ is a constant over $\mX$ ($\nu$-almost everywhere); minimality is a property of the associated statistic $\phi$, usually called the \emph{sufficient statistic} in the literature. 
 
-The following proposition collects the relevant results on regular exponential families and their associated parameter domains and functions. A convex function $T$ is of \emph{Legendre type} if it is proper, closed, strictly convex and differentiable on the interior of its domain, and $\lim_{\theta \rightarrow \bar{\theta}} \norm{\grad T(\theta)} = +\infty$ when $\bar{\theta}$ lies on the boundary of the domain. 
+The following proposition collects the relevant results on regular exponential families; proofs may be found in~\citep{}. A convex function $T$ is of \emph{Legendre type} if it is proper, closed, strictly convex and differentiable on the interior of its domain, and $\lim_{\theta \rightarrow \bar{\theta}} \norm{\grad T(\theta)} = +\infty$ when $\bar{\theta}$ lies on the boundary of the domain. 
 %
 \begin{prop}\label{prop:exp}
 Consider a regular exponential family with minimal sufficient statistic. The following properties hold:
@@ -383,36 +348,36 @@ Consider a regular exponential family with minimal sufficient statistic. The fol
 \end{enumerate}
 \end{prop}
 %
-In the above $T^*$ denotes as usual the convex conjugate of $T$, which here can be evaluated as $T^*(\mu) = \sup_{\theta \in \Theta} \la \theta, \mu \ra - T(\theta)$. Similarly, $G^*(\theta) = \sup_{\mu \in \mM} \la \theta, \mu \ra - G(\mu)$.
+In the above $T^*$ denotes the convex conjugate of $T$, which here can be evaluated as $T^*(\mu) = \sup_{\theta \in \Theta} \la \theta, \mu \ra - T(\theta)$. Similarly, $G^*(\theta) = \sup_{\mu \in \mM} \la \theta, \mu \ra - G(\mu)$.
 
 \subsubsection*{Proper Log Scoring}
 
 We are now in a position to analyze the log scoring rule under exponential family distributions. From our discussion so far, we have that an exponential family density can be parametrized either by the natural parameter $\theta$, or by the mean parameter $\mu$, and that the two are related by the invertible gradient map $\mu = \grad T(\theta)$. We will write $p(x;\theta)$ or $p(x;\mu)$ given the parametrization used, which should be clear from context.
 
-The following observation is crucial. Let $\tp \in \mP$ be a density (not necessarily from an exponential family) with expected statistic $\mu$, let $p(\cdot\,;\mu)$ be the exponential family with the same expected statistic, and let $\mu' \in \mM$ be an alternative report. Then note from~(\ref{exp-fam}) that
+The following observation is crucial. Let $\tp \in \mP$ be a density (not necessarily from an exponential family) with expected statistic $\mu$, let $p(\cdot\,;\mu)$ be the exponential family with the same expected statistic, and let $\hmu \in \mM$ be an alternative report. Then note from~(\ref{exp-fam}) that
 %
 \begin{equation} \label{equalizer-rule}
-\Exp_{\tp}[\log p(x;\mu')] = \Exp_{p(\cdot;\mu)}[\log p(x;\mu')] = \la \theta', \mu \ra - T(\theta'),
+\Exp_{\tp}[\log p(x;\hmu)] = \Exp_{p(\cdot;\mu)}[\log p(x;\hmu)] = \la \htheta, \mu \ra - T(\htheta),
 \end{equation}
 %
-where $\theta' = \grad G(\mu')$ is the natural parameter for the exponential family with statistic $\mu'$. We see from this that the expected log score only depends on the expectation $\mu$ of the underlying density, not the full density, which is how we can achieve proper scoring according to Definition~{\ref{def:proper-score}.
+where $\htheta = \grad G(\hmu)$ is the natural parameter for the exponential family with statistic $\hmu$. We see from this that the expected log score only depends on the expectation $\mu$ of the underlying density, not the full density, which is how we can achieve proper scoring according to Definition~{\ref{def:proper-score}.
 %
 \begin{theorem} \label{maxent-score}
-Consider the logarithmic scoring rule $S(\mu,x) = \log p(x;\mu)$ defined over a set of densities $\mD$ parametrized by $\mM$. The scoring rule is proper over the entire domain of densities $\mP$ if and only if $\mD$ is the exponential family with statistic $\phi$. 
+Consider the logarithmic scoring rule $S(\mu,x) = \log p(x;\mu)$ defined over a set of densities $\mD$ parametrized by $\mM$. The scoring rule is proper if and only if $\mD$ is the exponential family with statistic $\phi$. 
 \end{theorem}
 %
 %
 \begin{proof}
-Let $\mu,\mu' \in \mM$ be the agent's true belief and an alternative report, and let $p,p' \in \mP$ be densities consistent with each belief. Let $\theta = \grad G(\mu)$ and $\theta' = \grad G(\mu')$, and note that $\mu = \grad T(\theta)$. We have
+Let $\mu,\hmu \in \mM$ be the agent's true belief and an alternative report, and let $p \in \mP$ be a density consistent with $\mu$. Let $\theta = \grad G(\mu)$ and $\htheta = \grad G(\hmu)$, and note that $\mu = \grad T(\theta)$. We have
 %
 \begin{eqnarray}
-& & \Exp_p[\log p(x;\mu)] - \Exp_p[\log p(x;\mu')] \nonumber\\
-& = & \la \theta, \mu \ra - T(\theta) - \la \theta', \mu \ra + T(\theta') \nonumber\\
-& = & T(\theta') - T(\theta) - \la \theta' - \theta, \mu \ra \nonumber\\
-& = & T(\theta') - T(\theta) - \la \theta' - \theta, \grad T(\theta) \ra. \label{breg-div}
+& & \Exp_p[\log p(x;\mu)] - \Exp_p[\log p(x;\hmu)] \nonumber\\
+& = & \la \theta, \mu \ra - T(\theta) - \la \htheta, \mu \ra + T(\htheta) \nonumber\\
+& = & T(\htheta) - T(\theta) - \la \htheta - \theta, \mu \ra \nonumber\\
+& = & T(\htheta) - T(\theta) - \la \htheta - \theta, \grad T(\theta) \ra. \label{breg-div}
 \end{eqnarray}
 %
-The latter is positive by the strict convexity of $T$, which shows that the log score is proper. Now assume the defined log score is proper. By the Savage characterization of proper scoring rules for expectations (see~\cite{}), we must have
+The latter is positive by the strict convexity of $T$, which shows that the log score is proper. For the converse, assume the defined log score is proper. By the Savage characterization of proper scoring rules for expectations (see~\cite{}), we must have
 %
 $$
 S(\mu,x) = G(\mu) - \la \grad G(\mu), \mu - \phi(x) \ra
@@ -429,17 +394,19 @@ which shows that $p(x;\mu)$ takes the form of an exponential family.
 \end{proof}
 %
 
-As further intuition for the result, note that~(\ref{breg-div}) is the definition of the so-called Bregman divergence with respect to strictly convex function $T$. Therefore we have 
+As further intuition for the result, note that~(\ref{breg-div}) is the definition of the `Bregman divergence' with respect to strictly convex function $T$~\citep{}. Therefore we have 
 %
 \begin{equation*}
-\Exp_p[\log p(x;\mu)] - \Exp_p[\log p(x;\mu')] = D_T(\theta',\theta) = D_G(\mu, \mu'),
+\Exp_p[\log p(x;\mu)] - \Exp_p[\log p(x;\hmu)] = D_T(\htheta,\theta) = D_G(\mu, \hmu),
 \end{equation*}
 %
 where the last equality is a well-known identity relating the Bregman divergences of $T$ and $T^* = G$~\citep{}. The equation states that the agent's regret from misreporting its mean parameter does not depend on the full density $p$, only the mean $\mu$.   
 
-Theorem~\ref{maxent-score} leads to a straightforward procedure for constructing score rules for expectations: define the relevant statistic, and consider the maximum entropy (equivalently, exponential family) distribution consistent with the agent's reported mean $\mu$. The scoring rule compensates the agent according to the log likelihood of the eventual outcome according to the latter. The interpretation is that the agent is only providing partial information about the underlying density, so the principal first infers a full density according to the principle of maximum entropy, and then scores the agent using the usual log score.
+\subsection{Examples: Moments over the Real Line}
+
+Theorem~\ref{maxent-score} leads to a straightforward procedure for constructing score rules for expectations: define the relevant statistic, and consider the maximum entropy (equivalently, exponential family) distribution consistent with the agent's reported mean $\mu$. The scoring rule compensates the agent according to the log likelihood of the eventual outcome according to this distribution. The interpretation is that the agent is only providing partial information about the underlying density, so the principal first infers a full density according to the principle of maximum entropy, and then scores the agent using the usual log score.
   
-An advantage of this generalization of the log score is that, for many expectations of interest, it leads to simple \emph{closed-form} formulas for the scoring rule (including for multi-dimensional outcomes in some cases). This covers for instance several different combinations of the arithmetic, geometric, and harmonic means, as well as higher order moments. The following examples illustrate the construction.
+An advantage of this generalization of the log score is that, for many domains (multi-dimensional included) and expectations of interest, it leads to novel closed-form scoring rules. By examining the log densities of various exponential families, we can for instance obtain scoring rules for several different combinations of the arithmetic, geometric, and harmonic means, as well as higher order moments. The following examples illustrate the construction.
 %
 \begin{example} \label{ex:exponential}
 As base measure we take the Lebesgue restricted to $[0,+\infty)$, and we consider the statistic $\phi(x) = x$ so that we are simply eliciting the mean. The maximum entropy distribution with a given mean $\mu$ is the exponential distribution, and taking its log density gives the scoring rule
@@ -448,17 +415,17 @@ As base measure we take the Lebesgue restricted to $[0,+\infty)$, and we conside
 S(\mu, x) = -\frac{x}{\mu} - \log \mu.
 \end{equation}
 %
-We stress that although this rule is derived from the exponential distribution, Theorem~\ref{maxent-score} implies that it elicits the mean of any distribution supported on the non-negative reals (e.g., Pareto, lognormal), in contrast to~(\ref{pareto-scoring}). Indeed, it is easy to see that the expected score~(\ref{exp-scoring}) depends only on the mean of the agent's belief because it is linear in $x$. 
+We stress that although this rule is derived from the exponential distribution, Theorem~\ref{maxent-score} implies that it elicits the mean of any distribution supported on the non-negative reals (e.g., Pareto, lognormal). Indeed, it is easy to see that the expected score~(\ref{exp-scoring}) depends only on the mean of the agent's belief because it is linear in $x$. 
 %
 %Typically the exponential distribution is parametrized by its rate $\lambda = 1/\mu$. In that case the rule takes the form $S(\mu, x) = -\lambda x + \log \lambda$, and we see that $\lambda$ corresponds to the natural parameter.
 %
 As a generalization of this example, the maximum entropy distribution for the $k$-th moment $\phi(x) = x^k$ with respect to the same base measure is the Weibull distribution. Taking its log density leads to the following equivalent scoring rule:
 %
-\begin{equation*}
+\begin{equation} \label{weibull-scoring}
 S(\mu, x) = (k-1) \log x - k \log \mu - \Gamma\left(1+\frac{1}{k}\right)^k \left(\frac{x}{\mu}\right)^k,
-\end{equation*}
+\end{equation}
 %
-where $\Gamma$ denotes the usual gamma function (the extension of the factorial to the reals).
+where $\Gamma$ denotes the usual gamma function (the extension of the factorial to the reals). We have not found either scoring rule~(\ref{exp-scoring}) or~(\ref{weibull-scoring}) in the literature.
 \end{example}
 %
 %
@@ -472,10 +439,10 @@ S((\mu, \sigma^2), x) = -\frac{(x-\mu)^2}{\sigma^2} - \log \sigma^2.
 Again, we stress that this scoring rule elicits the mean and variance of any density over the real numbers, not just those of a normal distribution. The construction easily generalizes to a multi-dimensional outcome space by taking the log density of the multivariate normal:
 %
 \begin{equation}
-S(({\boldsymbol \mu}, {\boldsymbol \Sigma}), \boldsymbol{x}) = -( \boldsymbol{x} - {\boldsymbol \mu})'{\boldsymbol \Sigma}^{-1}( \boldsymbol{x} - {\boldsymbol \mu}) - \log |{\boldsymbol \Sigma}|.
+S((\mu, \Sigma), x) = -(x - \mu)'\Sigma^{-1}(x - \mu) - \log |\Sigma|.
 \end{equation}
 %
-Here the statistics being elicited are the mean vector ${\boldsymbol \mu}$ and the covariance matrix ${\boldsymbol \Sigma}$. These scoring rules have been studied by Dawid and Sebastiani~\cite{} as rules that only depend on the mean and variance of the reported density. They note that these rules are weakly proper (because they do not distinguish between densities with the same first and second moments), but do not make the point that knowledge of the full density is not necessary on the part of the agent.
+Here the statistics being elicited are the mean vector $\mu$ and the covariance matrix $\Sigma$. These scoring rules have been studied by~\citet{} as rules that only depend on the mean and variance of the reported density. They note that these rules are weakly proper (because they do not distinguish between densities with the same first and second moments), but do not make the point that knowledge of the full density is not necessary on the part of the agent.
 \end{example}
 %
 
@@ -514,13 +481,13 @@ As a concrete example, recall that in the classic finite-outcome case the statis
 
 The standard way to implement an information market in the literature, due to~\citet{}, is via a centralized market maker. The market maker maintains a convex, differentiable cost function $C : \bR^d \rightarrow (-\infty,+\infty]$, where $C(\theta)$ records the revenue collected when the vector of outstanding shares is $\theta$. The cost to an agent of purchasing portfolio $\delta$ under a market state of $\theta$ is $C(\theta + \delta) - C(\theta)$, and therefore the instantaneous prices of the securities are given by the gradient $\grad C(\theta)$. 
 
-A risk-neutral agent will choose to acquire shares up to the point where, for each share, expected payoff equals marginal price. Formally, if the agent acquires portfolio $\delta$, moving the market state vector to $\theta' = \theta + \delta$, then we must have
+A risk-neutral agent will choose to acquire shares up to the point where, for each share, expected payoff equals marginal price. Formally, if the agent acquires portfolio $\delta$, moving the market state vector to $\htheta = \theta + \delta$, then we must have
 %
 \begin{equation} \label{risk-neutral-agent}
-\Exp_p[\phi(x)] = \grad C(\theta').
+\Exp_p[\phi(x)] = \grad C(\htheta).
 \end{equation}
 %
-In this way, by its choice of $\delta$, the agent reveals that its expected belief is $\mu = \grad C(\theta')$. We stress that this observation relies on the assumptions that 1) the agent is risk-neutral, 2) the agent does not incorporate the market's information into its own beliefs, and 3) the agent is not budget constrained. We will examine relaxations of each assumption in later sections.
+In this way, by its choice of $\delta$, the agent reveals that its expected belief is $\mu = \grad C(\htheta)$. We stress that this observation relies on the assumptions that 1) the agent is risk-neutral, 2) the agent does not incorporate the market's information into its own beliefs, and 3) the agent is not budget constrained. We will examine relaxations of each assumption in later sections.
 
 \subsection{Information-Theoretic Interpretation}
 
@@ -537,10 +504,10 @@ The correspondence between the cost function~({\ref{lmsr-cost}) and the log-part
 There is a well-known duality between scoring rules and cost-function based markets. To see this in our context, recall from~(\ref{equalizer-rule}) that
 %
 \begin{equation*}
-\Exp_{\tp}[\log p(x;\mu')] = \la \theta', \mu \ra - T(\theta')
+\Exp_{\tp}[\log p(x;\hmu)] = \la \htheta, \mu \ra - T(\htheta)
 \end{equation*}
 %
-where $\tp$ is the agent's belief and $\mu'$ the agent's report. The expected log score from reporting $\mu'$ is exactly the same as the expected payoff from buying portfolio of shares $\theta' = \grad C(\mu')$ (assuming an initial market state of 0), as $\la \theta', \mu \ra$ is the expected revenue and $T(\theta')$ is the cost. As in Section~\ref{sec:scoring} this reasoning relies on the assumption of risk-neutrality (and no budget constraints), not on any specific form for the agent's belief.
+where $\tp$ is the agent's belief and $\hmu$ the agent's report. The expected log score from reporting $\hmu$ is exactly the same as the expected payoff from buying portfolio of shares $\htheta = \grad C(\hmu)$ (assuming an initial market state of 0), as $\la \htheta, \mu \ra$ is the expected revenue and $T(\htheta)$ is the cost. As in Section~\ref{sec:scoring} this reasoning relies on the assumption of risk-neutrality (and no budget constraints), not on any specific form for the agent's belief.
 
 The agent's expected profit from moving the share vector from $\theta$ to $\theta'$ is
 %
@@ -1184,3 +1151,42 @@ Here we have used the fact that $\mu_{x}=x$ and $\sigma_{x}=0$.
 
 
 
+\subsection{Proper Scoring from Consistency}
+
+Our starting point for designing proper scoring rules is the classic logarithmic scoring rule for eliciting probabilities in the case of finite outcomes. This rule is simply $S(p,x) = \log p(x)$ and there are several ways to understand why it is proper, with different implications for generalization. 
+
+First observe that the scoring rule compensates the agent with the log likelihood it assigned to the outcome, so the agent is maximizing the expected log likelihood via its report. Now it is a fundamental result in statistics that, under a variety of different sufficient conditions, the maximum likelihood estimator is statistically consistent; see~\cite{} for an overview of such conditions. This means that in the limit (as the size of the i.i.d.\ empirical sample increases) the log likelihood is maximized by the true parameters. By this reasoning, the following result follows immediately from the definition of consistency and the law of large numbers.
+%
+\begin{theorem} \label{max-like}
+Suppose that $\mM$ parametrizes $\mD$. The logarithmic scoring rule defined by
+%
+\begin{equation} \label{log-score}
+S(\mu, x) = \log p(x;\mu),
+\end{equation}
+%
+where $\mu \in \mM$, is proper over $\mD$ if and only if the maximum likelihood estimator for $\mu$ is consistent.
+\end{theorem}
+%
+We note that although our focus is on parametrizations by expectations, the preceding theorem in fact holds for more generic parameter spaces. The range of scoring rules it provides is broader than those characterized by~\cite{}, because it allows for a restriction over the set of beliefs. On the other hand, its applicability is limited to those domains $\mD$ that can be parametrized by the relevant statistics. The following provide concrete examples of these points. 
+%
+\begin{example}
+Suppose the outcomes are supported on $[1,+\infty)$ and follow a Pareto distribution with density $f(x;\alpha) = \alpha/x^{\alpha+1}$ parametrized by an index $\alpha > 0$. The mean $\mu$ is related to the index via the one-to-one mapping $\mu = \frac{\alpha}{\alpha-1}$, so the density can alternatively be parametrized by the mean. Theorem~\ref{max-like} gives the following proper scoring rule for the mean of a Pareto distribution with support on $[1,+\infty)$:
+%
+\begin{equation} \label{pareto-scoring}
+S(\mu,x) = \log \frac{\mu}{\mu-1} - \left(\frac{\mu}{\mu-1} + 1\right) \log x.
+\end{equation}
+%
+We stress that the rule can only elicit the mean assuming the agent knows its belief is a Pareto distribution over $[1,+\infty]$. It does not elicit the mean of other families of densities parametrized by the mean (e.g., the exponential distribution). 
+\end{example}
+%
+%
+\begin{example}
+Suppose the outcomes are supported on $(-\infty,+\infty)$ and follow a Cauchy distribution with density $f(x;m) = 1/\pi[1+(x-m)^2]$, parametrized by the median $m$. Theorem~\ref{max-like} leads to the following proper scoring rule for the median:
+%
+\begin{equation} \label{cauchy-scoring}
+S(m,x) = -\log[1+(x-m)^2].
+\end{equation}
+%
+Note that the median cannot be obtained as the expectation of any statistic. This highlights the range of parameters than may be elicited by the log score in different circumstances.
+\end{example}
+%
