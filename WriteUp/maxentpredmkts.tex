@@ -440,7 +440,7 @@ Theorem~\ref{maxent-score} leads to a straightforward procedure for constructing
   
 An advantage of this generalization of the log score is that, for many expectations of interest, it leads to simple \emph{closed-form} formulas for the scoring rule (including for multi-dimensional outcomes in some cases). This covers for instance several different combinations of the arithmetic, geometric, and harmonic means, as well as higher order moments. The following examples illustrate the construction.
 %
-\begin{example}
+\begin{example} \label{ex:exponential}
 As base measure we take the Lebesgue restricted to $[0,+\infty)$, and we consider the statistic $\phi(x) = x$ so that we are simply eliciting the mean. The maximum entropy distribution with a given mean $\mu$ is the exponential distribution, and taking its log density gives the scoring rule
 %
 \begin{equation} \label{exp-scoring}
@@ -503,14 +503,15 @@ In the above, Example~\ref{ex:gaussian} illustrates an important point about par
 %\pagebreak
 \section{Maximum Entropy Market Making}
 
-
-The purpose of a prediction market is to elicit and aggregate the beliefs (i.e., subjective probabilities) of agents over a space of \emph{outcomes}. In a single-agent setting, a scoring rule is used to elicit the agent's beliefs. In a multi-agent setting, an information market is used to aggregate the agent's beliefs. Hanson~\cite{} introduced the idea of a market scoring rule, which inherits the appealing elicitation and aggregation properties of both so that they can perform well in both thin and thick markets. In this work we derive a wide-ranging generalization of the logarithmic market scoring rule. Using a maximum entropy approach, we explain how a market scoring rule can be developed for outcome spaces both discrete and continuous, and for generic properties of the underlying distribution (e.g., mean and variance), rather than just the probabilities of individual outcomes. 
-
-
+In a single-agent setting, a scoring rule is used to \emph{elicit} the agent's belief. In a multi-agent setting, an information market can be used to \emph{aggregate} the beliefs of the agents. In his seminal paper~\citet{} introduced the idea of a market scoring rule, which inherits the appealing elicitation and aggregation properties of both in order to perform well in thin or thick markets. In this section, we adapt the generalized log scoring rule to a market scoring rule which leads to markets with simple closed-form cost functions for many statistics of interest. The exponential families framework also allows us to move beyond risk-neutral agents to understand the aggregation properties of information markets under alternative behaviors, such as Bayesian updating and risk aversion. 
 
 \subsection{Information Market}
 
-We next consider how to indirectly elicit $\mu$ by setting up a market of contingent claim securities. Under this approach, the elements of the index set $\mS$ are interpreted not as statistics but as securities. The payoff from one share of security $s$ when outcome $x$ occurs is given by the mapping $\phi_s$. Thus if the vector of shares held by the agent is $\theta \in \bR^d$, where entry $\theta_s$ corresponds the number of shares of security $s$, then the payoff to the agent when $x$ occurs is evaluated by taking the inner product $\la \theta, \phi(x) \ra$. As a concrete example, recall our multinomial distribution example from the previous section, where $\phi_x(x') = 1$ if $x' = x$ and 0 otherwise. This means that security $x \in \mS$ pays 1 dollar if outcome $x \in \mX$ occurs, and nothing otherwise. (Such securities are known as Arrow-Debreu securities.) In our normal distribution example, the statistic for the mean had the mapping $\phi_1(x) = x$. Therefore a share of the corresponding security has a payoff that is linear in the outcome. (Such securities amount to futures contracts.) 
+In an information market an agent's expected belief $\mu$ is elicited indirectly through the purchase and sale of contingent claim securities. Under this approach, each component~$i$ of the statistic $\phi$ is interpreted as the payoff function of a security; that is, a single share of security $i$ pays off $\phi_i(x)$ when $x \in \mX$ occurs. Thus if the portfolio of shares held by the agent is $\delta \in \bR^d$, where entry $\delta_i$ corresponds to the number of shares of security $i$, then the payoff to the agent when $x$ occurs is evaluated by taking the inner product $\la \delta, \phi(x) \ra$. 
+
+As a concrete example, recall that in the classic finite-outcome case the statistic has a component for each outcome $x$ such that $\phi_x(x') = 1$ if $x' = x$ and 0 otherwise. Therefore the corresponding security pays 1 dollar if outcome $x$ occurs. (These are known as Arrow-Debreu securities.) In Example~\ref{ex:exponential} the one-dimensional statistic is $\phi(x) = x$, corresponding to a security whose payoff is linear in the outcome $x \in \bR_+$. (This amounts to a futures contract.) 
+
+The standard way to implement an information market in the literature, due to~\citet{}, is via a centralized market maker. The market maker maintains a convex, differentiable cost function $C : \bR^d \rightarrow (-\infty,+\infty]$, where $C(\theta)$ records the revenue collected when the vector of outstanding shares is $\theta$. The cost to an agent of purchasing portfolio $\delta$ under a market state of $\theta$ is $C(\theta + \delta) - C(\theta)$, and therefore the instantaneous prices of the securities are given by the gradient $\grad C(\theta)$. 
 
 A risk-neutral agent will choose to acquire shares up to the point where, for each share, expected payoff equals marginal price. Formally, if the agent acquires portfolio $\delta$, moving the market state vector to $\theta' = \theta + \delta$, then we must have
 %
@@ -524,7 +525,7 @@ In this way, by its choice of $\delta$, the agent reveals that its expected beli
 
 In the remainder of this paper we focus on the following cost function, which arises from the ``generalized'' logarithmic market scoring rule (LMSR):
 %
-\begin{equation} \label{cost}
+\begin{equation} \label{lmsr-cost}
 C(\theta) = \log \int_{x \in \mX} \exp \left[\la \theta, \phi(x) \ra\right] \nu(dx).
 \end{equation}
 %
@@ -555,67 +556,44 @@ recalling~(\ref{breg-div}). Now~\citet{} have observed (among others) that the K
 %* EXAMPLE OF LOSS FOR EXPONENTIAL/GAUSSIAN
 
 
-EXPONENTIAL EXAMPLE: EFFECTIVE DOMAIN AND COST FUNCTION
-GAUSSIAN EXAMPLE
-VON MISES EXAMPLE
 
-. In the context of the multinomial distribution example, $\Omega = \bR^d$, so that shares of each security can always be bought or sold short. In the context of the normal distribution example the effective domain is $\Omega = \{(\theta_1,\theta_2) \in \bR^2 \:|\: \theta_2 > 0 \}$ if we re-define the second statistic to be $\phi_2(x) = -x^2$; this means that the security has a negative payoff for each share, and consequently the agent must be compensated to acquire such shares. Evaluating~(\ref{cost}), the cost function takes the form $C(\theta) = \frac{\theta_1^2}{4\theta_2} - \frac{1}{2}\log(2\theta_2)$.
+\subsection{Examples: Real Line and the Sphere}
 
+Let us now revisit our scoring rules examples from Section~\ref{sec:scoring} in the context of prediction markets. The relevant entities now are the payoff function, the effective domain of shares, and the cost function.
+%
+\begin{example} \label{ex:exp-market}
+We consider outcomes over the positive reals $bR_+$ and set up a market for the expected outcome, consisting of a single security that pays off $\phi(x) = x$. The log partition funciton of the exponential distribution leads to the following cost function:
+%
+$$
+C(\theta) = -\log(-\theta).
+$$
+%
+The effective domain is $\Theta = \{\theta \in \bR : \theta < 0\}$.  This means the market must start with a negative number of outstanding shares for the security, and the number shares must stay negative. The market maker need not explicitly enforce this, because by the Legendre property of $C$ the cost tends to $+\infty$ as the outstanding shares approach the boundary, which is straightforward to see in this example.
+\end{example}
+%
 
-\subsection{Example: Gaussian Markets}
-{\ex We will now derive an expression for the dual of the log partition function for the Gaussian distribution. In this case,  $\beta$ is a $2$-dimensional  vector. Let $\beta=\begin{pmatrix}\beta_{1}\\ \beta_{2}\end{pmatrix}$ and $\mu=\begin{pmatrix}\mu_{1}\\ \mu_{2}\end{pmatrix}$. So 
-\begin{eqnarray*}
-\pmb{\mu}&=&\nabla\psi(\pmb{\beta})\\
-&=&\nabla\left(-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})\right)\\
-&=&\begin{pmatrix}-\frac{\beta_{1}}{2\beta_{2}}\\ \frac{\beta_{1}^{2}}{4\beta_{2}^{2}}-\frac{1}{2\beta_{2}}\end{pmatrix}
-\end{eqnarray*}
-Thus, $\pmb{\beta}$ can be written in terms of $\pmb{\mu}$ as follows:
-$\beta_{1}=\frac{\mu_{1}}{\mu_{2}-\mu_{1}^{2}}$ and $\beta_{2}=\frac{1}{\mu_{1}^{2}-\mu_{2}}$. This leads to the following closed form expression for the dual of the log partition function:
-$$\psi^{*}(\mu)=-\frac{1}{2}-\frac{1}{2}\log(\mu_{2}-\mu_{1}^{2})$$}
-{\ex
-We will now derive the expression for the differential entropy for the normal distribution. Recall that for the normal distribution $$p(x) = \frac{1}{\sqrt{2\pi\sigma^{2}}}\exp\left\{\frac{-(x-\mu)^{2}}{2\sigma^{2}}\right\}$$
-\begin{eqnarray*}
-H(p) &=& -\int_{x}p(x)\log p(x)dx\\
-&=& -\int_{x}p(x)\left[-\log(2\pi)-\log\sigma+\frac{-(x-\mu)^{2}}{2\sigma^{2}}\right]dx\\
-&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\int_{x}p(x)(x-\mu)^{2}]dx\\
-&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\E_{p(x)}[(x-\mu)^{2}]dx\\
-&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\sigma^{2}dx\\
-&=& \log(2\pi)+\frac{1}{2}+\log\sigma 
-\end{eqnarray*}
-Recall that the value of the dual of the log partition function is the value of the negative entropy of the distribution for an exponential family distribution. Thus when the variance of the normal distribution $\sigma^{2} = 0$, the value of the dual of the cost function goes to $\infty$ and is thus unbounded.}
+%
+\begin{example} \label{ex:gauss-market}
+We consider outcomes over the real line $\bR$ and set up a market with securities corresponding to the first two uncentered moments (i.e, agents are betting on the return and volatility). The securities are defined by the payoffs $\phi(x) = (x, x^2)$. The log partition function of the normal distribution, under its natural parametrization, leads to the following cost function:
+%
+$$ 
+C(\theta) = -\frac{\theta_1^2}{4\theta_2} - \frac{1}{2}\log(-2\theta_2).
+$$
+The effective domain is $\Theta = \{(\theta_1,\theta_2) \in \bR^2 : \theta_2 < 0 \}$. Again, we have here an instance where it is not possible for the number of outstanding shares of the second security to exceed 0. However, an arbitrary amount of the securities can be sold short, which corresponds to increasing the variance of the market's estimate.
+\end{example}
+%
 
-{\ex For the normal distribution, the natural parameters $\pmb{\beta}=(\beta_{1},\beta_{2})$ can be written in terms of $\mu$ and $\sigma$ as $$\beta_{1}=\frac{\mu}{\sigma^{2}},\quad \beta_{2}=\frac{-1}{2\sigma^{2}}$$ and the log partition function is  $$\psi(\pmb{\beta})=-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})$$
-Alternately, the log partition function can be written in terms of its variance and mean as $\frac{\mu^{2}}{2\sigma^{2}}+\log\sigma$.
-Also note that the mean parameters are $\mu$ and $\mu^{2}+\sigma^{2}$.}
-Let's now work out the loss for the Gaussian market maker. First note that for a Gaussian market for mean parameters $\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}$ and $\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}$, we have 
-\begin{eqnarray*}
-D_{C^{*}}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix},\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}\right)
-&=& C^{*}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}\right)-C^{*}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}\right)\\
-&&-\nabla C^{*} \left(\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}\right)\begin{pmatrix}\mu_{1}-\mu_{2}\\ \mu_{1}^{2}+\sigma_{1}^{2}-\mu_{2}^{2}-\sigma_{2}^{2}\end{pmatrix}\\
-&=& -\log \frac{\sigma_{1}}{\sigma_{2}}-\begin{pmatrix}\frac{\mu_{2}}{\sigma_{2}^{2}}\\ -\frac{1}{2\sigma_{2}^{2}}\end{pmatrix}\cdot \begin{pmatrix}\mu_{1}-\mu_{2}\\ \mu_{1}^{2}+\sigma_{1}^{2}-\mu_{2}^{2}-\sigma_{2}^{2}\end{pmatrix}\\
-&=& -\log \frac{\sigma_{1}}{\sigma_{2}}-\frac{\mu_{2}(\mu_{1}-\mu_{2})-\frac{1}{2}(\mu_{1}^{2}-\mu_{2}^{2}+\sigma_{1}^{2}-\sigma_{2}^{2})}{\sigma_{2}^{2}}\\
-%&=& \log \frac{\sigma_{2}}{\sigma_{1}}-\frac{\sigma_{1}^{2}-\sigma_{2}^{2}-(\mu_{1}-\mu_{2})^{2}}{2\sigma_{2}^{2}}\\
-&=& \log \frac{\sigma_{2}}{\sigma_{1}}+\frac{\sigma_{2}^{2}-\sigma_{1}^{2}}{2\sigma_{2}^{2}}+\frac{(\mu_{1}-\mu_{2})^{2}}{2\sigma_{2}^{2}}
-\end{eqnarray*}
-
-So the Gaussian market maker loss is 
-%parallels to quadratic market maker loss? 
-\begin{eqnarray*}
-D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]&=& \log \frac{\sigma_{0}}{\sigma_{x}}+\frac{\sigma_{0}^{2}-\sigma_{x}^{2}}{2\sigma_{0}^{2}}+\frac{(\mu_{x}-\mu_{0})^{2}}{2\sigma_{0}^{2}}\\
-&&-\left[\log \frac{\sigma_{f}}{\sigma_{x}}+\frac{\sigma_{f}^{2}-\sigma_{x}^{2}}{2\sigma_{f}^{2}}+\frac{(\mu_{x}-\mu_{f})^{2}}{2\sigma_{f}^{2}}\right]\\
-&=& \log \frac{\sigma_{0}}{ \sigma_{f}}+\frac{(x-\mu_{0})^{2}}{2\sigma_{0}^{2}}-\frac{(x-\mu_{f})^{2}}{2\sigma_{f}^{2}}\\
-\end{eqnarray*}¥
-Here we have used the fact that $\mu_{x}=x$ and $\sigma_{x}=0$.
-\rmk In statistics, the standard score (aka z-score), $(x-\mu)/\sigma$, is the (signed) number of standard deviations an observation is above the mean. \unrmk
-%\pagebreak
-
-
-
-
-
-
-
-
+%
+\begin{example} \label{ex:vonmises-market}
+As another example let the outcome space be the $d$-dimensional unit sphere. This setting was considered by~\citet{} who provide a cost function implicitly defined through a variational characterization. The maximum entropy approach leads to another alternative. We have a security for each of the $d$ dimensions, and security $i$ simply pays off $\phi_i(x) = x_i$, where $x \in \bR^d$ is the unit-norm outcome. The maximum entropy distribution over the sphere with such sufficient statistics is the von Mises-Fisher distribution. The log partition function corresponds to the cost function
+%
+$$
+C(\theta) = I_{\frac{d}{2}-1}(\norm{\theta}) - \left(\frac{d}{2} - 1 \right)\log \norm{\theta},
+$$
+%
+where $I_r$ refers to the modified Bessel function of first kind and order $r$. The effective domain of $\theta$ is the positive orthant in $\bR^d$. The mean parametrization of the von Mises-Fisher distribution gives a generalized log scoring rule for the expected outcome components, but it is unwieldy and involves several special functions. 
+\end{example}
+%
 
 
 \section{The Exponential Family Market Mechanism with Budgets}
@@ -942,11 +920,6 @@ In other words, an exponential utility maximizing trader who has belief $\hat{\t
 
 
 
-
-
-
-
-
 \section{Equilibrium Market State for Exponential Utility Agents}
 We have shown that every exponential-utility maximizing trader picks the share vector $\delta$ so that the eventual market state can be represented as a convex combination of the initial market state and the natural parameter of his (exponential family) belief distribution. In this section we will compute the equilibrium state in an exponential family market with multiple exponential-utility maximizing traders. 
 
@@ -1132,3 +1105,56 @@ Let $q_{0}$ be the initial and $q_{f}$ the final market state. Then if $\mu$ is 
 &&-\left[C^{*}(\phi(x))-C^{*}(\nabla C(q_{f}))-\nabla C^{*}(\nabla C(q_{f}))(\phi(x) -\nabla C(q_{f}))\right]\\
 &=&D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]
 \end{eqnarray*}
+
+
+
+\subsection{Example: Gaussian Markets}
+{\ex We will now derive an expression for the dual of the log partition function for the Gaussian distribution. In this case,  $\beta$ is a $2$-dimensional  vector. Let $\beta=\begin{pmatrix}\beta_{1}\\ \beta_{2}\end{pmatrix}$ and $\mu=\begin{pmatrix}\mu_{1}\\ \mu_{2}\end{pmatrix}$. So 
+\begin{eqnarray*}
+\pmb{\mu}&=&\nabla\psi(\pmb{\beta})\\
+&=&\nabla\left(-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})\right)\\
+&=&\begin{pmatrix}-\frac{\beta_{1}}{2\beta_{2}}\\ \frac{\beta_{1}^{2}}{4\beta_{2}^{2}}-\frac{1}{2\beta_{2}}\end{pmatrix}
+\end{eqnarray*}
+Thus, $\pmb{\beta}$ can be written in terms of $\pmb{\mu}$ as follows:
+$\beta_{1}=\frac{\mu_{1}}{\mu_{2}-\mu_{1}^{2}}$ and $\beta_{2}=\frac{1}{\mu_{1}^{2}-\mu_{2}}$. This leads to the following closed form expression for the dual of the log partition function:
+$$\psi^{*}(\mu)=-\frac{1}{2}-\frac{1}{2}\log(\mu_{2}-\mu_{1}^{2})$$}
+{\ex
+We will now derive the expression for the differential entropy for the normal distribution. Recall that for the normal distribution $$p(x) = \frac{1}{\sqrt{2\pi\sigma^{2}}}\exp\left\{\frac{-(x-\mu)^{2}}{2\sigma^{2}}\right\}$$
+\begin{eqnarray*}
+H(p) &=& -\int_{x}p(x)\log p(x)dx\\
+&=& -\int_{x}p(x)\left[-\log(2\pi)-\log\sigma+\frac{-(x-\mu)^{2}}{2\sigma^{2}}\right]dx\\
+&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\int_{x}p(x)(x-\mu)^{2}]dx\\
+&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\E_{p(x)}[(x-\mu)^{2}]dx\\
+&=& \log(2\pi)+\log\sigma+\frac{1}{2\sigma^{2}}\sigma^{2}dx\\
+&=& \log(2\pi)+\frac{1}{2}+\log\sigma 
+\end{eqnarray*}
+Recall that the value of the dual of the log partition function is the value of the negative entropy of the distribution for an exponential family distribution. Thus when the variance of the normal distribution $\sigma^{2} = 0$, the value of the dual of the cost function goes to $\infty$ and is thus unbounded.}
+
+{\ex For the normal distribution, the natural parameters $\pmb{\beta}=(\beta_{1},\beta_{2})$ can be written in terms of $\mu$ and $\sigma$ as $$\beta_{1}=\frac{\mu}{\sigma^{2}},\quad \beta_{2}=\frac{-1}{2\sigma^{2}}$$ and the log partition function is  $$\psi(\pmb{\beta})=-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})$$
+Alternately, the log partition function can be written in terms of its variance and mean as $\frac{\mu^{2}}{2\sigma^{2}}+\log\sigma$.
+Also note that the mean parameters are $\mu$ and $\mu^{2}+\sigma^{2}$.}
+Let's now work out the loss for the Gaussian market maker. First note that for a Gaussian market for mean parameters $\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}$ and $\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}$, we have 
+\begin{eqnarray*}
+D_{C^{*}}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix},\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}\right)
+&=& C^{*}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}\right)-C^{*}\left(\begin{pmatrix}\mu_{1}\\ \mu_{1}^{2}+\sigma_{1}^{2}\end{pmatrix}\right)\\
+&&-\nabla C^{*} \left(\begin{pmatrix}\mu_{2}\\ \mu_{2}^{2}+\sigma_{2}^{2}\end{pmatrix}\right)\begin{pmatrix}\mu_{1}-\mu_{2}\\ \mu_{1}^{2}+\sigma_{1}^{2}-\mu_{2}^{2}-\sigma_{2}^{2}\end{pmatrix}\\
+&=& -\log \frac{\sigma_{1}}{\sigma_{2}}-\begin{pmatrix}\frac{\mu_{2}}{\sigma_{2}^{2}}\\ -\frac{1}{2\sigma_{2}^{2}}\end{pmatrix}\cdot \begin{pmatrix}\mu_{1}-\mu_{2}\\ \mu_{1}^{2}+\sigma_{1}^{2}-\mu_{2}^{2}-\sigma_{2}^{2}\end{pmatrix}\\
+&=& -\log \frac{\sigma_{1}}{\sigma_{2}}-\frac{\mu_{2}(\mu_{1}-\mu_{2})-\frac{1}{2}(\mu_{1}^{2}-\mu_{2}^{2}+\sigma_{1}^{2}-\sigma_{2}^{2})}{\sigma_{2}^{2}}\\
+%&=& \log \frac{\sigma_{2}}{\sigma_{1}}-\frac{\sigma_{1}^{2}-\sigma_{2}^{2}-(\mu_{1}-\mu_{2})^{2}}{2\sigma_{2}^{2}}\\
+&=& \log \frac{\sigma_{2}}{\sigma_{1}}+\frac{\sigma_{2}^{2}-\sigma_{1}^{2}}{2\sigma_{2}^{2}}+\frac{(\mu_{1}-\mu_{2})^{2}}{2\sigma_{2}^{2}}
+\end{eqnarray*}
+
+So the Gaussian market maker loss is 
+%parallels to quadratic market maker loss? 
+\begin{eqnarray*}
+D_{C^{*}}[\phi(x),\nabla C(q_{0}))]-D_{C^{*}}[\phi(x),\nabla C(q_{f}))]&=& \log \frac{\sigma_{0}}{\sigma_{x}}+\frac{\sigma_{0}^{2}-\sigma_{x}^{2}}{2\sigma_{0}^{2}}+\frac{(\mu_{x}-\mu_{0})^{2}}{2\sigma_{0}^{2}}\\
+&&-\left[\log \frac{\sigma_{f}}{\sigma_{x}}+\frac{\sigma_{f}^{2}-\sigma_{x}^{2}}{2\sigma_{f}^{2}}+\frac{(\mu_{x}-\mu_{f})^{2}}{2\sigma_{f}^{2}}\right]\\
+&=& \log \frac{\sigma_{0}}{ \sigma_{f}}+\frac{(x-\mu_{0})^{2}}{2\sigma_{0}^{2}}-\frac{(x-\mu_{f})^{2}}{2\sigma_{f}^{2}}\\
+\end{eqnarray*}¥
+Here we have used the fact that $\mu_{x}=x$ and $\sigma_{x}=0$.
+\rmk In statistics, the standard score (aka z-score), $(x-\mu)/\sigma$, is the (signed) number of standard deviations an observation is above the mean. \unrmk
+%\pagebreak
+
+
+
+
