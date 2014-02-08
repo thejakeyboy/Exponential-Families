@@ -471,23 +471,23 @@ In the above, Example~\ref{ex:gaussian} illustrates an important point about par
 %\pagebreak
 \section{Maximum Entropy Market Making}
 
-In a single-agent setting, a scoring rule is used to \emph{elicit} the agent's belief. In a multi-agent setting, an information market can be used to \emph{aggregate} the beliefs of the agents. In his seminal paper~\citet{} introduced the idea of a market scoring rule, which inherits the appealing elicitation and aggregation properties of both in order to perform well in thin or thick markets. In this section, we adapt the generalized log scoring rule to a market scoring rule which leads to markets with simple closed-form cost functions for many statistics of interest. The exponential families framework also allows us to move beyond risk-neutral agents to understand the aggregation properties of information markets under alternative behaviors, such as Bayesian updating and risk aversion. 
+In a single-agent setting, a scoring rule is used to \emph{elicit} the agent's belief. In a multi-agent setting, a prediction market can be used to \emph{aggregate} the beliefs of the agents. In his seminal paper~\citet{} introduced the idea of a market scoring rule, which inherits the appealing elicitation and aggregation properties of both in order to perform well in thin or thick markets. In this section, we adapt the generalized log scoring rule to a market scoring rule which leads to markets with simple closed-form cost functions for many statistics of interest.%The exponential families framework also allows us to move beyond risk-neutral agents to understand the aggregation properties of prediction markets under alternative behaviors, such as Bayesian updating and risk aversion. 
 
-\subsection{Information Market}
+\subsection{Prediction Market}
 
-In an information market an agent's expected belief $\mu$ is elicited indirectly through the purchase and sale of contingent claim securities. Under this approach, each component~$i$ of the statistic $\phi$ is interpreted as the payoff function of a security; that is, a single share of security $i$ pays off $\phi_i(x)$ when $x \in \mX$ occurs. Thus if the portfolio of shares held by the agent is $\delta \in \bR^d$, where entry $\delta_i$ corresponds to the number of shares of security $i$, then the payoff to the agent when $x$ occurs is evaluated by taking the inner product $\la \delta, \phi(x) \ra$. 
+In a prediction market an agent's expected belief $\mu$ is elicited indirectly through the purchase and sale of contingent claim securities. Under this approach, each component~$i$ of the statistic $\phi$ is interpreted as the payoff function of a security; that is, a single share of security $i$ pays off $\phi_i(x)$ when $x \in \mX$ occurs. Thus if the portfolio of shares held by the agent is $\delta \in \bR^d$, where entry $\delta_i$ corresponds to the number of shares of security $i$, then the payoff to the agent when $x$ occurs is evaluated by taking the inner product $\la \delta, \phi(x) \ra$. 
 
 As a concrete example, recall that in the classic finite-outcome case the statistic has a component for each outcome $x$ such that $\phi_x(x') = 1$ if $x' = x$ and 0 otherwise. Therefore the corresponding security pays 1 dollar if outcome $x$ occurs. (These are known as Arrow-Debreu securities.) In Example~\ref{ex:exponential} the one-dimensional statistic is $\phi(x) = x$, corresponding to a security whose payoff is linear in the outcome $x \in \bR_+$. (This amounts to a futures contract.) 
 
-The standard way to implement an information market in the literature, due to~\citet{}, is via a centralized market maker. The market maker maintains a convex, differentiable cost function $C : \bR^d \rightarrow (-\infty,+\infty]$, where $C(\theta)$ records the revenue collected when the vector of outstanding shares is $\theta$. The cost to an agent of purchasing portfolio $\delta$ under a market state of $\theta$ is $C(\theta + \delta) - C(\theta)$, and therefore the instantaneous prices of the securities are given by the gradient $\grad C(\theta)$. 
+The standard way to implement a prediction market in the literature, due to~\citet{}, is via a centralized market maker. The market maker maintains a convex, differentiable cost function $C : \bR^d \rightarrow (-\infty,+\infty]$, where $C(\theta)$ records the revenue collected when the vector of outstanding shares is $\theta$. The cost to an agent of purchasing portfolio $\delta$ under a market state of $\theta$ is $C(\theta + \delta) - C(\theta)$, and therefore the instantaneous prices of the securities are given by the gradient $\grad C(\theta)$. 
 
-A risk-neutral agent will choose to acquire shares up to the point where, for each share, expected payoff equals marginal price. Formally, if the agent acquires portfolio $\delta$, moving the market state vector to $\htheta = \theta + \delta$, then we must have
+A risk-neutral agent will choose to acquire shares up to the point where, for each share, expected payoff equals marginal price. Formally, if the agent acquires portfolio $\delta$, moving the market state vector to $\theta' = \theta + \delta$, then we must have
 %
 \begin{equation} \label{risk-neutral-agent}
-\Exp_p[\phi(x)] = \grad C(\htheta).
+\Exp_p[\phi(x)] = \grad C(\theta').
 \end{equation}
 %
-In this way, by its choice of $\delta$, the agent reveals that its expected belief is $\mu = \grad C(\htheta)$. We stress that this observation relies on the assumptions that 1) the agent is risk-neutral, 2) the agent does not incorporate the market's information into its own beliefs, and 3) the agent is not budget constrained. We will examine relaxations of each assumption in later sections.
+In this way, by its choice of $\delta$, the agent reveals that its expected belief is $\mu = \grad C(\theta')$. We stress that this observation relies on the assumptions that 1) the agent is risk-neutral, 2) the agent does not incorporate the market's information into its own beliefs, and 3) the agent is not budget constrained. We will examine relaxations of each assumption in later sections.
 
 \subsection{Information-Theoretic Interpretation}
 
@@ -507,7 +507,7 @@ There is a well-known duality between scoring rules and cost-function based mark
 \Exp_{\tp}[\log p(x;\hmu)] = \la \htheta, \mu \ra - T(\htheta)
 \end{equation*}
 %
-where $\tp$ is the agent's belief and $\hmu$ the agent's report. The expected log score from reporting $\hmu$ is exactly the same as the expected payoff from buying portfolio of shares $\htheta = \grad C(\hmu)$ (assuming an initial market state of 0), as $\la \htheta, \mu \ra$ is the expected revenue and $T(\htheta)$ is the cost. As in Section~\ref{sec:scoring} this reasoning relies on the assumption of risk-neutrality (and no budget constraints), not on any specific form for the agent's belief.
+where $\tp$ is the agent's belief and $\hmu$ the agent's report. The expected log score from reporting $\hmu$ is exactly the same as the expected payoff from buying portfolio of shares $\htheta = \grad C(\hmu)$ (assuming an initial market state of 0), as $\la \htheta, \mu \ra$ is the expected revenue and $T(\htheta)$ is the cost. As in Section~\ref{sec:scoring} this reasoning relies on the assumption of risk-neutrality, not on any specific form for the agent's belief.
 
 The agent's expected profit from moving the share vector from $\theta$ to $\theta'$ is
 %
@@ -530,13 +530,13 @@ recalling~(\ref{breg-div}). Now~\citet{} have observed (among others) that the K
 Let us now revisit our scoring rules examples from Section~\ref{sec:scoring} in the context of prediction markets. The relevant entities now are the payoff function, the effective domain of shares, and the cost function.
 %
 \begin{example} \label{ex:exp-market}
-We consider outcomes over the positive reals $bR_+$ and set up a market for the expected outcome, consisting of a single security that pays off $\phi(x) = x$. The log partition funciton of the exponential distribution leads to the following cost function:
+We consider outcomes over the positive reals $\bR_+$ and set up a market for the expected outcome, consisting of a single security that pays off $\phi(x) = x$. The log partition function of the exponential distribution leads to the following cost function:
 %
 $$
 C(\theta) = -\log(-\theta).
 $$
 %
-The effective domain is $\Theta = \{\theta \in \bR : \theta < 0\}$.  This means the market must start with a negative number of outstanding shares for the security, and the number shares must stay negative. The market maker need not explicitly enforce this, because by the Legendre property of $C$ the cost tends to $+\infty$ as the outstanding shares approach the boundary, which is straightforward to see in this example.
+The effective domain is $\Theta = \{\theta \in \bR : \theta < 0\}$.  This means the market must start with a negative number of outstanding shares for the security, and the number of shares must stay negative. The market maker need not explicitly enforce this, because by the Legendre property of $C$ the cost tends to $+\infty$ as the outstanding shares approach the boundary, which is straightforward to see in this example.
 \end{example}
 %
 
@@ -559,7 +559,7 @@ $$
 C(\theta) = I_{\frac{d}{2}-1}(\norm{\theta}) - \left(\frac{d}{2} - 1 \right)\log \norm{\theta},
 $$
 %
-where $I_r$ refers to the modified Bessel function of first kind and order $r$. The effective domain of $\theta$ is the positive orthant in $\bR^d$. The mean parametrization of the von Mises-Fisher distribution gives a generalized log scoring rule for the expected outcome components, but it is unwieldy and involves several special functions. 
+where $I_r$ refers to the modified Bessel function of first kind and order $r$; see~\citep{} for an explanation of these quantities. The effective domain of $\theta$ is the positive orthant in $\bR^d$. The mean parametrization of the von Mises-Fisher distribution gives a generalized log scoring rule for the expected outcome components, but it is unwieldy and involves several special functions. 
 \end{example}
 %
 
