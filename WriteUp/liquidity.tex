@@ -128,4 +128,45 @@ So we have for an optimal choice of $\delta$,
 \end{eqnarray*}
 
 
+
+
+\subsection{Introducing Liquidity (S\'{e}bastien Remarks)}
+
+We have been assuming that the cost function is the same as the log partition function, but this assumes a liquidity setting of 1. Consider the parametrized  cost $C_{\lambda}(\theta)=\frac{1}{\lambda} C\left(\lambda\theta\right)$. Here $\lambda$ is construed as the \emph{inverse liquidity}, or price responsiveness. Higher $\lambda$ means fewer shares need to be bought to reach the same prices.
+
+(Discussion, you can skip this paragraph.) This is because for higher $\lambda$ we are making the cost function ``more convex''. Specifically, for $\lambda_1 > \lambda_2$ it's the case that $C_{\lambda_1}$ is an increasing convex transformation of $C(\lambda_2)$. This holds because the ``coefficient of risk aversion'' $A(\theta) = C''(\theta)/C'(\theta)$ increases with $\lambda$ at every point. I've written it assuming single-dimensional $\theta$ but there are more complicated looking generalizations for vector $\theta$. In fact, this coefficient might be the ``right'' notion of liquidity at a point, not the second derivative or largest eigenvalue of the Hessian. We should discuss.
+
+\newcommand{\ttheta}{\tilde{\theta}}
+As we're dealing with LMSR I write $T$ rather than $C$ now where $T$ is the log partition function. The cost function is the liquidity-adjusted version $T_{\lambda}$. Let $\hmu$ be the agent's mean belief and let $\htheta = \grad T^{-1}(\hmu)$ be the corresponding natural parameter. A risk-neutral agent moves the share vector so that the prices match its mean parameter. Therefore, define the \emph{target shares} as $\ttheta = \grad T^{-1}_{\lambda}(\hmu)$. So $\htheta$ and $\ttheta$ are related by
+%
+$$
+\grad T(\htheta) = \grad T_{\lambda}(\ttheta).
+$$
+%
+It's easy to check that $\grad T_{\lambda}(\ttheta) = \grad T(\lambda \ttheta)$ so we have
+%
+\begin{equation} \label{target}
+\ttheta = \htheta / \lambda.
+\end{equation}
+%
+Now using the liquidity-adjusted cost function, Equation~(17) from Theorem~6.2 in the write-up becomes the following, where $\theta$ is the current market state:
+%
+\begin{equation} \label{update}
+\frac{\lambda}{\lambda+a} \ttheta + \frac{a}{\lambda+a} \theta.
+\end{equation}
+%
+As $\lambda$ grows large, the agent moves the market state closer to the \emph{target shares}, rather than its true natural parameter. Note that the target shares themselves depend on $\lambda$, because of~(\ref{target}). This make sense because higher price responsiveness means the agent needs to buy fewer shares to make the market prices match its own expectations. In that sense, it may be conceptually cleaner to write~(\ref{update}) as
+%
+\begin{equation}
+\frac{\lambda}{\lambda+a} \grad T^{-1}_{\lambda}(\hmu) + \frac{a}{\lambda+a} \grad T^{-1}_{\lambda}(\mu).
+\end{equation}
+%
+where $\mu$ are the current market prices.
+
+
+
+
+
+
+
 \end{document}
