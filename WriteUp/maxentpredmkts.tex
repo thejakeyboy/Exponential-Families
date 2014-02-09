@@ -474,6 +474,7 @@ In the above, Example~\ref{ex:gaussian} illustrates an important point about par
 In a single-agent setting, a scoring rule is used to \emph{elicit} the agent's belief. In a multi-agent setting, a prediction market can be used to \emph{aggregate} the beliefs of the agents. In his seminal paper~\citet{} introduced the idea of a market scoring rule, which inherits the appealing elicitation and aggregation properties of both in order to perform well in thin or thick markets. In this section, we adapt the generalized log scoring rule to a market scoring rule which leads to markets with simple closed-form cost functions for many statistics of interest.%The exponential families framework also allows us to move beyond risk-neutral agents to understand the aggregation properties of prediction markets under alternative behaviors, such as Bayesian updating and risk aversion. 
 
 \subsection{Prediction Market}
+\label{sec:pred-market}
 
 In a prediction market an agent's expected belief $\mu$ is elicited indirectly through the purchase and sale of contingent claim securities. Under this approach, each component~$i$ of the statistic $\phi$ is interpreted as the payoff function of a security; that is, a single share of security $i$ pays off $\phi_i(x)$ when $x \in \mX$ occurs. Thus if the portfolio of shares held by the agent is $\delta \in \bR^d$, where entry $\delta_i$ corresponds to the number of shares of security $i$, then the payoff to the agent when $x$ occurs is evaluated by taking the inner product $\la \delta, \phi(x) \ra$. 
 
@@ -696,29 +697,47 @@ We note one important aspect of Theorem~\ref{thm:growth}: The expectation is tak
 
 
 
-%\pagebreak
+
 \section{Bayesian Traders with Linear Utility}
-%\subsection{Conjugate Priors}
 
-%In the previous section it's assumed that the agent has a belief $\q$, and moves the market state from initial state $\q_{init}$ to a convex combination $\tilde{\q} = \lambda \q + (1-\lambda)\q_{init}$. This note tries to justify this based on Bayesian updating, rather than budget limitations. (But it doesn't quite succeed.)
-In this section, we lay the foundation for interpreting trader behavior in terms of Bayesian updates. 
+In the standard model of cost-function based prediction markets, a sequence of myopic, risk-neutral agents arrive and trade in the market~\citep{}. As we saw in Section~\ref{sec:pred-market}, such a trader moves the prices to its own expectation $\mu$. However, this means that the market does not perform any meaningful aggregation of the agent's belief, as the final prices are simply the final agent's expectation.
 
-As before, we are interested in eliciting the sufficient statistics of the data. We assume that the outcome is drawn from an exponential family distribution; the prediction market is setup as before with the cost function corresponding to the log partition function and the payoff function corresponding to the sufficient statistics. Thus, the market state provides an estimate on the natural parameter of the distribution from which the outcome is drawn. Additionally, we assume that the market also makes public the total number of traders that have traded in the market.
+In this section we examine the aggregation behavior of the market when agents are Bayesian and take into account the current market state when forming their beliefs. This requires more structure to the agents' beliefs. For this section and the remainder of the paper, we will assume that agents have \emph{exponential family beliefs}. 
 
-The goal is to aggregate information from risk neutral agents who have a belief distribution over the natural parameters. This prior distribution is updated by the agents based on the current market state, They also each have to access to the empirical mean of sufficient statistics based on a fixed number  $m$ of data points. Assuming a conjugate prior, both the prior and posterior belief distributions on the natural parameters are also an exponential family distributions. 
+%As before, we are interested in eliciting the sufficient statistics of the data. We assume that the outcome is drawn from an exponential family distribution; the prediction market is setup as before with the cost function corresponding to the log partition function and the payoff function corresponding to the sufficient statistics. Thus, the market state provides an estimate on the natural parameter of the distribution from which the outcome is drawn. Additionally, we assume that the market also makes public the total number of traders that have traded in the market.
 
-Now we will define the setup more formally. 
+%The goal is to aggregate information from risk neutral agents who have a belief distribution over the natural parameters. This prior distribution is updated by the agents based on the current market state, They also each have to access to the empirical mean of sufficient statistics based on a fixed number  $m$ of data points. Assuming a conjugate prior, both the prior and posterior belief distributions on the natural parameters are also an exponential family distributions. 
 
-Let the data distribution be given by $p(x;\beta)=\exp\{\beta\cdot\phi(x)-T(\beta)\}$ where $T()$ is the log partition function and $\phi()$ are the sufficient statistics. Then the conjugate prior parametrized by $b_{0}=(n\nu, n)$ is given by $p(\beta;b_{0})=\exp\{b_{0}\cdot(\beta,\psi(\beta))-\psi(b_{0})\}$where $\psi()$ is the corresponding log partition function. The posterior distribution on the natural parameters is given by $p(\beta;b)$ where $b=(n\nu+m\hmu, n+m)$ where $\hmu$ is the empirical mean of the sufficient statistics of the $m$ data points drawn from the data distribution; that is, $\hmu=\sum_{i=1}^{m}\phi(x_{i})$. It turns out that 
+The exponential families framework is well-suited to reasoning about Bayesian updates. As before let the data distribution be given by $p(x;\theta)=\exp(\la\theta,\phi(x)\ra-T(\theta))$ where $T$ is the log partition function and $\phi$ are the sufficient statistics. Instead of direct beliefs about the data distribution the agent maintains a conjugate prior over the parameters $\theta$. Every exponential family admits a conjugate prior of the form
+%
+$$p(\theta;b_{0})=\exp(\la n\nu,\theta\ra + nT(\theta) - \psi(\nu,n)).$$
+%
+Note that this is also an exponential family with natural parameter $b_0 = (n\nu,n)$ where $\nu \in \bR^d$ and $n$ is a positive integer. The sufficient statistic maps $\theta$ to $(\theta, T(\theta))$, and the log partition function $\psi$ is defined as the normalizer as usual. For a complete treatment of exponential families conjugate priors, see for instance~\citep{}. Now~\citet{} and~\citet{} have shown that
+%
 \begin{equation}\label{eq:prior}
-\E_{\beta\sim b_{0}}\E_{x\sim \beta}[\phi(x)]=\nu
-\end{equation}¥ Thus, it is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. Thus the posterior mean is a convex combination of the prior and posterior means, and their relative weights depend on the phantom and empirical sample sizes.% need a reference here
+\E_{\theta\sim b_{0}}\E_{x\sim \theta}[\phi(x)]=\nu,
+\end{equation}
+%
+meaning that $\nu = n \nu / n$ is the posterior mean. Thus, it is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. Suppose now that the agent observes an empirical sample with mean $\hmu$ and size $m$. By a standard derivation~\citep{}, the posterior conjugate prior parameters become $n\nu \leftarrow n\nu + m\hmu$ and $n \leftarrow n+m$, and the posterior expectation~(\ref{eq:prior}) evaluates to
+%
+\begin{equation} \label{posterior}
+\frac{n\nu + m\hmu}{n+m}.
+\end{equation}
+%
+Thus the posterior mean is a convex combination of the prior and posterior means, and their relative weights depend on the phantom and empirical sample sizes.% need a reference here
 
-Suppose the current market state is $\theta$ and $i$ traders have traded in the market when trader $i+1$ with prior belief distribution $p(\beta;b^{i}_{0})$ enters the market. Here $b^{i}_{0} = (n\nu_{i}, n)$. This trader also has access to private information in the form of empirical sufficient statistics $\hmu_{i}$ from $m$ data points. Recall from Proposition \ref{prop:exp} that natural parameter $\theta$ corresponds to expected statistics $\nabla T(\theta)$. Thus, he updates his belief as $p(\beta;b_{i})$ where $b=(m\hmu+mi \nabla T(\theta) + n\nu_{i}, n+mi+m)$. 
+Consider Bayesian agents maintaning and exponential family conjugate prior over the data model's natural parameters (equivalently, the expected security payoffs). Each agent has access to a private sample of the data of size $m$ with mean statistic $\hmu$. If $n$ agents have arrived before to trade, then the current market prices $\mu$ correspond to the phantom sample, and the phantom sample size is $nm$. After forming the posterior~(\ref{posterior}) with these substitutions, the (risk-neutral) agent purchases shares $\delta$ to move the current market share vector to
+%
+$$
+\grad C(\theta + \delta) = \frac{n\nu + \hmu}{n+1}.
+$$
+%
+As a result, the final market prices under this behavior are a simple average of the agent's mean parameters and the initial market prices. We note that to facilitate such belief updating, the market should post the number of trades since initialization.
+
+%Suppose the current market state is $\theta$ and $i$ traders have traded in the market when trader $i+1$ with prior belief distribution $p(\theta;b^{i}_{0})$ enters the market. Here $b^{i}_{0} = (n\nu_{i}, n)$. This trader also has access to private information in the form of empirical sufficient statistics $\hmu_{i}$ from $m$ data points. Recall from Proposition \ref{prop:exp} that natural parameter $\theta$ corresponds to expected statistics $\nabla T(\theta)$. Thus, he updates his belief as $p(\theta;b_{i})$ where $b=(m\hmu+mi \nabla T(\theta) + n\nu_{i}, n+mi+m)$. 
  
-Suppose the trader wishes to maximize his expected payoff. Then the number of shares $\delta_{i}$ that he purchases when the current market state is $\theta$ is given by $$\arg\max_{\delta_{i}}\E_{\beta\sim b_{i}}\E_{x\sim \beta}\left[ \delta_{i}\phi(x) - T(\delta_{i} + \theta) + T(\theta)\right]$$
-But, from Equation \ref{eq:prior} we have $\E_{\beta\sim b}\E_{x\sim \beta}[\phi(x)]=\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}$. To obtain the maximum, we set the gradient of the above expression with respect to $\delta_{i}$ to $0$. Thus, we have for the optimal number of shares $\delta_{i}^{*}$ $$\nabla T(\delta_{i}^{*} + \theta)=\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}$$ Thus, from Proposition \ref{prop:exp} we have that for an exponential family prediction market, the final market state is given by
-$$\nabla G\left(\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}\right)$$ where $G$ is the convex conjugate of $T$. Thus, the final market state is a convex combination of prior, posterior and market means.
+%Suppose the trader wishes to maximize his expected payoff. Then the number of shares $\delta_{i}$ that he purchases when the current market state is $\theta$ is given by $$\arg\max_{\delta_{i}}\E_{\theta\sim b_{i}}\E_{x\sim \theta}\left[ \delta_{i}\phi(x) - T(\delta_{i} + \theta) + T(\theta)\right]$$
+%But, from Equation \ref{eq:prior} we have $\E_{\theta\sim b}\E_{x\sim \theta}[\phi(x)]=\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}$. To obtain the maximum, we set the gradient of the above expression with respect to $\delta_{i}$ to $0$. Thus, we have for the optimal number of shares $\delta_{i}^{*}$ $$\nabla T(\delta_{i}^{*} + \theta)=\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}$$ Thus, from Proposition \ref{prop:exp} we have that for an exponential family prediction market, the final market state is given by $$\nabla G\left(\frac{n\nu+m\hmu+mi \nabla T(\theta)}{ n+m(i+1)}\right)$$ where $G$ is the convex conjugate of $T$. Thus, the final market state is a convex combination of prior, posterior and market means.
 
 %Let $p(x;\theta)$ denote a probability density drawn from an exponential family with sufficient statistic $\phi : \mX \rightarrow \bR^d$, where $\theta$ is the natural parameter:
 %$$
