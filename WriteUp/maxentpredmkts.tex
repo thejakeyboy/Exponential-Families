@@ -111,7 +111,7 @@ SINDHU KUTTY
 S\'{E}BASTIEN LAHAIE
 \affil{Microsoft Research, New York City}
 RAHUL SAMI
-\affil{University of Michigan, Ann Arbor}}
+\affil{Google India}}
 %%\author{GANG ZHOU
 %%\affil{College of William and Mary}
 %%YAFENG WU
@@ -134,6 +134,7 @@ RAHUL SAMI
 %       currently affiliated with NASA.
 
 \begin{abstract}
+\sindhu{this needs to change once we finalize the sections}
 In this paper, we draw connections between the aggregation performed by learning algorithms and the information aggregation done in prediction markets. We show that, under reasonable conditions, the behavior of rational traders can be understood as the result of performing a learning algorithm on their private data. Similarly,  the market state can be interpreted as a distribution over the outcome space. In particular, we show that a proper scoring rule can be derived from maximum entropy distributions. This scoring rule can be used as a general form of LMSR in prediction markets with over continuous outcome spaces. In order to provide insight on the behavior of rational traders in the market, we use the concept of exponential utility. We show that the traders' behavior can be understood as updating his belief using a Bayesian process and updating the market state in accordance with this utility function. These maxent prediction  markets can also be used to design  markets that are robust against adversarial traders. In fact, when traders are required to report their budgets and their beliefs, we can show that an informative trader eventually makes money and damaging traders eventually have limited influence in the market. Using ideas from convex analysis and the properties of the prediction market, we analyze the properties of the maxent market maker thus providing insight into the information content of the prediction market.
 \end{abstract}
 
@@ -223,8 +224,7 @@ In this paper, we draw connections between the aggregation performed by learning
 \jake{This is a comment from jake}
 \sindhu{This is a comment from sindhu}
 \sebastien{This is a comment from sebastien}
-Prediction markets are aggregation mechanisms that allow market prices to be interpreted as predictive probabilities on an event. Each trader in the market is assumed to have some private information that he uses to make a prediction on the outcome of the event. Traders are allowed to report their beliefs on the outcome of the event by allowing them to buy and sell securities whose value depends on the outcome of this future event. This will effect the state of the market, thus updating the predictive probabilities for the event. Further, since the trades are done sequentially, the trader is allowed to observe all past trades in the market and update his private information based on this information. Traders can see the past history of trades, so the price at which a current trader is willing to buy and sell these securities can be interpreted as an aggregate ``consensus probability forecast'' of a particular candidate winning the election. 
-
+Prediction markets are aggregation mechanisms that allow market prices to be interpreted as predictive probabilities on an event. Each trader in the market is assumed to have some private information that he uses to make a prediction on the outcome of the event. Traders are allowed to report their beliefs on the outcome of the event by allowing them to buy and sell securities whose value depends on the outcome of this future event. This will effect the state of the market, thus updating the predictive probabilities for the event. Further, since the trades are done sequentially, the trader is allowed to observe all past trades in the market and update his private information based on this information. Traders can see the past history of trades, so the price at which a current trader is willing to buy and sell these securities can be interpreted as an aggregate ``consensus probability forecast'' of a particular event occurring.
 % For example, the Iowa Electronic Market predicts the outcome of a presidential election by allowing one to trade on securities that pay off only if the Democratic candidate wins, or only if the Republican candidate wins. 
 
 % JAKE: I think most people reading this will have enough background on markets.
@@ -237,7 +237,7 @@ Prediction markets are aggregation mechanisms that allow market prices to be int
 
 \jake{I want to use this paragraph for a general overview of mm frameworks} One popular form of prediction markets is the market scoring rule~\cite{hanson03}. A market scoring rule considers all trades as a single chronological sequence. Traders earn rewards proportional to the incremental reduction in prediction loss caused by their trades in comparison to the previous trade. In other words, their rewards depend on the change in market probabilities caused by their trade, as well as on the eventual outcome. Thus, each trader has an incentive to minimize the prediction loss. In this format, the {\em market maker} who runs the market can suffer an overall loss, but Hanson~\cite{hanson03} showed that, for market scoring rules on finite outcome spaces, the loss of the market maker can be bounded.
 
-Much the work on prediction market frameworks has focused primarily on structural properties of the mechanism: incentive compatibility, the market maker loss, the available liquidity, the fluctuations of the prices as a function of the trading volume, to name a few. Absent from much of the literature is a corresponding \emph{semantics} of the market behavior or the observed prices. That is, how can we interpret the equilibrium market state when we have a number of traders with diverse beliefs on the underlying state of the world? In what sense is the market an aggregation mechanism? Do price changes relate to our usual Bayesian notion of information incorporation via posterior updating?
+Much of the work on prediction market frameworks has focused primarily on structural properties of the mechanism: incentive compatibility, the market maker loss, the available liquidity, the fluctuations of the prices as a function of the trading volume, to name a few. Absent from much of the literature is a corresponding \emph{semantics} of the market behavior or the observed prices. That is, how can we interpret the equilibrium market state when we have a number of traders with diverse beliefs on the underlying state of the world? In what sense is the market an aggregation mechanism? Do price changes relate to our usual Bayesian notion of information incorporation via posterior updating?
 
 In the present work we show that a number of classical statistical tools can be leveraged to design a prediction market framework in the mold of an \emph{exponential family distributions} that possesses a number of attractive properties. Common concepts in statistics, e.g. \emph{entropy maximization}, \emph{log loss}, and \emph{bayesian inference}, relate to natural aspects of our class of mechanisms. In particular, the central objects in our market framework can be interpreted via conceptual objects used to define exponential families:
 \begin{itemize}
@@ -250,8 +250,8 @@ In the present work we show that a number of classical statistical tools can be 
 We begin with a discussion of scoring rules in Section~\ref{sec:scoring} for exponential family distributions, and in particular we show that the logarithmic scoring rule is the only score that is \emph{proper} for the class of exponential families.
 We turn our attention to market design in Section~\ref{sec:maxentmarkets} and give a full description of our proposed mechanisms. In addition to showing the syntactic relationship between exponential families and prediction markets, we also explore the semantic implications as well. In particular, we show that our formulation allows us to analyze the evolution of the market under various models of trader behavior:
 \begin{itemize}
-	\item Trader behavior varies depending on how they assimilate information; for example, should we consider our agents as Bayesians or frequentists. In Section~\ref{sec:bayesians} We consider traders that use a conjugate prior to update their beliefs, and we study how their trades would affect the market state. \jake{Do we show the following?} We show that although these two kinds of traders pick the eventual market state as a convex combination of their private belief and current market state, they do so in dual spaces.
-	\item In Section~\ref{sec:exputil} we consider when our agents are risk-averse in an interestins special case, that is under the assumption they utilize \emph{exponential utility} to optimize their bets. We show how this dovetails nicely with the notion of a \emph{certainty equivalent} which is often used in risk-aversion settings. In this case we can characterize precisely how a single trader interacts with the market as well as the equilibrium reached given multiple traders; this result is achieved via using a \emph{potential game} argument. The eventual market state turns out to be a weighted combination of trader beliefs and initial market state; the weights depend on the risk aversion parameter of the individual traders.
+	\item Trader behavior varies depending on how they assimilate information; for example, should we consider our agents as Bayesians or frequentists. In Section~\ref{sec:bayesians} we consider traders that use a conjugate prior to update their beliefs, and we study how their trades would affect the market state. \jake{Do we show the following?} We show that although these two kinds of traders pick the eventual market state as a convex combination of their private belief and current market state, they do so in dual spaces.
+	\item In Section~\ref{sec:exputil} we consider when our agents are risk-averse in an interesting special case, that is under the assumption they utilize \emph{exponential utility} to optimize their bets. We show how this dovetails nicely with the notion of a \emph{certainty equivalent} which is often used in risk-aversion settings. In this case we can characterize precisely how a single trader interacts with the market as well as the equilibrium reached given multiple traders; this result is achieved via using a \emph{potential game} argument. The eventual market state turns out to be a weighted combination of trader beliefs and initial market state; the weights depend on the risk aversion parameter of the individual traders.
 	\item In Section~\ref{sec:budgets} we consider \emph{budget-limited traders} who are constrained in how much they influence the market. We analyze the market  under these circumstances; we are able to show that traders with good information can expect to profit and their influence over the market state increases over time whereas malicious traders have limited impact on the market.
 \end{itemize}
 
@@ -303,7 +303,7 @@ for all alternative $\hmu \neq \mu$.% If the domain is $\mD = \mP$, the set of a
 %
 
 \noindent
-Note that given a proper scoring rule $S$ any affine transformation $\tilde{S}(\mu,x) = aS(\mu,x) + b(x)$ of the rule, with $a > 0$ and $b$ an arbitrary real-valued function of the outcomes, again yields a proper scoring rule termed \emph{equivalent}~\citep{}. Throughout we will implicitly apply such affine transformations to obtain the clearest version of the scoring rule. We will also focus on scoring rules where inequality~(\ref{eq-proper}) is strict to avoid trivial cases such as constant scoring rules.
+Note that given a proper scoring rule $S$ any affine transformation $\tilde{S}(\mu,x) = aS(\mu,x) + b(x)$ of the rule, with $a > 0$ and $b$ an arbitrary real-valued function of the outcomes, again yields a proper scoring rule termed \emph{equivalent}~\citep{}. \sindhu{this one? \cite{dawid2006geometry}}Throughout we will implicitly apply such affine transformations to obtain the clearest version of the scoring rule. We will also focus on scoring rules where inequality~(\ref{eq-proper}) is strict to avoid trivial cases such as constant scoring rules.
 
  Classically, scoring rules take in the entire density $p$ rather than just some statistic, and incentive compatibility must hold over all of $\mP$. When the outcome space is large or infinite, it is not feasible to directly communicate $p$, so the definition allows for summary information of the belief.
 
@@ -312,7 +312,7 @@ Note that Definition~\ref{def:proper-score} places only mild information require
 When the outcome space is finite we can recover classical scoring rules from the definition by using the statistic $\phi : \mX \rightarrow \{0,1\}^{\mX}$ that maps an outcome $x$ to a unit vector with a 1 in the component corresponding to $x$. The expectation of $\phi$ is then exactly the probability mass function.
 
 \subsection{Proper Scoring from Maximum Entropy}
-
+\sindhu{\cite{GrunwaldDawid}}
 Our starting point for designing proper scoring rules is the classic logarithmic scoring rule for eliciting probabilities in the case of finite outcomes. This rule is simply $S(p,x) = \log p(x)$, namely we take the log likelihood of the reported density at the eventual outcome. To generalize the rule to expected statistics rather than full densities, we consider a subset of densities $\mD \subseteq \mP$. If there is a bijection between the sets $\mD$ and $\mM$, then we say that $\mM$ parametrizes $\mD$ and write $p(\cdot\,;\mu)$ for the density mapping to $\mu$. Given such a family parametrized be the relevant statistics, the generalized log scoring rule is then
 %
 \begin{equation} \label{log-score}
@@ -322,7 +322,7 @@ S(\mu, x) = \log p(x;\mu).
 Even though the log score is only applied to densities from $\mD$, according to Definition~\ref{def:proper-score} it must work over all densities in $\mP$. It turns out this is possible if $\mD$ is chosen appropriately, drawing on a well-known duality between maximum likelihood and maximum entropy~\citep{}.
 
 \subsubsection*{Exponential Families}
-
+\sindhu{\cite{WainJordan08}}
 We let $p(x;\mu)$ be the maximum entropy distribution with expected statistic $\mu$. Specifically, it is the solution to the following mathematical program:\footnote{We assume throughout that the minimum is finite and achieved for all $\mu \in \mM$. Some care is needed to ensure this holds for specific statistics and outcome spaces. For example, taking outcomes to be the real numbers, there is no maximum entropy distribution with a given mean $\mu$ (one can take densities tending towards the uniform distribution over the reals), but there is always a solution if we constrain both the mean and variance.}
 %
 \begin{equation} \label{maxent-prog}
@@ -608,7 +608,7 @@ meaning that $\nu = n \nu / n$ is the posterior mean. Thus, it is helpful to thi
 %
 Thus the posterior mean is a convex combination of the prior and posterior means, and their relative weights depend on the phantom and empirical sample sizes.% need a reference here
 
-Consider Bayesian agents maintaning and exponential family conjugate prior over the data model's natural parameters (equivalently, the expected security payoffs). Each agent has access to a private sample of the data of size $m$ with mean statistic $\hmu$. If $n$ agents have arrived before to trade, then the current market prices $\mu$ correspond to the phantom sample, and the phantom sample size is $nm$. After forming the posterior~(\ref{posterior}) with these substitutions, the (risk-neutral) agent purchases shares $\delta$ to move the current market share vector to
+Consider Bayesian agents maintaining and exponential family conjugate prior over the data model's natural parameters (equivalently, the expected security payoffs). Each agent has access to a private sample of the data of size $m$ with mean statistic $\hmu$. If $n$ agents have arrived before to trade, then the current market prices $\mu$ correspond to the phantom sample, and the phantom sample size is $nm$. After forming the posterior~(\ref{posterior}) with these substitutions, the (risk-neutral) agent purchases shares $\delta$ to move the current market share vector to
 %
 $$
 \grad C(\theta + \delta) = \frac{n\nu + \hmu}{n+1}.
@@ -786,7 +786,7 @@ Let $\Theta\defeq\hat{\theta}-a \delta_{1}^{*}  $ be the effective belief. Thus 
 & = & \arg\max_{\delta_{2}} \int_{\mathcal{X}} -\frac{1}{a} \exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta')\} \exp\{\Theta\cdot \phi(x) - T(\Theta)\}\, dx\\
 & = & \arg\max_{\delta_{2}} U\left[- C(\delta_{2} + \theta') + C(\theta') - \frac{1}{a} T(\Theta - a\delta_{2}) + \frac{1}{a} T(\Theta)\right]\\
 \end{eqnarray*}
-This follows from Proposition \ref{prop:exp-util} \jake{Sindhu this ref isn't in the doc}. The maximizer is $\delta_{2}^* = (\Theta - \theta') / (1+a)$, which moves the share vector to $\theta' + \delta_{2}^* = \frac{1}{1+a} \Theta + \frac{a}{1+a} \theta'$ which is a convex combination of the effective belief and the current market state.
+This follows from Proposition \ref{prop:exp-util} \jake{Sindhu this ref isn't in the doc}\sindhu{it looks like the exp-util section has been rewritten since I edited this: I'll need to check this reference}. The maximizer is $\delta_{2}^* = (\Theta - \theta') / (1+a)$, which moves the share vector to $\theta' + \delta_{2}^* = \frac{1}{1+a} \Theta + \frac{a}{1+a} \theta'$ which is a convex combination of the effective belief and the current market state.
 
 In other words, an exponential utility maximizing trader who has belief $\hat{\theta}$ with prior exposure $\delta$ in a market  will behave identically to an exponential utility maximizing trader with belief $\hat{\theta}-a \delta$ and no prior exposure in the market. Here $a$ is the utility parameter. This means that financial exposure can be equivalently understood as changing the privately held beliefs.
 %\pagebreak
@@ -841,6 +841,7 @@ Thus the equilibrium state is a convex combination of trader beliefs and initial
 
 
 \section{The Exponential Family Market Mechanism with Budgets} \label{sec:budgets}
+\sindhu{\cite{Azoury01}}
 In the previous section, we saw that we can define a cost-function based prediction market so that the aggregated belief of the traders represents the maximum likelihood estimate of the natural parameters of the true exponential family distribution.
 
 In this section, we consider the the prediction market setup with traders that may be either informative or malicious. The malicious traders may want to inject faulty information into the market. The informative traders on the other hand receive points drawn from the true distribution on which they base their beliefs.
@@ -863,17 +864,11 @@ Let the current market state be given by $\theta$. Let the final market state $\
 \end{theorem}
 \begin{proof}
 From the convexity of $C$, we have
- $$C(\theta')\leq(1-\lambda)C(\theta)+\lambda C(\htheta)$$
-
-Now 
 \begin{eqnarray*}
-C(\theta') - C(\theta) &\leq& (1-\lambda)C(\theta)\\
-&&+\lambda C(\htheta) - C(\theta)\\
-&=& \lambda\ (C(\htheta) - C(\theta))
-\end{eqnarray*}
-
- Thus, $C(\theta') - C(\theta) \leq \alpha$. 
- \end{proof}
+C(\theta')&\leq&(1-\lambda)C(\theta)+\lambda C(\htheta)\\
+\mbox{Thus, } C(\theta') - C(\theta) &\leq& \lambda\ (C(\htheta) - C(\theta))\\
+\mbox{And, } C(\theta') - C(\theta) &\leq& \alpha 
+ \end{eqnarray*}\end{proof}
  
  We note that moving to $\theta'$ as defined may not be the optimal trade for a rational trader maximizing her expected profit. In general, the inequality above is strict, and so a trader does not fully exhaust her budget by moving to $\theta$. Our results below will continue to hold in the case that strategic informative traders move to a position closer to their beliefs $\htheta$.
 \subsection{Damage Bound}
