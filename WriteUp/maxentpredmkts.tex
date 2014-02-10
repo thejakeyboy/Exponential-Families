@@ -718,7 +718,7 @@ where the last line follows from the fact that density $p(x;\htheta+\delta)$ int
 \noindent
 Recall that for the generalized LMSR, the cost function $C$ is exactly the log partition function $T$. We are therefore lead to the following clear understanding of a risk-averse agent's behavior in such a market.
 %
-\begin{theorem}
+\begin{theorem} \label{thm:exp-util}
 Suppose an agent has exponential utility with coefficient $a$ and exponential family beliefs with natural parameter $\htheta$. In the generalized LMSR market with current market state $\theta$, the agent's optimal trade $\delta$ moves the state vector to
 %
 \begin{equation} \label{exp-update}
@@ -747,7 +747,38 @@ Note that as, $a$ tends to 0, we approach risk neutrality and the agent moves th
 
 
 
-%\pagebreak
+\subsubsection*{Liquidity Adjustment}
+
+In practice the centralized market maker allows itself some control over the \emph{liquidity} in the market, which captures how responsive prices are to trades. To adjust liquidity we consider the parametrized cost $C_{\lambda}(\theta)=\frac{1}{\lambda} C\left(\lambda\theta\right)$. Here $\lambda$ is construed as the \emph{inverse liquidity}, or price responsiveness. A larger setting of $\lambda$ means fewer shares need to be bought to reach the same prices.\footnote{Observe that the liquidity adjustment to the cost function takes the same form as the risk-aversion adjustment to the exponential utility in~(\ref{exp-util}). In convex analysis, this transformation is known as the perspective function~\citep{}.}
+
+%(Discussion, you can skip this paragraph.) This is because for higher $\lambda$ we are making the cost function ``more convex''. Specifically, for $\lambda_1 > \lambda_2$ it's the case that $C_{\lambda_1}$ is an increasing convex transformation of $C(\lambda_2)$. This holds because the ``coefficient of risk aversion'' $A(\theta) = C''(\theta)/C'(\theta)$ increases with $\lambda$ at every point. I've written it assuming single-dimensional $\theta$ but there are more complicated looking generalizations for vector $\theta$. In fact, this coefficient might be the ``right'' notion of liquidity at a point, not the second derivative or largest eigenvalue of the Hessian. We should discuss.
+
+\newcommand{\ttheta}{\tilde{\theta}}
+In the context of the generalized LMSR we write $T$ rather than $C$ where $T$ is the log partition function, with liquidity-adjusted version $T_{\lambda}$. Let $\hmu$ be the agent's mean belief with corresponding natural parameter $\htheta = \grad T^{-1}(\hmu)$. Recall that a risk-neutral agent moves the share vector so that the prices match its mean parameter. Therefore, define the \emph{target shares} as $\ttheta = \grad T^{-1}_{\lambda}(\hmu)$. The target shares $\htheta$ and natural parameter $\ttheta$ are related by
+%
+$$
+\grad T(\htheta) = \grad T_{\lambda}(\ttheta) = \hmu.
+$$
+%
+It is straightforward to check that $\grad T_{\lambda}(\ttheta) = \grad T(\lambda \ttheta)$ so we have
+%
+\begin{equation} \label{target}
+\ttheta = \htheta / \lambda.
+\end{equation}
+%
+Higher price responsiveness means fewer shares must be bought to make the market prices match the agent's expectation, so the natural parameter is scaled down accordingly. With a liquidity adjustment, the analysis of Theorem~\ref{thm:exp-util} can be extended and yields the following result.
+%
+\begin{corollary}
+Under the conditions of Theorem~\ref{thm:exp-util} and an inverse liquidity of $\lambda$, the agent's optimal trade $\delta$ moves the state vector to
+%
+\begin{equation} \label{liqu-update}
+\theta + \delta = \frac{\lambda}{\lambda+a} \ttheta + \frac{a}{\lambda+a} \theta
+= \frac{\lambda}{\lambda+a} \grad T^{-1}_{\lambda}(\hmu) + \frac{a}{\lambda+a} \grad T^{-1}_{\lambda}(\mu).
+\end{equation}
+%
+\end{corollary}
+%
+According to~(\ref{liqu-update}), as $\lambda$ grows large the agent moves the market state closer to the \emph{target shares}, rather than its true natural parameter. Note that the target shares themselves depend on $\lambda$ by~(\ref{target}), but the update can be directly written in terms of the agent's beliefs as in the right-hand side of~(\ref{liqu-update}).
 
 
 
