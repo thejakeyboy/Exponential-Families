@@ -239,7 +239,7 @@ Prediction markets are aggregation mechanisms that allow market prices to be int
 
 Much the work on prediction market frameworks has focused primarily on structural properties of the mechanism: incentive compatibility, the market maker loss, the available liquidity, the fluctuations of the prices as a function of the trading volume, to name a few. Absent from much of the literature is a corresponding \emph{semantics} of the market behavior or the observed prices. That is, how can we interpret the equilibrium market state when we have a number of traders with diverse beliefs on the underlying state of the world? In what sense is the market an aggregation mechanism? Do price changes relate to our usual Bayesian notion of information incorporation via posterior updating?
 
-In the present work we show that a number of classical statistical tools can be leveraged to design a prediction market framework in the mold of an \emph{exponential family distributions} that possesses a number of attractive properties. Common concepts in statistics \emph{entropy maximization}, \emph{log loss}, and \emph{bayesian inference}, relate to natural aspects of our class of mechanisms. In particular, the central objects in our market framework can be interpreted as elements of exponential families:
+In the present work we show that a number of classical statistical tools can be leveraged to design a prediction market framework in the mold of an \emph{exponential family distributions} that possesses a number of attractive properties. Common concepts in statistics, e.g. \emph{entropy maximization}, \emph{log loss}, and \emph{bayesian inference}, relate to natural aspects of our class of mechanisms. In particular, the central objects in our market framework can be interpreted via conceptual objects used to define exponential families:
 \begin{itemize}
 	\item the \emph{payoff function} of the market corresponds to the \emph{sufficient statistics} of the probabiilty distribution;
 	\item the vector of \emph{oustanding shares} in the market corresponds to the \emph{natural parameter vector} of the distribution;
@@ -247,11 +247,12 @@ In the present work we show that a number of classical statistical tools can be 
 	\item the profit potential for a trader corresponds to a \emph{Kullback-Leibler divergence} between the trader's belief and that of the market.
 \end{itemize}
 
-In addition to showing this syntactic relationship between exponential families and prediction markets, we also explore the semantic implications as well. In particular, we show that our formulation allows us to analyze the evolution of the market under various  models of trader behavior:
+We begin with a discussion of scoring rules in Section~\ref{sec:scoring} for exponential family distributions, and in particular we show that the logarithmic scoring rule is the only score that is \emph{proper} for the class of exponential families.
+We turn our attention to market design in Section~\ref{sec:maxentmarkets} and give a full description of our proposed mechanisms. In addition to showing the syntactic relationship between exponential families and prediction markets, we also explore the semantic implications as well. In particular, we show that our formulation allows us to analyze the evolution of the market under various models of trader behavior:
 \begin{itemize}
-	\item We consider \emph{budget-limited traders} who are constrained in how much they influence the market. We analyze the market  under these circumstances; we are able to show that traders with good information can expect to profit and their influence over the market state increases over time whereas malicious traders have limited impact on the market.
-	\item We consider when our agents are risk-averse in an interestins special case, that is under the assumption they utilize \emph{exponential utility} to optimize their bets. In this case we can characterize precisely how a single trader interacts with the market as well as the equilibrium reached given multiple traders. The eventual market state turns out to be a weighted combination of trader beliefs and initial market state; the weights depend on the risk aversion parameter of the individual traders.
-	\item In addition, we observe that trader behavior varies depending on whether they assimilate information as Bayesians or as frequentists.  Interestingly, we show that although these two kinds of traders pick the eventual market state as a convex combination of their private belief and current market state, they do so in dual spaces.
+	\item Trader behavior varies depending on how they assimilate information; for example, should we consider our agents as Bayesians or frequentists. In Section~\ref{sec:bayesians} We consider traders that use a conjugate prior to update their beliefs, and we study how their trades would affect the market state. \jake{Do we show the following?} We show that although these two kinds of traders pick the eventual market state as a convex combination of their private belief and current market state, they do so in dual spaces.
+	\item In Section~\ref{sec:exputil} we consider when our agents are risk-averse in an interestins special case, that is under the assumption they utilize \emph{exponential utility} to optimize their bets. We show how this dovetails nicely with the notion of a \emph{certainty equivalent} which is often used in risk-aversion settings. In this case we can characterize precisely how a single trader interacts with the market as well as the equilibrium reached given multiple traders; this result is achieved via using a \emph{potential game} argument. The eventual market state turns out to be a weighted combination of trader beliefs and initial market state; the weights depend on the risk aversion parameter of the individual traders.
+	\item In Section~\ref{sec:budgets} we consider \emph{budget-limited traders} who are constrained in how much they influence the market. We analyze the market  under these circumstances; we are able to show that traders with good information can expect to profit and their influence over the market state increases over time whereas malicious traders have limited impact on the market.
 \end{itemize}
 
 \jake{I want to add more to this list. It's ok but doesn't totally reflect what's in the last few sections.}
@@ -482,7 +483,8 @@ In the above, Example~\ref{ex:gaussian} illustrates an important point about par
 %Smaller values of $\alpha$ means greater smoothing e.g., $\alpha=0$ gives a constant function ($=x_{0}$).
 %Note that the selection of $x_{0}$ is important -- and increases in importance as $\alpha$. Some advantages over moving average: all data points matter (decreasing importance with time) and computationally only last data point need be stored.
 %\pagebreak
-\section{Maximum Entropy Market Making}
+\section{Maximum Entropy Prediction Markets via Exponential Families}
+\label{sec:maxentmarkets}
 
 In a single-agent setting, a scoring rule is used to \emph{elicit} the agent's belief. In a multi-agent setting, a prediction market can be used to \emph{aggregate} the beliefs of the agents. In his seminal paper~\citet{} introduced the idea of a market scoring rule, which inherits the appealing elicitation and aggregation properties of both in order to perform well in thin or thick markets. In this section, we adapt the generalized log scoring rule to a market scoring rule which leads to markets with simple closed-form cost functions for many statistics of interest.%The exponential families framework also allows us to move beyond risk-neutral agents to understand the aggregation properties of prediction markets under alternative behaviors, such as Bayesian updating and risk aversion. 
 
@@ -578,7 +580,7 @@ where $I_r$ refers to the modified Bessel function of first kind and order $r$; 
 %
 
 
-\section{Bayesian Traders with Linear Utility}
+\section{Bayesian Traders with Linear Utility} \label{sec:bayesians}
 
 In the standard model of cost-function based prediction markets, a sequence of myopic, risk-neutral agents arrive and trade in the market~\citep{}. As we saw in Section~\ref{sec:pred-market}, such a trader moves the prices to its own expectation $\mu$. However, this means that the market does not perform any meaningful aggregation of the agent's belief, as the final prices are simply the final agent's expectation.
 
@@ -656,7 +658,7 @@ As a result, the final market prices under this behavior are a simple average of
 %where $g^*$ is the convex conjugate of $g$.
 
 
-\section{Risk Aversion, Exponential Utility, and Market Equilibrium}
+\section{Risk Aversion, Exponential Utility, and Market Equilibrium} \label{sec:exputil}
 
 \subsection{Behavior of Traders endowed with Exponential Utility}
 
@@ -809,20 +811,20 @@ then $\vec{\delta}$ is a Nash equilibrium if and only if $\Phi(\vec{\delta})$ is
 \end{thm}
 In the exponential family market, the cost function $C$ is identical to the log partition function $T$.  Let $\vec{\delta}$ be the vector of vectors of shares purchased by every trader in the market when the market has reached equilibrium, $\theta$ the initial market state, $\htheta_{i}$ the natural parameter of trader $i$'s belief distribution and $a_{i}$ his utility parameter. \jake{I need to fix a small technical detail with the fact that we are using the log utilities to use the potential argument.}
 
-Define a potential function as  $$\Phi(\vec{\delta})\defeq  T(\theta+\sum_{i}\delta_{i})+\sum_{i}\frac{1}{a_{i}}T(\htheta_{i}-a_{i}\delta_{i})$$
+Define a potential function as  $$\Phi(\vec{\delta})\defeq  T\left(\theta+\sum_{i}\delta_{i}\right)+\sum_{i}\frac{1}{a_{i}}T(\htheta_{i}-a_{i}\delta_{i})$$
 
 %is the following expression for utility correct?
 Now the utility of trader $i$ is $U_{i}(\vec{\delta})=- T(\theta+\sum_{j}\delta_{j}) + T(\theta+\sum_{j\neq i}\delta_{j}) - \frac{1}{a_{i}} T(\htheta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\htheta_{i})$.
 Thus, Theorem \ref{thm:potl} applies and we can find the equilibrium market state by maximizing $\Phi(\vec{\delta})$ for each $\delta_{i}$.
 \begin{eqnarray*}
-\nabla_{\delta_{i}}\Phi(\vec{\delta})&=&\nabla T(\theta+\sum_{j=1}^{n}\delta_{i})-\nabla T(\htheta_{i}-a_{i}\delta_{i}) = 0
+\nabla_{\delta_{i}}\Phi(\vec{\delta})&=&\nabla T\left(\theta+\sum_{j=1}^{n}\delta_{i}\right)-\nabla T(\htheta_{i}-a_{i}\delta_{i}) = 0
 \end{eqnarray*}¥
 This can be achieved by equating the arguments. That is, for each trader $i$, 
 \begin{equation}\label{eq:eqbm}
 \htheta_{i}-a_{i}\delta_{i}=\theta+\sum_{j=1}^{n}\delta_{j}
 \end{equation}¥
 Rewriting, we have for each trader $i$, 
-$$\frac{\htheta_{i}}{a_{i}}-\delta_{i}=\frac{1}{a_{i}}(\theta+\sum_{j=1}^{n}\delta_{j})$$
+$$\frac{\htheta_{i}}{a_{i}}-\delta_{i}=\frac{1}{a_{i}}\left(\theta+\sum_{j=1}^{n}\delta_{j}\right)$$
 Thus,
 $$\sum_{i=1}^{n}\left(\frac{\htheta_{i}}{a_{i}}\right)-\sum_{i=1}^{n}\delta_{i}=\left(\theta+\sum_{j=1}^{n}\delta_{j}\right)\sum_{i=1}^{n}\frac{1}{a_{i}}$$
 And
@@ -838,7 +840,7 @@ Thus the equilibrium state is a convex combination of trader beliefs and initial
 
 
 
-\section{The Exponential Family Market Mechanism with Budgets}
+\section{The Exponential Family Market Mechanism with Budgets} \label{sec:budgets}
 In the previous section, we saw that we can define a cost-function based prediction market so that the aggregated belief of the traders represents the maximum likelihood estimate of the natural parameters of the true exponential family distribution.
 
 In this section, we consider the the prediction market setup with traders that may be either informative or malicious. The malicious traders may want to inject faulty information into the market. The informative traders on the other hand receive points drawn from the true distribution on which they base their beliefs.
