@@ -1,5 +1,16 @@
-%for generic construction of cost function
+% Prediction markets have been known to perform well in practice (see, for instance, \cite{AGT07,Wol04,pennock2001real}). However, a sound theory for interpreting trader behavior and market prices is an ongoing area of study \cite{wolfers2006interpreting}.
 
+% Scoring rules are a measure of merit of a predictor \cite{gneiting2007strictly}. \cite{hanson03} adapted scoring rules to markets with sequential participation of multiple traders. A cost function based formulation of markets was first introduced by \cite{chen2007utility}.
+
+% Designing prediction markets to handle a large outcome space is an active area of research.  In \cite{Chen08}, the authors use a restricted betting language to design efficient markets for a combinatorial outcome space. This technique is generalized by \cite{Pennock11}. \cite{Gao09} consider extending various automated market makers to an infinite outcome space. For the logarithmic market scoring rule they show that unbounded market maker loss can result in this setting.   \cite{Abernethy11} and \cite{OthmanS11} specify frameworks under which they design cost function based markets that satisfy the desirable property of bounded market maker loss even in infinite outcome spaces.
+
+% In this paper, we use exponential family distributions to construct our cost function. For a comprehensive introduction to the class of exponential family distributions see \cite{WainJordan08}. \cite{Azoury01} consider learning exponential family distributions in a traditional online learning model and provide worst case loss bounds relative to using an offline algorithm.  \cite{storkey11} constructs a prediction market where each participating agent is a learning algorithm with varying utility functions.
+
+%\cite{diaconis79} in bayesian section
+%\cite{banerjee2005clustering} at first ref of breg div
+%\cite{GrunwaldDawid} for maxent 
+
+%for generic construction of cost function
 @article{acv13,
  author = {Abernethy, Jacob and Chen, Yiling and Vaughan, Jennifer Wortman},
  title = {Efficient Market Making via Convex Optimization, and a Connection to Online Learning},
@@ -18,6 +29,17 @@
  address = {New York, NY, USA},
  keywords = {Market design, automated market maker, convex analysis, online linear optimization, prediction market, securities market},
 } 
+
+@inproceedings{OthmanS11,
+  author    = {Abraham Othman and
+               Tuomas Sandholm},
+  title     = {Automated Market Makers That Enable New Settings: Extending
+               Constant-Utility Cost Functions},
+  booktitle = {Proceedings of the Second Conference on Auctions, Market Mechanisms and Their Applications (AMMA)},
+  year      = {2011},
+  pages     = {19-30},
+  
+}
 	
 %for infinite outcome spaces
 @inproceedings{Gao09,
@@ -46,7 +68,7 @@
 } 
 
 %for how well pred markets work
-@ARTICLE{Wol:04,
+@ARTICLE{Wol04,
  author={J. Wolfers and E. Zitzewitz},
  title={Prediction Markets},
  journal={Journal of Economic Perspective},
@@ -54,6 +76,15 @@
  number={2},
  pages={107--126},
  year={2004},
+}
+@article{pennock2001real,
+  title={The real power of artificial markets},
+  author={Pennock, David M and Lawrence, Steve and Giles, C Lee and Nielsen, Finn Arup and others},
+  journal={Science},
+  volume={291},
+  number={5506},
+  pages={987--988},
+  year={2001}
 }
 
 @techreport{wolfers2006interpreting,
@@ -87,6 +118,7 @@
 	pages = {49--56}
 }
 
+
 %for conjugate prior
 @article{diaconis79,
 	Author = {Diaconis, Persi and Ylvisaker, Donald},
@@ -100,7 +132,7 @@
 	Year = {1979}
 }
 
-%for exp fly and learning
+%-for exp fly and learning
 @article{Azoury01,
 	Address = {Hingham, MA, USA},
 	Author = {Azoury, Katy S. and Warmuth, M. K.},
