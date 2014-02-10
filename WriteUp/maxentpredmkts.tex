@@ -58,6 +58,7 @@
 \newcommand{\mF}{\mathcal{F}}
 \newcommand{\mD}{\mathcal{D}}
 \newcommand{\htheta}{\hat{\theta}}
+\newcommand{\ttheta}{\tilde{\theta}}
 %---------------------------------------------------------------------------
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{prop}[thm]{Proposition}
@@ -753,7 +754,6 @@ In practice the centralized market maker allows itself some control over the \em
 
 %(Discussion, you can skip this paragraph.) This is because for higher $\lambda$ we are making the cost function ``more convex''. Specifically, for $\lambda_1 > \lambda_2$ it's the case that $C_{\lambda_1}$ is an increasing convex transformation of $C(\lambda_2)$. This holds because the ``coefficient of risk aversion'' $A(\theta) = C''(\theta)/C'(\theta)$ increases with $\lambda$ at every point. I've written it assuming single-dimensional $\theta$ but there are more complicated looking generalizations for vector $\theta$. In fact, this coefficient might be the ``right'' notion of liquidity at a point, not the second derivative or largest eigenvalue of the Hessian. We should discuss.
 
-\newcommand{\ttheta}{\tilde{\theta}}
 In the context of the generalized LMSR we write $T$ rather than $C$ where $T$ is the log partition function, with liquidity-adjusted version $T_{\lambda}$. Let $\hmu$ be the agent's mean belief with corresponding natural parameter $\htheta = \grad T^{-1}(\hmu)$. Recall that a risk-neutral agent moves the share vector so that the prices match its mean parameter. Therefore, define the \emph{target shares} as $\ttheta = \grad T^{-1}_{\lambda}(\hmu)$. The target shares $\htheta$ and natural parameter $\ttheta$ are related by
 %
 $$
