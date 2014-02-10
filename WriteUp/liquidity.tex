@@ -99,11 +99,12 @@ Thus, the expected payoff  for a trader with exponential family belief parameter
 \begin{eqnarray*}
 \E_{x\sim p(x;\beta)}\left[C_{\lambda}(\theta)-\theta\phi(x)-(C_{\lambda}(\theta')-\theta'\phi(x))\right]=\lambda[D_{T}(\theta/\lambda,\beta)-D_{T}(\theta'/\lambda,\beta)]
 \end{eqnarray*}¥
-If $\theta'=a\beta+(1-a)\theta$ for some $a\in[0,1]$ we can write
+If $\theta'=a\beta\lambda+(1-a)\theta$ for some $a\in[0,1]$ we can write
 \begin{eqnarray*}
-D_{T}(\theta'/\lambda,\beta)&\leq& a D_{T}(\beta/\lambda,\beta)+(1-a) D_{T}(\theta/\lambda,\beta)\\
-D_{T}(\theta/\lambda,\beta)-D(\theta'/\lambda,\beta)&\geq& a D_{T}(\theta/\lambda,\beta)-a D_{T}(\beta/\lambda,\beta)
+D_{T}(\theta'/\lambda,\beta)&\leq& a D_{T}(\beta\lambda/\lambda,\beta)+(1-a) D_{T}(\theta/\lambda,\beta)\\
+D_{T}(\theta/\lambda,\beta)-D_{T}(\theta'/\lambda,\beta)&\geq& a D_{T}(\theta/\lambda,\beta)-a D_{T}(\beta,\beta)
 \end{eqnarray*}¥
+
 %Note that 
 %\begin{eqnarray*}
 %\nabla_{\theta} C_{\lambda} (\theta)&=&\nabla_{\theta}\lambda C\left(\frac{\theta}{\lambda}\right)\\
@@ -124,10 +125,10 @@ So we have for an optimal choice of $\delta$,
 \begin{eqnarray*}
 \frac{\theta+\delta}{\lambda} &=& \beta-a\delta\\
 \implies \delta&=&\frac{\beta\lambda-\theta}{1+a\lambda}\\
-\implies \theta+\delta&=&\lambda\frac{\beta+a\delta}{1+a\lambda}
+\implies \theta+\delta&=&\frac{1}{1+a\lambda}\beta\lambda+\frac{a\lambda}{1+a\lambda}\delta
 \end{eqnarray*}
 
-
+From the remarks below, we see that $\beta\lambda$ actually represents the agent's target share vector.
 
 
 \subsection{Introducing Liquidity (S\'{e}bastien Remarks)}
