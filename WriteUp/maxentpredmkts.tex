@@ -290,7 +290,7 @@ Independently of this work, Beygelzimer et al.~\cite{BLP12} have shown that, for
 
 We consider a measurable space consisting of a set of outcomes $\mX$ together with a $\sigma$-algebra $\mF$. An agent or expert has a \emph{belief} over potential outcomes taking the form of a probability measure absolutely continuous with respect to a base measure~$\nu$.\footnote{Recall that a measure $P$ is absolutely continuous with respect to~$\nu$ if $P(A) = 0$ for every $A \in \mF$ for which $\nu(A) = 0$. In essence the base measure~$\nu$ restricts the support of $P$. In our examples $\nu$ will typically be a restriction of the Lebesgue measure for continuous outcomes or the counting measure for discrete outcomes.} Throughout we represent the belief as the corresponding density $p$ with respect to~$\nu$. Let $\mP$ denote the set of all such probability densities.
 
-We are interested in eliciting information about the agent's belief, in particular expectation information. Let $\phi: \mX \rightarrow \bR^d$ be a vector-valued random variable or \emph{statistic}, where $d$ is finite. The aim is to elicit $\mu = \E_{p}[\phi(x)]$ where $x$ is the random outcome. A \emph{scoring rule} is a device for this purpose. Let $$\mM = \left\{ \mu \in \bR^d : \Exp_p[\phi(x)] = \mu,\, \mbox{for some $p \in \mP$} \right\}$$ be the set of realizable statistic expectations.  A scoring rule $S : \mM \times \mX \rightarrow \bR \cup \{-\infty\}$ pays the agent $S(\hmu,x)$ according to how well its report $\hmu \in \mM$ agrees with the eventual outcome $x \in \mX$. The following definition is due to~\citet{}.
+We are interested in eliciting information about the agent's belief, in particular expectation information. Let $\phi: \mX \rightarrow \bR^d$ be a vector-valued random variable or \emph{statistic}, where $d$ is finite. The aim is to elicit $\mu = \E_{p}[\phi(x)]$ where $x$ is the random outcome. A \emph{scoring rule} is a device for this purpose. Let $$\mM = \left\{ \mu \in \bR^d : \Exp_p[\phi(x)] = \mu,\, \mbox{for some $p \in \mP$} \right\}$$ be the set of realizable statistic expectations.  A scoring rule $S : \mM \times \mX \rightarrow \bR \cup \{-\infty\}$ pays the agent $S(\hmu,x)$ according to how well its report $\hmu \in \mM$ agrees with the eventual outcome $x \in \mX$. The following definition is due to~\citet{lambert2008eliciting}.
 %
 \begin{definition} \label{def:proper-score}
 A scoring rule $S$ is  \emph{proper} for statistic $\phi$ if for each $\mu \in \mM$ and $p \in \mP$ with expected statistic $\mu$, we have
@@ -304,7 +304,7 @@ for all alternative $\hmu \neq \mu$.% If the domain is $\mD = \mP$, the set of a
 %
 
 \noindent
-Note that given a proper scoring rule $S$ any affine transformation $\tilde{S}(\mu,x) = aS(\mu,x) + b(x)$ of the rule, with $a > 0$ and $b$ an arbitrary real-valued function of the outcomes, again yields a proper scoring rule termed \emph{equivalent}~\citep{}. \sindhu{this one? \cite{dawid2006geometry}}Throughout we will implicitly apply such affine transformations to obtain the clearest version of the scoring rule. We will also focus on scoring rules where inequality~(\ref{eq-proper}) is strict to avoid trivial cases such as constant scoring rules.
+Note that given a proper scoring rule $S$ any affine transformation $\tilde{S}(\mu,x) = aS(\mu,x) + b(x)$ of the rule, with $a > 0$ and $b$ an arbitrary real-valued function of the outcomes, again yields a proper scoring rule termed \emph{equivalent}~\citep{Dawid98,GneitingRa07}. Throughout we will implicitly apply such affine transformations to obtain the clearest version of the scoring rule. We will also focus on scoring rules where inequality~(\ref{eq-proper}) is strict to avoid trivial cases such as constant scoring rules.
 
  Classically, scoring rules take in the entire density $p$ rather than just some statistic, and incentive compatibility must hold over all of $\mP$. When the outcome space is large or infinite, it is not feasible to directly communicate $p$, so the definition allows for summary information of the belief.
 
@@ -320,7 +320,7 @@ Our starting point for designing proper scoring rules is the classic logarithmic
 S(\mu, x) = \log p(x;\mu).
 \end{equation}
 %
-Even though the log score is only applied to densities from $\mD$, according to Definition~\ref{def:proper-score} it must work over all densities in $\mP$. It turns out this is possible if $\mD$ is chosen appropriately, drawing on a well-known duality between maximum likelihood and maximum entropy~\citep{}.
+Even though the log score is only applied to densities from $\mD$, according to Definition~\ref{def:proper-score} it must work over all densities in $\mP$. It turns out this is possible if $\mD$ is chosen appropriately, drawing on a well-known duality between maximum likelihood and maximum entropy~\citep{GrunwaldDawid}.
 
 \subsubsection*{Exponential Families}
 \sindhu{\cite{WainJordan08}}
@@ -351,7 +351,7 @@ T(\theta) = \log \int_{\mX} \exp \la \theta, \phi(x) \ra \,d\nu(x).
 %
 The function $T$ is known as the \emph{log-partition} or \emph{cumulant} function corresponding to the exponential family. Its domain is $\Theta = \{ \theta \in \bR^d : T(\theta) < +\infty \}$, called the natural parameter space. The exponential family is \emph{regular} if $\Theta$ is open---almost all exponential families of interest, and all those we consider in this work, are regular. The family is \emph{minimal} if there is no $\alpha \in \Theta$ such that $\la \alpha, \phi(x) \ra$ is a constant over $\mX$ ($\nu$-almost everywhere); minimality is a property of the associated statistic $\phi$, usually called the \emph{sufficient statistic} in the literature. 
 
-The following proposition collects the relevant results on regular exponential families; proofs may be found in~\citep{}. A convex function $T$ is of \emph{Legendre type} if it is proper, closed, strictly convex and differentiable on the interior of its domain, and $\lim_{\theta \rightarrow \bar{\theta}} \norm{\grad T(\theta)} = +\infty$ when $\bar{\theta}$ lies on the boundary of the domain. 
+The following proposition collects the relevant results on regular exponential families; proofs may be found in~\citep{BanerjeeDhGh05b,Barndorff78,WainJordan08}. A convex function $T$ is of \emph{Legendre type} if it is proper, closed, strictly convex and differentiable on the interior of its domain, and $\lim_{\theta \rightarrow \bar{\theta}} \norm{\grad T(\theta)} = +\infty$ when $\bar{\theta}$ lies on the boundary of the domain. 
 %
 \begin{prop}\label{prop:exp}
 Consider a regular exponential family with minimal sufficient statistic. The following properties hold:
@@ -409,13 +409,13 @@ which shows that $p(x;\mu)$ takes the form of an exponential family.
 \end{proof}
 %
 
-As further intuition for the result, note that~(\ref{breg-div}) is the definition of the `Bregman divergence' with respect to strictly convex function $T$~\citep{}. Therefore we have 
+As further intuition for the result, note that~(\ref{breg-div}) is the definition of the `Bregman divergence' with respect to strictly convex function $T$. Therefore we have 
 %
 \begin{equation*}
 \Exp_p[\log p(x;\mu)] - \Exp_p[\log p(x;\hmu)] = D_T(\htheta,\theta) = D_G(\mu, \hmu),
 \end{equation*}
 %
-where the last equality is a well-known identity relating the Bregman divergences of $T$ and $T^* = G$~\citep{}. The equation states that the agent's regret from misreporting its mean parameter does not depend on the full density $p$, only the mean $\mu$.   
+where the last equality is a well-known identity relating the Bregman divergences of $T$ and $T^* = G$~\citep{BanerjeeDhGh05b}. The equation states that the agent's regret from misreporting its mean parameter does not depend on the full density $p$, only the mean $\mu$.   
 
 \subsection{Examples: Moments over the Real Line}
 
@@ -457,11 +457,11 @@ Again, we stress that this scoring rule elicits the mean and variance of any den
 S((\mu, \Sigma), x) = -(x - \mu)'\Sigma^{-1}(x - \mu) - \log |\Sigma|.
 \end{equation}
 %
-Here the statistics being elicited are the mean vector $\mu$ and the covariance matrix $\Sigma$. These scoring rules have been studied by~\citet{} as rules that only depend on the mean and variance of the reported density. They note that these rules are weakly proper (because they do not distinguish between densities with the same first and second moments), but do not make the point that knowledge of the full density is not necessary on the part of the agent.
+Here the statistics being elicited are the mean vector $\mu$ and the covariance matrix $\Sigma$. These scoring rules have been studied by~\citet{dawid99coherent} as rules that only depend on the mean and variance of the reported density. They note that these rules are weakly proper (because they do not distinguish between densities with the same first and second moments), but do not make the point that knowledge of the full density is not necessary on the part of the agent.
 \end{example}
 %
 
-In the above, Example~\ref{ex:gaussian} illustrates an important point about parametrizations of the elicited expectations. The variance $\sigma^2$ cannot be written as $\Exp[\phi(x)]$ for any $\phi$, because the mean $\mu$ enters the definition of $\sigma^2$ but is not available when $\phi$ is defined (indeed it is elicited in tandem with the variance).\footnote{This is an intuitive but far from formal explanation for the fact that the dimension of the message space, or \emph{elicitation complexity}, for eliciting the variance is at least 2~\citep{}.} Instead one must use the first two \emph{uncentered} moments $\Exp[x]$ and $\Exp[x^2]$. These are in bijection with $\mu$ and $\sigma^2$, so the resulting scoring rule can be re-written in terms of the latter. Therefore, it is possible to elicit not just expectations but also bijective transformations of expectations. 
+In the above, Example~\ref{ex:gaussian} illustrates an important point about parametrizations of the elicited expectations. The variance $\sigma^2$ cannot be written as $\Exp[\phi(x)]$ for any $\phi$, because the mean $\mu$ enters the definition of $\sigma^2$ but is not available when $\phi$ is defined (indeed it is elicited in tandem with the variance).\footnote{This is an intuitive but far from formal explanation for the fact that the dimension of the message space, or \emph{elicitation complexity}, for eliciting the variance is at least 2~\citep{lambert2008eliciting}.} Instead one must use the first two \emph{uncentered} moments $\Exp[x]$ and $\Exp[x^2]$. These are in bijection with $\mu$ and $\sigma^2$, so the resulting scoring rule can be re-written in terms of the latter. Therefore, it is possible to elicit not just expectations but also bijective transformations of expectations. 
  
 %\subsection{Exponential Smoothing}
 %One way to model the exponential family prediction market might be through exponential smoothing.
@@ -487,7 +487,7 @@ In the above, Example~\ref{ex:gaussian} illustrates an important point about par
 \section{Maximum Entropy Prediction Markets via Exponential Families}
 \label{sec:maxentmarkets}
 
-In a single-agent setting, a scoring rule is used to \emph{elicit} the agent's belief. In a multi-agent setting, a prediction market can be used to \emph{aggregate} the beliefs of the agents. In his seminal paper~\citet{} introduced the idea of a market scoring rule, which inherits the appealing elicitation and aggregation properties of both in order to perform well in thin or thick markets. In this section, we adapt the generalized log scoring rule to a market scoring rule which leads to markets with simple closed-form cost functions for many statistics of interest.%The exponential families framework also allows us to move beyond risk-neutral agents to understand the aggregation properties of prediction markets under alternative behaviors, such as Bayesian updating and risk aversion. 
+In a single-agent setting, a scoring rule is used to \emph{elicit} the agent's belief. In a multi-agent setting, a prediction market can be used to \emph{aggregate} the beliefs of the agents. In his seminal paper~\citet{H03} introduced the idea of a market scoring rule, which inherits the appealing elicitation and aggregation properties of both in order to perform well in thin or thick markets. In this section, we adapt the generalized log scoring rule to a market scoring rule which leads to markets with simple closed-form cost functions for many statistics of interest.%The exponential families framework also allows us to move beyond risk-neutral agents to understand the aggregation properties of prediction markets under alternative behaviors, such as Bayesian updating and risk aversion. 
 
 \subsection{Prediction Market}
 \label{sec:pred-market}
@@ -496,7 +496,7 @@ In a prediction market an agent's expected belief $\mu$ is elicited indirectly t
 
 As a concrete example, recall that in the classic finite-outcome case the statistic has a component for each outcome $x$ such that $\phi_x(x') = 1$ if $x' = x$ and 0 otherwise. Therefore the corresponding security pays 1 dollar if outcome $x$ occurs. (These are known as Arrow-Debreu securities.) In Example~\ref{ex:exponential} the one-dimensional statistic is $\phi(x) = x$, corresponding to a security whose payoff is linear in the outcome $x \in \bR_+$. (This amounts to a futures contract.) 
 
-The standard way to implement a prediction market in the literature, due to~\citet{}, is via a centralized market maker. The market maker maintains a convex, differentiable cost function $C : \bR^d \rightarrow (-\infty,+\infty]$, where $C(\theta)$ records the revenue collected when the vector of outstanding shares is $\theta$. The cost to an agent of purchasing portfolio $\delta$ under a market state of $\theta$ is $C(\theta + \delta) - C(\theta)$, and therefore the instantaneous prices of the securities are given by the gradient $\grad C(\theta)$. 
+The standard way to implement a prediction market in the literature, due to~\citet{CP07}, is via a centralized market maker. The market maker maintains a convex, differentiable cost function $C : \bR^d \rightarrow (-\infty,+\infty]$, where $C(\theta)$ records the revenue collected when the vector of outstanding shares is $\theta$. The cost to an agent of purchasing portfolio $\delta$ under a market state of $\theta$ is $C(\theta + \delta) - C(\theta)$, and therefore the instantaneous prices of the securities are given by the gradient $\grad C(\theta)$. 
 
 A risk-neutral agent will choose to acquire shares up to the point where, for each share, expected payoff equals marginal price. Formally, if the agent acquires portfolio $\delta$, moving the market state vector to $\theta' = \theta + \delta$, then we must have
 %
@@ -534,7 +534,7 @@ The agent's expected profit from moving the share vector from $\theta$ to $\thet
 & = & D_C(\theta, \theta') = D_{C^*}(\mu', \mu),
 \end{eqnarray*}
 %
-recalling~(\ref{breg-div}). Now~\citet{} have observed (among others) that the Kullback-Leibler divergence between two exponential family distributions is the Bregman divergence, with repect to the log-partition function, between their natural parameters. The agent's expected profit is therefore the KL divergence between the market's implied expectation and the exponential family corresponding to the agent's expectation, a well-known property from the classical LMSR~\citep{}.
+recalling~(\ref{breg-div}). Now~\citet{BanerjeeDhGh05} have observed (among others) that the Kullback-Leibler divergence between two exponential family distributions is the Bregman divergence, with repect to the log-partition function, between their natural parameters. The agent's expected profit is therefore the KL divergence between the market's implied expectation and the exponential family corresponding to the agent's expectation, a well-known property from the classical LMSR~\citep{H07}.
 
 %* DIFFERENTIAL ENTROPY
 %* UNBOUNDED LOSS?
@@ -570,20 +570,20 @@ The effective domain is $\Theta = \{(\theta_1,\theta_2) \in \bR^2 : \theta_2 < 0
 
 %
 \begin{example} \label{ex:vonmises-market}
-As another example let the outcome space be the $d$-dimensional unit sphere. This setting was considered by~\citet{} who provide a cost function implicitly defined through a variational characterization. The maximum entropy approach leads to another alternative. We have a security for each of the $d$ dimensions, and security $i$ simply pays off $\phi_i(x) = x_i$, where $x \in \bR^d$ is the unit-norm outcome. The maximum entropy distribution over the sphere with such sufficient statistics is the von Mises-Fisher distribution. The log partition function corresponds to the cost function
+As another example let the outcome space be the $d$-dimensional unit sphere. This setting was considered by~\citet{Abernethy11} who provide a cost function implicitly defined through a variational characterization. The maximum entropy approach leads to another alternative. We have a security for each of the $d$ dimensions, and security $i$ simply pays off $\phi_i(x) = x_i$, where $x \in \bR^d$ is the unit-norm outcome. The maximum entropy distribution over the sphere with such sufficient statistics is the von Mises-Fisher distribution. The log partition function corresponds to the cost function
 %
 $$
 C(\theta) = I_{\frac{d}{2}-1}(\norm{\theta}) - \left(\frac{d}{2} - 1 \right)\log \norm{\theta},
 $$
 %
-where $I_r$ refers to the modified Bessel function of first kind and order $r$; see~\citep{} for an explanation of these quantities. The effective domain of $\theta$ is the positive orthant in $\bR^d$. The mean parametrization of the von Mises-Fisher distribution gives a generalized log scoring rule for the expected outcome components, but it is unwieldy and involves several special functions. 
+where $I_r$ refers to the modified Bessel function of first kind and order $r$; see~\citep{BanerjeeDhGh05} for an explanation of these quantities. The effective domain of $\theta$ is the positive orthant in $\bR^d$. The mean parametrization of the von Mises-Fisher distribution gives a generalized log scoring rule for the expected outcome components, but it is unwieldy and involves several special functions. 
 \end{example}
 %
 
 
 \section{Bayesian Traders with Linear Utility} \label{sec:bayesians}
 
-In the standard model of cost-function based prediction markets, a sequence of myopic, risk-neutral agents arrive and trade in the market~\citep{}. As we saw in Section~\ref{sec:pred-market}, such a trader moves the prices to its own expectation $\mu$. However, this means that the market does not perform any meaningful aggregation of the agent's belief, as the final prices are simply the final agent's expectation.
+In the standard model of cost-function based prediction markets, a sequence of myopic, risk-neutral agents arrive and trade in the market~\citep{CP07,Chen10}. As we saw in Section~\ref{sec:pred-market}, such a trader moves the prices to its own expectation $\mu$. However, this means that the market does not perform any meaningful aggregation of the agent's belief, as the final prices are simply the final agent's expectation.
 
 In this section we examine the aggregation behavior of the market when agents are Bayesian and take into account the current market state when forming their beliefs. This requires more structure to the agents' beliefs. For this section and the remainder of the paper, we will assume that agents have \emph{exponential family beliefs}. 
 
@@ -595,13 +595,13 @@ The exponential families framework is well-suited to reasoning about Bayesian up
 %
 $$p(\theta;b_{0})=\exp(\la n\nu,\theta\ra + nT(\theta) - \psi(\nu,n)).$$
 %
-Note that this is also an exponential family with natural parameter $b_0 = (n\nu,n)$ where $\nu \in \bR^d$ and $n$ is a positive integer. The sufficient statistic maps $\theta$ to $(\theta, T(\theta))$, and the log partition function $\psi$ is defined as the normalizer as usual. For a complete treatment of exponential families conjugate priors, see for instance~\citep{}. Now~\citet{} and~\citet{} have shown that
+Note that this is also an exponential family with natural parameter $b_0 = (n\nu,n)$ where $\nu \in \bR^d$ and $n$ is a positive integer. The sufficient statistic maps $\theta$ to $(\theta, T(\theta))$, and the log partition function $\psi$ is defined as the normalizer as usual. For a complete treatment of exponential families conjugate priors, see for instance~\citep{Barndorff78}. Now~\citet{diaconis79} and~\citet{jewell1974credible} have shown that
 %
 \begin{equation}\label{eq:prior}
 \E_{\theta\sim b_{0}}\E_{x\sim \theta}[\phi(x)]=\nu,
 \end{equation}
 %
-meaning that $\nu = n \nu / n$ is the posterior mean. Thus, it is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. Suppose now that the agent observes an empirical sample with mean $\hmu$ and size $m$. By a standard derivation~\citep{}, the posterior conjugate prior parameters become $n\nu \leftarrow n\nu + m\hmu$ and $n \leftarrow n+m$, and the posterior expectation~(\ref{eq:prior}) evaluates to
+meaning that $\nu = n \nu / n$ is the posterior mean. Thus, it is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. Suppose now that the agent observes an empirical sample with mean $\hmu$ and size $m$. By a standard derivation~\citep{diaconis79}, the posterior conjugate prior parameters become $n\nu \leftarrow n\nu + m\hmu$ and $n \leftarrow n+m$, and the posterior expectation~(\ref{eq:prior}) evaluates to
 %
 \begin{equation} \label{posterior}
 \frac{n\nu + m\hmu}{n+m}.
@@ -750,7 +750,7 @@ Note that as, $a$ tends to 0, we approach risk neutrality and the agent moves th
 
 \subsubsection*{Liquidity Adjustment}
 
-In practice the centralized market maker allows itself some control over the \emph{liquidity} in the market, which captures how responsive prices are to trades. To adjust liquidity we consider the parametrized cost $C_{\lambda}(\theta)=\frac{1}{\lambda} C\left(\lambda\theta\right)$. Here $\lambda$ is construed as the \emph{inverse liquidity}, or price responsiveness. A larger setting of $\lambda$ means fewer shares need to be bought to reach the same prices.\footnote{Observe that the liquidity adjustment to the cost function takes the same form as the risk-aversion adjustment to the exponential utility in~(\ref{exp-util}). In convex analysis, this transformation is known as the perspective function~\citep{}.}
+In practice the centralized market maker allows itself some control over the \emph{liquidity} in the market, which captures how responsive prices are to trades. To adjust liquidity we consider the parametrized cost $C_{\lambda}(\theta)=\frac{1}{\lambda} C\left(\lambda\theta\right)$. Here $\lambda$ is construed as the \emph{inverse liquidity}, or price responsiveness. A larger setting of $\lambda$ means fewer shares need to be bought to reach the same prices.\footnote{Observe that the liquidity adjustment to the cost function takes the same form as the risk-aversion adjustment to the exponential utility in~(\ref{exp-util}). In convex analysis, this transformation is known as the perspective function~\citep{HiriartLe00}.}
 
 %(Discussion, you can skip this paragraph.) This is because for higher $\lambda$ we are making the cost function ``more convex''. Specifically, for $\lambda_1 > \lambda_2$ it's the case that $C_{\lambda_1}$ is an increasing convex transformation of $C(\lambda_2)$. This holds because the ``coefficient of risk aversion'' $A(\theta) = C''(\theta)/C'(\theta)$ increases with $\lambda$ at every point. I've written it assuming single-dimensional $\theta$ but there are more complicated looking generalizations for vector $\theta$. In fact, this coefficient might be the ``right'' notion of liquidity at a point, not the second derivative or largest eigenvalue of the Hessian. We should discuss.
 
@@ -873,26 +873,26 @@ Thus the equilibrium state is a convex combination of trader beliefs and initial
 
 \section{The Exponential Family Market Mechanism with Budgets} \label{sec:budgets}
 \sindhu{\cite{Azoury01}}
-%In the previous section, we saw that we can define a cost-function based prediction market so that the aggregated belief of the traders represents the maximum likelihood estimate of the natural parameters of the true exponential family distribution.
+In the previous section, we saw that we can define a cost-function based prediction market so that the aggregated belief of the traders represents the maximum likelihood estimate of the natural parameters of the true exponential family distribution.
 
 In this section, we consider the the prediction market setup with traders that may be either informative or malicious. The malicious traders may want to inject faulty information into the market. The informative traders on the other hand receive points drawn from the true distribution on which they base their beliefs.
 
 We will show that if we are able to impose finite initial budgets on the traders and control the market prices based on these budgets, then  it possible to set up the market so that it is prohibitive for damaging traders to participate in the market. Further, the informative traders can be shown to have expected growth in budget so that they are eventually able to move the market prices without restriction. This idea of a dual analysis has been used in a recommender system context to compute reputations in \cite{ressami07}.
 
-In this section, we assume that the traders have exponential family beliefs. The cost function has the same form as the log partition function $T$ of the exponential family and the payoff is determined by the sufficient statistics of the data $\phi(x)$; the vector of sufficient statistics is assumed to be non-negative. \sindhu{is this ok?}.
+In this section, we assume that the traders have exponential family beliefs. The cost function has the same form as the log partition function $T$ of the exponential family and the payoff is determined by the sufficient statistics of the data $\phi(x)$.
 \subsection{Budget-limited Aggregation}
 Imposing budget limits on the traders will allow us to control the amount of influence any one trader can have on moving the market prices. We will also satisfy an additional requirement that no trader has negative budget at any point of participation in the market. This is achieved by restricting the movement of the market and hence influencing the cost incurred by the trader. Recall that the payoff in this market is non-negative and hence the only adverse influence on a trader's budget is the cost of movement of the market state. 
 
-In this section, we assume that the budget of each trader is known to the market maker, and that the market maker can directly limit the allowed trades based on a trader's budget. \sindhu{this assumption is also very strong but is needed}
+In this section, we assume that the budget of each trader is known to the market maker, and that the market maker can directly limit the allowed trades based on a trader's budget. 
 Let $\alpha$ be the budget of a trader in the market. Suppose with infinite budget, the trader would have moved the market state from $\theta$ to $\htheta$, where $\htheta$ represents his true belief. Let $C$ be the cost function. Now suppose further that $\alpha<C(\htheta)-C(\theta)$; that is the trader's budget does not allow for purchasing enough shares to move the market state to his belief. In this case, we want to budget-limit the trader's influence on the market state. 
 
 We define the budget-limited final market state as $\theta'$. 
 Here, we consider a specific functional form of $\theta'$: $$\theta'=\lambda\htheta+(1-\lambda)\theta$$  where $$\lambda=\min\left(1, \frac{\alpha}{C(\htheta) - C(\theta)}\right)$$ 
 
 First, we  show that this trade is feasible given the trader's budget:
-\begin{lemma}
+\begin{theorem}
 Let the current market state be given by $\theta$. Let the final market state $\theta'=\lambda\htheta+(1-\lambda)\theta$ where $\lambda=\min\left(1, \frac{\alpha}{C(\htheta) - C(\theta)}\right)$. The cost to the trader to move the market state from $\theta$ to $\theta'$ is at most his budget $\alpha$.
-\end{lemma}
+\end{theorem}
 \begin{proof}
 From the convexity of $C$, we have
 \begin{eqnarray*}
