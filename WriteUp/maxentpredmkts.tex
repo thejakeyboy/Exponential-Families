@@ -593,9 +593,9 @@ where $I_r$ refers to the modified Bessel function of first kind and order $r$; 
 
 \section{Bayesian Traders with Linear Utility} \label{sec:bayesians}
 
-In the standard model of cost-function based prediction markets, a sequence of myopic, risk-neutral agents arrive and trade in the market~\citep{CP07,Chen10}. As we saw in Section~\ref{sec:pred-market}, such a trader moves the prices to its own expectation $\mu$. However, this means that the market does not perform any meaningful aggregation of the agent's belief, as the final prices are simply the final agent's expectation.
+In the standard model of cost-function based prediction markets, a sequence of myopic, risk-neutral agents arrive and trade in the market~\citep{CP07,chen2010new}. As we saw in Section~\ref{sec:pred-market}, such a trader moves the prices to its own expectation $\mu$. However, this means that the market does not perform any meaningful aggregation of the agent's belief, as the final prices are simply the final agent's expectation.
 
-In this section we examine the aggregation behavior of the market when agents are Bayesian and take into account the current market state when forming their beliefs. This requires more structure to the agents' beliefs. For this section and the remainder of the paper, we will assume that agents have \emph{exponential family beliefs}. 
+In this section we examine the aggregation behavior of the market when agents are Bayesian and take into account the current market state when forming their beliefs. This requires more structure to their beliefs. For this section and the remainder of the paper, we will assume that agents have \emph{exponential family beliefs}. 
 
 %As before, we are interested in eliciting the sufficient statistics of the data. We assume that the outcome is drawn from an exponential family distribution; the prediction market is setup as before with the cost function corresponding to the log partition function and the payoff function corresponding to the sufficient statistics. Thus, the market state provides an estimate on the natural parameter of the distribution from which the outcome is drawn. Additionally, we assume that the market also makes public the total number of traders that have traded in the market.
 
@@ -605,21 +605,21 @@ The exponential families framework is well-suited to reasoning about Bayesian up
 %
 $$p(\theta;b_{0})=\exp(\la n\nu,\theta\ra + nT(\theta) - \psi(\nu,n)).$$
 %
-Note that this is also an exponential family with natural parameter $b_0 = (n\nu,n)$ where $\nu \in \bR^d$ and $n$ is a positive integer. The sufficient statistic maps $\theta$ to $(\theta, T(\theta))$, and the log partition function $\psi$ is defined as the normalizer as usual. For a complete treatment of exponential families conjugate priors, see for instance~\citep{Barndorff78}. Now~\citet{diaconis79} and~\citet{jewell1974credible} have shown that
+Note that this is also an exponential family with natural parameter $b_0 = (n\nu,n)$ where $\nu \in \bR^d$ and $n$ is a positive integer. The sufficient statistic maps $\theta$ to $(\theta, T(\theta))$, and the log partition function $\psi$ is defined as the normalizer as usual. For a complete treatment of exponential families conjugate priors, see for instance~\citet{Barndorff78}. Now~\citet[Thm.\ 2]{diaconis79} and~\citet{jewell1974credible} have shown that
 %
 \begin{equation}\label{eq:prior}
 \E_{\theta\sim b_{0}}\E_{x\sim \theta}[\phi(x)]=\nu,
 \end{equation}
 %
-meaning that $\nu = n \nu / n$ is the posterior mean. Thus, it is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. Suppose now that the agent observes an empirical sample with mean $\hmu$ and size $m$. By a standard derivation~\citep{diaconis79}, the posterior conjugate prior parameters become $n\nu \leftarrow n\nu + m\hmu$ and $n \leftarrow n+m$, and the posterior expectation~(\ref{eq:prior}) evaluates to
+meaning that $\nu = n \nu / n$ is the posterior mean. Thus, it is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. Suppose now that the agent observes an empirical sample with mean $\hmu$ and size $m$. By a standard derivation~\citep[see][]{diaconis79}, the posterior conjugate prior parameters become $n\nu \leftarrow n\nu + m\hmu$ and $n \leftarrow n+m$, and the posterior expectation~(\ref{eq:prior}) evaluates to
 %
 \begin{equation} \label{posterior}
 \frac{n\nu + m\hmu}{n+m}.
 \end{equation}
 %
-Thus the posterior mean is a convex combination of the prior and posterior means, and their relative weights depend on the phantom and empirical sample sizes.% need a reference here
+Thus the posterior mean is a convex combination of the prior and empirical means, and their relative weights depend on the phantom and empirical sample sizes.% need a reference here
 
-Consider Bayesian agents maintaining and exponential family conjugate prior over the data model's natural parameters (equivalently, the expected security payoffs). Each agent has access to a private sample of the data of size $m$ with mean statistic $\hmu$. If $n$ agents have arrived before to trade, then the current market prices $\mu$ correspond to the phantom sample, and the phantom sample size is $nm$. After forming the posterior~(\ref{posterior}) with these substitutions, the (risk-neutral) agent purchases shares $\delta$ to move the current market share vector to
+Consider Bayesian agents maintaining an exponential family conjugate prior over the data model's natural parameters (equivalently, the expected security payoffs). Each agent has access to a private sample of the data of size $m$ with mean statistic $\hmu$. If $n$ agents have arrived before to trade, then the current market prices $\mu$ correspond to the phantom sample, and the phantom sample size is $nm$. After forming the posterior~(\ref{posterior}) with these substitutions, the (risk-neutral) agent purchases shares $\delta$ to move the current market share vector to
 %
 $$
 \grad C(\theta + \delta) = \frac{n\nu + \hmu}{n+1}.
