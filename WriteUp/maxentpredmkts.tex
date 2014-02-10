@@ -784,7 +784,7 @@ Let $\Theta\defeq\hat{\theta}-a \delta_{1}^{*}  $ be the effective belief. Thus 
 & = & \arg\max_{\delta_{2}} \int_{\mathcal{X}} -\frac{1}{a} \exp\{-a \delta_{2} \phi(x)+a C(\delta_{2} + \theta') -a C(\theta')\} \exp\{\Theta\cdot \phi(x) - T(\Theta)\}\, dx\\
 & = & \arg\max_{\delta_{2}} U\left[- C(\delta_{2} + \theta') + C(\theta') - \frac{1}{a} T(\Theta - a\delta_{2}) + \frac{1}{a} T(\Theta)\right]\\
 \end{eqnarray*}
-This follows from Proposition \ref{prop:exp-util}. The maximizer is $\delta_{2}^* = (\Theta - \theta') / (1+a)$, which moves the share vector to $\theta' + \delta_{2}^* = \frac{1}{1+a} \Theta + \frac{a}{1+a} \theta'$ which is a convex combination of the effective belief and the current market state.
+This follows from Proposition \ref{prop:exp-util} \jake{Sindhu this ref isn't in the doc}. The maximizer is $\delta_{2}^* = (\Theta - \theta') / (1+a)$, which moves the share vector to $\theta' + \delta_{2}^* = \frac{1}{1+a} \Theta + \frac{a}{1+a} \theta'$ which is a convex combination of the effective belief and the current market state.
 
 In other words, an exponential utility maximizing trader who has belief $\hat{\theta}$ with prior exposure $\delta$ in a market  will behave identically to an exponential utility maximizing trader with belief $\hat{\theta}-a \delta$ and no prior exposure in the market. Here $a$ is the utility parameter. This means that financial exposure can be equivalently understood as changing the privately held beliefs.
 %\pagebreak
