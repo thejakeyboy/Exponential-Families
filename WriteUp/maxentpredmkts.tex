@@ -806,8 +806,8 @@ We now review a well-known result from game theory regarding the class of \emph{
 \begin{thm}\label{thm:potl}
 Let $U_{i}(\vec{\delta})$ be the utility function of the $i^{th}$ trader given strategies $\vec{\delta}\defeq (\delta_{1},\ldots,\delta_{i},\ldots,\delta_{n})$. If there exists a potential function $\Phi(\vec{\delta})$ such that $$U_{i}(\vec{\delta})-U_{i}(\vec{\delta}_{-i},\delta_{i}')=\Phi(\vec{\delta})-\Phi(\vec{\delta}_{-i},\delta_{i}')$$
 then $\vec{\delta}$ is a Nash equilibrium if and only if $\Phi(\vec{\delta})$ is at a local optimum.
-\end{thm}¥
-In the exponential family market, the cost function $C$ is identical to the log partition function $T$.  Let $\vec{\delta}$ be the vector of vectors of shares purchased by every trader in the market when the market has reached equilibrium, $\theta$ the initial market state, $\htheta_{i}$ the natural parameter of trader $i$'s belief distribution and $a_{i}$ his utility parameter. 
+\end{thm}
+In the exponential family market, the cost function $C$ is identical to the log partition function $T$.  Let $\vec{\delta}$ be the vector of vectors of shares purchased by every trader in the market when the market has reached equilibrium, $\theta$ the initial market state, $\htheta_{i}$ the natural parameter of trader $i$'s belief distribution and $a_{i}$ his utility parameter. \jake{I need to fix a small technical detail with the fact that we are using the log utilities to use the potential argument.}
 
 Define a potential function as  $$\Phi(\vec{\delta})\defeq  T(\theta+\sum_{i}\delta_{i})+\sum_{i}\frac{1}{a_{i}}T(\htheta_{i}-a_{i}\delta_{i})$$
 
