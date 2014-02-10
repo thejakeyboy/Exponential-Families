@@ -268,6 +268,8 @@ Designing prediction markets to handle a large outcome space is an active area o
 In this paper, we use exponential family distributions to construct our cost function. For a comprehensive introduction to the class of exponential family distributions see \cite{WainJordan08}. \cite{Azoury01} consider learning exponential family distributions in a traditional online learning model and provide worst case loss bounds relative to using an offline algorithm.  \cite{storkey11} constructs a prediction market where each participating agent is a learning algorithm with varying utility functions.
 
 
+\sebastien{Need to talk about certainty equivalents somewhere} 
+
 %Designing prediction markets to handle a large outcome space is an active area of research.  In \cite{Chen08}, the authors use a restricted betting language to design efficient markets for a combinatorial outcome space. This technique is generalized by \cite{Pennock11}. \cite{Gao09} consider extending various automated market makers to an infinite outcome space. For the logarithmic market scoring rule they show that unbounded market maker loss can result in this setting.   \cite{Abernethy11} and \cite{OthmanS11} specify frameworks under which they design cost function based markets that satisfy the desirable property of bounded market maker loss even in infinite outcome spaces.
 %
 %The connection between machine learning and prediction markets has been studied previously. \cite{Chen10} and \cite{Abernethy11} have previously explored the connection to learning algorithms to inform the design and understanding of prediction markets. In particular, \cite{Chen10}  consider the correspondence between prediction markets with market scoring rules and the Follow the Regularized Leader algorithm proposed by \cite{Kalai05} and thus provide insight into the aggregation mechanism of a prediction market. 
@@ -669,12 +671,20 @@ As a result, the final market prices under this behavior are a simple average of
 %where $g^*$ is the convex conjugate of $g$.
 
 
-\section{Risk Aversion, Exponential Utility, and Market Equilibrium} \label{sec:exputil}
+%\section{Risk Aversion, Exponential Utility, and Market Equilibrium} \label{sec:exputil}
+%\subsection{Behavior of Traders endowed with Exponential Utility}
 
+<<<<<<< HEAD
 \subsection{Behavior of Traders endowed with Exponential Utility}
 \sindhu{\cite{norstad99util} for instance?}
 In this section we relax that standard assumption that agents in the market are risk-neutral. We show that, with sufficient extra structure to the agents' beliefs and utilities, the market performs a clean aggregation of the agents' expectations in the form of a simple weighted averages.
 Assume that the agent has an exponential utility function for money $w$:
+=======
+\section{Risk-Averse Traders with Exponential Utility}
+
+In this section we relax the standard assumption that agents in the market are risk-neutral. We show that, with sufficient extra structure to the agents' beliefs and utilities, the market performs a clean aggregation of the agents' expectations in the form of a simple weighted average.
+Assume that the agent has an exponential utility function for wealth $w$:
+>>>>>>> 90b5e45c1c4721e657623140330fb9b51d5a0f22
 %
 \begin{equation} \label{exp-util}
 U_a(w) = -\frac{1}{a} \exp(-aw).
@@ -682,21 +692,21 @@ U_a(w) = -\frac{1}{a} \exp(-aw).
 %
 Here $a$ controls the level of risk aversion: the agent is more risk averse as $a$ increases, and as $a$ tends to 0 we approach linear utility (risk-neutrality). Specifically, $a$ is the Arrow-Pratt coefficient of absolute risk aversion, and exponential utilities of the form~(\ref{exp-util}) are the unique utilities that exhibit constant absolute risk aversion (CARA). 
 
-\jake{This set of ideas is nice and needs to be sold more strongly in the intro} If wealth is distributed according to a probability measure $P$, then the \emph{certainty equivalent} of a random amount of wealth is defined as
+If wealth is distributed according to a probability measure $P$, then the \emph{certainty equivalent} of a random amount of wealth is defined as
 $$
 \CE(w) = U_a^{-1} (\Exp_P\left[ U_a(w) \right]).
 $$
-Suppose as before that the agent's belief over outcomes takes the form of a density $p$ with respect to base measure $\nu$. There is a close relationship between the log-partition function and the certainty equivalent under exponential utility.
+Suppose as before that the agent's belief over outcomes takes the form of a density $p$ with respect to base measure $\nu$. There is a close relationship between the log-partition function and the certainty equivalent under exponential utility~\citep[see][]{ben2007old}.
 %
 \begin{lemma} \label{lem:exp-util}
-The certainty equivalent of the agent's expected profit, under exponential utility, when acquiring shares $\delta$ under a market state of $\theta$ is
+The certainty equivalent of the agent's expected profit, with exponential utility, when acquiring shares $\delta$ under a market state of $\theta$ is
 \begin{equation}
-\log a - T_p(-a\delta) - aC(\theta+\delta) + aC(\theta),
+\log a - T^p(-a\delta) - aC(\theta+\delta) + aC(\theta),
 \end{equation}
-where $T_p$ is the log partition function~(\ref{log-part}) with a base measure of $p\,d\nu$. Furthermore, if the agent's belief is an exponential family with parameter $\htheta$, we have
+where $T^p$ is the log partition function~(\ref{log-part}) with a base measure of $p\,d\nu$. Furthermore, if the agent's belief is an exponential family with natural parameter $\htheta$, we have
 %
 \begin{equation*}
-T_p(\delta) = T(\htheta + \delta) - T(\htheta),
+T^p(\delta) = T(\htheta + \delta) - T(\htheta),
 \end{equation*}
 %
 where $T$ is the usual log partition function with base measure $\nu$.
@@ -708,26 +718,26 @@ Explicitly, the certainty equivalent of the profit is
 %
 \begin{eqnarray*}
 & & \CE(\,\la\delta,\phi(x)\ra - [C(\theta+\delta) - C(\theta)]\,)\\
-& = & -\log \int_{\mX} \frac{1}{a} \exp\left( \la-a\delta,\phi(x)\ra + a [C(\theta+\delta) - C(\theta)]  \right) p(x)d\nu(x)\\
-& = & \log a - a [C(\theta+\delta) - C(\theta)] - \log \int_{\mX} \exp\left( \la-a\delta,\phi(x)\ra \right)  p(x)d\nu(x)\\
-& = & \log a - a [C(\theta+\delta) - C(\theta)] - T_p(-a\delta).
+& = & -\log \int_{\mX} \frac{1}{a} \exp \left(\la-a\delta,\phi(x)\ra + a [C(\theta+\delta) - C(\theta)]\right) p(x)d\nu(x)\\
+& = & \log a - a [C(\theta+\delta) - C(\theta)] - \log \int_{\mX} \exp\la-a\delta,\phi(x)\ra\, p(x)\,d\nu(x)\\
+& = & \log a - a [C(\theta+\delta) - C(\theta)] - T^p(-a\delta).
 \end{eqnarray*}
 %
-For the second part of the result, we have\jake{Is the $\hat \cdot$ missing from the computations below?}
+For the second part of the result, we have
 %
 \begin{eqnarray*}
-T_p(\delta) & = & \log \int_{\mX} \exp(\la\delta,\phi(x)\ra)\,p(x;\htheta)\, d\nu(x)\\
+T^p(\delta) & = & \log \int_{\mX} \exp\la\delta,\phi(x)\ra\,p(x;\htheta)\, d\nu(x)\\
 & = &  \log \int_{\mX} \exp( \la\delta+\htheta,\phi(x)\ra - T(\htheta) )\, d\nu(x)\\
-& = &  T(\htheta+\delta) - T(\theta) + \log \int_{\mX} \exp( \la\delta+\htheta,\phi(x)\ra - T(\htheta+\delta) )\, d\nu(x)\\
-& = &  T(\htheta+\delta) - T(\theta) + \log \int_{\mX} p(x;\htheta+\delta) \, d\nu(x)\\
-& = &  T(\htheta+\delta) - T(\theta),
+& = &  T(\htheta+\delta) - T(\htheta) + \log \int_{\mX} \exp( \la\delta+\htheta,\phi(x)\ra - T(\htheta+\delta) )\, d\nu(x)\\
+& = &  T(\htheta+\delta) - T(\htheta) + \log \int_{\mX} p(x;\htheta+\delta) \, d\nu(x)\\
+& = &  T(\htheta+\delta) - T(\htheta),
 \end{eqnarray*}
 %
 where the last line follows from the fact that density $p(x;\htheta+\delta)$ integrates to 1.
 \end{proof}
 
 \noindent
-Recall that for the generalized LMSR, the cost function $C$ is exactly the log partition function $T$. We are therefore lead to the following clear understanding of a risk-averse agent's behavior in such a market.
+Recall that for the generalized LMSR, the cost function $C$ is exactly the log partition function $T$. We are therefore lead to the following understanding of a risk-averse agent's behavior in such a market.
 %
 \begin{theorem} \label{thm:exp-util}
 Suppose an agent has exponential utility with coefficient $a$ and exponential family beliefs with natural parameter $\htheta$. In the generalized LMSR market with current market state $\theta$, the agent's optimal trade $\delta$ moves the state vector to
@@ -754,7 +764,7 @@ As the gradient map $\grad T$ is one-to-one, this is solved by equating the argu
 \end{proof}
 %
 
-Note that as, $a$ tends to 0, we approach risk neutrality and the agent moves the share vector all the way to its private estimate $\htheta$. As $a$ grows larger (agent grows more risk averse) the agent makes smaller trades to reduce it exposure, and the final state stays closer to the current state $\theta$. Update~(\ref{exp-update}) implies that under the conditions of the theorem, a market that receives a sequence of myopic traders aggregates their natural parameters in the form of an exponentially weighted moving average. The final market estimates (i.e., prices) are obtained by applying $\grad T$ to this average.
+Note that as, $a$ tends to 0, we approach risk neutrality and the agent moves the share vector all the way to its private estimate $\htheta$. As $a$ grows larger (the agent grows more risk averse) the agent makes smaller trades to reduce it exposure, and the final state stays closer to the current state $\theta$. Update~(\ref{exp-update}) implies that, under the conditions of the theorem, a market that receives a sequence of myopic traders aggregates their natural parameters in the form of an exponentially weighted moving average. The final market estimates (i.e., prices) are obtained by applying $\grad T$ to this average.
 
 
 
@@ -782,8 +792,8 @@ Higher price responsiveness means fewer shares must be bought to make the market
 Under the conditions of Theorem~\ref{thm:exp-util} and an inverse liquidity of $\lambda$, the agent's optimal trade $\delta$ moves the state vector to
 %
 \begin{equation} \label{liqu-update}
-\theta + \delta = \frac{\lambda}{\lambda+a} \ttheta + \frac{a}{\lambda+a} \theta
-= \frac{\lambda}{\lambda+a} \grad T^{-1}_{\lambda}(\hmu) + \frac{a}{\lambda+a} \grad T^{-1}_{\lambda}(\mu).
+\theta + \delta \:\:=\:\: \frac{\lambda}{\lambda+a} \ttheta + \frac{a}{\lambda+a} \theta
+\:\:=\:\: \frac{\lambda}{\lambda+a} \grad T^{-1}_{\lambda}(\hmu) + \frac{a}{\lambda+a} \grad T^{-1}_{\lambda}(\mu).
 \end{equation}
 %
 \end{corollary}
