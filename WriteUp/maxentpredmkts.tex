@@ -822,10 +822,10 @@ We have shown that every exponential-utility maximizing trader picks the share v
 
 
 We now review a well-known result from game theory regarding the class of \emph{potential games} \cite{monderer1996potential}. Note that we say a function $f(\vec{x})$ is at a \emph{local optimum} if changing any coordinate of $\vec{x}$ does not increase the value of $f$.
-\begin{thm}\label{thm:potl}
+\begin{theorem}\label{thm:potl}
 Let $U_{i}(\vec{\delta})$ be the utility function of the $i^{th}$ trader given strategies $\vec{\delta}\defeq (\delta_{1},\ldots,\delta_{i},\ldots,\delta_{n})$. If there exists a potential function $\Phi(\vec{\delta})$ such that $$U_{i}(\vec{\delta})-U_{i}(\vec{\delta}_{-i},\delta_{i}')=\Phi(\vec{\delta})-\Phi(\vec{\delta}_{-i},\delta_{i}')$$
 then $\vec{\delta}$ is a Nash equilibrium if and only if $\Phi(\vec{\delta})$ is at a local optimum.
-\end{thm}
+\end{theorem}
 In the exponential family market, the cost function $C$ is identical to the log partition function $T$ defined in (\ref{log-part}).  Let $\vec{\delta}$ be the vector of vectors of shares purchased by every trader in the market when the market has reached equilibrium, $\theta$ the initial market state, $\htheta_{i}$ the natural parameter of trader $i$'s belief distribution and $a_{i}$ his utility parameter. \jake{I need to fix a small technical detail with the fact that we are using the log utilities to use the potential argument.}
 
 Define a potential function as  $$\Phi(\vec{\delta})\defeq  T\left(\theta+\sum_{i}\delta_{i}\right)+\sum_{i}\frac{1}{a_{i}}T(\htheta_{i}-a_{i}\delta_{i})$$
@@ -906,11 +906,11 @@ We note one important aspect of Lemma~\ref{thm:growth}: The expectation is taken
 For continuous distributions with a density, the probability that a trader with private information will form exactly the same beliefs as the current market position is $0$, and thus, each trader will have positive expected profit on almost all sequences of observed samples and beliefs. 
 This result suggests that, eventually, every informative trader will have the ability to influence the market state in accordance with his beliefs, without being budget limited.
 
-Notice that Lemma~\ref{thm:growth} only required that the market state to which the trader moves, be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{T}(\theta,\htheta)$ where $a$ is the exponential utility parameter.
+Notice that Lemma~\ref{thm:growth} only required that the market state to which the trader moves, be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{T}(\theta,\htheta)$ where $a$ is the exponential utility parameter. When the cost function is adjusted with a liquidity parameter as $C_{l}(\theta)=(1/l) C(l\theta)$ as described in Section \ref{sec:exputil},  the trader receives an expected payoff of at least $\frac{1}{a} D_{T}(\theta'/l,\htheta)$.
 
 
-\section{Conclusions}
-\sindhu{Do we need this section?}
+%\section{Conclusions}
+%\sindhu{Do we need this section?}
 %
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
