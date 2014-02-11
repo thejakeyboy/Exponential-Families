@@ -315,7 +315,7 @@ for all alternative $\hmu \neq \mu$.% If the domain is $\mD = \mP$, the set of a
 %
 
 \noindent
-Given a proper scoring rule $S$ any affine transformation $\tilde{S}(\mu,x) = aS(\mu,x) + b(x)$ of the rule, with $a > 0$ and $b$ an arbitrary real-valued function of the outcomes, again yields a proper scoring rule termed \emph{equivalent}~\citep{Dawid98,GneitingRa07}. Throughout we will implicitly apply such affine transformations to obtain the clearest version of the scoring rule. We will also focus on scoring rules where inequality~(\ref{eq-proper}) is strict to avoid trivial cases such as constant scoring rules.
+Given a proper scoring rule $S$ any affine transformation $\tilde{S}(\mu,x) = aS(\mu,x) + b(x)$ of the rule, with $a > 0$ and $b$ an arbitrary real-valued function of the outcomes, again yields a proper scoring rule termed \emph{equivalent}~\citep{Dawid98,gneiting2007strictly}. Throughout we will implicitly apply such affine transformations to obtain the clearest version of the scoring rule. We will also focus on scoring rules where inequality~(\ref{eq-proper}) is strict to avoid trivial cases such as constant scoring rules.
 
  Classically, scoring rules take in the entire density $p$ rather than just some statistic, and incentive compatibility must hold over all of $\mP$. When the outcome space is large or infinite, it is not feasible to directly communicate $p$, so the definition allows for summary information of the belief.
 
@@ -335,7 +335,7 @@ Even though the log score is only applied to densities from $\mD$, according to 
 
 \subsubsection*{Exponential Families}
 
-We let $p(x;\mu)$ be the maximum entropy distribution with expected statistic $\mu$. Specifically, it is the solution to the following mathematical program:\footnote{We assume throughout that the minimum is finite and achieved for all $\mu \in \mM$. Some care is needed to ensure this holds for specific statistics and outcome spaces. For example, taking outcomes to be the real numbers, there is no maximum entropy distribution with a given mean $\mu$ (one can take densities tending towards the uniform distribution over the reals), but there is always a solution if we constrain both the mean and variance.}
+We let $p(x;\mu)$ be the maximum entropy distribution with expected statistic $\mu$. Specifically, it is the solution to the following mathematical program:\footnote{We assume that the minimum is finite and achieved for all $\mu \in \mM$. Some care is needed to ensure this holds for specific statistics and outcome spaces. For example, taking outcomes to be the real numbers, there is no maximum entropy distribution with a given mean $\mu$ (one can take densities tending towards the uniform distribution over the reals), but there is always a solution if we constrain both the mean and variance.}
 %
 \begin{equation} \label{maxent-prog}
  \min_{p \in \mP} \:F(p) \st \Exp_{p}[\phi(x)] = \mu,
@@ -403,7 +403,7 @@ Let $\mu,\hmu \in \mM$ be the agent's true belief and an alternative report, and
 & = & T(\htheta) - T(\theta) - \la \htheta - \theta, \grad T(\theta) \ra. \label{breg-div}
 \end{eqnarray}
 %
-The latter is positive by the strict convexity of $T$, which shows that the log score is proper. For the converse, assume the defined log score is proper. By the Savage characterization of proper scoring rules for expectations (see~\citet[Thm.\ 1]{GneitingRa07} and~\citet{Savage71}), we must have
+The latter is positive by the strict convexity of $T$, which shows that the log score is proper. For the converse, assume the defined log score is proper. By the Savage characterization of proper scoring rules for expectations (see~\citet[Thm.\ 1]{gneiting2007strictly} and~\citet{Savage71}), we must have
 %
 $$
 S(\mu,x) = G(\mu) - \la \grad G(\mu), \mu - \phi(x) \ra
@@ -529,7 +529,7 @@ This is of course exactly the log-partition function~(\ref{log-part}) for the ex
 
 The correspondence between the cost function~({\ref{lmsr-cost}) and the log-partition function~(\ref{log-part}) suggests the following interpretation. The market maker maintains an exponential family distribution over the state space $\mX$ parametrized by share vectors that lie in $\Theta$. When an agent buys shares, it moves the distribution's natural parameter so that the market prices matches its beliefs, or in other words the market's mean parametrization matches the agent's expectation. 
 
-There is a well-known duality between scoring rules and cost-function based markets~\citep{acv13,hanson03}. To see this in our context, recall from~(\ref{equalizer-rule}) that
+There is a well-known duality between scoring rules and cost-function based markets~\citep{acv13,H03}. To see this in our context, recall from~(\ref{equalizer-rule}) that
 %
 \begin{equation*}
 \Exp_{\tp}[\log p(x;\hmu)] = \la \htheta, \mu \ra - T(\htheta)
@@ -581,7 +581,6 @@ The effective domain is $\Theta = \{(\theta_1,\theta_2) \in \bR^2 : \theta_2 < 0
 
 %
 \begin{example} \label{ex:vonmises-market}
-
 As another example let the outcome space be the $d$-dimensional unit sphere. This setting was considered by~\citet{acv13} who provide a cost function implicitly defined through a variational characterization. The maximum entropy approach leads to another alternative. We have a security for each of the $d$ dimensions, and security $i$ simply pays off $\phi_i(x) = x_i$, where $x \in \bR^d$ is the unit-norm outcome. The maximum entropy distribution over the sphere with such sufficient statistics is the von Mises-Fisher distribution. The log partition function corresponds to the cost function
 %
 $$
@@ -764,7 +763,7 @@ Note that as, $a$ tends to 0, we approach risk neutrality and the agent moves th
 
 \subsubsection*{Liquidity Adjustment}
 
-In practice the centralized market maker allows itself some control over the \emph{liquidity} in the market, which captures how responsive prices are to trades. To adjust liquidity we consider the parametrized cost $C_{\lambda}(\theta)=\frac{1}{\lambda} C\left(\lambda\theta\right)$. Here $\lambda$ is construed as the \emph{inverse liquidity}, or price responsiveness. A larger setting of $\lambda$ means fewer shares need to be bought to reach the same prices.\footnote{Observe that the liquidity adjustment to the cost function takes the same form as the risk-aversion adjustment to the exponential utility in~(\ref{exp-util}). In convex analysis, this transformation is known as the perspective function~\citep{HiriartLe00}.}
+In practice the centralized market maker allows itself some control over the \emph{liquidity} in the market, which captures how responsive prices are to trades. To adjust liquidity we consider the parametrized cost $C_{\lambda}(\theta)=\frac{1}{\lambda} C\left(\lambda\theta\right)$. Here $\lambda$ is construed as the \emph{inverse liquidity}, or price responsiveness. A larger setting of $\lambda$ means fewer shares need to be bought to reach the same prices.\footnote{The liquidity adjustment to the cost function takes the same form as the risk-aversion adjustment to the exponential utility in~(\ref{exp-util}). In convex analysis, this transformation is known as the perspective function~\citep[p.\ 90]{HiriartLe00}.}
 
 %(Discussion, you can skip this paragraph.) This is because for higher $\lambda$ we are making the cost function ``more convex''. Specifically, for $\lambda_1 > \lambda_2$ it's the case that $C_{\lambda_1}$ is an increasing convex transformation of $C(\lambda_2)$. This holds because the ``coefficient of risk aversion'' $A(\theta) = C''(\theta)/C'(\theta)$ increases with $\lambda$ at every point. I've written it assuming single-dimensional $\theta$ but there are more complicated looking generalizations for vector $\theta$. In fact, this coefficient might be the ``right'' notion of liquidity at a point, not the second derivative or largest eigenvalue of the Hessian. We should discuss.
 
