@@ -39,6 +39,7 @@
 \newcommand{\mF}{\mathcal{F}}
 \newcommand{\mD}{\mathcal{D}}
 \newcommand{\htheta}{\hat{\theta}}
+\newcommand{\ttheta}{\tilde{\theta}}
 %---------------------------------------------------------------------------
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{prop}[thm]{Proposition}
@@ -83,27 +84,30 @@ S\'{E}BASTIEN LAHAIE
 RAHUL SAMI
 \affil{University of Michigan, Ann Arbor}}
 
+
 \section{Cost Function with a Liquidity Parameter}
-We may introduce a liquidity parameter to the cost function as $C_{\lambda}(\theta)=\lambda C\left(\frac{\theta}{\lambda}\right)$. We would like to find an expression for a lower bound on expected payoff. We would also like to find an expression for final market state for exponential utility traders with exponential family beliefs.
+We may introduce a liquidity parameter to the cost function as $C_{\lambda}(\theta)=\frac{1}{\lambda} C(\lambda\theta)$. We would like to find an expression for a lower bound on expected payoff. We would also like to find an expression for final market state for exponential utility traders with exponential family beliefs.
 \subsection{lower bound on expected payoff}
 The prediction market is set up with cost function $C_{\lambda}(\theta)$  and payoff for a unit share vector as $\phi(x)$. To find a lower bound on expected payoff, we first note that
 \begin{eqnarray*}
 \E_{x\sim p(x;\beta)}[C_{\lambda}(\theta)-\theta\phi(x)]&=&C_{\lambda}(\theta)-\theta\nabla T(\beta)\\
-&=&\lambda T(\theta/\lambda)-\theta\nabla T(\beta)\\
-&=&\lambda [T(\theta/\lambda)-\theta/\lambda\nabla T(\beta)-T(\beta)+\beta\nabla T(\beta)]+\lambda T(\beta)-\theta\lambda\nabla T(\beta)\\
-&=&\lambda D_{T}(\theta/\lambda,\beta)+\lambda [T(\beta)-\theta\nabla T(\beta)]
+&=&\frac{1}{\lambda} T(\theta\lambda)-\theta\nabla T(\beta)\\
+&=&\frac{1}{\lambda} [T(\theta\lambda)-\theta\lambda\nabla T(\beta)-T(\beta)+\beta\nabla T(\beta)]+\frac{1}{\lambda} T(\beta)-\frac{\beta}{\lambda}\nabla T(\beta)\\
+&=&\frac{1}{\lambda} D_{T}(\theta\lambda,\beta)+\frac{1}{\lambda} [T(\beta)-\beta\nabla T(\beta)]
 \end{eqnarray*}¥ 
-where $D_{T}(x_{1},x_{2}) = T(x_{1})-T(x_{2})-\nabla T(x_{1}-x_{2})$ is the Bregman Divergence between $x_{1}$ and $x_{2}$ based on $T$.
+where $D_{T}(x_{1},x_{2}) = T(x_{1})-T(x_{2})-\nabla T(x_{2})(x_{1}-x_{2})$ is the Bregman Divergence between $x_{1}$ and $x_{2}$ based on $T$.
 
 Thus, the expected payoff  for a trader with exponential family belief parameter $\beta$ who moves the market state from $\theta$ to $\theta'$ can be written as
 \begin{eqnarray*}
-\E_{x\sim p(x;\beta)}\left[C_{\lambda}(\theta)-\theta\phi(x)-(C_{\lambda}(\theta')-\theta'\phi(x))\right]=\lambda[D_{T}(\theta/\lambda,\beta)-D_{T}(\theta'/\lambda,\beta)]
+\E_{x\sim p(x;\beta)}\left[C_{\lambda}(\theta)-\theta\phi(x)-(C_{\lambda}(\theta')-\theta'\phi(x))\right]=\frac{1}{\lambda}[D_{T}(\theta\lambda,\beta)-D_{T}(\theta'\lambda,\beta)]
 \end{eqnarray*}¥
-If $\theta'=a\beta\lambda+(1-a)\theta$ for some $a\in[0,1]$ we can write
+We have $\theta'=\frac{\lambda}{\lambda+a}(\beta/\lambda)+\frac{a}{\lambda+a}\theta$ where $a$ is the utility parameter
 \begin{eqnarray*}
-D_{T}(\theta'/\lambda,\beta)&\leq& a D_{T}(\beta\lambda/\lambda,\beta)+(1-a) D_{T}(\theta/\lambda,\beta)\\
-D_{T}(\theta/\lambda,\beta)-D_{T}(\theta'/\lambda,\beta)&\geq& a D_{T}(\theta/\lambda,\beta)-a D_{T}(\beta,\beta)
+D_{T}(\theta'\lambda,\beta)&\leq& \frac{\lambda}{\lambda+a} D_{T}(\beta,\beta)+\frac{a}{\lambda+a} D_{T}(\theta\lambda,\beta)\\
+D_{T}(\theta/\lambda,\beta)-D_{T}(\theta'/\lambda,\beta)&\geq& \frac{\lambda}{a} D_{T}(\theta'/\lambda,\beta)
 \end{eqnarray*}¥
+
+Thus, the expected payoff is at least $\frac{1}{a} D_{T}(\theta'/\lambda,\beta)$.
 
 %Note that 
 %\begin{eqnarray*}
@@ -137,7 +141,6 @@ We have been assuming that the cost function is the same as the log partition fu
 
 (Discussion, you can skip this paragraph.) This is because for higher $\lambda$ we are making the cost function ``more convex''. Specifically, for $\lambda_1 > \lambda_2$ it's the case that $C_{\lambda_1}$ is an increasing convex transformation of $C(\lambda_2)$. This holds because the ``coefficient of risk aversion'' $A(\theta) = C''(\theta)/C'(\theta)$ increases with $\lambda$ at every point. I've written it assuming single-dimensional $\theta$ but there are more complicated looking generalizations for vector $\theta$. In fact, this coefficient might be the ``right'' notion of liquidity at a point, not the second derivative or largest eigenvalue of the Hessian. We should discuss.
 
-\newcommand{\ttheta}{\tilde{\theta}}
 As we're dealing with LMSR I write $T$ rather than $C$ now where $T$ is the log partition function. The cost function is the liquidity-adjusted version $T_{\lambda}$. Let $\hmu$ be the agent's mean belief and let $\htheta = \grad T^{-1}(\hmu)$ be the corresponding natural parameter. A risk-neutral agent moves the share vector so that the prices match its mean parameter. Therefore, define the \emph{target shares} as $\ttheta = \grad T^{-1}_{\lambda}(\hmu)$. So $\htheta$ and $\ttheta$ are related by
 %
 $$
@@ -163,11 +166,27 @@ As $\lambda$ grows large, the agent moves the market state closer to the \emph{t
 \end{equation}
 %
 where $\mu$ are the current market prices.
-
-
-
-
-
-
-
 \end{document}
+
+
+\section{Cost Function with a Liquidity Parameter}
+We may introduce a liquidity parameter to the cost function as $C_{\lambda}(\theta)=\lambda C\left(\frac{\theta}{\lambda}\right)$. We would like to find an expression for a lower bound on expected payoff. We would also like to find an expression for final market state for exponential utility traders with exponential family beliefs.
+\subsection{lower bound on expected payoff}
+The prediction market is set up with cost function $C_{\lambda}(\theta)$  and payoff for a unit share vector as $\phi(x)$. To find a lower bound on expected payoff, we first note that
+\begin{eqnarray*}
+\E_{x\sim p(x;\beta)}[C_{\lambda}(\theta)-\theta\phi(x)]&=&C_{\lambda}(\theta)-\theta\nabla T(\beta)\\
+&=&\lambda T(\theta/\lambda)-\theta\nabla T(\beta)\\
+&=&\lambda [T(\theta/\lambda)-\theta/\lambda\nabla T(\beta)-T(\beta)+\beta\nabla T(\beta)]+\lambda T(\beta)-\theta\lambda\nabla T(\beta)\\
+&=&\lambda D_{T}(\theta/\lambda,\beta)+\lambda [T(\beta)-\theta\nabla T(\beta)]
+\end{eqnarray*}¥ 
+where $D_{T}(x_{1},x_{2}) = T(x_{1})-T(x_{2})-\nabla T(x_{1}-x_{2})$ is the Bregman Divergence between $x_{1}$ and $x_{2}$ based on $T$.
+
+Thus, the expected payoff  for a trader with exponential family belief parameter $\beta$ who moves the market state from $\theta$ to $\theta'$ can be written as
+\begin{eqnarray*}
+\E_{x\sim p(x;\beta)}\left[C_{\lambda}(\theta)-\theta\phi(x)-(C_{\lambda}(\theta')-\theta'\phi(x))\right]=\lambda[D_{T}(\theta/\lambda,\beta)-D_{T}(\theta'/\lambda,\beta)]
+\end{eqnarray*}¥
+If $\theta'=a\beta\lambda+(1-a)\theta$ for some $a\in[0,1]$ we can write
+\begin{eqnarray*}
+D_{T}(\theta'/\lambda,\beta)&\leq& a D_{T}(\beta\lambda/\lambda,\beta)+(1-a) D_{T}(\theta/\lambda,\beta)\\
+D_{T}(\theta/\lambda,\beta)-D_{T}(\theta'/\lambda,\beta)&\geq& a D_{T}(\theta/\lambda,\beta)-a D_{T}(\beta,\beta)
+\end{eqnarray*}¥
