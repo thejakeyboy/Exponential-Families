@@ -781,7 +781,7 @@ It is straightforward to check that $\grad T_{\lambda}(\ttheta) = \grad T(\lambd
 %
 Higher price responsiveness means fewer shares must be bought to make the market prices match the agent's expectation, so the natural parameter is scaled down accordingly. With a liquidity adjustment, the analysis of Theorem~\ref{thm:exp-util} can be extended and yields the following result.
 %
-\begin{corollary}
+\begin{corollary}\jake{$\mu$ without a hat is never defined... (this is for sebastien)}
 Under the conditions of Theorem~\ref{thm:exp-util} and an inverse liquidity of $\lambda$, the agent's optimal trade $\delta$ moves the state vector to
 %
 \begin{equation} \label{liqu-update}
@@ -796,8 +796,10 @@ According to~(\ref{liqu-update}), as $\lambda$ grows large the agent moves the m
 
 
 \subsection{Repeated Trading and the Effective Belief}
-\jake{I need to clean up a few things in this section.}
-In previous sections we have analyzed trader behavior as if it is his first entry into the market. In this section we will quantify how prior exposure in the market affects a trader's choices. In particular, we will show that a trader who has previously purchased shares in a market will, on subsequent entry, behave as if this purchase has updated his private belief. This result implies that any financial trade made in a market is equivalent to changing the trader's effective belief.
+
+In previous sections we have analyzed trader behavior as if it is his first entry into the market. We now pose the question: how will a trader reason about a possible future investment when the trader holds an \emph{existing portfolio?} When the agent is exposed to the market given a prior investment this should clearly affect the agent's preference for additional risk. In the context of a trader possessing an exponential family belief and with exponential utility we show that we can analyze explicitly how an agent incorporates an existing portfolio. Indeed, the key conclusion we make in this section is that a trader holding a natural parameter vector $\hat \theta$ and holding a portfolio $\delta$ in the market will reason about future a future investment simply \emph{as though} his belief were $\hat \theta - a \delta$ and he had no prior investment.
+
+
 
 % As before, we consider the exponential family prediction market where traders have exponential belief. Let us also suppose that traders in this market have exponential utility \[
 % U(w) = -\frac{1}{a} \exp(-aw).
@@ -842,7 +844,7 @@ Thus, the equilibrium state is a convex combination of trader beliefs and initia
 
 \section{Budget-limited Aggregation} \label{sec:budgets}
 
-In this section, we consider the evolution of the market state when traders are budget-limited and their budgets are known to the market maker. We consider a cost-function based market with cost function $C$ and payoff $\phi(x)$ with non-negative payoff. \sindhu{this means no short selling}We assume that the traders trade in multiple instances of the market. As before, the market price is interpreted as a probability density over the outcome space by interpreting the share vector as the natural parameter of an exponential family distribution \sindhu{I think we need this for Lemma \ref{lem:damage}}. We measure the error in prediction using the standard log loss.  
+In this section, we consider the evolution of the market state when traders are budget-limited and their budgets are known to the market maker. We consider a cost-function based market with cost function $C$ and payoff $\phi(x)$ with non-negative payoff. We assume that the traders trade in multiple instances of the market. As before, the market price is interpreted as a probability density over the outcome space by interpreting the share vector as the natural parameter of an exponential family distribution \sindhu{I think we need this for Lemma \ref{lem:damage}}. We measure the error in prediction using the standard log loss.  
 
 We show that traders with faulty information can only induce a limited amount of additional loss to the market's prediction. Further, since informative traders experience an expected increase in budget,  they will eventually be unconstrained and allowed to carry out  unrestricted trades. Taken together, this means that while the market suffers limited damage from ill-informed traders, it is also able to make use of all the information from informative traders in the long run.
 \paragraph{Budget-limited trades}
