@@ -833,7 +833,7 @@ In the exponential family market, the cost function $C$ is identical to the log 
 
 Define a potential function as  $\Phi(\vec{\delta})\defeq  T\left(\theta+\sum_{i}\delta_{i}\right)+\sum_{i}\frac{1}{a_{i}}T(\htheta_{i}-a_{i}\delta_{i})$.
 
-Rather than work directly with the utilities of every trader, we will work with the log of their utility values\footnote{It is important to note that the potential function analysis still applies for any monotonically increasing transformation of the traders' utility functions}. Now the log-utility of trader $i$ is $U_{i}(\vec{\delta})=- T(\theta+\sum_{j}\delta_{j}) + T(\xtheta+\sum_{j\neq i}\delta_{j}) - \frac{1}{a_{i}} T(\htheta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\htheta_{i})$.
+Rather than work directly with the utilities of every trader, we will work with the log of their utility values\footnote{It is important to note that the potential function analysis still applies for any monotonically increasing transformation of the traders' utility functions}. Now the log-utility of trader $i$ is $U_{i}(\vec{\delta})=- T(\theta+\sum_{j}\delta_{j}) + T(\theta+\sum_{j\neq i}\delta_{j}) - \frac{1}{a_{i}} T(\htheta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\htheta_{i})$.
 Thus, Theorem \ref{thm:potl} applies and we can find the equilibrium market state by maximizing $\Phi(\vec{\delta})$ for each $\delta_{i}$.
 \begin{eqnarray*}
 \nabla_{\delta_{i}}\Phi(\vec{\delta})&=&\nabla T\left(\theta+\sum_{j=1}^{n}\delta_{i}\right)-\nabla T(\htheta_{i}-a_{i}\delta_{i}) = 0
