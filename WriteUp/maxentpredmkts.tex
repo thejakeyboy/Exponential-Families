@@ -223,7 +223,7 @@ We consider the design of prediction market mechanisms known as automated market
 %- multiple trades
 %- multiple traders
 
-Prediction markets are aggregation mechanisms that allow market prices to be interpreted as predictive probabilities on an event. Each trader in the market is assumed to have some private information that he uses to make a prediction on the outcome of the event. Traders are allowed to report their beliefs on the outcome of the event by allowing them to buy and sell securities whose value depends on the outcome of this future event. This will effect the state of the market, thus updating the predictive probabilities for the event. Further, since the trades are done sequentially, the trader is allowed to observe all past trades in the market and update his private information based on this information. Traders can see the past history of trades, so the price at which a current trader is willing to buy and sell these securities can be interpreted as an aggregate ``consensus probability forecast'' of a particular event occurring.
+Prediction markets are aggregation mechanisms that allow market prices to be interpreted as predictive probabilities on an event. Each trader in the market is assumed to have some private information that he uses to make a prediction on the outcome of the event. Traders are allowed to report their beliefs by buying and selling securities whose ultimate payoff depends on the future outcome. This will affect the state of the market, thus updating the predictive probabilities for the event. Further, since the trades are done sequentially, the trader is allowed to observe all past trades in the market and update his private information based on this information. In some sense the market prices, which are in effect the prices at which the marginal trader is willing to buy or sell the available securities, can be interpreted as an aggregate ``consensus probability forecast'' of the event in question.
 % For example, the Iowa Electronic Market predicts the outcome of a presidential election by allowing one to trade on securities that pay off only if the Democratic candidate wins, or only if the Republican candidate wins. 
 
 % JAKE: I think most people reading this will have enough background on markets.
@@ -234,21 +234,21 @@ Prediction markets are aggregation mechanisms that allow market prices to be int
 %       as this has already been adressed in a number of papers 
 % Directly applying techniques used for binary outcome spaces to large outcome spaces is computationally infeasible. In fact, it has been shown that computing and updating prices for combinatorial outcomes spaces is $\#$P-hard \cite{Chen08}. Infinite outcome spaces pose a particular challenge in prediction markets since it is not clear how to define securities in such spaces. The most direct way of discretizing the space may lead to loss of information from the traders. Extending prediction market techniques to this space has been a subject of recent interest. Various techniques to bound market maker loss in both a combinatorial and infinite outcome space have been studied (see, for instance, \cite{Abernethy13,OthmanS11}). 
 
-\jake{I want to use this paragraph for a general overview of mm frameworks} One popular form of prediction markets is the market scoring rule~\cite{H03}. A market scoring rule considers all trades as a single chronological sequence. Traders earn rewards proportional to the incremental reduction in prediction loss caused by their trades in comparison to the previous trade. In other words, their rewards depend on the change in market probabilities caused by their trade, as well as on the eventual outcome. Thus, each trader has an incentive to minimize the prediction loss. In this format, the {\em market maker} who runs the market can suffer an overall loss, but Hanson~\cite{H03} showed that, for market scoring rules on finite outcome spaces, the loss of the market maker can be bounded.
+% \jake{I want to use this paragraph for a general overview of mm frameworks} One popular form of prediction markets is the market scoring rule~\cite{H03}. A market scoring rule considers all trades as a single chronological sequence. Traders earn rewards proportional to the incremental reduction in prediction loss caused by their trades in comparison to the previous trade. In other words, their rewards depend on the change in market probabilities caused by their trade, as well as on the eventual outcome. Thus, each trader has an incentive to minimize the prediction loss. In this format, the {\em market maker} who runs the market can suffer an overall loss, but Hanson~\cite{H03} showed that, for market scoring rules on finite outcome spaces, the loss of the market maker can be bounded.
 
-Much of the work on prediction market frameworks has focused primarily on structural properties of the mechanism: incentive compatibility, the market maker loss, the available liquidity, the fluctuations of the prices as a function of the trading volume, to name a few. Absent from much of the literature is a corresponding \emph{semantics} of the market behavior or the observed prices. That is, how can we interpret the equilibrium market state when we have a number of traders with diverse beliefs on the underlying state of the world? In what sense is the market an aggregation mechanism? Do price changes relate to our usual Bayesian notion of information incorporation via posterior updating?
+We give an brief overview of the work on prediction market design below. Much of this work has focused heavily on structural properties of the mechanism: incentive compatibility, the market maker loss, the available liquidity, the fluctuations of the prices as a function of the trading volume, to name a few. Absent from much of the literature is a corresponding \emph{semantics} of the market behavior or the observed prices. That is, how can we interpret the equilibrium market state when we have a number of traders with diverse beliefs on the underlying state of the world? In what sense is the market an aggregation mechanism? Do price changes relate to our usual Bayesian notion of information incorporation via posterior updating?
 
-In the present work we show that a number of classical statistical tools can be leveraged to design a prediction market framework in the mold of an \emph{exponential family distributions} that possesses a number of attractive properties. Common concepts in statistics, e.g. \emph{entropy maximization}, \emph{log loss}, and \emph{bayesian inference}, relate to natural aspects of our class of mechanisms. In particular, the central objects in our market framework can be interpreted via conceptual objects used to define exponential families:
+In the present work we show that a number of classical statistical tools can be leveraged to design a prediction market framework in the mold of \emph{exponential family distributions}; we show that this statistical framework leads to a number of attractive properties and interpretations. Common concepts in statistics -- e.g. \emph{entropy maximization}, \emph{log loss}, and \emph{bayesian inference} -- relate to natural aspects of our class of mechanisms. In particular, the central objects in our market framework can be interpreted via conceptual objects used to define exponential families:
 \begin{itemize}
 	\item the \emph{payoff function} of the market corresponds to the \emph{sufficient statistics} of the probability distribution;
 	\item the vector of \emph{outstanding shares} in the market corresponds to the \emph{natural parameter vector} of the distribution;
 	\item the market prices correspond to \emph{mean parameters};
 	\item the profit potential for a trader corresponds to a \emph{Kullback-Leibler divergence} between the trader's belief and that of the market.
 \end{itemize}
-\sindhu{I don't think we have the KL divergence result here -- is this the bregman divergence in the budget section?}
+% \sindhu{I don't think we have the KL divergence result here -- is this the bregman divergence in the budget section?}
 
 We begin with a discussion of scoring rules in Section~\ref{sec:scoring} for exponential family distributions, and in particular we show that the logarithmic scoring rule is the only score that is \emph{proper} for the class of exponential families.
-We turn our attention to market design in Section~\ref{sec:maxentmarkets} and give a full description of our proposed mechanisms. In addition to showing the syntactic relationship between exponential families and prediction markets, we also explore the semantic implications as well. In particular, we show that our formulation allows us to analyze the evolution of the market under various models of trader behavior:
+We turn our attention to market design in Section~\ref{sec:maxentmarkets} and give a full description of our proposed mechanisms. In addition to showing the syntactic relationship between exponential families and prediction markets, we explore a number of rich semantic implications as well. In particular, we show that our formulation allows us to analyze the evolution of the market under various models of trader behavior:
 \begin{itemize}
 	\item Trader behavior varies depending on how they assimilate information; for example, should we consider our agents as Bayesians or frequentists. In Section~\ref{sec:bayesians} we consider traders that use a conjugate prior to update their beliefs, and we study how their trades would affect the market state. \jake{Do we show the following?} We show that although these two kinds of traders pick the eventual market state as a convex combination of their private belief and current market state, they do so in dual spaces.
 	\item In Section~\ref{sec:exputil} we consider when our agents are risk-averse in an interesting special case, that is under the assumption they utilize \emph{exponential utility} to optimize their bets. We show how this dovetails nicely with the notion of a \emph{certainty equivalent} which is often used in risk-aversion settings. In this case we can characterize precisely how a single trader interacts with the market as well as the equilibrium reached given multiple traders; this result is achieved via using a \emph{potential game} argument. The eventual market state turns out to be a weighted combination of trader beliefs and initial market state; the weights depend on the risk aversion parameter of the individual traders.
@@ -557,7 +557,7 @@ The effective domain is $\Theta = \{(\theta_1,\theta_2) \in \bR^2 : \theta_2 < 0
 
 %
 \begin{example} \label{ex:vonmises-market}
-As another example let the outcome space be the $d$-dimensional unit sphere. This setting was considered by~\citet{acv13} who provide a cost function implicitly defined through a variational characterization. The maximum entropy approach leads to another alternative. We have a security for each of the $d$ dimensions, and security $i$ simply pays off $\phi_i(x) = x_i$, where $x \in \bR^d$ is the unit-norm outcome. The maximum entropy distribution over the sphere with such sufficient statistics is the von Mises-Fisher distribution. The log partition function corresponds to the cost function
+As another example let the outcome space be the $d$-dimensional unit sphere. This setting was considered by~\citet{acv13} who provide a cost function implicitly defined through a variational characterization. The maximum entropy approach leads to another alternative. We have a security for each of the $d$ dimensions, and security $i$ simply pays off $\phi_i(x) = x_i$, where $x \in \bR^d$ is the unit-norm outcome. The maximum entropy distribution over the sphere with such sufficient statistics is the von Mises-Fisher distribution. The log partition function corresponds to
 %
 $$
 C(\theta) = I_{\frac{d}{2}-1}(\norm{\theta}) - \left(\frac{d}{2} - 1 \right)\log \norm{\theta},
@@ -697,8 +697,7 @@ For the second part of the result, we have
 T^p(\delta) & = & \log \int_{\mX} \exp\la\delta,\phi(x)\ra\,p(x;\htheta)\, d\nu(x)\\
 & = &  \log \int_{\mX} \exp( \la\delta+\htheta,\phi(x)\ra - T(\htheta) )\, d\nu(x)\\
 & = &  T(\htheta+\delta) - T(\htheta) + \log \int_{\mX} \exp( \la\delta+\htheta,\phi(x)\ra - T(\htheta+\delta) )\, d\nu(x)\\
-& = &  T(\htheta+\delta) - T(\htheta) + \log \int_{\mX} p(x;\htheta+\delta) \, d\nu(x)\\
-& = &  T(\htheta+\delta) - T(\htheta),
+& = &  T(\htheta+\delta) - T(\htheta) + \log \int_{\mX} p(x;\htheta+\delta) \, d\nu(x) =   T(\htheta+\delta) - T(\htheta),
 \end{eqnarray*}
 %
 where the last line follows from the fact that density $p(x;\htheta+\delta)$ integrates to 1.
@@ -723,11 +722,7 @@ The agent's optimal trade maximizes its expected utility, or equivalently the ce
 $$
 \log a - T(\htheta - a\delta) + T(\htheta) - aT(\theta+\delta) + aT(\theta). 
 $$
-This objective is strictly concave, from the strict convexity of $T$. The optimum is therefore characterized by the first-order conditions:
-$$
-\grad T(\htheta - a\delta) = \grad T(\theta+\delta).
-$$
-As the gradient map $\grad T$ is one-to-one, this is solved by equating the arguments, which leads to $\delta = (\htheta - \theta) / (1+a)$ and~(\ref{exp-update}).
+This objective is strictly concave, from the strict convexity of $T$. The optimum is therefore characterized by the first-order condition $\grad T(\htheta - a\delta) = \grad T(\theta+\delta)$. As the gradient map $\grad T$ is one-to-one, this is solved by equating the arguments, which leads to $\delta = (\htheta - \theta) / (1+a)$ and~(\ref{exp-update}).
 % 
 \end{proof}
 %
@@ -831,11 +826,11 @@ We see that the equilibrium state is a convex combination of all beliefs and the
 
 
 \section{Budget-limited Aggregation} \label{sec:budgets}
-In this section, we consider the evolution of the market state when traders are budget-limited and their budgets are known to the market maker. We consider a cost-function based market with cost function $C$ and payoff $\phi(x)$ with non-negative payoff. We assume that the traders trade in multiple instances of the market. As before, the market price is interpreted as a probability density over the outcome space by interpreting the share vector as the natural parameter of an exponential family distribution. We measure the error in prediction using the standard log loss.  
+In this section, we consider the evolution of the market state when traders are budget-limited and their budgets are known to the market maker. We consider a cost-function based market with cost function $C$ and payoff $\phi(x)$ with non-negative payoff. We assume that the traders trade in multiple instances of the market. As before, the market price is interpreted as a probability density over the outcome space by viewing the share vector as the natural parameters of an exponential family distribution. We measure the error in prediction using the standard log loss.  
 
 We show that traders with faulty information can only induce a limited amount of additional loss to the market's prediction. Further, since informative traders experience an expected increase in budget,  they will eventually be unconstrained and allowed to carry out  unrestricted trades. Taken together, this means that while the market suffers limited damage from ill-informed traders, it is also able to make use of all the information from informative traders in the long run.
 \paragraph{Budget-limited trades}
-Let $\alpha$ be the budget of a trader in the market. Suppose with infinite budget, the trader would have moved the market state from $\theta$ to $\htheta$, where $\htheta$ represents his true belief. Now suppose further that $\alpha<C(\htheta)-C(\theta)$; that is, the trader's budget does not allow for purchasing enough shares to move the market state to his belief. In this case, we want to budget-limit the trader's influence on the market state. 
+Let $\alpha$ be the budget of a trader in the market. Suppose with infinite budget, the trader would have moved the market state from $\theta$ to $\htheta$, where $\htheta$ represents his true belief. Now suppose that $\alpha<C(\htheta)-C(\theta)$; that is, the trader's budget precludes purchasing enough shares to move the market state to his belief. In this case, we want to budget-limit the trader's influence on the market state. 
 
 \begin{definition}
 Let the current market state be given by $\theta$. Let the final market state $\theta'=\lambda\htheta+(1-\lambda)\theta$ where $\lambda=\min\left(1, \frac{\alpha}{C(\htheta) - C(\theta)}\right)$. The cost to the trader to move the market state from $\theta$ to $\theta'$ is at most his budget $\alpha$ and is called his \emph{budget-limited trade}.
@@ -871,26 +866,24 @@ Let $\theta$ be the current market state. Suppose that an  informative trader wi
 \begin{proof}
 Let the cost function $C$ be equal to the log partition function $T$ of the belief distribution. The payoff is given by the sufficient statistics $\phi(x)$. Then, the trader's expected net payoff is given by
 \begin{eqnarray*}
-&& \E_{x\sim P_{\htheta}}[C(\theta)-C(\theta')-(\theta-\theta')\phi(x)]\\
-%&=& T(\theta)-\theta\E_{x\sim P_{\htheta}}[\phi(x)]-(T(\theta')-\theta' \E_{x\sim P_{\htheta}}[\phi(x)])\\
+\E_{x\sim P_{\htheta}}[C(\theta)-C(\theta')-(\theta-\theta')\phi(x)]
 &=& T(\theta)-\theta\nabla T(\htheta)-(T(\theta')-\theta' \nabla T(\htheta))\\
 %&=& T(\theta)-T(\htheta)-\nabla T(\htheta)(\theta-\htheta)-(T(\theta')-T(\htheta)- \nabla T(\htheta)(\theta'-\htheta))\\
-&=& D_{T}(\theta,\htheta)-D_{T}(\theta',\htheta)\\
-&\geq&\lambda D_{T}(\theta,\htheta)\geq0
+&=& D_{T}(\theta,\htheta)-D_{T}(\theta',\htheta) \geq \lambda D_{T}(\theta,\htheta)\geq0
 \end{eqnarray*}
 where $D_{T}(\cdot,\cdot)$ is the Bregman divergence based on $T$. The second to last inequality holds since $D_{T}(\theta',\htheta)$ is convex in $\theta'$ and we have:
 \begin{eqnarray*}
 D_{T}(\theta',\htheta)&=&D_{T}\left(\lambda\htheta+(1-\lambda)\theta,\htheta\right)\\
-&\leq&\lambda D_{T}( \htheta ,\htheta)+ (1-\lambda) D_{T}( \theta ,\htheta)\\
-&=&(1-\lambda) D_{T}( \theta ,\htheta)
+&\leq&\lambda D_{T}( \htheta ,\htheta)+ (1-\lambda) D_{T}( \theta ,\htheta) 
+= (1-\lambda) D_{T}( \theta ,\htheta)
 %\implies D_{\psi}(\theta',\beta)+aD_{\psi}(\theta',\beta)&\leq& aD_{\psi}( \theta ,\beta)\\
 \end{eqnarray*}¥
-Thus, a trader who moves the market state can expect his profit to be positive and at least $\lambda D_{T}(\theta,\htheta)$.
+A trader who adjust the market state may expect positive profit $\geq \lambda D_{T}(\theta,\htheta)$.
  \end{proof}
 
 We note one important aspect of Lemma~\ref{thm:growth}: The expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
 
-For continuous distributions with a density, the probability that a trader with private information will form exactly the same beliefs as the current market position is $0$, and thus, each trader will have positive expected profit on almost all sequences of observed samples and beliefs. 
+Given a continuous density the probability a trader will form exactly the same beliefs as the current market position is $0$, and thus, each trader will have positive expected profit on almost all sequences of observed samples and beliefs. 
 This result suggests that, eventually, every informative trader will have the ability to influence the market state in accordance with his beliefs, without being budget limited.
 
 Notice that Lemma~\ref{thm:growth} only required that the market state to which the trader moves, be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{T}(\theta,\htheta)$ where $a$ is the exponential utility parameter. When the cost function is adjusted with a liquidity parameter as $C_{l}(\theta)=(1/l) C(l\theta)$ as described in Section \ref{sec:exputil},  the trader receives an expected payoff of at least $\frac{1}{a} D_{T}(l\theta',\htheta)$.
