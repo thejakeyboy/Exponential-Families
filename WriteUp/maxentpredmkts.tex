@@ -831,18 +831,19 @@ We see that the equilibrium state is a convex combination of all beliefs and the
 
 
 \section{Budget-limited Aggregation} \label{sec:budgets}
-In this section, we consider the evolution of the market state when traders are budget-limited and their budgets are known to the market maker. We consider a cost-function based market with cost function $C$ and payoff $\phi(x)$ with non-negative payoff. We assume that the traders trade in multiple instances of the market. As before, the market price is interpreted as a probability density over the outcome space by interpreting the share vector as the natural parameter of an exponential family distribution. We measure the error in prediction using the standard log loss.  
+In this section, we consider the evolution of the market state when traders are budget-limited.
+% and their budgets are known to the market maker. We consider a cost-function based market with cost function $C$ and payoff $\phi(x)$ with non-negative payoff. 
+We assume that the traders trade in multiple instances of the market. As before, the market price is interpreted as a probability density over the outcome space and the share vector as the natural parameter of an exponential family distribution. Consistent with the connections drawn in Section~\ref{sec:scoring} and throughout, we measure the error in prediction using the standard log loss.  
 
-We show that traders with faulty information can only induce a limited amount of additional loss to the market's prediction. Further, since informative traders experience an expected increase in budget,  they will eventually be unconstrained and allowed to carry out  unrestricted trades. Taken together, this means that while the market suffers limited damage from ill-informed traders, it is also able to make use of all the information from informative traders in the long run.
+We show that traders with faulty information can only impose a limited amount of additional loss to the market's prediction. Further, since informative traders experience an expected increase in budget,  they will eventually be unconstrained and allowed to carry out  unrestricted trades. Taken together, this means that while the market suffers limited damage from ill-informed traders, it is also able to make use of all the information from informative traders in the long run.
 \paragraph{Budget-limited trades}
-Let $\alpha$ be the budget of a trader in the market. Suppose with infinite budget, the trader would have moved the market state from $\theta$ to $\htheta$, where $\htheta$ represents his true belief. Now suppose further that $\alpha<C(\htheta)-C(\theta)$; that is, the trader's budget does not allow for purchasing enough shares to move the market state to his belief. In this case, we want to budget-limit the trader's influence on the market state. 
+Let $\alpha$ be the budget of a trader in the market. Suppose that with infinite budget, the trader would have moved the market state from $\theta$ to $\htheta$, where $\htheta$ represents his true belief. Now suppose further that $\alpha<C(\htheta)-C(\theta)$; that is, the trader's budget does not allow for purchasing enough shares to move the market state to his belief. In this case, we want to budget-limit the trader's influence on the market state. 
 
-\begin{definition}
-Let the current market state be given by $\theta$. Let the final market state $\theta'=\lambda\htheta+(1-\lambda)\theta$ where $\lambda=\min\left(1, \frac{\alpha}{C(\htheta) - C(\theta)}\right)$. The cost to the trader to move the market state from $\theta$ to $\theta'$ is at most his budget $\alpha$ and is called his \emph{budget-limited trade}.
-\end{definition}
+Let the current market state be given by $\theta$ and let the final market state be $\theta'=\lambda\htheta+(1-\lambda)\theta$ where $\lambda=\min\left(1, \frac{\alpha}{C(\htheta) - C(\theta)}\right)$. The cost to the trader to move the market state from $\theta$ to $\theta'$ is at most his budget $\alpha$ and is called his \emph{budget-limited trade}.
+
 
 \paragraph{Limited Damage}
-We will now quantify the error in prediction that the market maker might have to endure as a result of ill-informed entities entering the market. We assume that these entities trade in multiple instances of the market; thus the exposure of the market maker is over several \emph{rounds}. We use the log loss to measure this error in terms of the initial budget of traders; the loss function for $\theta$ shares held is defined as: $L(\theta,x)=-\log(p(x;\theta))=C(\theta)-\theta^{T}\phi(x)$.
+We will now quantify the error in prediction that the market maker might have to endure as a result of ill-informed entities entering the market. We assume that these entities trade in multiple instances of the market; thus the exposure of the market maker is over several rounds. The log loss function for $\theta$ shares held is defined as $L(\theta,x)=-\log p(x;\theta)=C(\theta)-\la \theta\phi(x)\ra$.
 
 \begin{lemma}\label{lem:damage}
 The loss induced on the market by an uninformative trader is bounded by his initial budget.
@@ -859,11 +860,16 @@ Where $\Delta_{i}^{t}$ is called the myopic impact of a trader $i$ in round $t$.
 Since the market evolves so that the budget of any trader never falls below zero, the total myopic impact in $T$ rounds caused due to trader $i$ is:
 $$\Delta_{i}:=\sum_{t=1}^{T}\Delta_{i}^{t}= \sum_{t=1}^{T} (\alpha_{i}^{t} - \alpha_{i}^{t-1}) = \alpha_{i}^{T} - \alpha_{i}^{0}\geq -\alpha_{i}^{0}$$
 \end{proof}
+
+An interesting aspect of Lemma~\ref{lem:damage} is that the log loss can be quantified in the same units as the traders' budgets.
+
+
+
 \paragraph{Budget of Informative Traders}
 %Given the  information-theoretic interpretation of the cost-function based prediction market, we now show that the informative trader in the prediction market defined above increases his budget in a round in expectation {\em under his own belief distribution}.
 We now characterize the expected change in budget for an informative trader. %The following result holds for any round $t$; for simplicity, we have therefore dropped the superscript from the notation.
 \begin{lemma}\label{thm:growth}
-Let $\theta$ be the current market state. Suppose that an  informative trader with belief distribution  parametrized by $\theta'$  moves the market state to the budget-limited state $\htheta=\lambda \theta' + (1-\lambda) \theta$. Then, the expectation (over the trader's belief) of the trader's profit  is greater than zero whenever his budget is positive and his belief differs from the previous market position $\theta$. 
+Let $\theta$ be the current market state. Suppose that an  informative trader with belief distribution  parametrized by $\htheta$  moves the market state to the budget-limited state $\theta'=\lambda \htheta + (1-\lambda) \theta$. Then, the expectation (over the trader's belief) of the trader's profit  is strictly positive whenever his budget is positive and his belief differs from the previous market position $\theta$. 
 % Suppose that each informative trader gets a random sample of data, 
 %resulting in a sequence of trader beliefs $\theta_i$, and hence a sequence of budget-limited market positions
 %$\hat{\theta}_i$, before a final outcome $x$. Then, the expectation, over trader $i$'s belief distribution $\theta_i$, of trader $i$'s realized profit is greater than zero whenever her budget is positive and her belief differs from the previous market position $\hat{\theta}_{i-1}$. 
@@ -888,12 +894,12 @@ D_{T}(\theta',\htheta)&=&D_{T}\left(\lambda\htheta+(1-\lambda)\theta,\htheta\rig
 Thus, a trader who moves the market state can expect his profit to be positive and at least $\lambda D_{T}(\theta,\htheta)$.
  \end{proof}
 
-We note one important aspect of Lemma~\ref{thm:growth}: The expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
+We note one important aspect of Lemma~\ref{thm:growth}: the expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
 
 For continuous distributions with a density, the probability that a trader with private information will form exactly the same beliefs as the current market position is $0$, and thus, each trader will have positive expected profit on almost all sequences of observed samples and beliefs. 
 This result suggests that, eventually, every informative trader will have the ability to influence the market state in accordance with his beliefs, without being budget limited.
 
-Notice that Lemma~\ref{thm:growth} only required that the market state to which the trader moves, be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{T}(\theta,\htheta)$ where $a$ is the exponential utility parameter. When the cost function is adjusted with a liquidity parameter as $C_{l}(\theta)=(1/l) C(l\theta)$ as described in Section \ref{sec:exputil},  the trader receives an expected payoff of at least $\frac{1}{a} D_{T}(l\theta',\htheta)$.
+Notice that Lemma~\ref{thm:growth} only required that the market state to which the trader moves be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility by Theorem~\ref{thm:exp-util}. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{T}(\theta,\htheta)$ where $a$ is the exponential utility parameter. When the cost function is adjusted to $C_{\lambda}$ with an inverse liquidity parameter $\lambda$ Section \ref{sec:exputil},  the trader receives an expected payoff of at least $\frac{1}{a} D_{T}(\lambda\theta,\htheta)$.
 
 
 %\section{Conclusions}
@@ -1189,6 +1195,7 @@ $$\theta+\sum_{j=1}^{n}\delta_{j}=
 \frac{\theta+\sum_{i=1}^{n}\left(\frac{\htheta_{i}}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
 Thus the equilibrium state is a convex combination of trader beliefs and initial market state.
 
+
 \section{The Exponential Family Market Mechanism with Budgets} \label{sec:budgets}
 In the previous section, we saw that we can define a cost-function based prediction market so that the aggregated belief of the traders represents the maximum likelihood estimate of the natural parameters of the true exponential family distribution.
 
@@ -1197,6 +1204,7 @@ In this section, we consider the the prediction market setup with traders that m
 We will show that if we are able to impose finite initial budgets on the traders and control the market prices based on these budgets, then  it possible to set up the market so that it is prohibitive for damaging traders to participate in the market. Further, the informative traders can be shown to have expected growth in budget so that they are eventually able to move the market prices without restriction. This idea of a dual analysis has been used in a recommender system context to compute reputations in \cite{ressami07}.
 
 In this section, we assume that the traders have exponential family beliefs. The cost function has the same form as the log partition function $T$ of the exponential family and the payoff is determined by the sufficient statistics of the data $\phi(x)$.
+
 \subsection{Budget-limited Aggregation}
 Imposing budget limits on the traders will allow us to control the amount of influence any one trader can have on moving the market prices. We will also satisfy an additional requirement that no trader has negative budget at any point of participation in the market. This is achieved by restricting the movement of the market and hence influencing the cost incurred by the trader. Recall that the payoff in this market is non-negative and hence the only adverse influence on a trader's budget is the cost of movement of the market state. 
 
