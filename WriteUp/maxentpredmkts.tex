@@ -256,44 +256,21 @@ We turn our attention to market design in Section~\ref{sec:maxentmarkets} and gi
 \end{itemize}
 
 \jake{I want to add more to this list. It's ok but doesn't totally reflect what's in the last few sections.}
-\subsection{Related Work}
-\jake{I'll add more here. Sebastien: do you have anything to put in here regarding the exponential utility stuff?}
-Prediction markets have been known to perform well in practice (see, for instance, \cite{AGT07,Wol04,pennock2001real}). However, a sound theory for interpreting trader behavior and market prices is an ongoing area of study \cite{wolfers2006interpreting}.
-
-Scoring rules are a measure of merit of a predictor \cite{gneiting2007strictly}. \cite{H03} adapted scoring rules to markets with sequential participation of multiple traders. A cost function based formulation of markets was first introduced by \cite{chen2007utility}.
-
-Designing prediction markets to handle a large outcome space is an active area of research.  In \cite{Chen08}, the authors use a restricted betting language to design efficient markets for a combinatorial outcome space. This technique is generalized by \cite{Pennock11}. \cite{Gao09} consider extending various automated market makers to an infinite outcome space. For the logarithmic market scoring rule they show that unbounded market maker loss can result in this setting.   \cite{acv13} and \cite{OthmanS11} specify frameworks under which they design cost function based markets that satisfy the desirable property of bounded market maker loss even in infinite outcome spaces.
-
-In this paper, we use exponential family distributions to construct our cost function. For a comprehensive introduction to the class of exponential family distributions see \cite{WainJordan08}. \cite{Azoury01} consider learning exponential family distributions in a traditional online learning model and provide worst case loss bounds relative to using an offline algorithm.  \cite{storkey11} constructs a prediction market where each participating agent is a learning algorithm with varying utility functions.
 
 
-\sebastien{Need to talk about certainty equivalents somewhere} 
+\subsection*{Related Work}
 
-%Designing prediction markets to handle a large outcome space is an active area of research.  In \cite{Chen08}, the authors use a restricted betting language to design efficient markets for a combinatorial outcome space. This technique is generalized by \cite{Pennock11}. \cite{Gao09} consider extending various automated market makers to an infinite outcome space. For the logarithmic market scoring rule they show that unbounded market maker loss can result in this setting.   \cite{Abernethy11} and \cite{OthmanS11} specify frameworks under which they design cost function based markets that satisfy the desirable property of bounded market maker loss even in infinite outcome spaces.
-%
-%The connection between machine learning and prediction markets has been studied previously. \cite{Chen10} and \cite{Abernethy11} have previously explored the connection to learning algorithms to inform the design and understanding of prediction markets. In particular, \cite{Chen10}  consider the correspondence between prediction markets with market scoring rules and the Follow the Regularized Leader algorithm proposed by \cite{Kalai05} and thus provide insight into the aggregation mechanism of a prediction market. 
-%
-%Independently of this work, Beygelzimer et al.~\cite{BLP12} have shown that, for a particular form of binary prediction markets and traders with log-utility, the long-run dynamics of trading activity and budgets over many prediction markets lead the markets to satisfy a bounded regret property with respect to the best single trader. Our results here, and the future work we have suggested, form a program to prove bounded regret properties of budget-limited prediction markets under much more general conditions.
+The notion of an exponential family distribution is fundamental to this paper. For a comprehensive introductions to these distributions, see~\citep{Barndorff78,WainJordan08}. Exponential families are intimately tied to the notions of log loss and entropy, but can be generalized to other types of convex losses and information, as shown by~\citet{GrunwaldDawid}, who also make a connection to scoring rules.
 
-% In this paper, we propose a general version of the popular logarithmic scoring rule extended to continuous outcome spaces. Our version of the scoring rule uses parametric distributions to elicit traders' expectation on some function (called statistics) of the data. It turns out that the maximum entropy distribution given the statistics are  exponential family distributions.
+Scoring rules are a measure of prediction accuracy, and we are concerned here with scoring rules for statistic expectations, typically over infinite outcome spaces. Such rules have been characterized by~\citet{Savage71}; see also~\citep{frongillo2013elicitingmeans,lambert2008eliciting}. Our rules are of course special cases of this characterization, but it appears the range of elegant scoring rules that arise from exponential families has not been appreciated. Indeed,~\citet{gneiting2007strictly} observe that specific instances of scoring rules for continuous outcomes are lacking, and survey various possibilities. In an early work,~\citet{matheson1976scoring} designed scoring rules for real-valued outcomes from those for binary outcomes.
 
-% The connection we establish between markets and exponential  We have dual goals in this paper. On the one hand, we highlight a structural similarity between prediction markets and exponential families. We see this as the syntax of our prediction market mechanism. On the other,  
+In a seminal paper,~\citet{H03} showed how to form a prediction market based on a sequentially-shared scoring rule, and specifically proposed the logarithmic market scoring rule (LMSR) based on log loss for finite outcome spaces~\citep{H07}. The markets we introduce are direct generalizations of the LMSR to continuous outcomes, but take the form of cost-function based markets as introduced by~\citet{chen2007utility}.~\citet{Gao09} and~\citet{measurable13} also consider extending various market makers to infinite outcome spaces.
 
+Prediction markets have been known to perform well in practice~\citep{AGT07,Wol04,pennock2001real}. However, a sound theory for interpreting trader behavior and market prices is an ongoing area of study~\citep{wolfers2006interpreting}. At one extreme, agents are assumed myopic and risk-neutral, which implies that they move the market state to their belief~\citep{chen2010new}. At the other extreme, agents are strategic and the market fully incorporates all information~\citep{ostrovsky2012}. Strategic behavior in prediction markets is also addressed in~\citep{chen2010gaming,dimitrov08}.
 
-
-% We also analyze the behavior of traders with prior exposure in the market. Our results formalize the intuitive notion that private belief and financial exposure are just two sides of the same coin; trades in a prediction market can be seen as updating privately held beliefs.
+We are not aware of any works that consider risk-averse agents within cost-function based markets. However, risk aversion is a fundamental component of mathematical finance and portfolio optimization, and there are close connections between the notion of a cost function and that of a convex risk measure~\citep{follmerRisk,follmer2011entropic}. Indeed, they arise from the same axioms as noted by~\citet{othman2011liqu}. We see the potential to draw more on the mathematical finance literature to take into account risk aversion, as prediction markets are simply single-period financial markets~\citep[Part I]{follmerFinance}.
 
 
-
-
-
-%\section{Notation and Definitions}
-%convex conjugates, bregman divergences, scoring rules, sufficient statitics, exp families, Bayesian updates, conjugate prior.
-
-
-
-
-%\pagebreak
 
 \section{Generalized Log Scoring Rules}
 \label{sec:scoring}
