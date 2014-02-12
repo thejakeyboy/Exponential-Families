@@ -471,7 +471,7 @@ In the above, Example~\ref{ex:gaussian} illustrates an important point about par
 %Smaller values of $\alpha$ means greater smoothing e.g., $\alpha=0$ gives a constant function ($=x_{0}$).
 %Note that the selection of $x_{0}$ is important -- and increases in importance as $\alpha$. Some advantages over moving average: all data points matter (decreasing importance with time) and computationally only last data point need be stored.
 %\pagebreak
-\section{Maximum Entropy Prediction Markets via Exponential Families}
+\section{Exponential Family Markets}
 \label{sec:maxentmarkets}
 
 In a single-agent setting, a scoring rule is used to \emph{elicit} the agent's belief. In a multi-agent setting, a prediction market can be used to \emph{aggregate} the beliefs of the agents. In his seminal paper~\citet{H03} introduced the idea of a market scoring rule, which inherits the appealing elicitation and aggregation properties of both in order to perform well in thin or thick markets. In this section, we adapt the generalized log scoring rule to a market scoring rule which leads to markets with simple closed-form cost functions for many statistics of interest.%The exponential families framework also allows us to move beyond risk-neutral agents to understand the aggregation properties of prediction markets under alternative behaviors, such as Bayesian updating and risk aversion. 
@@ -491,7 +491,6 @@ A risk-neutral agent will choose to acquire shares up to the point where, for ea
 \Exp_p[\phi(x)] = \grad C(\theta').
 \end{equation}
 %
-\sindhu{sebastien/jake, should this be $\Exp_p(x;\theta')[\phi(x)]$?}
 In this way, by its choice of $\delta$, the agent reveals that its expected belief is $\mu = \grad C(\theta')$. We stress that this observation relies on the assumptions that 1) the agent is risk-neutral, 2) the agent does not incorporate the market's information into its own beliefs, and 3) the agent is not budget constrained. We will examine relaxations of each assumption in later sections.
 
 \subsection{Information-Theoretic Interpretation}
@@ -589,7 +588,6 @@ Note that this is also an exponential family with natural parameter $b_0 = (n\nu
 \E_{\theta\sim b_{0}}\E_{x\sim \theta}[\phi(x)]=\nu,
 \end{equation}
 %
-\sindhu{Maybe this is nitpicking but $\E_{\theta\sim p(\theta;b_{0})}\E_{x\sim p(x;\theta)}[\phi(x)]$?}
 meaning that $\nu = n \nu / n$ is the posterior mean. Thus, it is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. Suppose now that the agent observes an empirical sample with mean $\hmu$ and size $m$. By a standard derivation~\citep[see][]{diaconis79}, the posterior conjugate prior parameters become $n\nu \leftarrow n\nu + m\hmu$ and $n \leftarrow n+m$, and the posterior expectation~(\ref{eq:prior}) evaluates to
 %
 \begin{equation} \label{posterior}
@@ -652,7 +650,6 @@ As a result, the final market prices under this behavior are a simple average of
 %\subsection{Behavior of Traders endowed with Exponential Utility}
 
 \section{Risk-Averse Traders with Exponential Utility} \label{sec:exputil}
-\sindhu{Sebastien, do you think we could cite \cite{norstad99util} for instance?}
 
 In this section we relax the standard assumption that agents in the market are risk-neutral. We show that, with sufficient extra structure to the agents' beliefs and utilities, the market performs a clean aggregation of the agents' expectations in the form of a simple weighted average.
 Assume that the agent has an exponential utility function for wealth $w$:
@@ -661,7 +658,7 @@ Assume that the agent has an exponential utility function for wealth $w$:
 U_a(w) = -\frac{1}{a} \exp(-aw).
 \end{equation}
 %
-Here $a$ controls the level of risk aversion: the agent is more risk averse as $a$ increases, and as $a$ tends to 0 we approach linear utility (risk-neutrality). Specifically, $a$ is the Arrow-Pratt coefficient of absolute risk aversion, and exponential utilities of the form~(\ref{exp-util}) are the unique utilities that exhibit constant absolute risk aversion (CARA). 
+Here $a$ controls the level of risk aversion: the agent is more risk averse as $a$ increases, and as $a$ tends to 0 we approach linear utility (risk-neutrality). Specifically, $a$ is the Arrow-Pratt coefficient of absolute risk aversion, and exponential utilities of the form~(\ref{exp-util}) are the unique utilities that exhibit constant absolute risk aversion~\citep[Chap.\ 11]{VarianMicro}. 
 
 If wealth is distributed according to a probability measure $P$, then the \emph{certainty equivalent} of a random amount of wealth is defined as
 $$
@@ -757,9 +754,9 @@ It is straightforward to check that $\grad T_{\lambda}(\ttheta) = \grad T(\lambd
 \ttheta = \htheta / \lambda.
 \end{equation}
 %
-Higher price responsiveness means fewer shares must be bought to make the market prices match the agent's expectation, so the natural parameter is scaled down accordingly. With a liquidity adjustment, the analysis of Theorem~\ref{thm:exp-util} can be extended and yields the following result.
+Higher price responsiveness means fewer shares must be bought to make the market prices match the agent's expectation, so the natural parameter is scaled down accordingly. With a liquidity adjustment the analysis of Theorem~\ref{thm:exp-util} can be extended and yields the following result, where as before $\theta$ and $\mu$ are the market's outstanding shares and prices respectively.
 %
-\begin{corollary}\jake{$\mu$ without a hat is never defined... (this is for sebastien)}
+\begin{corollary}
 Under the conditions of Theorem~\ref{thm:exp-util} and an inverse liquidity of $\lambda$, the agent's optimal trade $\delta$ moves the state vector to
 %
 \begin{equation} \label{liqu-update}
