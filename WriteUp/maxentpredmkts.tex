@@ -799,7 +799,7 @@ According to~(\ref{liqu-update}), as $\lambda$ grows large the agent moves the m
 
 \subsection{Repeated Trading and the Effective Belief}
 
-In previous sections we have analyzed trader behavior as if it is his first entry into the market. We now pose the question: how will a trader reason about a possible future investment when the trader holds an \emph{existing portfolio?} When the agent is exposed to the market given a prior investment this should clearly affect the agent's preference for additional risk. In the context of a trader possessing an exponential family belief and with exponential utility we show that we can analyze explicitly how an agent incorporates an existing portfolio. Indeed, the key conclusion we make in this section is that a trader holding a natural parameter vector $\hat \theta$ and holding a portfolio $\delta$ in the market will reason about future a future investment simply \emph{as though} his belief were $\hat \theta - a \delta$ and he had no prior investment.
+In previous sections we have analyzed trader behavior as if it is his first entry into the market. We now pose the question: how will a trader reason about a possible future investment when the trader holds an \emph{existing portfolio?} When the agent is exposed to the market given a prior investment this should clearly affect the agent's preference for additional risk. In the context of a trader possessing an exponential family belief and with exponential utility we show that we can analyze explicitly how an agent incorporates an existing portfolio. Indeed, the key conclusion we make in this section is that a trader will reason about a future investment simply \emph{as though} he had simply updated his belief and he had no prior investment. 
 
 
 
@@ -809,17 +809,17 @@ In previous sections we have analyzed trader behavior as if it is his first entr
 % %
 % Here $a$ is the coefficient of risk aversion (higher means more risk averse, and the utility function is more concave).
 
-Suppose an exponential utility agent has exponential family belief parametrized by natural parameter $\hat{\theta}$. Based on this belief, let $\delta_{1}^{*}$ be the optimal vector of shares the agent decides to trade on first entering the market. Thus, his belief distribution is given by the density $p(x;\htheta)=\exp(\la\hat{\theta}, \phi(x)\ra - T(\hat{\theta})),$ where $T(\hat{\theta}) =\int_{\mathcal{X}}\exp\{\la\hat{\theta}, \phi(x)\ra\}\ dx$ is the log partition function and $\phi(x)$ are the sufficient statistics of the outcome $x\in \mathcal{X}$. On a subsequent entry into this market with market state $\theta'$, his optimal purchase $\delta_{2}^{*}$ is given by the solution of
-%Here $\theta' = \theta+\delta_{1}^{*}+\delta'$ where $\delta'$ captures the movement of the share vector by other traders in the market.
-$$\arg\max_{\delta_{2}} \E_{x\sim p(x;\htheta)} U\left[ (\delta_{1}^{*}+\delta_{2} )\phi(x) - C(\delta_{1}^{*} + \theta) + C(\theta)- C(\delta_{2} + \theta') + C(\theta') \right]$$
-Then if $\Theta\defeq\hat{\theta}-a \delta_{1}^{*}  $ is the effective belief, the trader optimal purchase is given by $\delta_{2}^* = (\Theta - \theta') / (1+a)$, which moves the share vector to $\theta' + \delta_{2}^* = \frac{1}{1+a} \Theta + \frac{a}{1+a} \theta'$ which is a convex combination of the effective belief and the current market state.
+Suppose an exponential utility agent has exponential family belief parametrized by natural parameter $\hat{\theta}$. Based on this belief, let $\delta_1$ be the vector of shares the agent has purchased on first entry in the market. Thus, his belief distribution is given by the density $p(x;\htheta)=\exp(\la\hat{\theta}, \phi(x)\ra - T(\hat{\theta})),$ where $T(\hat{\theta}) =\int_{\mathcal{X}}\exp\{\la\hat{\theta}, \phi(x)\ra\}\ dx$ is the log partition function and $\phi(x)$ are the sufficient statistics of the outcome $x\in \mathcal{X}$. On a subsequent entry into this market with market state $\theta'$, his optimal purchase $\delta_{2}^{*}$ is given by the solution of
+%Here $\theta' = \theta+\delta_1+\delta'$ where $\delta'$ captures the movement of the share vector by other traders in the market.
+$$\arg\max_{\delta_{2}} \E_{x\sim p(x;\htheta)} U\left[ (\delta_1+\delta_{2} )\phi(x) - C(\delta_1 + \theta) + C(\theta)- C(\delta_{2} + \theta') + C(\theta') \right]$$
+Then if $\Theta\defeq\hat{\theta}-a \delta_1  $ is the effective belief, the trader optimal purchase is given by $\delta_{2}^* = (\Theta - \theta') / (1+a)$, which moves the share vector to $\theta' + \delta_{2}^* = \frac{1}{1+a} \Theta + \frac{a}{1+a} \theta'$ which is a convex combination of the effective belief and the current market state.
 \begin{theorem}\label{thm:reptrades}
 Suppose an exponential utility maximizing trader with utility parameter $a$ who has belief $\hat{\theta}$ makes a purchase $\delta$ in a market. On subsequently re-entering this market, he will behave identically to an exponential utility maximizing trader with belief $\hat{\theta}-a \delta$ and no prior exposure in the market.
 \end{theorem}
 Theorem \ref{thm:reptrades} implies that financial exposure can be equivalently understood as changing the privately held beliefs.
 
 \subsection{Equilibrium Market State for Exponential Utility Agents}
-\jake{need to mention the connection to potential games in the intro, it's a nice little extra bit.}
+
 We have shown that every exponential-utility maximizing trader picks the share vector $\delta$ so that the eventual market state can be represented as a convex combination of the initial market state and the natural parameter of his (exponential family) belief distribution. In this section we will compute the equilibrium state in an exponential family market with multiple exponential-utility maximizing traders. 
 
 
@@ -828,11 +828,12 @@ We now review a well-known result from game theory regarding the class of \emph{
 Let $U_{i}(\vec{\delta})$ be the utility function of the $i^{th}$ trader given strategies $\vec{\delta}\defeq (\delta_{1},\ldots,\delta_{i},\ldots,\delta_{n})$. If there exists a potential function $\Phi(\vec{\delta})$ such that $$U_{i}(\vec{\delta})-U_{i}(\vec{\delta}_{-i},\delta_{i}')=\Phi(\vec{\delta})-\Phi(\vec{\delta}_{-i},\delta_{i}')$$
 then $\vec{\delta}$ is a Nash equilibrium if and only if $\Phi(\vec{\delta})$ is at a local optimum.
 \end{theorem}
-In the exponential family market, the cost function $C$ is identical to the log partition function $T$ defined in (\ref{log-part}).  Let $\vec{\delta}$ be the vector of vectors of shares purchased by every trader in the market when the market has reached equilibrium, $\theta$ the initial market state, $\htheta_{i}$ the natural parameter of trader $i$'s belief distribution and $a_{i}$ his utility parameter. \jake{I need to fix a small technical detail with the fact that we are using the log utilities to use the potential argument.}
+In the exponential family market, the cost function $C$ is identical to the log partition function $T$ defined in (\ref{log-part}).  Let $\vec{\delta}$ be the matrix of share vectors purchased by every trader in the market when the market has reached equilibrium, $\theta$ the initial market state, $\htheta_{i}$ the natural parameter of trader $i$'s belief distribution and $a_{i}$ his utility parameter.
+% \jake{I need to fix a small technical detail with the fact that we are using the log utilities to use the potential argument.}
 
-Define a potential function as  $$\Phi(\vec{\delta})\defeq  T\left(\theta+\sum_{i}\delta_{i}\right)+\sum_{i}\frac{1}{a_{i}}T(\htheta_{i}-a_{i}\delta_{i})$$
+Define a potential function as  $\Phi(\vec{\delta})\defeq  T\left(\theta+\sum_{i}\delta_{i}\right)+\sum_{i}\frac{1}{a_{i}}T(\htheta_{i}-a_{i}\delta_{i})$.
 
-Now the utility of trader $i$ is $U_{i}(\vec{\delta})=- T(\theta+\sum_{j}\delta_{j}) + T(\theta+\sum_{j\neq i}\delta_{j}) - \frac{1}{a_{i}} T(\htheta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\htheta_{i})$.
+Rather than work directly with the utilities of every trader, we will work with the log of their utility values\footnote{It is important to note that the potential function analysis still applies for any monotonically increasing transformation of the traders' utility functions}. Now the log-utility of trader $i$ is $U_{i}(\vec{\delta})=- T(\theta+\sum_{j}\delta_{j}) + T(\xtheta+\sum_{j\neq i}\delta_{j}) - \frac{1}{a_{i}} T(\htheta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\htheta_{i})$.
 Thus, Theorem \ref{thm:potl} applies and we can find the equilibrium market state by maximizing $\Phi(\vec{\delta})$ for each $\delta_{i}$.
 \begin{eqnarray*}
 \nabla_{\delta_{i}}\Phi(\vec{\delta})&=&\nabla T\left(\theta+\sum_{j=1}^{n}\delta_{i}\right)-\nabla T(\htheta_{i}-a_{i}\delta_{i}) = 0
@@ -840,7 +841,7 @@ Thus, Theorem \ref{thm:potl} applies and we can find the equilibrium market stat
 And we have the following expression for the final market state.
 $$\theta+\sum_{j=1}^{n}\delta_{j}=
 \frac{\theta+\sum_{i=1}^{n}\left(\frac{\htheta_{i}}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
-Thus, the equilibrium state is a convex combination of trader beliefs and initial market state.
+The equilibrium state is a convex combination of all beliefs and initial market state.
 
 
 
