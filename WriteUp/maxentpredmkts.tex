@@ -261,11 +261,12 @@ We turn our attention to market design in Section~\ref{sec:maxentmarkets} and gi
 \textbf{Related Work.}
 The notion of an exponential family distribution is fundamental to this paper. For a comprehensive introductions to these distributions, see~\citep{Barndorff78,WainJordan08}. Exponential families are intimately tied to the notions of log loss and entropy, but can be generalized to other types of convex losses and information, as shown by~\citet{GrunwaldDawid}, who also make a connection to scoring rules.
 
-Scoring rules are a measure of prediction accuracy, and we are concerned here with scoring rules for statistic expectations, typically over infinite outcome spaces. Such rules have been characterized by~\citet{Savage71}; see also~\citep{frongillo2013elicitingmeans,lambert2008eliciting}. Our rules are of course special cases of this characterization, but it appears the range of elegant scoring rules that arise from exponential families has not been appreciated. Indeed,~\citet{gneiting2007strictly} observe that specific instances of scoring rules for continuous outcomes are lacking, and survey various possibilities. In an early work,~\citet{matheson1976scoring} designed scoring rules for real-valued outcomes from those for binary outcomes.
+Scoring rules are a measure of prediction accuracy, and we are concerned here with scoring rules for statistic expectations, typically over infinite outcome spaces. Such rules have been characterized by~\citet{Savage71}; see also~\citep{frongillo2013elicitingmeans,lambert2008eliciting}. Our rules are of course special cases of this characterization, but it appears the range of elegant scoring rules that arise from exponential families has not been appreciated. Indeed,~\citet{gneiting2007strictly} observe that specific instances of scoring rules for continuous outcomes are lacking, and survey various possibilities.
+% In an early work,~\citet{matheson1976scoring} designed scoring rules for real-valued outcomes from those for binary outcomes.
 
 In a seminal paper,~\citet{H03} showed how to form a prediction market based on a sequentially-shared scoring rule, and specifically proposed the logarithmic market scoring rule (LMSR) based on log loss for finite outcome spaces~\citep{H07}. The markets we introduce are direct generalizations of the LMSR to continuous outcomes, but take the form of cost-function based markets as introduced by~\citet{chen2007utility}.~\citet{Gao09} and~\citet{measurable13} also consider extending various market makers to infinite outcome spaces.
 
-Prediction markets have been known to perform well in practice~\citep{AGT07,Wol04,pennock2001real}. However, a sound theory for interpreting trader behavior and market prices is an ongoing area of study~\citep{wolfers2006interpreting}. At one extreme, agents are assumed myopic and risk-neutral, which implies that they move the market state to their belief~\citep{chen2010new}. At the other extreme, agents are strategic and the market fully incorporates all information~\citep{ostrovsky2012}. Strategic behavior in prediction markets is also addressed in~\citep{chen2010gaming,dimitrov08}.
+Prediction markets are known to perform well in practice~\citep{AGT07,pennock2001real}. However, a sound theory for interpreting trader behavior and market prices is an ongoing area of study~\citep{wolfers2006interpreting}. At one extreme, agents are assumed myopic and risk-neutral, implying they move the market state to their belief~\citep{chen2010new}. At the other extreme, agents are strategic and the market fully incorporates all information~\citep{ostrovsky2012}. Strategic behavior in prediction markets is addressed in~\citep{chen2010gaming,dimitrov08}.
 
 We are not aware of any works that consider risk-averse agents within cost-function based markets. However, risk aversion is a fundamental component of mathematical finance and portfolio optimization, and there are close connections between the notion of a cost function and that of a convex risk measure~\citep{follmerRisk,follmer2011entropic}. Indeed, they arise from the same axioms as noted by~\citet{othman2011liqu}. We see the potential to draw more on the mathematical finance literature to take into account risk aversion, as prediction markets are simply single-period financial markets~\citep[Part I]{follmerFinance}.
 
@@ -279,13 +280,13 @@ We consider a measurable space consisting of a set of outcomes $\mX$ together wi
 We are interested in eliciting information about the agent's belief, in particular expectation information. Let $\phi: \mX \rightarrow \bR^d$ be a vector-valued random variable or \emph{statistic}, where $d$ is finite. The aim is to elicit $\mu = \E_{p}[\phi(x)]$ where $x$ is the random outcome. A \emph{scoring rule} is a device for this purpose. Let $$\mM = \left\{ \mu \in \bR^d : \Exp_p[\phi(x)] = \mu,\, \mbox{for some $p \in \mP$} \right\}$$ be the set of realizable statistic expectations.  A scoring rule $S : \mM \times \mX \rightarrow \bR \cup \{-\infty\}$ pays the agent $S(\hmu,x)$ according to how well its report $\hmu \in \mM$ agrees with the eventual outcome $x \in \mX$. The following definition is due to~\citet{lambert2008eliciting}.
 %
 \begin{definition} \label{def:proper-score}
-A scoring rule $S$ is  \emph{proper} for statistic $\phi$ if for each $\mu \in \mM$ and $p \in \mP$ with expected statistic $\mu$, we have
+A scoring rule $S$ is  \emph{proper} for statistic $\phi$ if for each $\mu \in \mM$ and $p \in \mP$ with expected statistic $\mu$, we have for all $\hmu \neq \mu$
 %
 \begin{equation} \label{eq-proper}
-\Exp_p[S(\mu,x)] \geq \Exp_p[S(\hmu,x)]
+\Exp_p[S(\mu,x)] \geq \Exp_p[S(\hmu,x)].
 \end{equation}
 %
-for all alternative $\hmu \neq \mu$.% If the domain is $\mD = \mP$, the set of all possible densities, then we simply say the scoring rule is \emph{proper}.
+% If the domain is $\mD = \mP$, the set of all possible densities, then we simply say the scoring rule is \emph{proper}.
 \end{definition}
 %
 
@@ -296,7 +297,7 @@ Given a proper scoring rule $S$ any affine transformation $\tilde{S}(\mu,x) = aS
 
 Note that Definition~\ref{def:proper-score} places only mild information requirements on the part of the agent to ensure truthful reporting. Because condition~(\ref{eq-proper}) holds for all $p$ consistent with expectation $\mu$, it is enough for the agent to simply know the latter and not the complete density to be properly incentivized. However, the agent must also agree with the support of the density as implicitly defined by base measure $\nu$. 
 
-When the outcome space is finite we can recover classical scoring rules from the definition by using the statistic $\phi : \mX \rightarrow \{0,1\}^{\mX}$ that maps an outcome $x$ to a unit vector with a 1 in the component corresponding to $x$. The expectation of $\phi$ is then exactly the probability mass function.
+When the outcome space is finite we recover classical scoring rules by using the statistic $\phi : \mX \rightarrow \{0,1\}^{\mX}$ that maps an outcome $x$ to a unit vector with a 1 in the component corresponding to $x$. The expectation of $\phi$ is then exactly the probability mass function.
 
 \subsection{Proper Scoring from Maximum Entropy}
 
@@ -372,7 +373,7 @@ Consider the logarithmic scoring rule $S(\mu,x) = \log p(x;\mu)$ defined over a 
 Let $\mu,\hmu \in \mM$ be the agent's true belief and an alternative report, and let $p \in \mP$ be a density consistent with $\mu$. Let $\theta = \grad G(\mu)$ and $\htheta = \grad G(\hmu)$, and note that $\mu = \grad T(\theta)$. We have
 %
 \begin{eqnarray}
-& & \Exp_p[\log p(x;\mu)] - \Exp_p[\log p(x;\hmu)] \nonumber\\
+\Exp_p[\log p(x;\mu)] - \Exp_p[\log p(x;\hmu)]
 & = & \la \theta, \mu \ra - T(\theta) - \la \htheta, \mu \ra + T(\htheta) \nonumber\\
 & = & T(\htheta) - T(\theta) - \la \htheta - \theta, \mu \ra \nonumber\\
 & = & T(\htheta) - T(\theta) - \la \htheta - \theta, \grad T(\theta) \ra. \label{breg-div}
@@ -387,8 +388,7 @@ for some strictly convex function $G$. Let $T = G^*$, so that $\grad G = {\grad 
 %
 \begin{eqnarray*}
 \log p(x;\mu) & = & G(\mu) - \la \grad G(\mu), \mu - \phi(x) \ra \\
-& = & \la \theta, \mu \ra - T(\theta) - \la \theta, \mu - \phi(x) \ra \\
-& = & \la \theta, \phi(x) \ra - T(\theta),
+& = & \la \theta, \mu \ra - T(\theta) - \la \theta, \mu - \phi(x) \ra = \la \theta, \phi(x) \ra - T(\theta),
 \end{eqnarray*}
 %
 which shows that $p(x;\mu)$ takes the form of an exponential family.
@@ -431,7 +431,7 @@ where $\Gamma$ denotes the gamma function (the extension of the factorial to the
 %
 %
 \begin{example} \label{ex:gaussian}
-As a base measure we take the Lebesgue over the real numbers $\bR$. We are interested in eliciting the mean $\mu$ and variance $\sigma^2$, so as a statistic we take $\phi(x) = (x, x^2)$ for which $\Exp_p[\phi(x)] = (\mu, \mu^2+\sigma^2)$. The maximum entropy distribution for a given mean and variance is the normal distribution, and taking its log density gives the scoring rule
+As a base measure we take the Lebesgue over the real numbers $\bR$. We are interested in eliciting the mean $\mu$ and variance $\sigma^2$, so as a statistic we take $\phi(x) = (x, x^2)$ for which $\Exp_p[\phi(x)] = (\mu, \mu^2+\sigma^2)$. The max entropy distribution for a given mean and variance is the Gaussian, whose log density gives the scoring rule
 %
 \begin{equation}
 S((\mu, \sigma^2), x) = -\frac{(x-\mu)^2}{\sigma^2} - \log \sigma^2.
@@ -569,7 +569,7 @@ where $I_r$ refers to the modified Bessel function of first kind and order $r$; 
 
 \section{Bayesian Traders with Linear Utility} \label{sec:bayesians}
 
-In the standard model of cost-function based prediction markets, a sequence of myopic, risk-neutral agents arrive and trade in the market~\citep{chen2007utility,chen2010new}. As we saw in Section~\ref{sec:pred-market}, such a trader moves the prices to its own expectation $\mu$. However, this means that the market does not perform any meaningful aggregation of the agent's belief, as the final prices are simply the final agent's expectation.
+In the standard model of cost-function based prediction markets, a sequence of myopic, risk-neutral agents arrive and trade in the market~\citep{chen2007utility,chen2010new}. As we saw in Section~\ref{sec:pred-market}, such a trader moves the prices to its own expectation $\mu$. However, this means that the market does not perform meaningful aggregation of agents' beliefs, as the final prices are simply the final agent's expectation.
 
 In this section we examine the aggregation behavior of the market when agents are Bayesian and take into account the current market state when forming their beliefs. This requires more structure to their beliefs. For this section and the remainder of the paper, we will assume that agents have \emph{exponential family beliefs}. 
 
@@ -650,14 +650,14 @@ As a result, the final market prices under this behavior are a simple average of
 
 \section{Risk-Averse Traders with Exponential Utility} \label{sec:exputil}
 
-In this section we relax the standard assumption that agents in the market are risk-neutral. We show that, with sufficient extra structure to the agents' beliefs and utilities, the market performs a clean aggregation of the agents' expectations in the form of a simple weighted average.
+In this section we relax the standard assumption that agents in the market are risk-neutral. We show that with sufficient extra structure to the agents' beliefs and utilities, the market performs a clean aggregation of the agents' beliefs via a simple weighted average.
 Assume that the agent has an exponential utility function for wealth $w$:
 %
 \begin{equation} \label{exp-util}
 U_a(w) = -\frac{1}{a} \exp(-aw).
 \end{equation}
 %
-Here $a$ controls the level of risk aversion: the agent is more risk averse as $a$ increases, and as $a$ tends to 0 we approach linear utility (risk-neutrality). Specifically, $a$ is the Arrow-Pratt coefficient of absolute risk aversion, and exponential utilities of the form~(\ref{exp-util}) are the unique utilities that exhibit constant absolute risk aversion~\citep[Chap.\ 11]{VarianMicro}. 
+Here $a$ controls the risk aversion: the agent's aversion grows as $a$ increases, and as $a$ tends to 0 we approach linear utility (risk-neutrality). Specifically, $a$ is the Arrow-Pratt coefficient of absolute risk aversion, and exponential utilities of the form~(\ref{exp-util}) are the unique utilities that exhibit constant absolute risk aversion~\citep[Chap.\ 11]{VarianMicro}. 
 
 If wealth is distributed according to a probability measure $P$, then the \emph{certainty equivalent} of a random amount of wealth is defined as
 $$
@@ -716,7 +716,7 @@ Suppose an agent has exponential utility with coefficient $a$ and exponential fa
 %
 %
 \begin{proof}
-The agent's optimal trade maximizes its expected utility, or equivalently the certainty equivalent. From Lemma~\ref{lem:exp-util} and the fact that $T = C$, the agent therefore maximizes
+The agent's optimal trade maximizes its expected utility, or equivalently the certainty equivalent. From Lemma~\ref{lem:exp-util} and that $T = C$, the agent maximizes
 %
 $$
 \log a - T(\htheta - a\delta) + T(\htheta) - aT(\theta+\delta) + aT(\theta). 
@@ -736,13 +736,7 @@ In practice the centralized market maker allows itself some control over the \em
 
 %(Discussion, you can skip this paragraph.) This is because for higher $\lambda$ we are making the cost function ``more convex''. Specifically, for $\lambda_1 > \lambda_2$ it's the case that $C_{\lambda_1}$ is an increasing convex transformation of $C(\lambda_2)$. This holds because the ``coefficient of risk aversion'' $A(\theta) = C''(\theta)/C'(\theta)$ increases with $\lambda$ at every point. I've written it assuming single-dimensional $\theta$ but there are more complicated looking generalizations for vector $\theta$. In fact, this coefficient might be the ``right'' notion of liquidity at a point, not the second derivative or largest eigenvalue of the Hessian. We should discuss.
 
-In the context of the generalized LMSR we write $T$ rather than $C$ where $T$ is the log partition function, with liquidity-adjusted version $T_{\lambda}$. Let $\hmu$ be the agent's mean belief with corresponding natural parameter $\htheta = \grad T^{-1}(\hmu)$. Recall that a risk-neutral agent moves the share vector so that the prices match its mean parameter. Therefore, define the \emph{target shares} as $\ttheta = \grad T^{-1}_{\lambda}(\hmu)$. The target shares $\htheta$ and natural parameter $\ttheta$ are related by
-%
-$$
-\grad T(\htheta) = \grad T_{\lambda}(\ttheta) = \hmu.
-$$
-%
-It is straightforward to check that $\grad T_{\lambda}(\ttheta) = \grad T(\lambda \ttheta)$ so we have
+In the context of the generalized LMSR we write $T$ rather than $C$ where $T$ is the log partition function, with liquidity-adjusted version $T_{\lambda}$. Let $\hmu$ be the agent's mean belief with corresponding natural parameter $\htheta = \grad T^{-1}(\hmu)$. Recall that a risk-neutral agent moves the share vector so that the prices match its mean parameter. Therefore, define the \emph{target shares} as $\ttheta = \grad T^{-1}_{\lambda}(\hmu)$. The target shares $\htheta$ and natural parameter $\ttheta$ are related by $\grad T(\htheta) = \grad T_{\lambda}(\ttheta) = \hmu$. In addition it is straightforward to check that $\grad T_{\lambda}(\ttheta) = \grad T(\lambda \ttheta)$ so we have
 %
 \begin{equation} \label{target}
 \ttheta = \htheta / \lambda.
@@ -807,7 +801,7 @@ Let $U_{i}(\vec{\delta})$ be the utility function of the $i^{th}$ trader given s
 then $\vec{\delta}$ is a Nash equilibrium if and only if $\Phi(\vec{\delta})$ is at a local optimum.
 \end{theorem}
 %
-In the exponential family market, the cost function $C$ is identical to the log partition function $T$ defined in (\ref{log-part}).  Let $\vec{\delta}$ be the matrix of share vectors purchased by every trader in the market when the market has reached equilibrium. Let $\theta$ be the initial market state, $\htheta_{i}$ the natural parameter of trader $i$'s belief distribution and $a_{i}$ his risk aversion parameter.
+In the exponential family market, the cost function $C$ is identical to the log partition function $T$ defined in (\ref{log-part}).  Let $\vec{\delta}$ be the matrix of share vectors purchased by every trader in the market at equilibrium. Let $\theta$ be the initial market state, $\htheta_{i}$ the natural parameter of trader $i$'s belief distribution and $a_{i}$ his risk aversion parameter.
 % \jake{I need to fix a small technical detail with the fact that we are using the log utilities to use the potential argument.}
 
 Define a potential function as  $\Phi(\vec{\delta}) =  T\left(\theta+\sum_{i}\delta_{i}\right)+\sum_{i}\frac{1}{a_{i}}T(\htheta_{i}-a_{i}\delta_{i})$.
@@ -853,8 +847,7 @@ First consider the change in budget of a trader $i$ over multiple rounds of the 
 
 Where $\Delta_{i}^{t}$ is called the myopic impact of a trader $i$ in round $t$. Thus, the myopic impact captures incremental gain in prediction due to the trader in a round and is equal to the change in his budget in that round.
 
-Since the market evolves so that the budget of any trader never falls below zero, the total myopic impact in $T$ rounds caused due to trader $i$ is:
-$$\Delta_{i}:=\sum_{t=1}^{T}\Delta_{i}^{t}= \sum_{t=1}^{T} (\alpha_{i}^{t} - \alpha_{i}^{t-1}) = \alpha_{i}^{T} - \alpha_{i}^{0}\geq -\alpha_{i}^{0}$$
+Since the market evolves so that the budget of any trader never falls below zero, the total myopic impact in $T$ rounds caused due to trader $i$ is $\Delta_{i}:=\sum_{t=1}^{T}\Delta_{i}^{t}= \sum_{t=1}^{T} (\alpha_{i}^{t} - \alpha_{i}^{t-1}) = \alpha_{i}^{T} - \alpha_{i}^{0}\geq -\alpha_{i}^{0}$.
 \end{proof}
 
 An interesting aspect of Lemma~\ref{lem:damage} is that the log loss can be quantified in the same units as the traders' budgets.
@@ -880,12 +873,11 @@ Let the cost function $C$ be equal to the log partition function $T$ of the beli
 \end{eqnarray*}
 where $D_{T}(\cdot,\cdot)$ is the Bregman divergence based on $T$. The second to last inequality holds since $D_{T}(\theta',\htheta)$ is convex in $\theta'$ and we have:
 \begin{eqnarray*}
-D_{T}(\theta',\htheta)&=&D_{T}\left(\lambda\htheta+(1-\lambda)\theta,\htheta\right)\\
-&\leq&\lambda D_{T}( \htheta ,\htheta)+ (1-\lambda) D_{T}( \theta ,\htheta) 
+D_{T}(\theta',\htheta)&=&D_{T}\left(\lambda\htheta+(1-\lambda)\theta,\htheta\right) \leq \lambda D_{T}( \htheta ,\htheta)+ (1-\lambda) D_{T}( \theta ,\htheta) 
 = (1-\lambda) D_{T}( \theta ,\htheta)
 %\implies D_{\psi}(\theta',\beta)+aD_{\psi}(\theta',\beta)&\leq& aD_{\psi}( \theta ,\beta)\\
 \end{eqnarray*}¥
-A trader who adjust the market state may expect positive profit $\geq \lambda D_{T}(\theta,\htheta)$.
+A trader who adjusts the market state may expect positive profit $\geq \lambda D_{T}(\theta,\htheta)$.
  \end{proof}
 
 We note one important aspect of Lemma~\ref{thm:growth}: the expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
