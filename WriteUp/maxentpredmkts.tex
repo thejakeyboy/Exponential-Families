@@ -843,8 +843,7 @@ Thus, the equilibrium state is a convex combination of trader beliefs and initia
 
 
 \section{Budget-limited Aggregation} \label{sec:budgets}
-
-In this section, we consider the evolution of the market state when traders are budget-limited and their budgets are known to the market maker. We consider a cost-function based market with cost function $C$ and payoff $\phi(x)$ with non-negative payoff. We assume that the traders trade in multiple instances of the market. As before, the market price is interpreted as a probability density over the outcome space by interpreting the share vector as the natural parameter of an exponential family distribution \sindhu{I think we need this for Lemma \ref{lem:damage}}. We measure the error in prediction using the standard log loss.  
+In this section, we consider the evolution of the market state when traders are budget-limited and their budgets are known to the market maker. We consider a cost-function based market with cost function $C$ and payoff $\phi(x)$ with non-negative payoff. We assume that the traders trade in multiple instances of the market. As before, the market price is interpreted as a probability density over the outcome space by interpreting the share vector as the natural parameter of an exponential family distribution. We measure the error in prediction using the standard log loss.  
 
 We show that traders with faulty information can only induce a limited amount of additional loss to the market's prediction. Further, since informative traders experience an expected increase in budget,  they will eventually be unconstrained and allowed to carry out  unrestricted trades. Taken together, this means that while the market suffers limited damage from ill-informed traders, it is also able to make use of all the information from informative traders in the long run.
 \paragraph{Budget-limited trades}
@@ -1316,3 +1315,26 @@ Notice that Theorem~\ref{thm:growth} only required that the market state to whic
 
 We note one important aspect of Theorem~\ref{thm:growth}: The expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
 
+\subsection{Cost Function with a Liquidity Parameter}
+We may introduce a liquidity parameter to the cost function as $C_{\lambda}(\theta)=\frac{1}{\lambda} C(\lambda\theta)$. We would like to find an expression for a lower bound on expected payoff. We would also like to find an expression for final market state for exponential utility traders with exponential family beliefs.
+\subsection{lower bound on expected payoff}
+The prediction market is set up with cost function $C_{\lambda}(\theta)$  and payoff for a unit share vector as $\phi(x)$. To find a lower bound on expected payoff, we first note that
+\begin{eqnarray*}
+\E_{x\sim p(x;\beta)}[C_{\lambda}(\theta)-\theta\phi(x)]&=&C_{\lambda}(\theta)-\theta\nabla T(\beta)\\
+&=&\frac{1}{\lambda} T(\theta\lambda)-\theta\nabla T(\beta)\\
+&=&\frac{1}{\lambda} [T(\theta\lambda)-\theta\lambda\nabla T(\beta)-T(\beta)+\beta\nabla T(\beta)]+\frac{1}{\lambda} T(\beta)-\frac{\beta}{\lambda}\nabla T(\beta)\\
+&=&\frac{1}{\lambda} D_{T}(\theta\lambda,\beta)+\frac{1}{\lambda} [T(\beta)-\beta\nabla T(\beta)]
+\end{eqnarray*}¥ 
+where $D_{T}(x_{1},x_{2}) = T(x_{1})-T(x_{2})-\nabla T(x_{2})(x_{1}-x_{2})$ is the Bregman Divergence between $x_{1}$ and $x_{2}$ based on $T$.
+
+Thus, the expected payoff  for a trader with exponential family belief parameter $\beta$ who moves the market state from $\theta$ to $\theta'$ can be written as
+\begin{eqnarray*}
+\E_{x\sim p(x;\beta)}\left[C_{\lambda}(\theta)-\theta\phi(x)-(C_{\lambda}(\theta')-\theta'\phi(x))\right]=\frac{1}{\lambda}[D_{T}(\theta\lambda,\beta)-D_{T}(\theta'\lambda,\beta)]
+\end{eqnarray*}¥
+We have $\theta'=\frac{\lambda}{\lambda+a}(\beta/\lambda)+\frac{a}{\lambda+a}\theta$ where $a$ is the utility parameter
+\begin{eqnarray*}
+D_{T}(\theta'\lambda,\beta)&\leq& \frac{\lambda}{\lambda+a} D_{T}(\beta,\beta)+\frac{a}{\lambda+a} D_{T}(\theta\lambda,\beta)\\
+D_{T}(\theta\lambda,\beta)-D_{T}(\theta'\lambda,\beta)&\geq& \frac{\lambda}{a} D_{T}(\theta'\lambda,\beta)
+\end{eqnarray*}¥
+
+Thus, the expected payoff is at least $\frac{1}{a} D_{T}(\theta'\lambda,\beta)$.
