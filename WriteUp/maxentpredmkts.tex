@@ -135,7 +135,7 @@ RAHUL SAMI
 %       currently affiliated with NASA.
 
 \begin{abstract}
-We consider the design of prediction market mechanisms known as automated market makers. We show that we can design these mechanisms via the mold of \emph{exponential family distributions}, a common distribution template used in statistics. We give a full development of this relationship and explore a range of benefits. We draw connections between the information aggregation of market prices and the belief aggregation of learning agents that relying on exponential family distributions. We develop a very natural analysis of the market behavior as well as the price equilibrium under the assumption that the traders elicit risk aversion according to exponential utility. We also consider similar phenomena in other scenarios, e.g. when the traders are budget limited.
+We consider the design of prediction market mechanisms known as automated market makers. We show that we can design these mechanisms via the mold of \emph{exponential family distributions}, a popular and well-studied probability distribution template used in statistics. We give a full development of this relationship and explore a range of benefits. We draw connections between the information aggregation of market prices and the belief aggregation of learning agents that relying on exponential family distributions. We develop a very natural analysis of the market behavior as well as the price equilibrium under the assumption that the traders elicit risk aversion according to exponential utility. We also consider similar phenomena under alternative models, such as when traders are budget limited.
 %
 % In this paper, we draw connections between the aggregation performed by learning algorithms and the information aggregation done in prediction markets. We show that, under reasonable conditions, the behavior of rational traders can be understood as the result of performing a learning algorithm on their private data. Similarly,  the market state can be interpreted as a distribution over the outcome space. In particular, we show that a proper scoring rule can be derived from maximum entropy distributions. This scoring rule can be used as a general form of LMSR in prediction markets with over continuous outcome spaces. In order to provide insight on the behavior of rational traders in the market, we use the concept of exponential utility. We show that the traders' behavior can be understood as updating his belief using a Bayesian process and updating the market state in accordance with this utility function. These maxent prediction  markets can also be used to design  markets that are robust against adversarial traders. In fact, when traders are required to report their budgets and their beliefs, we can show that an informative trader eventually makes money and damaging traders eventually have limited influence in the market. Using ideas from convex analysis and the properties of the prediction market, we analyze the properties of the maxent market maker thus providing insight into the information content of the prediction market.
 \end{abstract}
@@ -240,7 +240,7 @@ We give an brief overview of the work on prediction market design below. Much of
 
 In the present work we show that a number of classical statistical tools can be leveraged to design a prediction market framework in the mold of \emph{exponential family distributions}; we show that this statistical framework leads to a number of attractive properties and interpretations. Common concepts in statistics -- e.g. \emph{entropy maximization}, \emph{log loss}, and \emph{bayesian inference} -- relate to natural aspects of our class of mechanisms. In particular, the central objects in our market framework can be interpreted via conceptual objects used to define exponential families:
 \begin{itemize}
-	\item the \emph{payoff function} of the market corresponds to the \emph{sufficient statistics} of the probability distribution;
+	\item the market's \emph{payoff function} corresponds to the \emph{sufficient statistics} of the distribution;
 	\item the vector of \emph{outstanding shares} in the market corresponds to the \emph{natural parameter vector} of the distribution;
 	\item the market prices correspond to \emph{mean parameters};
 	\item the profit potential for a trader corresponds to a \emph{Kullback-Leibler divergence} between the trader's belief and that of the market.
@@ -250,16 +250,15 @@ In the present work we show that a number of classical statistical tools can be 
 We begin with a discussion of scoring rules in Section~\ref{sec:scoring} for exponential family distributions, and in particular we show that the logarithmic scoring rule is the only score that is \emph{proper} for the class of exponential families.
 We turn our attention to market design in Section~\ref{sec:maxentmarkets} and give a full description of our proposed mechanisms. In addition to showing the syntactic relationship between exponential families and prediction markets, we explore a number of rich semantic implications as well. In particular, we show that our formulation allows us to analyze the evolution of the market under various models of trader behavior:
 \begin{itemize}
-	\item Trader behavior varies depending on how they assimilate information; for example, should we consider our agents as Bayesians or frequentists. In Section~\ref{sec:bayesians} we consider traders that use a conjugate prior to update their beliefs, and we study how their trades would affect the market state. \jake{Do we show the following?} We show that although these two kinds of traders pick the eventual market state as a convex combination of their private belief and current market state, they do so in dual spaces.
-	\item In Section~\ref{sec:exputil} we consider when our agents are risk-averse in an interesting special case, that is under the assumption they utilize \emph{exponential utility} to optimize their bets. We show how this dovetails nicely with the notion of a \emph{certainty equivalent} which is often used in risk-aversion settings. In this case we can characterize precisely how a single trader interacts with the market as well as the equilibrium reached given multiple traders; this result is achieved via using a \emph{potential game} argument. The eventual market state turns out to be a weighted combination of trader beliefs and initial market state; the weights depend on the risk aversion parameter of the individual traders.
+	\item Trader behavior varies depending on how they assimilate information; for example, should we consider our agents as Bayesians or frequentists. In Section~\ref{sec:bayesians} we consider traders that use a conjugate prior to update their beliefs, and we study how their trades would affect the market state.
+	\item In Section~\ref{sec:exputil} we consider when our agents are risk-averse in an interesting special case, that is under the assumption they utilize \emph{exponential utility} to optimize their bets. We show how this dovetails nicely with the notion of a \emph{certainty equivalent} which is often used in risk-aversion settings. In this case we can characterize precisely how a single trader interacts with the market as well as the equilibrium reached given multiple traders; this result is achieved via using a \emph{potential game} argument. The eventual market state is a weighted combination of traders' beliefs and the initial state; the weights are set according to risk aversion parameters.
 	\item In Section~\ref{sec:budgets} we consider \emph{budget-limited traders} who are constrained in how much they influence the market. We analyze the market  under these circumstances; we are able to show that traders with good information can expect to profit and their influence over the market state increases over time whereas malicious traders have limited impact on the market.
 \end{itemize}
 
-\jake{I want to add more to this list. It's ok but doesn't totally reflect what's in the last few sections.}
+% \jake{I want to add more to this list. It's ok but doesn't totally reflect what's in the last few sections.}
 
 
-\subsection*{Related Work}
-
+\textbf{Related Work.}
 The notion of an exponential family distribution is fundamental to this paper. For a comprehensive introductions to these distributions, see~\citep{Barndorff78,WainJordan08}. Exponential families are intimately tied to the notions of log loss and entropy, but can be generalized to other types of convex losses and information, as shown by~\citet{GrunwaldDawid}, who also make a connection to scoring rules.
 
 Scoring rules are a measure of prediction accuracy, and we are concerned here with scoring rules for statistic expectations, typically over infinite outcome spaces. Such rules have been characterized by~\citet{Savage71}; see also~\citep{frongillo2013elicitingmeans,lambert2008eliciting}. Our rules are of course special cases of this characterization, but it appears the range of elegant scoring rules that arise from exponential families has not been appreciated. Indeed,~\citet{gneiting2007strictly} observe that specific instances of scoring rules for continuous outcomes are lacking, and survey various possibilities. In an early work,~\citet{matheson1976scoring} designed scoring rules for real-valued outcomes from those for binary outcomes.
@@ -311,7 +310,7 @@ Even though the log score is only applied to densities from $\mD$, according to 
 
 \subsubsection*{Exponential Families}
 
-We let $p(x;\mu)$ be the maximum entropy distribution with expected statistic $\mu$. Specifically, it is the solution to the following mathematical program:\footnote{We assume that the minimum is finite and achieved for all $\mu \in \mM$. Some care is needed to ensure this holds for specific statistics and outcome spaces. For example, taking outcomes to be the real numbers, there is no maximum entropy distribution with a given mean $\mu$ (one can take densities tending towards the uniform distribution over the reals), but there is always a solution if we constrain both the mean and variance.}
+We let $p(x;\mu)$ be the maximum entropy distribution with expected statistic $\mu$. Specifically, it is the solution to the following program:\footnote{We assume that the minimum is finite and achieved for all $\mu \in \mM$. Some care is needed to ensure this holds for specific statistics and outcome spaces. For example, taking outcomes to be the real numbers, there is no maximum entropy distribution with a given mean $\mu$ (one can take densities tending towards the uniform distribution over the reals), but there is always a solution if we constrain both the mean and variance.}
 %
 \begin{equation} \label{maxent-prog}
  \min_{p \in \mP} \:F(p) \st \Exp_{p}[\phi(x)] = \mu,
@@ -356,7 +355,7 @@ In the above $T^*$ denotes the convex conjugate of $T$, which here can be evalua
 
 We are now in a position to analyze the log scoring rule under exponential family distributions. From our discussion so far, we have that an exponential family density can be parametrized either by the natural parameter $\theta$, or by the mean parameter $\mu$, and that the two are related by the invertible gradient map $\mu = \grad T(\theta)$. We will write $p(x;\theta)$ or $p(x;\mu)$ given the parametrization used.
 
-The following observation is crucial. Let $\tp \in \mP$ be a density (not necessarily from an exponential family) with expected statistic $\mu$, let $p(\cdot\,;\mu)$ be the exponential family with the same expected statistic, and let $\hmu \in \mM$ be an alternative report. Then note from~(\ref{exp-fam}) that
+The following observation is crucial. Let $\tp \in \mP$ be a density (not necessarily from an exponential family) with expected statistic $\mu$, let $p(\cdot\,;\mu)$ be the exponential family with the same expected statistic, and let $\hmu \in \mM$ be an alternative report. Then from~(\ref{exp-fam}) note
 %
 \begin{equation} \label{equalizer-rule}
 \Exp_{\tp}[\log p(x;\hmu)] = \Exp_{p(\cdot;\mu)}[\log p(x;\hmu)] = \la \htheta, \mu \ra - T(\htheta),
@@ -505,7 +504,7 @@ This is of course exactly the log-partition function~(\ref{log-part}) for the ex
 
 The correspondence between the cost function~({\ref{lmsr-cost}) and the log-partition function~(\ref{log-part}) suggests the following interpretation. The market maker maintains an exponential family distribution over the state space $\mX$ parametrized by share vectors that lie in $\Theta$. When an agent buys shares, it moves the distribution's natural parameter so that the market prices matches its beliefs, or in other words the market's mean parametrization matches the agent's expectation. 
 
-There is a well-known duality between scoring rules and cost-function based markets~\citep{acv13,H03}. To see this in our context, recall from~(\ref{equalizer-rule}) that
+There is a well-known duality between scoring rules and cost-function based markets~\citep{acv13,H03}. To see this in our context, recall from~(\ref{equalizer-rule}):
 %
 \begin{equation*}
 \Exp_{\tp}[\log p(x;\hmu)] = \la \htheta, \mu \ra - T(\htheta)
@@ -814,14 +813,14 @@ In the exponential family market, the cost function $C$ is identical to the log 
 Define a potential function as  $\Phi(\vec{\delta}) =  T\left(\theta+\sum_{i}\delta_{i}\right)+\sum_{i}\frac{1}{a_{i}}T(\htheta_{i}-a_{i}\delta_{i})$.
 
 Rather than working directly with the utilities of every trader, we will work with the log of their utility values.\footnote{It is important to note that the potential function analysis still applies for any monotonically increasing transformation of the traders' utility functions.} Now the log-utility of trader $i$ is $$U_{i}(\vec{\delta})=- T(\theta+\sum_{j}\delta_{j}) + T(\theta+\sum_{j\neq i}\delta_{j}) - \frac{1}{a_{i}} T(\htheta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\htheta_{i}).$$
-Thus, Theorem \ref{thm:potl} applies and we can find the equilibrium market state by maximizing $\Phi(\vec{\delta})$ for each $\delta_{i}$:
+We can now apply Theorem \ref{thm:potl}, hence the equilibrium state is obtained by jointly maximizing $\Phi(\vec{\delta})$ for each $\delta_{i}$:
 \begin{eqnarray*}
 \nabla_{\delta_{i}}\Phi(\vec{\delta})&=&\nabla T\left(\theta+\sum_{j=1}^{n}\delta_{i}\right)-\nabla T(\htheta_{i}-a_{i}\delta_{i}) = 0.
-\end{eqnarray*}¥
+\end{eqnarray*}
 This leads to the following expression for the final market state.
 $$\theta+\sum_{j=1}^{n}\delta_{j}=
 \frac{\theta+\sum_{i=1}^{n}\left(\frac{\htheta_{i}}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
-We see that the equilibrium state is a convex combination of all beliefs and the initial market state, where beliefs are weighted by the agents' risk tolerances (inverse risk aversion).
+We see that the equilibrium state is a convex combination of the initial market state and all agent beliefs, with the latter weighted according to risk tolerance.
 
 
 
