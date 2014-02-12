@@ -242,11 +242,12 @@ Much of the work on prediction market frameworks has focused primarily on struct
 
 In the present work we show that a number of classical statistical tools can be leveraged to design a prediction market framework in the mold of an \emph{exponential family distributions} that possesses a number of attractive properties. Common concepts in statistics, e.g. \emph{entropy maximization}, \emph{log loss}, and \emph{bayesian inference}, relate to natural aspects of our class of mechanisms. In particular, the central objects in our market framework can be interpreted via conceptual objects used to define exponential families:
 \begin{itemize}
-	\item the \emph{payoff function} of the market corresponds to the \emph{sufficient statistics} of the probabiilty distribution;
-	\item the vector of \emph{oustanding shares} in the market corresponds to the \emph{natural parameter vector} of the distribution;
+	\item the \emph{payoff function} of the market corresponds to the \emph{sufficient statistics} of the probability distribution;
+	\item the vector of \emph{outstanding shares} in the market corresponds to the \emph{natural parameter vector} of the distribution;
 	\item the market prices correspond to \emph{mean parameters};
 	\item the profit potential for a trader corresponds to a \emph{Kullback-Leibler divergence} between the trader's belief and that of the market.
 \end{itemize}
+\sindhu{I don't think we have the KL divergence result here -- is this the bregman divergence in the budget section?}
 
 We begin with a discussion of scoring rules in Section~\ref{sec:scoring} for exponential family distributions, and in particular we show that the logarithmic scoring rule is the only score that is \emph{proper} for the class of exponential families.
 We turn our attention to market design in Section~\ref{sec:maxentmarkets} and give a full description of our proposed mechanisms. In addition to showing the syntactic relationship between exponential families and prediction markets, we also explore the semantic implications as well. In particular, we show that our formulation allows us to analyze the evolution of the market under various models of trader behavior:
