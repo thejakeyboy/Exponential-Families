@@ -37,7 +37,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 %\usepackage{amsthm}
-\usepackage{parskip}
+%\usepackage{parskip}
 \usepackage{booktabs}
 
 %new commands
@@ -112,7 +112,7 @@ SINDHU KUTTY
 S\'{E}BASTIEN LAHAIE
 \affil{Microsoft Research, New York City}
 RAHUL SAMI
-\affil{Google India}}
+\affil{University of Michigan, Ann Arbor}\footnote{Current affiliation: Google, Inc. This work was done while the author was at the University of Michigan.}}
 %%\author{GANG ZHOU
 %%\affil{College of William and Mary}
 %%YAFENG WU
@@ -280,7 +280,7 @@ We are not aware of any works that consider risk-averse agents within cost-funct
 \section{Generalized Log Scoring Rules}
 \label{sec:scoring}
 
-We consider a measurable space consisting of a set of outcomes $\mX$ together with a $\sigma$-algebra $\mF$. An agent or expert has a \emph{belief} over potential outcomes taking the form of a probability measure absolutely continuous with respect to a base measure~$\nu$.\footnote{Recall that a measure $P$ is absolutely continuous with respect to~$\nu$ if $P(A) = 0$ for every $A \in \mF$ for which $\nu(A) = 0$. In essence the base measure~$\nu$ restricts the support of $P$. In our examples $\nu$ will typically be a restriction of the Lebesgue measure for continuous outcomes or the counting measure for discrete outcomes.} Throughout we represent the belief as the corresponding density $p$ with respect to~$\nu$. Let $\mP$ denote the set of all such probability densities.
+We consider a measurable space consisting of a set of (mutually exclusive, exhaustive) outcomes $\mX$ together with a $\sigma$-algebra $\mF$. An agent or expert has a \emph{belief} over potential outcomes taking the form of a probability measure absolutely continuous with respect to a base measure~$\nu$.\footnote{Recall that a measure $P$ is absolutely continuous with respect to~$\nu$ if $P(A) = 0$ for every $A \in \mF$ for which $\nu(A) = 0$. In essence the base measure~$\nu$ restricts the support of $P$. In our examples $\nu$ will typically be a restriction of the Lebesgue measure for continuous outcomes or the counting measure for discrete outcomes.} Throughout we represent the belief as the corresponding density $p$ with respect to~$\nu$. Let $\mP$ denote the set of all such probability densities.
 
 We are interested in eliciting information about the agent's belief, in particular expectation information. Let $\phi: \mX \rightarrow \bR^d$ be a vector-valued random variable or \emph{statistic}, where $d$ is finite. The aim is to elicit $\mu = \E_{p}[\phi(x)]$ where $x$ is the random outcome. A \emph{scoring rule} is a device for this purpose. Let $$\mM = \left\{ \mu \in \bR^d : \Exp_p[\phi(x)] = \mu,\, \mbox{for some $p \in \mP$} \right\}$$ be the set of realizable statistic expectations.  A scoring rule $S : \mM \times \mX \rightarrow \bR \cup \{-\infty\}$ pays the agent $S(\hmu,x)$ according to how well its report $\hmu \in \mM$ agrees with the eventual outcome $x \in \mX$. The following definition is due to~\citet{lambert2008eliciting}.
 %
@@ -329,7 +329,7 @@ where the objective function is the negative entropy of the distribution, namely
 %
 Note that the explicit set of constraints in~(\ref{maxent-prog}) are linear, whereas the objective is convex. We let $G : \mM \rightarrow \bR$ be the optimal value function of~(\ref{maxent-prog}), meaning $G(\mu)$ is the negative entropy of the maximum entropy distribution with expected statistics $\mu$. 
 
-It is well-known that solutions to~(\ref{maxent-prog}) are \emph{exponential family} distributions, whose densities with respect to $\nu$ take the form
+It is well-known that solutions to~(\ref{maxent-prog}) are \emph{exponential family} distributions (see, for instance, \cite{WainJordan08}). These are distributions whose densities with respect to $\nu$ take the form
 %
 \begin{equation} \label{exp-fam}
 p(x;\theta) = \exp( \la \theta, \phi(x) \ra - T(\theta) ).
@@ -827,7 +827,7 @@ We see that the equilibrium state is a convex combination of the initial market 
 
 In this section, we consider the evolution of the market state when traders are budget-limited.
 % and their budgets are known to the market maker. We consider a cost-function based market with cost function $C$ and payoff $\phi(x)$ with non-negative payoff. 
-We assume that the traders trade in multiple instances of the market. As before, the market price is interpreted as a probability density over the outcome space and the share vector as the natural parameter of an exponential family distribution. Consistent with the connections drawn in Section~\ref{sec:scoring} and throughout, we measure the error in prediction using the standard log loss.  
+We assume that the traders trade in multiple instances of the market. That is, after the initial trades, the outcome is revealed and the traders are paid off. Then, the market runs again with the same set of traders and the outcome drawn from a (possibly different) exponential family distribution. The goal of this section is to analyze how the budget of traders evolve under these circumstances. As before, the market price is interpreted as a probability density over the outcome space and the share vector as the natural parameter of an exponential family distribution. Consistent with the connections drawn in Section~\ref{sec:scoring} and throughout, we measure the error in prediction using the standard log loss.  
 
 
 We show that traders with faulty information can only impose a limited amount of additional loss to the market's prediction. Further, since informative traders experience an expected increase in budget,  they will eventually be unconstrained and allowed to carry out  unrestricted trades. Taken together, this means that while the market suffers limited damage from ill-informed traders, it is also able to make use of all the information from informative traders in the long run.
