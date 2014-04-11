@@ -229,7 +229,8 @@
   \global\@acmjdiqfalse
   \global\@acmtaccessfalse
   \global\@acmtocefalse
-\def\@journalName{{\em EC'13}, June 16--20, 2013, Philadelphia, PA}
+\def\@journalName{{\em EC'14}, June 8--12, 2014, Stanford University, Palo
+  Alto, CA, USA}
 }
 
 
