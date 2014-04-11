@@ -23,22 +23,29 @@
 - What kind of equilibria are studied in Section 5.2? I.e. what is the game (especially what are the strategies)? What is the dynamics under the game? How equilibria are reached from the initial state of the market? @jake 
   - we should add a few more details regarding the results of 5.2, but here are some short answers: The utility functions are defined in 5.2, the strategies are the vectors of share purchases of each agent, we are interested in pure-strategy Nash equilibria, and the dynamics are not required to establish the existence of an equilibrium. We will expand upon these in the revision.
 
-- [COMPLETE] change rahul sami's affiliation @sindhu
-- [COMPLETE] remove parskip @sindhu
-- P3: Section 2, after first paragraph. Please clarify that P contains ALL distributions on the outcome space. @sindhu
-  “i think we already say that?"
+- [COMPLETE] change rahul sami's affiliation
+- [COMPLETE] remove parskip
 - [COMPLETE] P4: please clarify the setup. Are u always using a single outcome x? same in the example section at Page 7 @sindhu 
   "changed sentence to: We consider a measurable space consisting of a set of (mutually exclusive, exhaustive) outcomes $\mX$ together with a $\sigma$-algebra $\mF$. i feel this change takes care of both these points"
 - [COMPLETE] Please give a formal definition of exponential family distributions (with citation) @sindhu 
   "we didn't have a reference for this; i've added wainwright jordan."
-- [COMPLETE] Section 6: What exactly does the statement "the traders trade in multiple instances of the market" mean? What are the formal definitions of an "uninformative" and an "informative" trader? The semantics of the time-varying budget alpha_i^t are not clear. @sindhu
-changed to:  "We assume that the traders trade in multiple instances of the market. That is, after the initial trades, the outcome is revealed and the traders are paid off. Then, the market runs again with the same set of traders and the outcome drawn from a (possibly different) exponential family distribution. The goal of this section is to analyze how the budget of traders evolve under these circumstances."
-- P7: U are using mu for both the report and expectation. Please use a different notation (e.g. hat(mu) @sindhu 
-- examples of commonly studied distributions that can be modeled by the exponential family studied in this paper. @sindhu (normal, exponential, beta)
-- P5: sufficient statistics - please clarify which distributions are not like this. Can it be that the exponential distribution is not like this? @sindhu
-  - Review 1: The concept of a sufficient statistic also arises for distributions other than exponential families. An example of a non-exponential family with sufficient statistic is the uniform distribution over [0,r], where r is the parameter. The sufficient statistic for r is the maximum of the observations.
-- Regarding budgets and play money: indeed the play-money markets are a case where budget constraints are key. We have experience with this in other work where a play-money market was released for the US Elections. Here the budget constraints help alleviate the problem that traders can easily manipulate prices with unreasonable trades -- the goal of Section 6 was to give formal results to this effect. Risk aversion is also plausible with play-money; for instance, a trader high on the leaderboard may not want to risk her standing with large late trades. @sindhu
+- [COMPLETE] P7: U are using mu for both the report and expectation. Please use a different notation (e.g. hat(mu) @sindhu 
+  "i think the reviewer means that in the definition of the scoring rule, we should indicate that the first argument is the agent report and not the true mean. so i've changed that."
+- [COMPLETE] Section 6: 
+  "Changed first paragraph of this section and added a sentence to the "Budget-limited trades" paragraph"
+  - [COMPLETE] What exactly does the statement "the traders trade in multiple instances of the market" mean? 
+  - [COMPLETE] The semantics of the time-varying budget alpha_i^t are not clear. @sindhu
+  - [COMPLETE] What are the formal definitions of an "uninformative" and an "informative" trader? 
+- [COMPLETE] I found the "underlying density" and "full density" discussion on P4 very confusing (what are these two densities?). @sindhu
+  "I think he means p.6 just before thm 2.2; i've reworded this sentence."
+- [COMPLETE] Regarding budgets and play money: indeed the play-money markets are a case where budget constraints are key. We have experience with this in other work where a play-money market was released for the US Elections. Here the budget constraints help alleviate the problem that traders can easily manipulate prices with unreasonable trades -- the goal of Section 6 was to give formal results to this effect. Risk aversion is also plausible with play-money; for instance, a trader high on the leaderboard may not want to risk her standing with large late trades. @sindhu
+  "added a note to the introduction."
   - the example for risk-aversion of someone not wanting to lose their place on the leaderboard doesn't really hold water: that's a type of tournament incentive: very different from traditional risk-aversion.
-- I found the "underlying density" and "full density" discussion on P4 very confusing (what are these two densities?). @sindhu
+- [COMPLETE] P6, THM 2.2. Where the sufficient statistics condition fits in. Can it be that the entropy maximizing exponential distribution is not like that. Please clarify. @sindhu
+  "changed statement of thm 2.2 to state the relationship between \mu and \phi explicitly"
+- [COMPLETE] examples of commonly studied distributions that can be modeled by the exponential family studied in this paper. @sindhu 
+  " i added examples before prop 2.1 (normal, binomial and beta) and added a detailed mapping for the normal distribution"
+- P3: Section 2, after first paragraph. Please clarify that P contains ALL distributions on the outcome space. @sindhu
+  "already says that?"
 - P4, last sentence. Please quote what exactly was proven by [Grunwald and Dawid] @sindhu
-- P6, THM 2.2. Where the sufficient statistics condition fits in. Can it be that the entropy maximizing exponential distribution is not like that. Please clarify. @sindhu
+  "i'm not sure about this one"

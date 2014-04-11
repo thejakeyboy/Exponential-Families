@@ -51,6 +51,8 @@
 \newcommand{\q}{\mathbf{q}}
 \newcommand{\mM}{\ensuremath{\mathcal{M}}}
 \newcommand{\hmu}{\ensuremath{\hat{\mu}}}
+\newcommand{\hsigma}{\ensuremath{\hat{\sigma}}}
+\newcommand{\hSigma}{\ensuremath{\hat{\Sigma}}}
 \newcommand{\mP}{\ensuremath{\mathcal{P}}}
 \newcommand{\mY}{\ensuremath{\mathcal{Y}}}
 \newcommand{\mS}{\ensuremath{\mathcal{S}}}
@@ -255,10 +257,11 @@ We turn our attention to market design in Section~\ref{sec:maxentmarkets} and gi
 	\item Trader behavior varies depending on how they assimilate information; for example, should we consider our agents as Bayesians or frequentists. In Section~\ref{sec:bayesians} we consider traders that use a conjugate prior to update their beliefs, and we study how their trades would affect the market state.
 	\item In Section~\ref{sec:exputil} we consider \emph{risk-averse} agents that optimize their bets according to exponential utility. 
 	%We show how this dovetails nicely with the notion of a \emph{certainty equivalent} which is often used in risk-aversion settings. 
-	In this case we can characterize precisely how a single trader interacts with the market, as well as the equilibrium reached given multiple traders; this result is achieved via a potential game argument. The eventual market state is a weighted combination of traders' beliefs and the initial state; the weights are proportional to risk aversion parameters.
+	In this case we can characterize precisely how a single trader interacts with the market, as well as the equilibrium reached given multiple traders; this result is achieved via a potential game argument. The eventual market state is a weighted combination of traders' beliefs and the initial state; the weights are proportional to risk aversion parameters. 
 	\item In Section~\ref{sec:budgets} we consider \emph{budget-limited traders} who are constrained in how much they influence the market. We analyze the market  under these circumstances; we are able to show that traders with good information can expect to profit and their influence over the market state increases over time whereas malicious traders have limited impact on the market.
 \end{itemize}
 
+ A note about play-money markets: Even in prediction markets set up with play-money, risk aversion is plausible since it captures the fact that a trader high on the leaderboard may not want to risk her standing with large late trades. Further, in such markets especially, budget constraints are key since they help alleviate the problem that traders can easily manipulate prices with unreasonable trades. Our results are therefore particularly relevant in markets with play-money.
 % \jake{I want to add more to this list. It's ok but doesn't totally reflect what's in the last few sections.}
 
 
@@ -343,6 +346,8 @@ T(\theta) = \log \int_{\mX} \exp \la \theta, \phi(x) \ra \,d\nu(x).
 %
 The function $T$ is known as the \emph{log-partition} or \emph{cumulant} function corresponding to the exponential family. Its domain is $\Theta = \{ \theta \in \bR^d : T(\theta) < +\infty \}$, called the natural parameter space. The exponential family is \emph{regular} if $\Theta$ is open---almost all exponential families of interest, and all those we consider in this work, are regular. The family is \emph{minimal} if there is no $\alpha \in \Theta$ such that $\la \alpha, \phi(x) \ra$ is a constant over $\mX$ ($\nu$-almost everywhere); minimality is a property of the associated statistic $\phi$, usually called the \emph{sufficient statistic} in the literature. 
 
+Some commonly studied distributions that are in fact exponential families include the binomial, beta and normal distributions. To see for instance, that the normal distribution is an exponential family note that instead of the usual parametrization using mean  $\mu$ and  variance $\sigma$, it can be parametrized in terms of $\vec{\theta}=(\theta_{1},\theta_{2})$ where $\theta_{1}=\frac{\mu}{\sigma^{2}}$ and $\theta_{2}=\frac{-1}{2\sigma^{2}}$,  with corresponding log partition function $-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})$.
+
 The following proposition collects the relevant results on regular exponential families; proofs may be found in~\citet[Prop.\ 3.1--3.2, Thm.\ 3.3--3.4]{WainJordan08} and see also~\citet[Lem.\ 1, Thm.\ 2]{BanerjeeDhGh05b}. A convex function $T$ is of \emph{Legendre type} if it is proper, closed, strictly convex and differentiable on the interior of its domain, and $\lim_{\theta \rightarrow \bar{\theta}} \norm{\grad T(\theta)} = +\infty$ when $\bar{\theta}$ lies on the boundary of the domain. 
 %
 \begin{prop}\label{prop:exp}
@@ -367,10 +372,12 @@ The following observation is crucial. Let $\tp \in \mP$ be a density (not necess
 \Exp_{\tp}[\log p(x;\hmu)] = \Exp_{p(\cdot;\mu)}[\log p(x;\hmu)] = \la \htheta, \mu \ra - T(\htheta),
 \end{equation}
 %
-where $\htheta = \grad G(\hmu)$ is the natural parameter for the exponential family with statistic $\hmu$. We see from this that the expected log score only depends on the expectation $\mu$ of the underlying density, not the full density, which is how we can achieve proper scoring according to Definition~{\ref{def:proper-score}.
+where $\htheta = \grad G(\hmu)$ is the natural parameter for the exponential family with statistic $\hmu$. Note that the expected log score does not depend  on the entire maximum entropy distribution but just its expected statistic $\mu$. This is how we can achieve proper scoring according to Definition~{\ref{def:proper-score}.
+%We see from this that the expected log score only depends on the expectation $\mu$ of the underlying density, not the full density, which is how we can achieve proper scoring according to Definition~{\ref{def:proper-score}.
+%
 %
 \begin{theorem} \label{maxent-score}
-Consider the logarithmic scoring rule $S(\mu,x) = \log p(x;\mu)$ defined over a set of densities $\mD$ parametrized by $\mM$. The scoring rule is proper if and only if $\mD$ is the exponential family with statistic $\phi$. 
+Consider the logarithmic scoring rule $S(\mu,x) = \log p(x;\mu)$ defined over a set of densities $\mD$ parametrized by $\mM$. The scoring rule is proper if and only if $\mD$ is the exponential family with statistic $\phi$, where $\mu=\E_{p(x;\mu)}[\phi(x)]$. 
 \end{theorem}
 %
 %
@@ -412,13 +419,13 @@ where the last equality is a well-known identity relating the Bregman divergence
 
 Theorem~\ref{maxent-score} leads to a straightforward procedure for constructing score rules for expectations. Define the relevant statistic, and consider the maximum entropy (equivalently, exponential family) distribution consistent with the agent's reported mean $\mu$. The scoring rule compensates the agent according to the log likelihood of the eventual outcome according to this distribution. The interpretation is that the agent is only providing partial information about the underlying density, so the principal first infers a full density according to the principle of maximum entropy, and then scores the agent using the usual log score.
   
-An advantage of this generalization of the log score is that, for many domains (multi-dimensional included) and expectations of interest, it leads to novel closed-form scoring rules. By examining the log densities of various exponential families, we can for instance obtain scoring rules for several different combinations of the arithmetic, geometric, and harmonic means, as well as higher order moments. The following examples illustrate the construction.
+An advantage of this generalization of the log score is that, for many domains (multi-dimensional included) and expectations of interest, it leads to novel closed-form scoring rules. By examining the log densities of various exponential families, we can for instance obtain scoring rules for several different combinations of the arithmetic, geometric, and harmonic means, as well as higher order moments. The following examples illustrate the construction. Here, we have used $\mu$ and $\sigma$ for the true mean and variance and $\hmu$ and $\hsigma$ for the elicited mean and variance respectively (and $\hSigma$ for the variance of the multivariate normal).
 %
 \begin{example} \label{ex:exponential}
 As base measure we take the Lebesgue restricted to $[0,+\infty)$, and we consider the statistic $\phi(x) = x$ so that we are simply eliciting the mean. The maximum entropy distribution with a given mean $\mu$ is the exponential distribution, and taking its log density gives the scoring rule
 %
 \begin{equation} \label{exp-scoring}
-S(\mu, x) = -\frac{x}{\mu} - \log \mu.
+S(\hmu, x) = -\frac{x}{\hmu} - \log \hmu.
 \end{equation}
 %
 We stress that although this rule is derived from the exponential distribution, Theorem~\ref{maxent-score} implies that it elicits the mean of any distribution supported on the non-negative reals (e.g., Pareto, lognormal). Indeed, it is easy to see that the expected score~(\ref{exp-scoring}) depends only on the mean of the agent's belief because it is linear in $x$. 
@@ -428,7 +435,7 @@ We stress that although this rule is derived from the exponential distribution, 
 As a generalization of this example, the maximum entropy distribution for the $k$-th moment $\phi(x) = x^k$ with respect to the same base measure is the Weibull distribution. Taking its log density leads to the following equivalent scoring rule:
 %
 \begin{equation} \label{weibull-scoring}
-S(\mu, x) = (k-1) \log x - k \log \mu - \Gamma\left(1+\frac{1}{k}\right)^k \left(\frac{x}{\mu}\right)^k,
+S(\hmu, x) = (k-1) \log x - k \log \hmu - \Gamma\left(1+\frac{1}{k}\right)^k \left(\frac{x}{\hmu}\right)^k,
 \end{equation}
 %
 where $\Gamma$ denotes the gamma function (the extension of the factorial to the reals). We have not found either scoring rule~(\ref{exp-scoring}) or~(\ref{weibull-scoring}) in the literature.
@@ -439,13 +446,13 @@ where $\Gamma$ denotes the gamma function (the extension of the factorial to the
 As a base measure we take the Lebesgue over the real numbers $\bR$. We are interested in eliciting the mean $\mu$ and variance $\sigma^2$, so as a statistic we take $\phi(x) = (x, x^2)$ for which $\Exp_p[\phi(x)] = (\mu, \mu^2+\sigma^2)$. The max entropy distribution for a given mean and variance is the Gaussian, whose log density gives the scoring rule
 %
 \begin{equation}
-S((\mu, \sigma^2), x) = -\frac{(x-\mu)^2}{\sigma^2} - \log \sigma^2.
+S((\hmu, \hsigma^2), x) = -\frac{(x-\hmu)^2}{\hsigma^2} - \log \hsigma^2.
 \end{equation}
 %
 Again, we stress that this scoring rule elicits the mean and variance of any density over the real numbers, not just those of a normal distribution. The construction easily generalizes to a multi-dimensional outcome space by taking the log density of the multivariate normal:
 %
 \begin{equation}
-S((\mu, \Sigma), x) = -(x - \mu)'\Sigma^{-1}(x - \mu) - \log |\Sigma|.
+S((\hmu, \hSigma), x) = -(x - \hmu)'\hSigma^{-1}(x - \hmu) - \log |\hSigma|.
 \end{equation}
 %
 Here the statistics being elicited are the mean vector $\mu$ and the covariance matrix $\Sigma$. These scoring rules have been studied by~\citet{dawid1999coherent} as rules that only depend on the mean and variance of the reported density. They note that these rules are weakly proper (because they do not distinguish between densities with the same first and second moments), but do not make the point that knowledge of the full density is not necessary on the part of the agent.
@@ -827,7 +834,7 @@ We see that the equilibrium state is a convex combination of the initial market 
 
 In this section, we consider the evolution of the market state when traders are budget-limited.
 % and their budgets are known to the market maker. We consider a cost-function based market with cost function $C$ and payoff $\phi(x)$ with non-negative payoff. 
-We assume that the traders trade in multiple instances of the market. That is, after the initial trades, the outcome is revealed and the traders are paid off. Then, the market runs again with the same set of traders and the outcome drawn from a (possibly different) exponential family distribution. The goal of this section is to analyze how the budget of traders evolve under these circumstances. As before, the market price is interpreted as a probability density over the outcome space and the share vector as the natural parameter of an exponential family distribution. Consistent with the connections drawn in Section~\ref{sec:scoring} and throughout, we measure the error in prediction using the standard log loss.  
+We assume that the traders trade in multiple instances of the market. That is, after the initial setup and trades, the outcome is revealed and the traders are paid off. Then, the market runs again with the same set of traders and the outcome drawn from a (possibly different) exponential family distribution. The goal of this section is to analyze how the budget of traders evolve under these circumstances. As before, the market price is interpreted as a probability density over the outcome space and the share vector as the natural parameter of an exponential family distribution. Consistent with the connections drawn in Section~\ref{sec:scoring} and throughout, we measure the error in prediction using the standard log loss.  
 
 
 We show that traders with faulty information can only impose a limited amount of additional loss to the market's prediction. Further, since informative traders experience an expected increase in budget,  they will eventually be unconstrained and allowed to carry out  unrestricted trades. Taken together, this means that while the market suffers limited damage from ill-informed traders, it is also able to make use of all the information from informative traders in the long run.
@@ -837,6 +844,7 @@ Let $\alpha$ be the budget of a trader in the market. Suppose that with infinite
 
 Let the current market state be given by $\theta$ and let the final market state be $\theta'=\lambda\htheta+(1-\lambda)\theta$ where $\lambda=\min\left(1, \frac{\alpha}{C(\htheta) - C(\theta)}\right)$. The cost to the trader to move the market state from $\theta$ to $\theta'$ is at most his budget $\alpha$ and is called his \emph{budget-limited trade}.
 
+Note that while an uninformative trader is unconstrained in his belief, the informative trader's belief corresponds to the parameter of the true distribution.
 \paragraph{Limited Damage}
 We will now quantify the error in prediction that the market maker might have to endure as a result of ill-informed entities entering the market. We assume that these entities trade in multiple instances of the market; thus the exposure of the market maker is over several rounds. The log loss function for $\theta$ shares held is defined as $L(\theta,x)=-\log p(x;\theta)=C(\theta)-\la \theta\phi(x)\ra$.
 
