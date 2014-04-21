@@ -249,7 +249,7 @@ We turn our attention to market design in Section~\ref{sec:maxentmarkets} and gi
 
 
 \textbf{Related Work.}
-The notion of an exponential family distribution is fundamental to this paper. For comprehensive introductions to these distributions, see~\citep{Barndorff78,WainJordan08}. Exponential families are intimately tied to the notions of log loss and entropy, but can be generalized to other types of convex losses and information, as shown by~\citet{GrunwaldDawid}, who also make a connection to scoring rules.
+The notion of an exponential family distribution is fundamental to this paper. For comprehensive introductions to these distributions, see~\citep{Barndorff78,WainJordan08}. Exponential families are intimately tied to the notions of log loss and entropy, but can be generalized to other types of convex losses and information as shown by~\citet{GrunwaldDawid}, who also make a connection to scoring rules.
 
 Scoring rules are a measure of prediction accuracy, and we are concerned here with scoring rules for statistic expectations, typically over infinite outcome spaces. Such rules have been characterized by~\citet{Savage71}; see also~\citep{AbernethyFr12,gneiting2007strictly,lambert2008eliciting}. Our rules are of course special cases of this characterization, but it appears the range of elegant scoring rules that arise from exponential families has not been appreciated. Indeed,~\citet{gneiting2007strictly} observe that specific instances of scoring rules for continuous outcomes are lacking, and survey various possibilities.
 % In an early work,~\citet{matheson1976scoring} designed scoring rules for real-valued outcomes from those for binary outcomes.
@@ -257,9 +257,10 @@ Scoring rules are a measure of prediction accuracy, and we are concerned here wi
 In a seminal paper,~\citet{H03} showed how to form a prediction market based on a sequentially-shared scoring rule, and specifically proposed the logarithmic market scoring rule (LMSR) based on log loss for finite outcome spaces~\citep{H07}. The markets we introduce are direct generalizations of the LMSR to continuous outcomes, but take the form of cost-function based markets as introduced by~\citet{chen2007utility}.~\citet{Gao09} and~\citet{measurable13} also consider extending various market makers to infinite outcome spaces.
 
 Prediction markets are known to perform well in practice~\citep{AGT07,pennock2001real}. However, a sound theory for interpreting trader behavior and market prices is an ongoing area of study~\citep{wolfers2006interpreting}. At one extreme, agents are assumed myopic and risk-neutral, implying they move the market state to their belief~\citep{chen2010new}. At the other extreme, agents are strategic and the market fully incorporates all information~\citep{ostrovsky2012}. 
-% Strategic behavior in prediction markets is addressed in~\citep{chen2010gaming,dimitrov08}. 
+% Strategic behavior in prediction markets is addressed in~\citep{chen2010gaming,dimitrov08}.
+The aggregation properties of market mechanisms have also been explored from a machine learning perspective in~\cite{storkey11}. 
 
-We are not aware of any works that consider risk-averse agents within cost-function based markets. However, risk aversion is a fundamental component of mathematical finance and portfolio optimization, and there are close connections between the notion of a cost function and that of a convex risk measure~\citep{follmerRisk,follmer2011entropic}. Indeed, they arise from the same axioms as noted by~\citet{othman2011liqu}. We see the potential to draw more on the mathematical finance literature to take into account risk aversion, as prediction markets are simply single-period financial markets~\citep[Part I]{follmerFinance}. We also note that connections between Machine Learning and market mechanisms have been explored in \cite{storkey11}.
+We are not aware of any works that consider risk-averse agents within cost-function based markets. However, risk aversion is a fundamental component of mathematical finance and portfolio optimization, and there are close connections between the notion of a cost function and that of a convex risk measure~\citep{follmerRisk,follmer2011entropic}. Indeed, they arise from the same axioms as noted by~\citet{othman2011liqu}. We see the potential to draw more on the mathematical finance literature to take into account risk aversion, as prediction markets are simply single-period financial markets~\citep[Part I]{follmerFinance}. 
 
 
 \section{Generalized Log Scoring Rules}
@@ -287,7 +288,7 @@ Given a proper scoring rule $S$ any affine transformation $\tilde{S}(\mu,x) = aS
 
 Note that Definition~\ref{def:proper-score} places only mild information requirements on the part of the agent to ensure truthful reporting. Because condition~(\ref{eq-proper}) holds for all $p$ consistent with expectation $\mu$, it is enough for the agent to simply know the latter and not the complete density to be properly incentivized. However, the agent must also agree with the support of the density as implicitly defined by base measure $\nu$. 
 
-When the outcome space is finite we recover classical scoring rules by using the statistic $\phi : \mX \rightarrow \{0,1\}^{\mX}$ that maps an outcome $x$ to a unit vector with a 1 in the component corresponding to $x$. The expectation of $\phi$ is then exactly the probability mass function.
+%When the outcome space is finite we recover classical scoring rules by using the statistic $\phi : \mX \rightarrow \{0,1\}^{\mX}$ that maps an outcome $x$ to a unit vector with a 1 in the component corresponding to $x$. The expectation of $\phi$ is then exactly the probability mass function.
 
 \subsection{Proper Scoring from Maximum Entropy}
 
@@ -314,7 +315,7 @@ where the objective function is the negative entropy of the distribution, namely
 %
 Note that the explicit set of constraints in~(\ref{maxent-prog}) are linear, whereas the objective is convex. We let $G : \mM \rightarrow \bR$ be the optimal value function of~(\ref{maxent-prog}), meaning $G(\mu)$ is the negative entropy of the maximum entropy distribution with expected statistics $\mu$. 
 
-It is well-known that solutions to~(\ref{maxent-prog}) are \emph{exponential family} distributions (see, for instance, \cite{WainJordan08}). These are distributions whose densities with respect to $\nu$ take the form
+It is well-known that solutions to~(\ref{maxent-prog}) are \emph{exponential family} distributions; see, for instance \cite{WainJordan08}. These are distributions whose densities with respect to $\nu$ take the form
 %
 \begin{equation} \label{exp-fam}
 p(x;\theta) = \exp( \la \theta, \phi(x) \ra - T(\theta) ).
@@ -330,8 +331,9 @@ The function $T$ is known as the \emph{log-partition} or \emph{cumulant} functio
 %
 The exponential family is \emph{regular} if $\Theta$ is open---almost all exponential families of interest, and all those we consider in this work, are regular. The family is \emph{minimal} if there is no $\alpha \in \Theta$ such that $\la \alpha, \phi(x) \ra$ is a constant over $\mX$ ($\nu$-almost everywhere); minimality is a property of the associated statistic $\phi$, usually called the \emph{sufficient statistic} in the literature. 
 
-Some commonly studied distributions that are in fact exponential families include the binomial, beta and normal distributions. To see for instance, that the normal distribution is an exponential family note that instead of the usual parametrization using mean  $\mu$ and  variance $\sigma$, it can be parametrized in terms of $\vec{\theta}=(\theta_{1},\theta_{2})$ where $\theta_{1}=\frac{\mu}{\sigma^{2}}$ and $\theta_{2}=\frac{-1}{2\sigma^{2}}$,  with corresponding log partition function $-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})$.
-
+Some commonly studied distributions that are in fact exponential families include the binomial, beta, Poisson, exponential, and normal distributions; the sufficient statistics and parametrizations for the exponential and normal will be covered in Section~\ref{sec:examples}.
+%To see for instance, that the normal distribution is an exponential family note that instead of the usual parametrization using mean  $\mu$ and  variance $\sigma$, it can be parametrized in terms of $\vec{\theta}=(\theta_{1},\theta_{2})$ where $\theta_{1}=\frac{\mu}{\sigma^{2}}$ and $\theta_{2}=\frac{-1}{2\sigma^{2}}$,  with corresponding log partition function $-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})$. [SL: I think this is too much so removed it.]
+%
 The following proposition collects the relevant results on regular exponential families; proofs may be found in~\citet[Prop.\ 3.1--3.2, Thm.\ 3.3--3.4]{WainJordan08} and see also~\citet[Lem.\ 1, Thm.\ 2]{BanerjeeDhGh05b}. A convex function $T$ is of \emph{Legendre type} if it is proper, closed, strictly convex and differentiable on the interior of its domain, and $\lim_{\theta \rightarrow \bar{\theta}} \norm{\grad T(\theta)} = +\infty$ when $\bar{\theta}$ lies on the boundary of the domain. 
 %
 \begin{prop}\label{prop:exp}
@@ -350,7 +352,7 @@ In the above $T^*$ denotes the convex conjugate of $T$, which here can be evalua
 
 We are now in a position to analyze the log scoring rule under exponential family distributions. From our discussion so far, we have that an exponential family density can be parametrized either by the natural parameter $\theta$, or by the mean parameter $\mu$, and that the two are related by the invertible gradient map $\mu = \grad T(\theta)$. We will write $p(x;\theta)$ or $p(x;\mu)$ given the parametrization used.
 
-The following observation is crucial. Let $\tp \in \mP$ be a density (not necessarily from an exponential family) with expected statistic $\mu$, let $p(\cdot\,;\mu)$ be the exponential family with the same expected statistic, and let $\hmu \in \mM$ be an alternative report. Then from~(\ref{exp-fam}) note
+The following observation is crucial. Let $\tp \in \mP$ be a density (not necessarily from an exponential family) with expected statistic $\mu$, let $p(\cdot\,;\mu)$ be the exponential family with the same expected statistic, and let $\hmu \in \mM$ be an alternative report. Then from~(\ref{exp-fam}) we have
 %
 \begin{equation} \label{equalizer-rule}
 \Exp_{\tp}[\log p(x;\hmu)] = \Exp_{p(\cdot;\mu)}[\log p(x;\hmu)] = \la \htheta, \mu \ra - T(\htheta),
@@ -389,7 +391,7 @@ for some strictly convex function $G$. Let $T = G^*$, so that $\grad G = {\grad 
 which shows that $p(x;\mu)$ takes the form of an exponential family.
 \end{proof}
 %
-It has been understood since~\citep{mccarthy1956measures,Savage71} that scoring rules for densities and expectations can be characterized in terms of an underlying convex function. The generalized log scoring rule of Theorem~\ref{maxent-score} obtains by applying the modern characterization of~\citet{AbernethyFr12} to the optimal value function $G$ (negative maximum entropy). \citet[Thm.\ 6]{BanerjeeDhGh05} prove a similar result by showing a bijection between exponential families and Bregman divergences.
+It has been understood since~\citep{mccarthy1956measures,Savage71} that scoring rules for densities and expectations can be characterized in terms of an underlying convex function. The generalized log scoring rule of Theorem~\ref{maxent-score} obtains by applying the modern characterization of~\citet[Thm.\ 11]{AbernethyFr12} to the optimal value function $G$ (negative maximum entropy). \citet[Thm.\ 6]{BanerjeeDhGh05} prove a similar result by showing a bijection between exponential families and Bregman divergences.
 
 The notion of a Bregman divergence in fact provides further intuition for the result. Note that~(\ref{breg-div}) is the definition of the Bregman divergence with respect to strictly convex function $T$, written $D_T$. Therefore we have 
 %
@@ -400,13 +402,14 @@ The notion of a Bregman divergence in fact provides further intuition for the re
 where the last equality is a well-known identity relating the Bregman divergences of $T$ and $T^* = G$. The equation states that the agent's regret from misreporting its mean parameter does not depend on the full density $p$, only the mean $\mu$.   
 
 \subsection{Examples: Moments over the Real Line}
+\label{sec:examples}
 
-Theorem~\ref{maxent-score} leads to a straightforward procedure for constructing score rules for expectations. Define the relevant statistic, and consider the maximum entropy (equivalently, exponential family) distribution consistent with the agent's reported mean $\mu$. The scoring rule compensates the agent according to the log likelihood of the eventual outcome according to this distribution. The interpretation is that the agent is only providing partial information about the underlying density, so the principal first infers a full density according to the principle of maximum entropy, and then scores the agent using the standard log score. We stress that the exponential families framework is a tool in the construction of scoring rules; we are not actually modeling any agent's belief via an exponential family.
+Theorem~\ref{maxent-score} leads to a straightforward procedure for constructing score rules for expectations. Define the relevant statistic, and consider the maximum entropy (equivalently, exponential family) distribution consistent with the agent's reported mean $\mu$. The scoring rule compensates the agent according to the log likelihood of the eventual outcome according to this distribution. The interpretation is that the agent is only providing partial information about the underlying density, so the principal first infers a full density according to the principle of maximum entropy, and then scores the agent using the standard log score. We stress that the exponential families framework is a tool in the construction of scoring rules at this point; we are not actually modeling any agent's belief via an exponential family.
   
-An advantage of this generalization of the log score is that, for many domains (multi-dimensional included) and expectations of interest, it leads to novel closed-form scoring rules. By examining the log densities of various exponential families, we can for instance obtain scoring rules for several different combinations of the arithmetic, geometric, and harmonic means, as well as higher order moments. The following examples illustrate the construction. Here, we have used $\mu$ and $\sigma$ for the true mean and variance and $\hmu$ and $\hsigma$ for the elicited mean and variance respectively (and $\hSigma$ for the variance of the multivariate normal).
+An advantage of this generalization of the log score is that, for many domains (multi-dimensional included) and expectations of interest, it leads to novel closed-form scoring rules. By examining the log densities of various exponential families, we can for instance obtain scoring rules for several different combinations of the arithmetic, geometric, and harmonic means, as well as higher order moments. The following examples illustrate the construction. Here, we have used $\mu$ and $\sigma$ for the true mean and variance and $\hmu$ and $\hsigma$ for the elicited mean and variance respectively (and $\hSigma$ for the covariance matrix of the multivariate normal).
 
 %
-\begin{example}
+\begin{example} \label{ex:multinomial}
 As a base measure we take the counting measure over the finite set $\{1,2,\ldots,d\}$, and we consider the statistic $\phi(i) \in \{0,1\}^d$ that maps outcome $i$ to the unit vector with component $i$ equal to 1. The expectation of $\phi(i)$ is simply the entire probability distribution $p$, which is a multinomial distribution (an instance of an exponential family). We recover the standard log scoring rule $S(\hat{p}, i) = \log \hat{p}(i)$. 
 \end{example}
 %
@@ -482,7 +485,7 @@ In a single-agent setting, a scoring rule is used to \emph{elicit} the agent's b
 
 In a prediction market an agent's expected belief $\mu$ is elicited indirectly through the purchase and sale of contingent claim securities. Under this approach, each component~$i$ of the statistic $\phi$ is interpreted as the payoff function of a security; that is, a single share of security $i$ pays off $\phi_i(x)$ when $x \in \mX$ occurs. Thus if the portfolio of shares held by the agent is $\delta \in \bR^d$, where entry $\delta_i$ corresponds to the number of shares of security $i$, then the payoff to the agent when $x$ occurs is evaluated by taking the inner product $\la \delta, \phi(x) \ra$. 
 
-As a concrete example, recall that in the classic finite-outcome case the statistic has a component for each outcome $x$ such that $\phi_x(x') = 1$ if $x' = x$ and 0 otherwise. Therefore the corresponding security pays 1 dollar if outcome $x$ occurs. (These are known as Arrow-Debreu securities.) In Example~\ref{ex:exponential} the one-dimensional statistic is $\phi(x) = x$, corresponding to a security whose payoff is linear in the outcome $x \in \bR_+$. (This amounts to a futures contract.) 
+To be concrete, recall from Example~\ref{ex:multinomial} that in the classic finite-outcome case the statistic has a component for each outcome $x$ such that $\phi_x(x') = 1$ if $x' = x$ and 0 otherwise. Therefore the corresponding security pays 1 dollar if outcome $x$ occurs. (These are known as Arrow-Debreu securities.) In Example~\ref{ex:exponential} the one-dimensional statistic is $\phi(x) = x$, corresponding to a security whose payoff is linear in the outcome $x \in \bR_+$. (This amounts to a futures contract.) 
 
 The standard way to implement a prediction market in the literature, due to~\citet{chen2007utility}, is via a centralized market maker. The market maker maintains a convex, differentiable cost function $C : \bR^d \rightarrow (-\infty,+\infty]$, where $C(\theta)$ records the revenue collected when the vector of outstanding shares is $\theta$. The cost to an agent of purchasing portfolio $\delta$ under a market state of $\theta$ is $C(\theta + \delta) - C(\theta)$, and therefore the instantaneous prices of the securities are given by the gradient $\grad C(\theta)$. 
 
@@ -506,7 +509,7 @@ This is of course exactly the log-partition function~(\ref{log-part}) for the ex
 
 The correspondence between the cost function~({\ref{lmsr-cost}) and the log-partition function~(\ref{log-part}) suggests the following interpretation. The market maker maintains an exponential family distribution over the state space $\mX$ parametrized by share vectors that lie in $\Theta$. When an agent buys shares, it moves the distribution's natural parameter so that the market prices matches its beliefs, or in other words the market's mean parametrization matches the agent's expectation. 
 
-There is a well-known duality between scoring rules and cost-function based markets~\citep{acv13,H03}. To see this in our context, recall from~(\ref{equalizer-rule}):
+There is a well-known duality between scoring rules and cost-function based markets~\citep{acv13,H03}. To see this in our context, recall from~(\ref{equalizer-rule}) that
 %
 \begin{equation*}
 \Exp_{\tp}[\log p(x;\hmu)] = \la \htheta, \mu \ra - T(\htheta)
@@ -535,7 +538,7 @@ recalling~(\ref{breg-div}). Now~\citet{BanerjeeDhGh05} have observed (among othe
 Let us now revisit our scoring rule examples from Section~\ref{sec:scoring} in the context of prediction markets. The relevant entities now are the payoff function, the effective domain of shares, and the cost function.
 %
 \begin{example}
-We consider a finite outcome space $\mX = \{1,2,\ldots,d\}$ and set up a market with an Arrow-Debreu security $\phi_i$ for every outcome $i$: the security pays off 1 if $i$ occurs and 0 otherwise. The log-partition function recovers the classical LMSR cost function~\citep{H07}:
+We consider a finite outcome space $\mX = \{1,2,\ldots,d\}$ and set up a market with an Arrow-Debreu security $\phi_i$ for every outcome $i$: the security pays off 1 if $i$ occurs and 0 otherwise. The log-partition function recovers the classical LMSR cost function:
 $C(\theta) = \log \sum_{i \in \mX} e^{\theta_i}.$
 The effective domain is $\Theta = \bR^d$, meaning that a security can always be bought or sold short.
 \end{example}
@@ -587,14 +590,14 @@ In this section we examine the aggregation behavior of the market when agents ar
 
 %The goal is to aggregate information from risk neutral agents who have a belief distribution over the natural parameters. This prior distribution is updated by the agents based on the current market state, They also each have to access to the empirical mean of sufficient statistics based on a fixed number  $m$ of data points. Assuming a conjugate prior, both the prior and posterior belief distributions on the natural parameters are also an exponential family distributions. 
 
-The exponential families framework is well-suited to reasoning about Bayesian updates. As before let the data distribution be given by $p(x;\theta)=\exp(\la\theta,\phi(x)\ra-T(\theta))$ where $T$ is the log partition function and $\phi$ are the sufficient statistics. Instead of direct beliefs about the data distribution the agent maintains a conjugate prior over the parameters $\theta$. Every exponential family admits a conjugate prior of the form
+The exponential families framework is well-suited to reasoning about Bayesian updates. As before let the data distribution be given by $p(x;\theta)=\exp(\la\theta,\phi(x)\ra-T(\theta))$ where $T$ is the log partition function and $\phi$ are the sufficient statistics. Instead of direct beliefs about the data distribution, the agent maintains a conjugate prior over the parameters $\theta$. Every exponential family admits a conjugate prior of the form
 %
-$$p(\theta;b_{0})=\exp(\la n\nu,\theta\ra + nT(\theta) - \psi(\nu,n)).$$
+$$p(\theta;n\nu, n)=\exp(\la n\nu,\theta\ra + nT(\theta) - \psi(\nu,n)).$$
 %
-Note that this is also an exponential family with natural parameter $b_0 = (n\nu,n)$ where $\nu \in \bR^d$ and $n$ is a positive integer. The sufficient statistic maps $\theta$ to $(\theta, T(\theta))$, and the log partition function $\psi$ is defined as the normalizer as usual. For a complete treatment of exponential families conjugate priors, see for instance~\citet{Barndorff78}. Now~\citet[Thm.\ 2]{diaconis79} and~\citet{jewell1974credible} have shown that
+Note that this is also an exponential family with natural parameter $(n\nu,n)$ where $\nu \in \bR^d$ and $n$ is a positive integer. The sufficient statistic maps $\theta$ to $(\theta, T(\theta))$, and the log partition function $\psi$ is defined as the normalizer as usual. For a complete treatment of exponential families conjugate priors, see for instance~\citep{Barndorff78}. Now~\citet[Thm.\ 2]{diaconis79} and~\citet{jewell1974credible} have shown that
 %
 \begin{equation}\label{eq:prior}
-\E_{\theta\sim b_{0}}\E_{x\sim \theta}[\phi(x)]=\nu,
+\E_{\theta\sim (n\nu,n)}\E_{x\sim \theta}[\phi(x)]=\nu,
 \end{equation}
 %
 meaning that $\nu = n \nu / n$ is the posterior mean. Thus, it is helpful to think of the prior as being based on a `phantom' sample of size $n$ and mean $\nu$. Suppose now that the agent observes an empirical sample with mean $\hmu$ and size $m$. By a standard derivation~\citep[see][]{diaconis79}, the posterior conjugate prior parameters become $n\nu \leftarrow n\nu + m\hmu$ and $n \leftarrow n+m$, and the posterior expectation~(\ref{eq:prior}) evaluates to
@@ -735,7 +738,7 @@ This objective is strictly concave, from the strict convexity of $T$. The optimu
 % 
 \end{proof}
 %
-We stress that the aggregation in Theorem~\ref{thm:exp-util} arises directly from the agents' choice of trades. The market maker does not need to know the risk aversion parameters. Note that as, $a$ tends to 0, we approach risk neutrality and the agent moves the share vector all the way to its private estimate $\htheta$. As $a$ grows larger (the agent grows more risk averse) the agent makes smaller trades to reduce it exposure, and the final state stays closer to the current state $\theta$. Update~(\ref{exp-update}) implies that, under the conditions of the theorem, a market that receives a sequence of myopic traders aggregates their natural parameters in the form of an exponentially weighted moving average. The final market estimates (i.e., prices) are obtained by applying $\grad T$ to this average.
+We stress that the aggregation in Theorem~\ref{thm:exp-util} arises directly from the agents' choice of trades. The market maker does not need to know the risk aversion parameters. Note that as $a$ tends to 0 we approach risk neutrality and the agent moves the share vector all the way to its private estimate $\htheta$. As $a$ grows larger (the agent grows more risk averse) the agent makes smaller trades to reduce it exposure, and the final state stays closer to the current state $\theta$. Update~(\ref{exp-update}) implies that, under the conditions of the theorem, a market that receives a sequence of myopic traders aggregates their natural parameters in the form of an exponentially weighted moving average. The final market estimates (i.e., prices) are obtained by applying $\grad T$ to this average.
 
 
 
@@ -803,23 +806,32 @@ Theorem \ref{thm:reptrades} implies that financial exposure can be equivalently 
 We have shown that every exponential-utility maximizing trader picks the share vector $\delta$ so that the eventual market state can be represented as a convex combination of the current market state and the natural parameter of his (exponential family) belief distribution. In this section we will compute the equilibrium state in an exponential family market with multiple such traders. 
 
 
-We draw a well-known result from game theory regarding the class of \emph{potential games}. We say a function $f(\vec{x})$ is at a \emph{local optimum} if changing any coordinate of $\vec{x}$ does not increase the value of $f$.
+We draw on a well-known result from game theory regarding the class of \emph{potential games}. We say a function $f(\vec{x})$ is at a \emph{local optimum} if changing any coordinate of $\vec{x}$ does not increase the value of $f$.
 %
 \begin{theorem}[\citet{monderer1996potential}]\label{thm:potl}
 Let $U_{i}(\vec{\delta})$ be the utility function of the $i^{th}$ trader given strategies $\vec{\delta}= (\delta_{1},\ldots,\delta_{i},\ldots,\delta_{n})$. If there exists a potential function $\Phi(\vec{\delta})$ such that $$U_{i}(\vec{\delta})-U_{i}(\vec{\delta}_{-i},\delta_{i}')=\Phi(\vec{\delta})-\Phi(\vec{\delta}_{-i},\delta_{i}')$$
 then $\vec{\delta}$ is a Nash equilibrium if and only if $\Phi(\vec{\delta})$ is at a local optimum.
 \end{theorem}
 %
-In the exponential family market, the cost function $C$ is identical to the log partition function $T$ defined in (\ref{log-part}).  Let $\vec{\delta}$ be the matrix of share vectors purchased by every trader in the market at equilibrium. Let $\theta$ be the initial market state, $\htheta_{i}$ the natural parameter of trader $i$'s belief distribution and $a_{i}$ his risk aversion parameter.
+In the exponential family market, the cost function $C$ is identical to the log partition function $T$ defined in (\ref{log-part}).  Let $\vec{\delta}$ be the matrix of share vectors purchased by every trader in the market at equilibrium. Let $\theta$ be the initial market state, $\htheta_{i}$ the natural parameter of trader $i$'s belief distribution, and $a_{i}$ his risk aversion parameter.
 % \jake{I need to fix a small technical detail with the fact that we are using the log utilities to use the potential argument.}
 
 Define a potential function as  $\Phi(\vec{\delta}) =  T\left(\theta+\sum_{i}\delta_{i}\right)+\sum_{i}\frac{1}{a_{i}}T(\htheta_{i}-a_{i}\delta_{i})$.
-
-Rather than working directly with the utilities of every trader, we will work with the log of their utility values.\footnote{It is important to note that the potential function analysis still applies for any monotonically increasing transformation of the traders' utility functions.} Now the log-utility of trader $i$ is $$U_{i}(\vec{\delta})=- T(\theta+\sum_{j}\delta_{j}) + T(\theta+\sum_{j\neq i}\delta_{j}) - \frac{1}{a_{i}} T(\htheta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\htheta_{i}).$$
+%
+Rather than working directly with the utilities of every trader, we will work with the log of their utility values.\footnote{It is important to note that the potential function analysis still applies for any monotonically increasing transformation of the traders' utility functions.} Now the log-utility of trader $i$ is 
+%
+$$
+\textstyle
+U_{i}(\vec{\delta})=- T(\theta+\sum_{j}\delta_{j}) + T(\theta+\sum_{j\neq i}\delta_{j}) - \frac{1}{a_{i}} T(\htheta_{i} - a_{i}\delta_{i}) + \frac{1}{a_{i}} T(\htheta_{i}).
+$$
+%
 We can now apply Theorem \ref{thm:potl}, hence the equilibrium state is obtained by jointly maximizing $\Phi(\vec{\delta})$ for each $\delta_{i}$:
-\begin{eqnarray*}
-\nabla_{\delta_{i}}\Phi(\vec{\delta})&=&\nabla T\left(\theta+\sum_{j=1}^{n}\delta_{i}\right)-\nabla T(\htheta_{i}-a_{i}\delta_{i}) = 0.
-\end{eqnarray*}
+%
+$$
+\textstyle
+\nabla_{\delta_{i}}\Phi(\vec{\delta})= \nabla T\left(\theta+\sum_{j=1}^{n}\delta_{j}\right)-\nabla T(\htheta_{i}-a_{i}\delta_{i}) = 0.
+$$
+%
 This leads to the following expression for the final market state.
 $$\theta+\sum_{j=1}^{n}\delta_{j}=
 \frac{\theta+\sum_{i=1}^{n}\left(\frac{\htheta_{i}}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
@@ -831,7 +843,7 @@ We see that the equilibrium state is a convex combination of the initial market 
 
 In this section, we consider the evolution of the market state when traders are budget-limited.
 % and their budgets are known to the market maker. We consider a cost-function based market with cost function $C$ and payoff $\phi(x)$ with non-negative payoff. 
-We assume that the traders trade in multiple instances of the market. That is, after the initial setup and trades, the outcome is revealed and the traders are paid off. Then, the market runs again with the same set of traders and the outcome drawn from a (possibly different) exponential family distribution. The goal of this section is to analyze how the budget of traders evolve under these circumstances. As before, the market price is interpreted as a probability density over the outcome space and the share vector as the natural parameter of an exponential family distribution. Consistent with the connections drawn in Section~\ref{sec:scoring} and throughout, we measure the error in prediction using the standard log loss.  
+We assume that the traders trade in multiple instances of the market. That is, after the initial setup and trades, the outcome is revealed and the traders are paid off. Then, the market runs again with the same set of traders and the outcome drawn from a (possibly different) exponential family distribution. The goal of this section is to analyze how the budgets of traders evolve under these circumstances. As before, the market price is interpreted as a probability density over the outcome space and the share vector as the natural parameter of an exponential family distribution. Consistent with the connections drawn in Section~\ref{sec:scoring} and throughout, we measure the error in prediction using the standard log loss.  
 
 
 We show that traders with faulty information can only impose a limited amount of additional loss to the market's prediction. Further, since informative traders experience an expected increase in budget,  they will eventually be unconstrained and allowed to carry out  unrestricted trades. Taken together, this means that while the market suffers limited damage from ill-informed traders, it is also able to make use of all the information from informative traders in the long run.
@@ -843,7 +855,7 @@ Let the current market state be given by $\theta$ and let the final market state
 
 Note that while an uninformative trader is unconstrained in his belief, the informative trader's belief corresponds to the parameter of the true distribution.
 \paragraph{Limited Damage}
-We will now quantify the error in prediction that the market maker might have to endure as a result of ill-informed entities entering the market. We assume that these entities trade in multiple instances of the market; thus the exposure of the market maker is over several rounds. The log loss function for $\theta$ shares held is defined as $L(\theta,x)=-\log p(x;\theta)=C(\theta)-\la \theta\phi(x)\ra$.
+We will now quantify the error in prediction that the market maker might have to endure as a result of ill-informed entities entering the market. We assume that these entities trade in multiple instances of the market; thus the exposure of the market maker is over several rounds. The log loss function for $\theta$ shares held is defined as $L(\theta,x)=-\log p(x;\theta)=C(\theta)-\la \theta,\phi(x)\ra$.
 
 \begin{lemma}\label{lem:damage}
 The loss induced on the market by an uninformative trader is bounded by his initial budget.
@@ -854,12 +866,12 @@ First consider the change in budget of a trader $i$ over multiple rounds of the 
 \alpha_{i}^{t}-\alpha_{i}^{t-1}&=&C(\theta)-C(\theta')-(\theta-\theta')^{T}\phi(x^{t})\\
 &=&L(\theta,x^{t})-L(\theta',x^{t})=\Delta_{i}^{t}
 \end{eqnarray*}
-
-Where $\Delta_{i}^{t}$ is called the myopic impact of a trader $i$ in round $t$. Thus, the myopic impact captures incremental gain in prediction due to the trader in a round and is equal to the change in his budget in that round.
+%
+Here $\Delta_{i}^{t}$ is called the myopic impact of a trader $i$ in round $t$. Thus, the myopic impact captures incremental gain in prediction due to the trader in a round and is equal to the change in his budget in that round.
 
 Since the market evolves so that the budget of any trader never falls below zero, the total myopic impact in $T$ rounds caused due to trader $i$ is $\Delta_{i}:=\sum_{t=1}^{T}\Delta_{i}^{t}= \sum_{t=1}^{T} (\alpha_{i}^{t} - \alpha_{i}^{t-1}) = \alpha_{i}^{T} - \alpha_{i}^{0}\geq -\alpha_{i}^{0}$.
 \end{proof}
-
+%
 An interesting aspect of Lemma~\ref{lem:damage} is that the log loss can be quantified in the same units as the traders' budgets.
 
 
@@ -887,7 +899,7 @@ D_{T}(\theta',\htheta)&=&D_{T}\left(\lambda\htheta+(1-\lambda)\theta,\htheta\rig
 = (1-\lambda) D_{T}( \theta ,\htheta)
 %\implies D_{\psi}(\theta',\beta)+aD_{\psi}(\theta',\beta)&\leq& aD_{\psi}( \theta ,\beta)\\
 \end{eqnarray*}¥
-A trader who adjusts the market state may expect positive profit $\geq \lambda D_{T}(\theta,\htheta)$.
+A trader who adjusts the market state may expect positive profit of at least $\lambda D_{T}(\theta,\htheta)$.
  \end{proof}
 
 We note one important aspect of Lemma~\ref{thm:growth}: the expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
@@ -898,9 +910,12 @@ This result suggests that, eventually, every informative trader will have the ab
 Notice that Lemma~\ref{thm:growth} only required that the market state to which the trader moves be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility by Theorem~\ref{thm:exp-util}. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{T}(\theta,\htheta)$ where $a$ is the exponential utility parameter. When the cost function is adjusted to $C_{\lambda}$ with an inverse liquidity parameter $\lambda$ as in Section \ref{sec:exputil},  the trader receives an expected payoff of at least $\frac{1}{a} D_{T}(\lambda\theta,\htheta)$.
 
 
-%\section{Conclusions}
-%\sindhu{Do we need this section?}
-%
+% Acknowledgments
+\begin{acks}
+We thank Rafael Frongillo and the anonymous referees for valuable feedback.
+\end{acks}
+
+
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
