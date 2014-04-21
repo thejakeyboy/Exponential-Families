@@ -1,21 +1,6 @@
-% Adjusted to add \usepackage[numbers]{natbib}
-% \bibliographystyle{acmsmall} and \documentclass[prodmode,acmec]{ec-acmsmall}
-% Jan 5, 2013 - David Parkes
-%
-% v2-acmsmall-sample.tex, dated March 6 2012
-% This is a sample file for ACM small trim journals
-%
-% Compilation using 'acmsmall.cls' - version 1.3 (March 2012), Aptara Inc.
-% (c) 2010 Association for Computing Machinery (ACM)
-%
-% Questions/Suggestions/Feedback should be addressed to => "acmtexsupport@aptaracorp.com".
-% Users can also go through the FAQs available on the journal's submission webpage.
-%
-% Steps to compile: latex, bibtex, latex latex
-%
-% For tracking purposes => this is v1.3 - March 2012
-
-\documentclass[prodmode,acmec]{ec-acmsmall} % Aptara syntax
+%\documentclass[prodmode]{acmsmall-ec14}
+\documentclass[prodmode,license]{acmsmall-ec14}
+%\documentclass[prodmode,permissions]{acmsmall-ec14}
 
 % Package to generate and customize Algorithm as per ACM style
 \usepackage[ruled]{algorithm2e}
@@ -27,11 +12,16 @@
 \IncMargin{-\parindent}
 
 % Metadata Information
-\acmVolume{X}
-\acmNumber{X}
-\acmArticle{X}
-\acmYear{2014}
-\acmMonth{2}
+%\acmVolume{X}
+%\acmNumber{X}
+%\acmArticle{X}
+%\acmYear{2014}
+%\acmMonth{2}
+
+\doi{2600057.2602896}
+
+\clubpenalty=10000 
+\widowpenalty = 10000
 
 \usepackage[numbers]{natbib}
 \usepackage{amsmath}
@@ -104,7 +94,7 @@
 
 \begin{document}
 % Page heads
-\markboth{Abernethy et al.}{Information Aggregation in Exponential Family Markets}
+%\markboth{Abernethy et al.}{Information Aggregation in Exponential Family Markets}
 % Title portion
 \title{Information Aggregation in Exponential Family Markets}
 \author{JACOB ABERNETHY
@@ -114,7 +104,7 @@ SINDHU KUTTY
 S\'{E}BASTIEN LAHAIE
 \affil{Microsoft Research, New York City}
 RAHUL SAMI
-\affil{University of Michigan, Ann Arbor\footnote{Current affiliation: Google, Inc. This work was done while the author was at the University of Michigan.}}}
+\affil{University of Michigan, Ann Arbor}}
 %%\author{GANG ZHOU
 %%\affil{College of William and Mary}
 %%YAFENG WU
@@ -164,15 +154,8 @@ We consider the design of prediction market mechanisms known as automated market
 % The remaining information (journal title, volume, article number, date, etc.) is 'auto-generated'.
 
 \begin{bottomstuff}
-%%This work is supported by the National Science Foundation, under
-%%grant CNS-0435060, grant CCR-0325197 and grant EN-CS-0329609.
-%%
-%%Author's addresses: G. Zhou, Computer Science Department,
-%%College of William and Mary; Y. Wu  {and} J. A. Stankovic,
-%%Computer Science Department, University of Virginia; T. Yan,
-%%Eaton Innovation Center; T. He, Computer Science Department,
-%%University of Minnesota; C. Huang, Google; T. F. Abdelzaher,
-%%(Current address) NASA Ames Research Center, Moffett Field, California 94035.
+Rahul Sami's current affiliation: Google, Inc. This work was done while the author was at the University of Michigan.
+Author's addresses: J. Abernethy and S. Kutty, Department of Electrical Engineering and Computer Science, University of Michigan, \url{{skutty, jabernet}@umich.edu}. S. Lahaie, Microsoft Research, New York City, \url{slahaie@microsoft.com}. Rahul Sami, Google Inc., \url{rahulsami@gmail.com}.
 \end{bottomstuff}
 
 \maketitle
@@ -921,14 +904,14 @@ Notice that Lemma~\ref{thm:growth} only required that the market state to which 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
-\bibliographystyle{acmsmall}
+%\bibliographystyle{acmsmall}
+
+\bibliographystyle{ACM-Reference-Format-Journals}
 \bibliography{maxentpredmkts}
+
+
+
 \end{document}
-
-
-
-
-
 %----------------------------------------------------------------------------------------
 
 \subsection{Properties of the Maximum Entropy Market}
