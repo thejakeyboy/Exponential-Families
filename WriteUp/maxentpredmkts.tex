@@ -137,7 +137,7 @@ RAHUL SAMI
 %       currently affiliated with NASA.
 
 \begin{abstract}
-We consider the design of prediction market mechanisms known as automated market makers. We show that we can design these mechanisms via the mold of \emph{exponential family distributions}, a popular and well-studied probability distribution template used in statistics. We give a full development of this relationship and explore a range of benefits. We draw connections between the information aggregation of market prices and the belief aggregation of learning agents that rely on exponential family distributions. We develop a very natural analysis of the market behavior as well as the price equilibrium under the assumption that the traders exhibit risk aversion according to exponential utility. We also consider similar aspects under alternative models, such as when traders are budget constrained.
+We consider the design of prediction market mechanisms known as automated market makers. We show that we can design these mechanisms via the mold of \emph{exponential family distributions}, a popular and well-studied probability distribution template used in statistics. We give a full development of this relationship and explore a range of benefits. We draw connections between the information aggregation of market prices and the belief aggregation of learning agents that rely on exponential family distributions. We develop a natural analysis of the market behavior as well as the price equilibrium under the assumption that the traders exhibit risk aversion according to exponential utility. We also consider similar aspects under alternative models, such as budget-constrained traders.
 %
 % In this paper, we draw connections between the aggregation performed by learning algorithms and the information aggregation done in prediction markets. We show that, under reasonable conditions, the behavior of rational traders can be understood as the result of performing a learning algorithm on their private data. Similarly,  the market state can be interpreted as a distribution over the outcome space. In particular, we show that a proper scoring rule can be derived from maximum entropy distributions. This scoring rule can be used as a general form of LMSR in prediction markets with over continuous outcome spaces. In order to provide insight on the behavior of rational traders in the market, we use the concept of exponential utility. We show that the traders' behavior can be understood as updating his belief using a Bayesian process and updating the market state in accordance with this utility function. These maxent prediction  markets can also be used to design  markets that are robust against adversarial traders. In fact, when traders are required to report their budgets and their beliefs, we can show that an informative trader eventually makes money and damaging traders eventually have limited influence in the market. Using ideas from convex analysis and the properties of the prediction market, we analyze the properties of the maxent market maker thus providing insight into the information content of the prediction market.
 \end{abstract}
@@ -145,9 +145,9 @@ We consider the design of prediction market mechanisms known as automated market
 \category{J.4}{Social and Behavioral Sciences}{Economics}
 \category{I.2.6} {Artificial Intelligence}{Learning}
 
-\terms{Algorithms, Economics}
+%\terms{Algorithms, Economics}
 
-\keywords{logarithmic score, exponential family, maximum entropy, risk aversion, budget constraints}
+\keywords{logarithmic score; exponential family; maximum entropy; risk aversion; budget constraints}
 
 %\acmformat{Jacob Abernethy, Sindhu Kutty, S\'{e}bastien Lahaie, and Rahul Sami, 2014. Information Aggregation in Exponential Family Markets}
 %%Gang Zhou, Yafeng Wu, Ting Yan, Tian He, Chengdu Huang, John A. Stankovic, and Tarek F. Abdelzaher, 2010. A multifrequency MAC specially designed for  wireless sensor network applications.
@@ -225,7 +225,7 @@ We consider the design of prediction market mechanisms known as automated market
 %- multiple trades
 %- multiple traders
 
-Prediction markets are aggregation mechanisms that allow market prices to be interpreted as predictive probabilities on an event. Each trader in the market is assumed to have some private information that he uses to make a prediction on the outcome of the event. Traders are allowed to report their beliefs by buying and selling securities whose ultimate payoff depends on the future outcome. This will affect the state of the market, thus updating the predictive probabilities for the event. Further, since the trades are done sequentially, the trader is allowed to observe all past trades in the market and update his private information based on this information. In this sense the market prices, which are in effect the prices at which the marginal trader is willing to buy or sell the available securities, can be interpreted as an aggregate ``consensus probability forecast'' of the event in question.
+Prediction markets are aggregation mechanisms that allow market prices to be interpreted as predictive probabilities on an event. Each trader in the market is assumed to have some private information that he uses to make a prediction on the outcome of the event. Traders are allowed to report their beliefs by buying and selling securities whose ultimate payoff depends on the future outcome. This will affect the state of the market, thus updating the predictive probabilities for the event. Further, since the trades are done sequentially, the trader may observe all past trades in the market and update his private beliefs based on this information. In this sense the market prices, which are in effect the prices at which the marginal trader is willing to buy or sell the available securities, can be interpreted as an aggregate ``consensus probability forecast'' of the event in question.
 % For example, the Iowa Electronic Market predicts the outcome of a presidential election by allowing one to trade on securities that pay off only if the Democratic candidate wins, or only if the Republican candidate wins. 
 
 % JAKE: I think most people reading this will have enough background on markets.
@@ -241,10 +241,10 @@ Prediction markets are aggregation mechanisms that allow market prices to be int
 %We give an brief overview of the work on prediction market design below. 
 Much of the work on prediction market design has focused heavily on structural properties of the mechanism: incentive compatibility, the market maker loss, the available liquidity, the fluctuations of the prices as a function of the trading volume, to name a few. Absent from much of the literature is a corresponding \emph{semantics} of the market behavior or the observed prices. That is, how can we interpret the equilibrium market state when we have a number of traders with diverse beliefs on the underlying state of the world? In what sense is the market an aggregation mechanism? Do price changes relate to our usual Bayesian notion of information incorporation via posterior updating?
 
-In the present work we show that a number of classical statistical tools can be leveraged to design a prediction market framework in the mold of \emph{exponential family distributions}; we show that this statistical framework leads to a number of attractive properties and interpretations. Common concepts in statistics---including \emph{entropy maximization}, \emph{log loss}, and \emph{bayesian inference}---relate to natural aspects of our class of mechanisms. In particular, the central objects in our market framework can be interpreted via concepts used to define exponential families:
+In the present work we show that a number of classical statistical tools can be leveraged to design a prediction market framework in the mold of \emph{exponential family distributions}; we show that this statistical framework leads to a number of attractive properties and interpretations. Common concepts in statistics---including \emph{entropy maximization}, \emph{log loss}, and \emph{Bayesian inference}---relate to natural aspects of our class of mechanisms. In particular, the central objects in our market framework can be interpreted via concepts used to define exponential families:
 \begin{itemize}
 	\item the market's \emph{payoff function} corresponds to the \emph{sufficient statistics} of the distribution;
-	\item the vector of \emph{outstanding shares} in the market corresponds to the \emph{natural parameter vector} of the distribution;
+	\item the vector of \emph{outstanding shares} in the market corresponds to the \emph{natural parameter} of the distribution;
 	\item the market prices correspond to \emph{mean parameters};
 	\item the market's cost function corresponds to the distribution's \emph{log-partition} function.
 %	\item the profit potential for a trader corresponds to a \emph{Kullback-Leibler divergence} between the trader's belief and that of the market.
@@ -257,7 +257,7 @@ We turn our attention to market design in Section~\ref{sec:maxentmarkets} and gi
 	\item Trader behavior varies depending on how they assimilate information; for example, should we consider our agents as Bayesians or frequentists. In Section~\ref{sec:bayesians} we consider traders that use a conjugate prior to update their beliefs, and we study how their trades would affect the market state.
 	\item In Section~\ref{sec:exputil} we consider \emph{risk-averse} agents that optimize their bets according to exponential utility. 
 	%We show how this dovetails nicely with the notion of a \emph{certainty equivalent} which is often used in risk-aversion settings. 
-	In this case we can characterize precisely how a single trader interacts with the market, as well as the equilibrium reached given multiple traders; this result is achieved via a potential game argument. The eventual market state is a weighted combination of traders' beliefs and the initial state; the weights are proportional to risk aversion parameters. 
+	In this case we can characterize precisely how a single trader interacts with the market, as well as the equilibrium reached given multiple traders; the latter result is achieved via a potential game argument. The eventual market state is a weighted combination of traders' beliefs and the initial state; the weights are proportional to risk aversion parameters.
 	\item In Section~\ref{sec:budgets} we consider \emph{budget-limited traders} who are constrained in how much they influence the market. We analyze the market  under these circumstances; we are able to show that traders with good information can expect to profit and their influence over the market state increases over time whereas malicious traders have limited impact on the market.
 \end{itemize}
 
@@ -268,7 +268,7 @@ We turn our attention to market design in Section~\ref{sec:maxentmarkets} and gi
 \textbf{Related Work.}
 The notion of an exponential family distribution is fundamental to this paper. For comprehensive introductions to these distributions, see~\citep{Barndorff78,WainJordan08}. Exponential families are intimately tied to the notions of log loss and entropy, but can be generalized to other types of convex losses and information, as shown by~\citet{GrunwaldDawid}, who also make a connection to scoring rules.
 
-Scoring rules are a measure of prediction accuracy, and we are concerned here with scoring rules for statistic expectations, typically over infinite outcome spaces. Such rules have been characterized by~\citet{Savage71}; see also~\citep{frongillo2013elicitingmeans,lambert2008eliciting}. Our rules are of course special cases of this characterization, but it appears the range of elegant scoring rules that arise from exponential families has not been appreciated. Indeed,~\citet{gneiting2007strictly} observe that specific instances of scoring rules for continuous outcomes are lacking, and survey various possibilities.
+Scoring rules are a measure of prediction accuracy, and we are concerned here with scoring rules for statistic expectations, typically over infinite outcome spaces. Such rules have been characterized by~\citet{Savage71}; see also~\citep{AbernethyFr12,gneiting2007strictly,lambert2008eliciting}. Our rules are of course special cases of this characterization, but it appears the range of elegant scoring rules that arise from exponential families has not been appreciated. Indeed,~\citet{gneiting2007strictly} observe that specific instances of scoring rules for continuous outcomes are lacking, and survey various possibilities.
 % In an early work,~\citet{matheson1976scoring} designed scoring rules for real-valued outcomes from those for binary outcomes.
 
 In a seminal paper,~\citet{H03} showed how to form a prediction market based on a sequentially-shared scoring rule, and specifically proposed the logarithmic market scoring rule (LMSR) based on log loss for finite outcome spaces~\citep{H07}. The markets we introduce are direct generalizations of the LMSR to continuous outcomes, but take the form of cost-function based markets as introduced by~\citet{chen2007utility}.~\citet{Gao09} and~\citet{measurable13} also consider extending various market makers to infinite outcome spaces.
@@ -284,7 +284,7 @@ We are not aware of any works that consider risk-averse agents within cost-funct
 
 We consider a measurable space consisting of a set of (mutually exclusive, exhaustive) outcomes $\mX$ together with a $\sigma$-algebra $\mF$. An agent or expert has a \emph{belief} over potential outcomes taking the form of a probability measure absolutely continuous with respect to a base measure~$\nu$.\footnote{Recall that a measure $P$ is absolutely continuous with respect to~$\nu$ if $P(A) = 0$ for every $A \in \mF$ for which $\nu(A) = 0$. In essence the base measure~$\nu$ restricts the support of $P$. In our examples $\nu$ will typically be a restriction of the Lebesgue measure for continuous outcomes or the counting measure for discrete outcomes.} Throughout we represent the belief as the corresponding density $p$ with respect to~$\nu$. Let $\mP$ denote the set of all such probability densities.
 
-We are interested in eliciting information about the agent's belief, in particular expectation information. Let $\phi: \mX \rightarrow \bR^d$ be a vector-valued random variable or \emph{statistic}, where $d$ is finite. The aim is to elicit $\mu = \E_{p}[\phi(x)]$ where $x$ is the random outcome. A \emph{scoring rule} is a device for this purpose. Let $$\mM = \left\{ \mu \in \bR^d : \Exp_p[\phi(x)] = \mu,\, \mbox{for some $p \in \mP$} \right\}$$ be the set of realizable statistic expectations.  A scoring rule $S : \mM \times \mX \rightarrow \bR \cup \{-\infty\}$ pays the agent $S(\hmu,x)$ according to how well its report $\hmu \in \mM$ agrees with the eventual outcome $x \in \mX$. The following definition is due to~\citet{lambert2008eliciting}.
+We are interested in eliciting information about the agent's belief, in particular expectation information. Let $\phi: \mX \rightarrow \bR^d$ be a vector-valued random variable or \emph{statistic}, where $d$ is finite. The aim is to elicit $\mu = \E_{p}[\phi(x)]$ where $x$ is the random outcome. A \emph{scoring rule} is a device for this purpose. Let $$\mM = \left\{ \mu \in \bR^d : \Exp_p[\phi(x)] = \mu,\, \mbox{for some $p \in \mP$} \right\}$$ be the set of realizable statistic expectations. Unless otherwise mentioned, all integrals including expectations are taken with respect to base measure $\nu$, which is therefore implicit in many of the formulas. A scoring rule $S : \mM \times \mX \rightarrow \bR \cup \{-\infty\}$ pays the agent $S(\hmu,x)$ according to how well its report $\hmu \in \mM$ agrees with the eventual outcome $x \in \mX$. The following definition is due to~\citet{lambert2008eliciting}.
 %
 \begin{definition} \label{def:proper-score}
 A scoring rule $S$ is  \emph{proper} for statistic $\phi$ if for each $\mu \in \mM$ and $p \in \mP$ with expected statistic $\mu$, we have for all $\hmu \neq \mu$
@@ -343,7 +343,9 @@ The density is stated here in terms of its \emph{natural} parametrization $\thet
 T(\theta) = \log \int_{\mX} \exp \la \theta, \phi(x) \ra \,d\nu(x).
 \end{equation}
 %
-The function $T$ is known as the \emph{log-partition} or \emph{cumulant} function corresponding to the exponential family. Its domain is $\Theta = \{ \theta \in \bR^d : T(\theta) < +\infty \}$, called the natural parameter space. The exponential family is \emph{regular} if $\Theta$ is open---almost all exponential families of interest, and all those we consider in this work, are regular. The family is \emph{minimal} if there is no $\alpha \in \Theta$ such that $\la \alpha, \phi(x) \ra$ is a constant over $\mX$ ($\nu$-almost everywhere); minimality is a property of the associated statistic $\phi$, usually called the \emph{sufficient statistic} in the literature. 
+The function $T$ is known as the \emph{log-partition} or \emph{cumulant} function corresponding to the exponential family. Its domain is $\Theta = \{ \theta \in \bR^d : T(\theta) < +\infty \}$, called the natural parameter space, and we assume throughout that it is nonempty.\footnote{This may impose additional conditions on the choice of base measure $\nu$ in certain special cases. For instance, if the density over $\bR$ is known to have unit variance and statistic $\phi(x) = x$, then one uses the base measure $\nu(x) = e^{-x^2/2}$ leading to a normal distribution with fixed variance~\citep{Barndorff78}.}
+%
+The exponential family is \emph{regular} if $\Theta$ is open---almost all exponential families of interest, and all those we consider in this work, are regular. The family is \emph{minimal} if there is no $\alpha \in \Theta$ such that $\la \alpha, \phi(x) \ra$ is a constant over $\mX$ ($\nu$-almost everywhere); minimality is a property of the associated statistic $\phi$, usually called the \emph{sufficient statistic} in the literature. 
 
 Some commonly studied distributions that are in fact exponential families include the binomial, beta and normal distributions. To see for instance, that the normal distribution is an exponential family note that instead of the usual parametrization using mean  $\mu$ and  variance $\sigma$, it can be parametrized in terms of $\vec{\theta}=(\theta_{1},\theta_{2})$ where $\theta_{1}=\frac{\mu}{\sigma^{2}}$ and $\theta_{2}=\frac{-1}{2\sigma^{2}}$,  with corresponding log partition function $-\frac{\beta_{1}^{2}}{4\beta_{2}}-\frac{1}{2}\log(-2\beta_{2})$.
 
@@ -389,7 +391,7 @@ Let $\mu,\hmu \in \mM$ be the agent's true belief and an alternative report, and
 & = & T(\htheta) - T(\theta) - \la \htheta - \theta, \grad T(\theta) \ra. \label{breg-div}
 \end{eqnarray}
 %
-The latter is positive by the strict convexity of $T$, which shows that the log score is proper. For the converse, assume the defined log score is proper. By the Savage characterization of proper scoring rules for expectations (see~\citet[Thm.\ 1]{gneiting2007strictly} and~\citet{Savage71}), we must have
+The latter is positive by the strict convexity of $T$, which shows that the log score is proper. For the converse, assume the defined log score is proper. By the Savage characterization of proper scoring rules for expectations (see~\citet[Thm.\ 11]{AbernethyFr12}), we must have
 %
 $$
 S(\mu,x) = G(\mu) - \la \grad G(\mu), \mu - \phi(x) \ra
@@ -404,7 +406,9 @@ for some strictly convex function $G$. Let $T = G^*$, so that $\grad G = {\grad 
 which shows that $p(x;\mu)$ takes the form of an exponential family.
 \end{proof}
 %
-As further intuition for the result, note that~(\ref{breg-div}) is the definition of the `Bregman divergence' with respect to strictly convex function $T$, written $D_T$. Therefore we have 
+It has been understood since~\citep{mccarthy1956measures,Savage71} that scoring rules for densities and expectations can be characterized in terms of an underlying convex function. The generalized log scoring rule of Theorem~\ref{maxent-score} obtains by applying the modern characterization of~\citet{AbernethyFr12} to the optimal value function $G$ (negative maximum entropy). \citet[Thm.\ 6]{BanerjeeDhGh05} prove a similar result by showing a bijection between exponential families and Bregman divergences.
+
+The notion of a Bregman divergence in fact provides further intuition for the result. Note that~(\ref{breg-div}) is the definition of the Bregman divergence with respect to strictly convex function $T$, written $D_T$. Therefore we have 
 %
 \begin{equation*}
 \Exp_p[\log p(x;\mu)] - \Exp_p[\log p(x;\hmu)] = D_T(\htheta,\theta) = D_G(\mu, \hmu),
@@ -414,9 +418,16 @@ where the last equality is a well-known identity relating the Bregman divergence
 
 \subsection{Examples: Moments over the Real Line}
 
-Theorem~\ref{maxent-score} leads to a straightforward procedure for constructing score rules for expectations. Define the relevant statistic, and consider the maximum entropy (equivalently, exponential family) distribution consistent with the agent's reported mean $\mu$. The scoring rule compensates the agent according to the log likelihood of the eventual outcome according to this distribution. The interpretation is that the agent is only providing partial information about the underlying density, so the principal first infers a full density according to the principle of maximum entropy, and then scores the agent using the usual log score.
+Theorem~\ref{maxent-score} leads to a straightforward procedure for constructing score rules for expectations. Define the relevant statistic, and consider the maximum entropy (equivalently, exponential family) distribution consistent with the agent's reported mean $\mu$. The scoring rule compensates the agent according to the log likelihood of the eventual outcome according to this distribution. The interpretation is that the agent is only providing partial information about the underlying density, so the principal first infers a full density according to the principle of maximum entropy, and then scores the agent using the standard log score. We stress that the exponential families framework is a tool in the construction of scoring rules; we are not actually modeling any agent's belief via an exponential family.
   
 An advantage of this generalization of the log score is that, for many domains (multi-dimensional included) and expectations of interest, it leads to novel closed-form scoring rules. By examining the log densities of various exponential families, we can for instance obtain scoring rules for several different combinations of the arithmetic, geometric, and harmonic means, as well as higher order moments. The following examples illustrate the construction. Here, we have used $\mu$ and $\sigma$ for the true mean and variance and $\hmu$ and $\hsigma$ for the elicited mean and variance respectively (and $\hSigma$ for the variance of the multivariate normal).
+
+%
+\begin{example}
+As a base measure we take the counting measure over the finite set $\{1,2,\ldots,d\}$, and we consider the statistic $\phi(i) \in \{0,1\}^d$ that maps outcome $i$ to the unit vector with component $i$ equal to 1. The expectation of $\phi(i)$ is simply the entire probability distribution $p$, which is a multinomial distribution (an instance of an exponential family). We recover the standard log scoring rule $S(\hat{p}, i) = \log \hat{p}(i)$. 
+\end{example}
+%
+
 %
 \begin{example} \label{ex:exponential}
 As base measure we take the Lebesgue restricted to $[0,+\infty)$, and we consider the statistic $\phi(x) = x$ so that we are simply eliciting the mean. The maximum entropy distribution with a given mean $\mu$ is the exponential distribution, and taking its log density gives the scoring rule
@@ -539,6 +550,14 @@ recalling~(\ref{breg-div}). Now~\citet{BanerjeeDhGh05} have observed (among othe
 \subsection{Examples: Real Line and the Sphere}
 
 Let us now revisit our scoring rule examples from Section~\ref{sec:scoring} in the context of prediction markets. The relevant entities now are the payoff function, the effective domain of shares, and the cost function.
+%
+\begin{example}
+We consider a finite outcome space $\mX = \{1,2,\ldots,d\}$ and set up a market with an Arrow-Debreu security $\phi_i$ for every outcome $i$: the security pays off 1 if $i$ occurs and 0 otherwise. The log-partition function recovers the classical LMSR cost function~\citep{H07}:
+$C(\theta) = \log \sum_{i \in \mX} e^{\theta_i}.$
+The effective domain is $\Theta = \bR^d$, meaning that a security can always be bought or sold short.
+\end{example}
+%
+
 %
 \begin{example} \label{ex:exp-market}
 We consider outcomes over the positive reals $\bR_+$ and set up a market for the expected outcome, consisting of a single security that pays off $\phi(x) = x$. The log partition function of the exponential distribution leads to the following cost function:
@@ -733,8 +752,7 @@ This objective is strictly concave, from the strict convexity of $T$. The optimu
 % 
 \end{proof}
 %
-
-Note that as, $a$ tends to 0, we approach risk neutrality and the agent moves the share vector all the way to its private estimate $\htheta$. As $a$ grows larger (the agent grows more risk averse) the agent makes smaller trades to reduce it exposure, and the final state stays closer to the current state $\theta$. Update~(\ref{exp-update}) implies that, under the conditions of the theorem, a market that receives a sequence of myopic traders aggregates their natural parameters in the form of an exponentially weighted moving average. The final market estimates (i.e., prices) are obtained by applying $\grad T$ to this average.
+We stress that the aggregation in Theorem~\ref{thm:exp-util} arises directly from the agents' choice of trades. The market maker does not need to know the risk aversion parameters. Note that as, $a$ tends to 0, we approach risk neutrality and the agent moves the share vector all the way to its private estimate $\htheta$. As $a$ grows larger (the agent grows more risk averse) the agent makes smaller trades to reduce it exposure, and the final state stays closer to the current state $\theta$. Update~(\ref{exp-update}) implies that, under the conditions of the theorem, a market that receives a sequence of myopic traders aggregates their natural parameters in the form of an exponentially weighted moving average. The final market estimates (i.e., prices) are obtained by applying $\grad T$ to this average.
 
 
 
