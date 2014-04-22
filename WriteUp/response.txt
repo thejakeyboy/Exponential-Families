@@ -1,5 +1,9 @@
 - Reduce complications in notation: Please only keep necessary notation in this paper. @sebastien
   - For example, I found the reference to Bergman divergence a little annoying. I also think that maximum entropy principle is overemphasized---proving that the proposed scoring rule is proper is enough to me. I also got lost at the last paragraph of Section 1.
+- P3: Section 2, after first paragraph. Please clarify that P contains ALL distributions on the outcome space. @sindhu
+  "already says that?"
+- P4, last sentence. Please quote what exactly was proven by [Grunwald and Dawid] @sindhu
+  "i'm not sure about this one"
 
 - intro revision: we meant this comment for the narrow case of MSR-style markets. @jake
   - Ostrovsky and of Wolfers and Zitzewitz are exactly about these issues. Pennock, in his Ph.D. thesis (1999), asks the question of what happens in equilibrium when traders have different priors and budget constraints, and shows that in equilibrium, the price can be interpreted as a budget-weighted average of trader beliefs. Beyond this, most of the empirical work on prediction markets is asking exactly the question of what prediction market prices actually mean. The recent working paper of Rothschild and Sethi ("Trading Strategies and Market Microstructure: Evidence from a Prediction Market") discusses how to interpret prices in the context of a continuous market rather than equilibrium prices -- the references in that paper are also worth looking at. Much of the work on manipulation is also implicitly focused on exactly this question (including the paper "Gaming Prediction Markets" with one of the authors of this paper as a co-author!)
@@ -32,10 +36,6 @@
   "changed statement of thm 2.2 to state the relationship between \mu and \phi explicitly"
 - [COMPLETE] examples of commonly studied distributions that can be modeled by the exponential family studied in this paper. @sindhu 
   " i added examples before prop 2.1 (normal, binomial and beta) and added a detailed mapping for the normal distribution"
-- P3: Section 2, after first paragraph. Please clarify that P contains ALL distributions on the outcome space. @sindhu
-  "already says that?"
-- P4, last sentence. Please quote what exactly was proven by [Grunwald and Dawid] @sindhu
-  "i'm not sure about this one"
 [COMPLETE]- The importance of the underlying measure v is understated. If v is always the Lebesgue measure then many distributions cannot be modeled by the exponential family as presented in the paper, e.g. normal distributions with fixed variance. Many discussions and proofs are made without reference to v. My question is: is it true that all the results and comments can be applied to arbitrary v? (I just checked a few but not all since many calculations are already oversimplified.) @sebastien: clarified that base measure is implicit in integrals.
 [COMPLETE] -  Please give an example of non-Lebesgue v: explained the case of fixed variance, unknown mean in a new footnote.
 [COMPLETE]- Can you model classical prediction markets with finite outcome space under the proposed framework? If so then what distribution in the exponential family its correspond to? @sebastien: added examples of scoring rules and prediction markets with finite outcome space, i.e., the usual log score and LMSR.
