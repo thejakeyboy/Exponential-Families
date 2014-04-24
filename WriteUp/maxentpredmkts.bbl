@@ -1,0 +1,376 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{00}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{{\tt DOI:}\penalty0{#1}\ }
+  \fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       #1{#1}          \fi
+
+\bibitem[\protect\citeauthoryear{Abernethy, Chen, and Vaughan}{Abernethy
+  et~al\mbox{.}}{2013}]%
+        {acv13}
+{Jacob Abernethy}, {Yiling Chen}, {and} {Jennifer~Wortman Vaughan}. 2013.
+\newblock \showarticletitle{Efficient market making via convex optimization,
+  and a connection to online learning}.
+\newblock {\em ACM Transactions on Economics and Computation\/} {1}, 2 (May
+  2013).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Abernethy and Frongillo}{Abernethy and
+  Frongillo}{2012}]%
+        {AbernethyFr12}
+{Jacob Abernethy} {and} {Rafael~M. Frongillo}. 2012.
+\newblock \showarticletitle{A characterization of scoring rules for linear
+  properties}. In {\em Proceedings of the 25th Annual Conference on Learning
+  Theory}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Banerjee, Dhillon, and Ghosh}{Banerjee
+  et~al\mbox{.}}{2005a}]%
+        {BanerjeeDhGh05b}
+{Arindam Banerjee}, {Inderjit~S. Dhillon}, {and} {Joydeep Ghosh}. 2005a.
+\newblock \showarticletitle{Clustering with Bregman divergences}.
+\newblock {\em Journal of Machine Learning Research\/}  {6} (2005), 1705--1749.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Banerjee, Dhillon, Ghosh, and Sra}{Banerjee
+  et~al\mbox{.}}{2005b}]%
+        {BanerjeeDhGh05}
+{Arindam Banerjee}, {Inderjit~S. Dhillon}, {Joydeep Ghosh}, {and} {Suvrit Sra}.
+  2005b.
+\newblock \showarticletitle{Clustering on the unit hypersphere using von
+  Mises-Fisher distributions}.
+\newblock {\em Journal of Machine Learning Research\/}  {6} (2005), 1345--1382.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Barndorff-Nielsen}{Barndorff-Nielsen}{1978}]%
+        {Barndorff78}
+{Ole Barndorff-Nielsen}. 1978.
+\newblock {\em Information and Exponential Families in Statistical Theory}.
+\newblock Wiley Publishers.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Ben-Tal and Teboulle}{Ben-Tal and
+  Teboulle}{2007}]%
+        {ben2007old}
+{Aharon Ben-Tal} {and} {Marc Teboulle}. 2007.
+\newblock \showarticletitle{An old-new concept of convex risk measures: The
+  optimized certainty equivalent}.
+\newblock {\em Mathematical Finance\/} {17}, 3 (2007), 449--476.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Chen and Pennock}{Chen and Pennock}{2007}]%
+        {chen2007utility}
+{Yiling Chen} {and} {David~M. Pennock}. 2007.
+\newblock \showarticletitle{A utility framework for bounded-loss market
+  makers}. In {\em In Proceedings of the 23rd Conference on Uncertainty in
+  Artificial Intelligence (UAI)}. 49--56.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Chen, Ruberry, and Wortman~Vaughan}{Chen
+  et~al\mbox{.}}{2013}]%
+        {measurable13}
+{Y. Chen}, {Mike Ruberry}, {and} {J. Wortman~Vaughan}. 2013.
+\newblock \showarticletitle{Cost function market makers for measurable spaces}.
+  In {\em Proceedings of the 14th {ACM} Conference on Electronic Commerce}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Chen and Vaughan}{Chen and Vaughan}{2010}]%
+        {chen2010new}
+{Y. Chen} {and} {{J.W.} Vaughan}. 2010.
+\newblock \showarticletitle{A new understanding of prediction markets via
+  no-regret learning}. In {\em Proceedings of the 11th {ACM} Conference on
+  Electronic Commerce (EC)}. 189--198.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Dawid}{Dawid}{1998}]%
+        {Dawid98}
+{A.~P. Dawid}. 1998.
+\newblock {\em Coherent measures of discrepancy, uncertainty and dependence
+  with applications to Bayesian predictive experimental design}.
+\newblock {T}echnical {R}eport 139. University College London, Dept. of
+  Statistical Science.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Dawid and Sebastiani}{Dawid and
+  Sebastiani}{1999}]%
+        {dawid1999coherent}
+{A~Philip Dawid} {and} {Paola Sebastiani}. 1999.
+\newblock \showarticletitle{Coherent dispersion criteria for optimal
+  experimental design}.
+\newblock {\em Annals of Statistics\/}  {27} (1999), 65--81.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Diaconis and Ylvisaker}{Diaconis and
+  Ylvisaker}{1979}]%
+        {diaconis79}
+{Persi Diaconis} {and} {Donald Ylvisaker}. 1979.
+\newblock \showarticletitle{Conjugate priors for exponential families}.
+\newblock {\em Annals of Statistics\/} {7}, 2 (1979), 269--281.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{F{\"o}llmer and Knispel}{F{\"o}llmer and
+  Knispel}{2011}]%
+        {follmer2011entropic}
+{Hans F{\"o}llmer} {and} {Thomas Knispel}. 2011.
+\newblock \showarticletitle{Entropic risk measures: Coherence vs. convexity,
+  model ambiguity and robust large deviations}.
+\newblock {\em Stochastics and Dynamics\/}  {11} (2011), 333--351.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{F\"{ollmer} and Schied}{F\"{ollmer} and
+  Schied}{2002}]%
+        {follmerRisk}
+{Hans F\"{ollmer}} {and} {Alexander Schied}. 2002.
+\newblock \showarticletitle{Convex measures of risk and trading constraints}.
+\newblock {\em Finance and Stochastics\/} {6}, 4 (2002), 429--447.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{F\"{o}llmer and Schied}{F\"{o}llmer and
+  Schied}{2004}]%
+        {follmerFinance}
+{Hans F\"{o}llmer} {and} {Alexander Schied}. 2004.
+\newblock {\em Stochastic Finance: An Introduction in Discrete Time}.
+\newblock Walter de Gruyter.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Frongillo, Penna, and Reid}{Frongillo
+  et~al\mbox{.}}{2012}]%
+        {FrongilloPeRe12}
+{Rafael~M. Frongillo}, {Nicol\'{a}s~Della Penna}, {and} {Mark~D. Reid}. 2012.
+\newblock \showarticletitle{Interpreting prediction markets: a stochastic
+  approach}. In {\em Proceedings of Neural Information Processing Systems
+  (NIPS)}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Frongillo and Reid}{Frongillo and
+  Reid}{2013}]%
+        {FrongilloRe13}
+{Rafael~M. Frongillo} {and} {Mark~D. Reid}. 2013.
+\newblock \showarticletitle{Convex foundations for generalized MaxEnt models}.
+  In {\em Proceedings of the 33rd International Workshop on Bayesian Inference
+  and Maximum Entropy Methods in Science and Engineering (MaxEnt}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Gao, Chen, and Pennock}{Gao
+  et~al\mbox{.}}{2009}]%
+        {Gao09}
+{Xi Gao}, {Yiling Chen}, {and} {David~M. Pennock}. 2009.
+\newblock \showarticletitle{Betting on the real line}. In {\em Proceedings of
+  the 5th International Workshop on Internet and Network Economics (WINE)}.
+  553--560.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Gneiting and Raftery}{Gneiting and
+  Raftery}{2007}]%
+        {gneiting2007strictly}
+{T. Gneiting} {and} {{A.E.} Raftery}. 2007.
+\newblock \showarticletitle{Strictly proper scoring rules, prediction, and
+  estimation}.
+\newblock {\it J. Amer. Statist. Assoc.} {102}, 477 (2007), 359--378.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Gr{\"u}nwald and Dawid}{Gr{\"u}nwald and
+  Dawid}{2004}]%
+        {GrunwaldDawid}
+{Peter Gr{\"u}nwald} {and} {A.~P. Dawid}. 2004.
+\newblock \showarticletitle{Game theory, maximum entropy, minimum discrepancy
+  and robust Bayesian decision theory}.
+\newblock {\em Annals of Statistics\/} {32}, 4 (2004), 1367--1433.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Hanson}{Hanson}{2003}]%
+        {H03}
+{R. Hanson}. 2003.
+\newblock \showarticletitle{Combinatorial information market design}.
+\newblock {\em Information Systems Frontiers\/} {5}, 1 (2003), 105--119.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Hanson}{Hanson}{2007}]%
+        {H07}
+{R. Hanson}. 2007.
+\newblock \showarticletitle{Logarithmic market scoring rules for modular
+  combinatorial information aggregation}.
+\newblock {\em Journal of Prediction Markets\/} {1}, 1 (2007), 3--15.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Hiriart-Urruty and
+  Lemar\'{e}chal}{Hiriart-Urruty and Lemar\'{e}chal}{2000}]%
+        {HiriartLe00}
+{Jean-Baptiste Hiriart-Urruty} {and} {Claude Lemar\'{e}chal}. 2000.
+\newblock {\em Fundamentals of Convex Analysis}.
+\newblock Springer.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Jewell}{Jewell}{1974}]%
+        {jewell1974credible}
+{William~S Jewell}. 1974.
+\newblock \showarticletitle{Credible means are exact Bayesian for exponential
+  families}.
+\newblock {\em Astin Bulletin\/} {8}, 1 (1974), 77--90.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Lambert, Pennock, and Shoham}{Lambert
+  et~al\mbox{.}}{2008}]%
+        {lambert2008eliciting}
+{N.~S Lambert}, {D.~M Pennock}, {and} {Y. Shoham}. 2008.
+\newblock \showarticletitle{Eliciting properties of probability distributions}.
+  In {\em Proceedings of the 9th {ACM} Conference on Electronic Commerce}.
+  129--138.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{McCarthy}{McCarthy}{1956}]%
+        {mccarthy1956measures}
+{John McCarthy}. 1956.
+\newblock \showarticletitle{Measures of the value of information}.
+\newblock {\em Proceedings of the National Academy of Sciences (PNAS)\/} {42},
+  9 (1956), 654.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Monderer and Shapley}{Monderer and
+  Shapley}{1996}]%
+        {monderer1996potential}
+{Dov Monderer} {and} {Lloyd~S Shapley}. 1996.
+\newblock \showarticletitle{Potential games}.
+\newblock {\em Games and Economic Behavior\/} {14}, 1 (1996), 124--143.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Ostrovsky}{Ostrovsky}{2012}]%
+        {ostrovsky2012}
+{Michael Ostrovsky}. 2012.
+\newblock \showarticletitle{Information aggregation in dynamic markets with
+  strategic traders}.
+\newblock {\em Econometrica\/} {80}, 6 (November 2012), 2595--2647.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Othman and Sandholm}{Othman and
+  Sandholm}{2011}]%
+        {othman2011liqu}
+{Abraham Othman} {and} {Tuomas Sandholm}. 2011.
+\newblock \showarticletitle{Liquidity-sensitive automated market makers via
+  homogeneous risk measures}.
+\newblock In {\em Internet and Network Economics}. Springer, 314--325.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Pennock, Lawrence, Giles, Nielsen,
+  et~al\mbox{.}}{Pennock et~al\mbox{.}}{2001}]%
+        {pennock2001real}
+{David~M Pennock}, {Steve Lawrence}, {C~Lee Giles}, {Finn~Arup Nielsen}, {and}
+  {others}. 2001.
+\newblock \showarticletitle{The real power of artificial markets}.
+\newblock {\em Science\/} {291}, 5506 (2001), 987--988.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Pennock and Sami}{Pennock and Sami}{2007}]%
+        {AGT07}
+{David~M. Pennock} {and} {Rahul Sami}. 2007.
+\newblock \showarticletitle{Computational aspects of prediction markets}.
+\newblock In {\em Algorithmic Game Theory}, {Noam Nisan}, {Tim Roughgarden},
+  {Eva Tardos}, {and} {Vijay~V. Vazirani} (Eds.). Cambridge University Press,
+  Chapter~26.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Savage}{Savage}{1971}]%
+        {Savage71}
+{Leonard~J. Savage}. 1971.
+\newblock \showarticletitle{Elicitation of personal probabilities and
+  expectations}.
+\newblock {\it J. Amer. Statist. Assoc.}  {66} (1971), 783--–801.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Storkey}{Storkey}{2011}]%
+        {storkey11}
+{Amos~J. Storkey}. 2011.
+\newblock \showarticletitle{Machine learning markets}. In {\em Proceedings of
+  AI and Statistics (AISTATS)}. 716--724.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Varian}{Varian}{1992}]%
+        {VarianMicro}
+{Hal~R. Varian}. 1992.
+\newblock {\em Microeconomic Analysis}.
+\newblock W. W. Norton and Company.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Wainwright and Jordan}{Wainwright and
+  Jordan}{2008}]%
+        {WainJordan08}
+{Martin~J. Wainwright} {and} {Michael~I. Jordan}. 2008.
+\newblock \showarticletitle{Graphical models, exponential families, and
+  variational inference}.
+\newblock {\em Foundations and Trends in Machine Learning\/}  {1} (January
+  2008), 1--305.
+\newblock
+Issue 1-2.
+
+
+\bibitem[\protect\citeauthoryear{Wolfers and Zitzewitz}{Wolfers and
+  Zitzewitz}{2006}]%
+        {wolfers2006interpreting}
+{Justin Wolfers} {and} {Eric Zitzewitz}. 2006.
+\newblock {\em Interpreting prediction market prices as probabilities}.
+\newblock {T}echnical {R}eport. National Bureau of Economic Research.
+\newblock
+
+
+\end{thebibliography}
