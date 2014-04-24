@@ -260,7 +260,7 @@ Prediction markets are known to perform well in practice~\citep{AGT07,pennock200
 % Strategic behavior in prediction markets is addressed in~\citep{chen2010gaming,dimitrov08}.
 The aggregation properties of market mechanisms have also been explored from a machine learning perspective in~\cite{storkey11}. More closely related to our work, \citet{FrongilloRe13} also touch upon the statistical interpretations of prediction market costs and payoffs from the viewpoint of exponential families.
 
-We are not aware of any works that consider risk-averse agents within cost-function based markets, with the exception of~\citep[Sec.\ 3.1]{FrongilloPeRe12} who assume agents are price takers. However, risk aversion is a fundamental component of mathematical finance and portfolio optimization, and there are close connections between the notion of a cost function and that of a convex risk measure~\citep{follmerRisk,follmer2011entropic}. Indeed, they arise from the same axioms as noted by~\citet{othman2011liqu}. We see the potential to draw more on the mathematical finance literature to take into account risk aversion, as prediction markets are simply single-period financial markets~\citep[Part I]{follmerFinance}. 
+One of the aims of the present work is to understand the behavior of cost-function prediction markets with risk-averse agents, a subject which has received only limited attention; the only work we are aware of is \citep[Sec.\ 3.1]{FrongilloPeRe12}. However, risk aversion is a fundamental component of mathematical finance and portfolio optimization, and there are close connections between the notion of a cost function and that of a convex risk measure~\citep{follmerRisk,follmer2011entropic}. Indeed, they arise from the same axioms as noted by~\citet{othman2011liqu}. We see the potential to draw more on the mathematical finance literature to take into account risk aversion, as prediction markets can be viewed simply as single-period financial markets~\citep[Part I]{follmerFinance}. 
 
 
 \section{Generalized Log Scoring Rules}
@@ -809,8 +809,8 @@ We have shown that every exponential-utility maximizing trader picks the share v
 We draw on a well-known result from game theory regarding the class of \emph{potential games}. We say a function $f(\vec{x})$ is at a \emph{local optimum} if changing any coordinate of $\vec{x}$ does not increase the value of $f$.
 %
 \begin{theorem}[\citet{monderer1996potential}]\label{thm:potl}
-Let $U_{i}(\vec{\delta})$ be the utility function of the $i^{th}$ trader given strategies $\vec{\delta}= (\delta_{1},\ldots,\delta_{i},\ldots,\delta_{n})$. If there exists a potential function $\Phi(\vec{\delta})$ such that $$U_{i}(\vec{\delta})-U_{i}(\vec{\delta}_{-i},\delta_{i}')=\Phi(\vec{\delta})-\Phi(\vec{\delta}_{-i},\delta_{i}')$$
-then $\vec{\delta}$ is a Nash equilibrium if and only if $\Phi(\vec{\delta})$ is at a local optimum.
+Let $U_{i}(\vec{\delta})$ be the utility function of the $i^{th}$ trader given the strategy profile $\vec{\delta}= (\delta_{1},\ldots,\delta_{i},\ldots,\delta_{n})$. Assume there exists a potential function $\Phi(\vec{\delta})$ such that, for any $\vec \delta$ and $\delta_i'$, $$U_{i}(\vec{\delta})-U_{i}(\vec{\delta}_{-i},\delta_{i}')=\Phi(\vec{\delta})-\Phi(\vec{\delta}_{-i},\delta_{i}').$$
+Then $\vec{\delta}$ is a pure-strategy Nash equilibrium if and only if $\vec \delta$ is a local optimum for $\Phi(\cdot)$.
 \end{theorem}
 %
 In the exponential family market, the cost function $C$ is identical to the log partition function $T$ defined in (\ref{log-part}).  Let $\vec{\delta}$ be the matrix of share vectors purchased by every trader in the market at equilibrium. Let $\theta$ be the initial market state, $\htheta_{i}$ the natural parameter of trader $i$'s belief distribution, and $a_{i}$ his risk aversion parameter.
@@ -836,6 +836,8 @@ This leads to the following expression for the final market state.
 $$\theta+\sum_{j=1}^{n}\delta_{j}=
 \frac{\theta+\sum_{i=1}^{n}\left(\frac{\htheta_{i}}{a_{i}}\right)}{1+\sum_{i=1}^{n}\frac{1}{a_{i}}}$$
 We see that the equilibrium state is a convex combination of the initial market state and all agent beliefs, with the latter weighted according to risk tolerance.
+
+We finally note that we have not considered the dynamics by which such an equilibrium would be reached, nor the rate of convergence etc., yet we think such questions provide fruitful directions for future research.
 
 
 
