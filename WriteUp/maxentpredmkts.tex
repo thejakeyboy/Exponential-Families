@@ -222,7 +222,7 @@ Prediction markets are aggregation mechanisms that allow market prices to be int
 % \jake{I want to use this paragraph for a general overview of mm frameworks} One popular form of prediction markets is the market scoring rule~\cite{H03}. A market scoring rule considers all trades as a single chronological sequence. Traders earn rewards proportional to the incremental reduction in prediction loss caused by their trades in comparison to the previous trade. In other words, their rewards depend on the change in market probabilities caused by their trade, as well as on the eventual outcome. Thus, each trader has an incentive to minimize the prediction loss. In this format, the {\em market maker} who runs the market can suffer an overall loss, but Hanson~\cite{H03} showed that, for market scoring rules on finite outcome spaces, the loss of the market maker can be bounded.
 
 %We give an brief overview of the work on prediction market design below. 
-Much of the work on prediction market design has focused heavily on structural properties of the mechanism: incentive compatibility, the market maker loss, the available liquidity, the fluctuations of the prices as a function of the trading volume, to name a few. Absent from much of the literature is a corresponding \emph{semantics} of the market behavior or the observed prices. That is, how can we interpret the equilibrium market state when we have a number of traders with diverse beliefs on the underlying state of the world? In what sense is the market an aggregation mechanism? Do price changes relate to our usual Bayesian notion of information incorporation via posterior updating?
+Much of the work on prediction market design has focused heavily on structural properties of the mechanism: incentive compatibility, the market maker loss, the available liquidity, the fluctuations of the prices as a function of the trading volume, to name a few. Absent from much of the literature is a corresponding \emph{semantics} of the market behavior or the observed prices. That is, how can we interpret the equilibrium market state when we have a number of traders with diverse beliefs on the state of the world? How is the market an aggregation mechanism? Do price changes relate to our usual Bayesian notion of information incorporation via posterior updating?
 
 In the present work we show that a number of classical statistical tools can be leveraged to design a prediction market framework in the mold of \emph{exponential family distributions}; we show that this statistical framework leads to a number of attractive properties and interpretations. Common concepts in statistics---including \emph{entropy maximization}, \emph{log loss}, and \emph{Bayesian inference}---relate to natural aspects of our class of mechanisms. In particular, the central objects in our market framework can be interpreted via concepts used to define exponential families:
 \begin{itemize}
@@ -235,7 +235,7 @@ In the present work we show that a number of classical statistical tools can be 
 % \sindhu{I don't think we have the KL divergence result here -- is this the bregman divergence in the budget section?}
 
 We begin in Section~\ref{sec:scoring} with a discussion of scoring rules based on exponential family distributions, and we show how the framework leads to a variety of scoring rules for continuous outcome spaces.
-We turn our attention to market design in Section~\ref{sec:maxentmarkets} and give a full description of our proposed mechanisms. In addition to showing the syntactic relationship between exponential families and prediction markets, we explore a number of rich semantic implications as well. In particular, we show that our formulation allows us to analyze the evolution of the market under various models of trader behavior:
+We turn our attention to market design in Section~\ref{sec:maxentmarkets} and give a full description of our proposed mechanisms. In addition to showing the syntactic relationship between exponential families and prediction markets, we explore a number of rich semantic implications as well. In particular, we show that our formulation allows us to analyze the evolution of the market under various trader models:
 \begin{itemize}
 	\item Trader behavior varies depending on how they assimilate information; for example, should we consider our agents as Bayesians or frequentists. In Section~\ref{sec:bayesians} we consider traders that use a conjugate prior to update their beliefs, and we study how their trades would affect the market state.
 	\item In Section~\ref{sec:exputil} we consider \emph{risk-averse} agents that optimize their bets according to exponential utility. 
@@ -292,7 +292,7 @@ Note that Definition~\ref{def:proper-score} places only mild information require
 
 \subsection{Proper Scoring from Maximum Entropy}
 
-Our starting point for designing proper scoring rules is the classic logarithmic scoring rule for eliciting probabilities in the case of finite outcomes. This rule is simply $S(p,x) = \log p(x)$, namely we take the log likelihood of the reported density at the eventual outcome. To generalize the rule to expected statistics rather than full densities, we consider a subset of densities $\mD \subseteq \mP$. If there is a bijection between the sets $\mD$ and $\mM$, then we say that $\mM$ parametrizes $\mD$ and write $p(\cdot\,;\mu)$ for the density mapping to $\mu$. Given such a family parametrized by the relevant statistics, the generalized log scoring rule is then
+Our starting point for designing proper scoring rules is the classic logarithmic scoring rule for eliciting probabilities in the case of finite outcomes. This rule is simply $S(p,x) = \log p(x)$, namely we take the log likelihood of the reported density at the eventual outcome. To generalize the rule to expected statistics rather than full densities, we consider a subset of densities $\mD \subseteq \mP$. If $\mD$ and $\mM$ are bijective, then we say that $\mM$ parametrizes $\mD$ and write $p(\cdot\,;\mu)$ for the density mapping to $\mu$. Given such a family parametrized by the relevant statistics, the generalized log scoring rule is then
 %
 \begin{equation} \label{log-score}
 S(\mu, x) = \log p(x;\mu).
@@ -352,7 +352,7 @@ In the above $T^*$ denotes the convex conjugate of $T$, which here can be evalua
 
 We are now in a position to analyze the log scoring rule under exponential family distributions. From our discussion so far, we have that an exponential family density can be parametrized either by the natural parameter $\theta$, or by the mean parameter $\mu$, and that the two are related by the invertible gradient map $\mu = \grad T(\theta)$. We will write $p(x;\theta)$ or $p(x;\mu)$ given the parametrization used.
 
-The following observation is crucial. Let $\tp \in \mP$ be a density (not necessarily from an exponential family) with expected statistic $\mu$, let $p(\cdot\,;\mu)$ be the exponential family with the same expected statistic, and let $\hmu \in \mM$ be an alternative report. Then from~(\ref{exp-fam}) we have
+The following observation is crucial. Let $\tp \in \mP$ be any arbitrary density with expected statistic $\mu$, let $p(\cdot\,;\mu)$ be the exponential family with the same expected statistic, and let $\hmu \in \mM$ be an alternative report. Then from~(\ref{exp-fam}) we have
 %
 \begin{equation} \label{equalizer-rule}
 \Exp_{\tp}[\log p(x;\hmu)] = \Exp_{p(\cdot;\mu)}[\log p(x;\hmu)] = \la \htheta, \mu \ra - T(\htheta),
@@ -378,9 +378,9 @@ Let $\mu,\hmu \in \mM$ be the agent's true belief and an alternative report, and
 %
 The latter is positive by the strict convexity of $T$, which shows that the log score is proper. For the converse, assume the defined log score is proper. By the Savage characterization of proper scoring rules for expectations (see~\citet[Thm.\ 11]{AbernethyFr12}), we must have
 %
-$$
+$
 S(\mu,x) = G(\mu) - \la \grad G(\mu), \mu - \phi(x) \ra
-$$
+$
 for some strictly convex function $G$. Let $T = G^*$, so that $\grad G = {\grad T}^{-1}$, and let $\theta = \grad G(\mu)$. Then the above can be written as
 %
 \begin{eqnarray*}
@@ -443,7 +443,7 @@ As a base measure we take the Lebesgue over the real numbers $\bR$. We are inter
 S((\hmu, \hsigma^2), x) = -\frac{(x-\hmu)^2}{\hsigma^2} - \log \hsigma^2.
 \end{equation}
 %
-Again, we stress that this scoring rule elicits the mean and variance of any density over the real numbers, not just those of a normal distribution. The construction easily generalizes to a multi-dimensional outcome space by taking the log density of the multivariate normal:
+Again, we stress that this scoring rule elicits the mean and variance of any density over $\bR$, not just those of a normal distribution. The construction easily generalizes to a multi-dimensional outcome space by taking the log density of the multivariate normal:
 %
 \begin{equation}
 S((\hmu, \hSigma), x) = -(x - \hmu)'\hSigma^{-1}(x - \hmu) - \log |\hSigma|.
@@ -483,7 +483,7 @@ In a single-agent setting, a scoring rule is used to \emph{elicit} the agent's b
 \subsection{Prediction Market}
 \label{sec:pred-market}
 
-In a prediction market an agent's expected belief $\mu$ is elicited indirectly through the purchase and sale of contingent claim securities. Under this approach, each component~$i$ of the statistic $\phi$ is interpreted as the payoff function of a security; that is, a single share of security $i$ pays off $\phi_i(x)$ when $x \in \mX$ occurs. Thus if the portfolio of shares held by the agent is $\delta \in \bR^d$, where entry $\delta_i$ corresponds to the number of shares of security $i$, then the payoff to the agent when $x$ occurs is evaluated by taking the inner product $\la \delta, \phi(x) \ra$. 
+In a prediction market an agent's expected belief $\mu$ is elicited indirectly through the purchase and sale of contingent claim securities. Under this approach, each component~$i$ of the statistic $\phi$ is interpreted as the payoff function of a security; that is, a single share of security $i$ pays off $\phi_i(x)$ when $x \in \mX$ occurs. Thus if the portfolio of shares held by the agent is $\delta \in \bR^d$, where entry $\delta_i$ corresponds to the number of shares of security $i$, then the payoff to the agent when $x$ occurs is the inner product $\la \delta, \phi(x) \ra$. 
 
 To be concrete, recall from Example~\ref{ex:multinomial} that in the classic finite-outcome case the statistic has a component for each outcome $x$ such that $\phi_x(x') = 1$ if $x' = x$ and 0 otherwise. Therefore the corresponding security pays 1 dollar if outcome $x$ occurs. (These are known as Arrow-Debreu securities.) In Example~\ref{ex:exponential} the one-dimensional statistic is $\phi(x) = x$, corresponding to a security whose payoff is linear in the outcome $x \in \bR_+$. (This amounts to a futures contract.) 
 
@@ -509,7 +509,7 @@ This is of course exactly the log-partition function~(\ref{log-part}) for the ex
 
 The correspondence between the cost function~({\ref{lmsr-cost}) and the log-partition function~(\ref{log-part}) suggests the following interpretation. The market maker maintains an exponential family distribution over the state space $\mX$ parametrized by share vectors that lie in $\Theta$. When an agent buys shares, it moves the distribution's natural parameter so that the market prices matches its beliefs, or in other words the market's mean parametrization matches the agent's expectation. 
 
-There is a well-known duality between scoring rules and cost-function based markets~\citep{acv13,H03}. To see this in our context, recall from~(\ref{equalizer-rule}) that
+There is a well-known duality between scoring rules and cost-function based markets~\citep{acv13,H03}. In our context, recall from~(\ref{equalizer-rule}) that
 %
 \begin{equation*}
 \Exp_{\tp}[\log p(x;\hmu)] = \la \htheta, \mu \ra - T(\htheta)
@@ -610,9 +610,9 @@ Thus the posterior mean is a convex combination of the prior and empirical means
 
 Consider Bayesian agents maintaining an exponential family conjugate prior over the data model's natural parameters (equivalently, the expected security payoffs). Each agent has access to a private sample of the data of size $m$ with mean statistic $\hmu$. If $n$ agents have arrived before to trade, then the current market prices $\mu$ correspond to the phantom sample, and the phantom sample size is $nm$. After forming the posterior~(\ref{posterior}) with these substitutions, the (risk-neutral) agent purchases shares $\delta$ to move the current market share vector to
 %
-$$
+$
 \grad C(\theta + \delta) = \frac{n\nu + \hmu}{n+1}.
-$$
+$
 %
 As a result, the final market prices under this behavior are a simple average of the agent's mean parameters and the initial market prices. We note that to facilitate such belief updating, the market should post the number of trades since initialization.
 
@@ -676,7 +676,7 @@ If wealth is distributed according to a probability measure $P$, then the \emph{
 $$
 \CE(w) = U_a^{-1} (\Exp_P\left[ U_a(w) \right]).
 $$
-Suppose as before that the agent's belief over outcomes takes the form of a density $p$ with respect to base measure $\nu$. There is a close relationship between the log-partition function and the certainty equivalent under exponential utility~\citep[see][]{ben2007old}.
+Suppose that the agent's belief over outcomes is a density $p$ with respect to base measure $\nu$. There is a close relationship between the log-partition function and the certainty equivalent under exponential utility~\citep[see][]{ben2007old}.
 %
 \begin{lemma} \label{lem:exp-util}
 The certainty equivalent of the agent's expected profit, with exponential utility, when acquiring shares $\delta$ under a market state of $\theta$ is
@@ -818,7 +818,7 @@ In the exponential family market, the cost function $C$ is identical to the log 
 
 Define a potential function as  $\Phi(\vec{\delta}) =  T\left(\theta+\sum_{i}\delta_{i}\right)+\sum_{i}\frac{1}{a_{i}}T(\htheta_{i}-a_{i}\delta_{i})$.
 %
-Rather than working directly with the utilities of every trader, we will work with the log of their utility values.\footnote{It is important to note that the potential function analysis still applies for any monotonically increasing transformation of the traders' utility functions.} Now the log-utility of trader $i$ is 
+Rather than working directly with the utilities of every trader, we will work with the log of their utility values.\footnote{Note: the potential function analysis still applies for any monotonically increasing transformation of the traders' utility functions.} Now the log-utility of trader $i$ is 
 %
 $$
 \textstyle
@@ -849,7 +849,7 @@ We assume that the traders trade in multiple instances of the market. That is, a
 We show that traders with faulty information can only impose a limited amount of additional loss to the market's prediction. Further, since informative traders experience an expected increase in budget,  they will eventually be unconstrained and allowed to carry out  unrestricted trades. Taken together, this means that while the market suffers limited damage from ill-informed traders, it is also able to make use of all the information from informative traders in the long run.
 \paragraph{Budget-limited trades}
 
-Let $\alpha$ be the budget of a trader in the market. Suppose that with infinite budget, the trader would have moved the market state from $\theta$ to $\htheta$, where $\htheta$ represents his true belief. Now suppose further that $\alpha<C(\htheta)-C(\theta)$; that is, the trader's budget does not allow for purchasing enough shares to move the market state to his belief. In this case, we want to budget-limit the trader's influence on the market state. 
+Let $\alpha$ be the budget of a trader in the market. Suppose that with infinite budget, the trader would have moved the market state from $\theta$ to $\htheta$, where $\htheta$ represents his true belief. Now suppose further that $\alpha<C(\htheta)-C(\theta)$; that is, the trader's budget disallows purchasing enough shares to move the market state to his belief. In this case, we want to budget-limit the trader's influence on the market state. 
 
 Let the current market state be given by $\theta$ and let the final market state be $\theta'=\lambda\htheta+(1-\lambda)\theta$ where $\lambda=\min\left(1, \frac{\alpha}{C(\htheta) - C(\theta)}\right)$. The cost to the trader to move the market state from $\theta$ to $\theta'$ is at most his budget $\alpha$ and is called his \emph{budget-limited trade}.
 
@@ -863,13 +863,13 @@ The loss induced on the market by an uninformative trader is bounded by his init
 \begin{proof}
 First consider the change in budget of a trader $i$ over multiple rounds of the prediction market. Let his budget at rounds $t$ and $t-1$ be $\alpha_{i}^{t}$ and $\alpha_{i}^{t-1}$ respectively. The change in budget for trader $i$ moving the market state from $\theta$ to $\theta'$ with outcome $x^{t}$ is
 \begin{eqnarray*}
-\alpha_{i}^{t}-\alpha_{i}^{t-1}&=&C(\theta)-C(\theta')-(\theta-\theta')^{T}\phi(x^{t})\\
-&=&L(\theta,x^{t})-L(\theta',x^{t})=\Delta_{i}^{t}
+\alpha_{i}^{t}-\alpha_{i}^{t-1}&=&C(\theta)-C(\theta')-(\theta-\theta')^{T}\phi(x^{t})= L(\theta,x^{t})-L(\theta',x^{t})=\Delta_{i}^{t}
 \end{eqnarray*}
 %
 Here $\Delta_{i}^{t}$ is called the myopic impact of a trader $i$ in round $t$. Thus, the myopic impact captures incremental gain in prediction due to the trader in a round and is equal to the change in his budget in that round.
 
-Since the market evolves so that the budget of any trader never falls below zero, the total myopic impact in $T$ rounds caused due to trader $i$ is $\Delta_{i}:=\sum_{t=1}^{T}\Delta_{i}^{t}= \sum_{t=1}^{T} (\alpha_{i}^{t} - \alpha_{i}^{t-1}) = \alpha_{i}^{T} - \alpha_{i}^{0}\geq -\alpha_{i}^{0}$.
+Since the market evolves so that the budget of any trader never falls below zero, the total myopic impact in $T$ rounds caused due to trader $i$ is 
+\[\Delta_{i}:=\sum_{t=1}^{T}\Delta_{i}^{t}= \sum_{t=1}^{T} (\alpha_{i}^{t} - \alpha_{i}^{t-1}) = \alpha_{i}^{T} - \alpha_{i}^{0}\geq -\alpha_{i}^{0}\]
 \end{proof}
 %
 An interesting aspect of Lemma~\ref{lem:damage} is that the log loss can be quantified in the same units as the traders' budgets.
@@ -886,7 +886,7 @@ Let $\theta$ be the current market state. Suppose that an  informative trader wi
 %$\hat{\theta}_i$, before a final outcome $x$. Then, the expectation, over trader $i$'s belief distribution $\theta_i$, of trader $i$'s realized profit is greater than zero whenever her budget is positive and her belief differs from the previous market position $\hat{\theta}_{i-1}$. 
 \end {lemma}
 \begin{proof}
-Let the cost function $C$ be equal to the log partition function $T$ of the belief distribution. The payoff is given by the sufficient statistics $\phi(x)$. Then, the trader's expected net payoff is given by
+Let $C$ be the log partition function $T$ of the belief distribution. The payoff is given by the sufficient statistics $\phi(x)$. Then the trader's expected net payoff is given by
 \begin{eqnarray*}
 \E_{x\sim P_{\htheta}}[C(\theta)-C(\theta')-(\theta-\theta')\phi(x)]
 &=& T(\theta)-\theta\nabla T(\htheta)-(T(\theta')-\theta' \nabla T(\htheta))\\
@@ -899,7 +899,7 @@ D_{T}(\theta',\htheta)&=&D_{T}\left(\lambda\htheta+(1-\lambda)\theta,\htheta\rig
 = (1-\lambda) D_{T}( \theta ,\htheta)
 %\implies D_{\psi}(\theta',\beta)+aD_{\psi}(\theta',\beta)&\leq& aD_{\psi}( \theta ,\beta)\\
 \end{eqnarray*}¥
-A trader who adjusts the market state may expect positive profit of at least $\lambda D_{T}(\theta,\htheta)$.
+A trader who adjusts the market state may expect profit of at least $\lambda D_{T}(\theta,\htheta)$.
  \end{proof}
 
 We note one important aspect of Lemma~\ref{thm:growth}: the expectation is taken with respect to each trader's belief at the time of trade, rather than with respect to the true distribution. This is needed because we have made no assumptions about the optimality of the traders' belief updating procedure. If we assume that the traders' belief formation is optimal, then this growth result will extend to the true distribution as well.
@@ -907,12 +907,12 @@ We note one important aspect of Lemma~\ref{thm:growth}: the expectation is taken
 Given a continuous density the probability a trader will form exactly the same beliefs as the current market position is $0$, and thus, each trader will have positive expected profit on almost all sequences of observed samples and beliefs. 
 This result suggests that, eventually, every informative trader will have the ability to influence the market state in accordance with his beliefs, without being budget limited.
 
-Notice that Lemma~\ref{thm:growth} only required that the market state to which the trader moves be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility by Theorem~\ref{thm:exp-util}. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{T}(\theta,\htheta)$ where $a$ is the exponential utility parameter. When the cost function is adjusted to $C_{\lambda}$ with an inverse liquidity parameter $\lambda$ as in Section \ref{sec:exputil},  the trader receives an expected payoff of at least $\frac{1}{a} D_{T}(\lambda\theta,\htheta)$.
+Notice that Lemma~\ref{thm:growth} only required that the market state to which the trader moves be representable as a convex combination of the current market state and his belief. This means that the result holds for exponential utility traders aiming to maximize their utility by Theorem~\ref{thm:exp-util}. In this case, the trader who moves the market state can expect his profit to be positive and at least $\frac{1}{a}D_{T}(\theta,\htheta)$ where $a$ is the exponential utility parameter. When the cost function is adjusted to $C_{\lambda}$ with an inverse liquidity parameter $\lambda$ (Section \ref{sec:exputil}), the trader receives expected payoff of at least $\frac{1}{a} D_{T}(\lambda\theta,\htheta)$.
 
 
 % Acknowledgments
 \begin{acks}
-We thank Rafael Frongillo and the anonymous referees for valuable feedback.
+We would like to sincerely thank Rafael Frongillo and the anonymous referees for valuable feedback.
 \end{acks}
 
 
